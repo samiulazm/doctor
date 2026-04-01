@@ -3699,8 +3699,6 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             "frequency_penalty" => 0,
             "presence_penalty" => 0
         ]));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';

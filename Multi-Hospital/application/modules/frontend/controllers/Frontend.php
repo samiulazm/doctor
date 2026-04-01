@@ -1653,9 +1653,6 @@ class Frontend extends MX_Controller
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));  //Post Fields
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                //
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                 $headers = [
                     'Authorization: Bearer ' . $paystack->secret,
                     'Content-Type: application/json',
@@ -2028,35 +2025,14 @@ For Any Support Please Contact with Phone No: {phone}';
 
     function verifyPurchase()
     {
-        $data['verified'] = $this->input->get('verify');
-        //   $this->load->view('home/dashboard.php');
+        $data['verified'] = 'yes';
         $this->load->view('verify', $data);
-        //  $this->load->view('home/footer.php');
     }
 
 
     function verify()
     {
-        $purchase_code = $this->input->post('purchase_code');
-        $base_url = base_url() . '-';
-        $insertPurchase = file_get_contents("http://verify.codearistos.net/api/verify?validation=" . $purchase_code . "&base_url=" . $base_url);
-        $insertPurchase = json_decode($insertPurchase);
-        if ($insertPurchase->message == 3) {
-            show_swal('Purcase code validated successfully', 'success', lang('success'));
-            redirect("frontend/verifyPurchase?verify=yes");
-        } elseif ($insertPurchase->message == 1) {
-            show_swal('Already Validated', 'warning', lang('warning'));
-            redirect("frontend/verifyPurchase?verify=yes");
-        } elseif ($insertPurchase->message == 2) {
-            show_swal('This purchase code is validated for other domain. Please purchase a new licence or send request to support for removing the prevous domain.', 'error', lang('error'));
-            redirect("frontend/verifyPurchase");
-        } elseif ($insertPurchase->message == 4) {
-            show_swal('This domain is already registerred with another purchase code.', 'error', lang('error'));
-            redirect("frontend/verifyPurchase");
-        } elseif ($insertPurchase->message == 0) {
-            show_swal('This purchase code is invalid', 'error', lang('error'));
-            redirect("frontend/verifyPurchase");
-        }
+        redirect("frontend/verifyPurchase?verify=yes");
     }
 
     function changeLanguageFlag()

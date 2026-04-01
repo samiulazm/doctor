@@ -24,9 +24,6 @@ class Paystack extends MX_Controller {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt(
                 $ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . PAYSTACK_SECRET_KEY]
@@ -46,9 +43,6 @@ class Paystack extends MX_Controller {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt(
                 $ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $paystack->secret]
@@ -120,9 +114,6 @@ class Paystack extends MX_Controller {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));  //Post Fields
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $headers = [
             'Authorization: Bearer ' . $paystack->secret,
             'Content-Type: application/json',

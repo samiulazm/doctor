@@ -141,6 +141,31 @@ class Auth extends MX_Controller {
         }
     }
 
+    /**
+     * Language switch for login (session + cookie; mirrors frontend so UI strings update).
+     */
+    public function changeLanguageFlag()
+    {
+        $selectedLanguage = $this->input->get('lang');
+        if ($selectedLanguage === null || $selectedLanguage === '') {
+            redirect('auth/login', 'refresh');
+            return;
+        }
+        $this->session->set_userdata('language_site', $selectedLanguage);
+        $cookie = array(
+            'name'   => 'language_site',
+            'value'  => $selectedLanguage,
+            'expire' => '2595000',
+            'secure' => FALSE,
+        );
+        $this->input->set_cookie($cookie);
+        $referer = $this->input->server('HTTP_REFERER');
+        if (!empty($referer)) {
+            redirect($referer);
+        }
+        redirect('auth/login', 'refresh');
+    }
+
     //log the user out
     function logout() {
 

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker run:*)",
+      "Bash(MSYS_NO_PATHCONV=1 docker run --rm -v \"c:/Users/Samiul/Pictures/doctor/Multi-Hospital:/app\" -w /app php:8.2-cli php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml.dist 2>&1)",
+      "Bash(MSYS_NO_PATHCONV=1 docker run --rm -v \"c:/Users/Samiul/Pictures/doctor/Multi-Hospital:/app\" -w /app php:8.2-cli php scripts/lint-php.php 2>&1)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r 'CREATE TABLE' /c/Users/Samiul/Pictures/doctor/Multi-Hospital/application/ --include=*.php)"
+    ]
+  }
+}

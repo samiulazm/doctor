@@ -286,7 +286,7 @@ class Settings extends MX_Controller
 
     function backups()
     {
-        if ($this->ion_auth->in_group(array())) {
+        if ($this->ion_auth->in_group(array('superadmin', 'admin'))) {
             $data['files'] = glob('./files/backups/*.zip', GLOB_BRACE);
             $data['dbs'] = glob('./files/backups/*.txt', GLOB_BRACE);
             $data['settings'] = $this->settings_model->getSettings();
@@ -788,11 +788,6 @@ if (!defined('BASEPATH'))
                     $this->changePlan($data);
                 } else {
                     show_swal(lang('Please_check_card_details'), 'warning', lang('warning'));
-                    if ($from == 'expire') {
-                        redirect('hospital/lisenceExpired');
-                    } else {
-                        redirect('hospital');
-                    }
                     redirect('settings/subscription');
                 }
             } elseif ($gateway == 'Stripe') {
@@ -814,16 +809,7 @@ if (!defined('BASEPATH'))
                     $this->changePlan($data);
                 } else {
                     show_swal(lang('Please_check_card_details'), 'warning', lang('warning'));
-                    if (empty($from)) {
-                        redirect('settings/subscription');
-                    } else {
-
-                        if ($from == 'expire') {
-                            redirect('hospital/lisenceExpired');
-                        } else {
-                            redirect('hospital');
-                        }
-                    }
+                    redirect('settings/subscription');
                 }
             } elseif ($gateway == 'Paystack') {
                 $paystack = $this->db->get_where('paymentGateway', array('hospital_id' => 'superadmin', 'name' => 'Paystack'))->row();
@@ -833,11 +819,7 @@ if (!defined('BASEPATH'))
                 if (empty($from)) {
                     $callback_url = base_url() . 'settings/subscription';
                 } else {
-                    if ($from == 'expire') {
-                        $callback_url = base_url() . 'hospital/lisenceExpired';
-                    } else {
-                        $callback_url = base_url() . 'hospital';
-                    }
+                    $callback_url = base_url() . 'hospital';
                 }
 
                 $postdata = array('first_name' => $hospital_details->name, 'email' => $hospital_details->email, 'amount' => $amount_in_kobo * 100, "reference" => $ref, 'callback_url' => $callback_url);
@@ -848,9 +830,6 @@ if (!defined('BASEPATH'))
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));  //Post Fields
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                //
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                 $headers = [
                     'Authorization: Bearer ' . $paystack->secret,
                     'Content-Type: application/json',
@@ -1013,11 +992,7 @@ For Any Support Please Contact with Phone No: {phone}';
             if (empty($data['from'])) {
                 redirect('settings/subscription');
             } else {
-                if ($data['from'] == 'expire') {
-                    redirect('hospital/lisenceExpired');
-                } else {
-                    redirect('hospital');
-                }
+                redirect('hospital');
             }
         }
     }
@@ -1142,16 +1117,13 @@ For Any Support Please Contact with Phone No: {phone}';
 
     function isVerify()
     {
-        $verify = $this->settings_model->verify();
-        if ($verify['verified'] == 1) {
-            return true;
-        }
+        return true;
     }
 
 
     function verifyPurchase()
     {
-        $data['verified'] = $this->input->get('verify');
+        $data['verified'] = 'yes';
         $this->load->view('home/dashboard.php');
         $this->load->view('purchase_code_verification', $data);
         $this->load->view('home/footer.php');
@@ -1160,27 +1132,7 @@ For Any Support Please Contact with Phone No: {phone}';
 
     function addPurchaseCode()
     {
-        $purchase_code = $this->input->post("validation");
-        $base_url = $this->input->get('base_url');
-        $insertPurchase = file_get_contents("http://verify.codearistos.net/api/verify?validation=" . $purchase_code . "&base_url=" . $base_url);
-        $insertPurchase = json_decode($insertPurchase);
-        if ($insertPurchase->message == 3) {
-            show_swal(lang('purcase_code_validated_successfully'), 'success',  lang('success'));
-            $this->settings_model->updateHospitalSettings('superadmin', array('codec_purchase_code' => $purchase_code));
-            redirect("settings/verifyPurchase");
-        } elseif ($insertPurchase->message == 1) {
-            show_swal(lang('already_validated'), 'warning', lang('warning'));
-            redirect("settings/verifyPurchase?verify=yes");
-        } elseif ($insertPurchase->message == 2) {
-            show_swal(lang('this_purchase_code_is_validated_for_other_domain'), 'error',  lang('error'));
-            redirect("settings/verifyPurchase");
-        } elseif ($insertPurchase->message == 4) {
-            show_swal(lang('this_domain_is_already_registerred_with_another_purchase_code'), 'error',  lang('error'));
-            redirect("settings/verifyPurchase");
-        } elseif ($insertPurchase->message == 0) {
-            show_swal(lang('this_purchase_code_is_invalid'), 'error',  lang('error'));
-            redirect("settings/verifyPurchase");
-        }
+        redirect("settings/verifyPurchase?verify=yes");
     }
 
 

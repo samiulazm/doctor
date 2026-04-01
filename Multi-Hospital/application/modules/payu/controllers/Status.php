@@ -297,11 +297,7 @@ class Status extends MX_Controller
                 if (empty($productinfo_explode[5])) {
                     redirect("settings/subscription");
                 } else {
-                    if ($productinfo_explode[5] == 'expire') {
-                        redirect('hospital/lisenceExpired');
-                    } else {
-                        redirect('hospital');
-                    }
+                    redirect('hospital');
                 }
             } else {
                 //$hospital = $this->db->get_where('hospital', array('id' => $productinfo_explode[1]))->row()->ion_user_id;

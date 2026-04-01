@@ -12,10 +12,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$hook['pre_controller'] = array(
-       // 'class'    => '',
+$hook['pre_controller'][] = array(
         'function' => 'required',
         'filename' => 'required.php',
         'filepath' => 'hooks',
-       // 'params'   => ''
+);
+
+$hook['post_controller_constructor'][] = array(
+        'function' => 'auto_migrate',
+        'filename' => 'auto_migrate.php',
+        'filepath' => 'hooks',
 );

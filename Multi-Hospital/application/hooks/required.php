@@ -1,5 +1,22 @@
 <?php
 
+if (!function_exists('required_resolve_hospital_id')) {
+    /**
+     * Session / superadmin fallback when $CI->hospital_id was not set (e.g. frontend excluded from assignment block).
+     */
+    function required_resolve_hospital_id($CI)
+    {
+        if (isset($CI->hospital_id) && $CI->hospital_id !== null && $CI->hospital_id !== '') {
+            return $CI->hospital_id;
+        }
+        $sid = $CI->session->userdata('hospital_id');
+        if ($sid !== null && $sid !== '') {
+            return $sid;
+        }
+        return 'superadmin';
+    }
+}
+
 function required()
 {
     $CI = &get_instance();
@@ -82,36 +99,7 @@ function required()
             $user = $CI->ion_auth->get_user_id();
             $users_details = $CI->db->get_where('users', array('id' => $user))->row();
 
-            if (!$CI->ion_auth->in_group(array('superadmin'))) {
-                if (empty($users_details->hospital_ion_id)) {
-                    $hospital = $CI->db->get_where('hospital', array('ion_user_id' => $users_details->id))->row();
-                    $hospital_payment = $CI->db->get_where('hospital_payment', array('hospital_user_id' => $hospital->id))->row();
-                    if (!empty($hospital_payment)) {
-                        if ($hospital_payment->next_due_date_stamp < time()) {
-                            $data_de = array();
-                            $data_de = array('active' => 0);
-                            $CI->db->where('id', $user);
-                            $CI->db->update('users', $data_de);
-                            $status = array('status' => 'expired');
-                            $CI->db->where('id', $hospital_payment->id)->update('hospital_payment', $status);
-                        }
-                    }
-                } else {
-                    $hospital = $CI->db->get_where('hospital', array('ion_user_id' => $users_details->hospital_ion_id))->row();
-                    $hospital_payment = $CI->db->get_where('hospital_payment', array('hospital_user_id' => $hospital->id))->row();
-                    if (!empty($hospital_payment)) {
-                        if ($hospital_payment->next_due_date_stamp < time()) {
-                            $data_de = array();
-                            $data_de = array('active' => 0);
-                            $CI->db->where('id', $user);
-                            $CI->db->update('users', $data_de);
-
-                            $status = array('status' => 'expired');
-                            $CI->db->where('id', $hospital_payment->id)->update('hospital_payment', $status);
-                        }
-                    }
-                }
-            }
+            // Subscription expiry check removed
         }
 
         if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "api" ) {
@@ -149,11 +137,14 @@ function required()
             }
         }
 
-    if (!$CI->ion_auth->in_group(array('superadmin'))) {
-        $CI->db->where('hospital_id', $CI->hospital_id);
+    if (!$CI->ion_auth->logged_in()) {
+        $CI->db->where('hospital_id', 'superadmin');
+        $CI->timezone = $CI->db->get('settings')->row()->timezone;
+    } elseif ($CI->ion_auth->in_group(array('superadmin'))) {
+        $CI->db->where('hospital_id', 'superadmin');
         $CI->timezone = $CI->db->get('settings')->row()->timezone;
     } else {
-        $CI->db->where('hospital_id', 'superadmin');
+        $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
         $CI->timezone = $CI->db->get('settings')->row()->timezone;
     }
     $timezone = $CI->timezone;
@@ -167,7 +158,7 @@ function required()
         // Language
         if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status"  && $RTR->class != "request" && $RTR->class != "api") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
-                $CI->db->where('hospital_id', $CI->hospital_id);
+                $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
                 $CI->language = $CI->db->get('settings')->row()->language;
                 $CI->hospital_language = $CI->language;
                 $CI->lang->load('system_syntax', $CI->language);
@@ -216,7 +207,15 @@ function required()
 
         if ($RTR->class == "auth" && $CI->router->fetch_method() == 'login') {
             $CI->db->where('hospital_id', 'superadmin');
-            $CI->language = $CI->db->get('settings')->row()->language;
+            $session_lang = $CI->session->userdata('language_site');
+            if (!empty($session_lang)) {
+                $CI->language = $session_lang;
+            } else {
+                $CI->language = $CI->db->get('settings')->row()->language;
+            }
+            if (empty($CI->language)) {
+                $CI->language = 'english';
+            }
             $CI->lang->load('system_syntax', $CI->language);
         }
         // Language
@@ -226,7 +225,7 @@ function required()
         // Currency
         if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status" &&   $RTR->class != "auth" && $RTR->class != "frontend" && $RTR->class != "site") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
-                $CI->db->where('hospital_id', $CI->hospital_id);
+                $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
                 $CI->currency = $CI->db->get('settings')->row()->currency;
             } else {
                 $CI->db->where('hospital_id', 'superadmin');
@@ -237,7 +236,7 @@ function required()
 
         if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status"  && $CI->ion_auth->in_group(array('admin', 'superadmin', 'Doctor', 'Receptionist')) && $RTR->class != "auth" && $RTR->class != "site") {
             if (!$CI->ion_auth->in_group(array('superadmin')) && $RTR->class != "frontend") {
-                $CI->db->where('hospital_id', $CI->hospital_id);
+                $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
                 $CI->settings = $CI->db->get('settings')->row();
             } else {
                 $CI->db->where('hospital_id', 'superadmin');
@@ -250,7 +249,7 @@ function required()
             if ($CI->settings->emailtype == 'Smtp') {
 
 
-                $email_Settings = $CI->db->get_where('email_settings', array('type' => $CI->settings->emailtype, 'hospital_id' => $CI->hospital_id))->row();
+                $email_Settings = $CI->db->get_where('email_settings', array('type' => $CI->settings->emailtype, 'hospital_id' => required_resolve_hospital_id($CI)))->row();
 
                 $config['protocol'] = 'smtp';
                 $config['mailpath'] = '/usr/sbin/sendmail';

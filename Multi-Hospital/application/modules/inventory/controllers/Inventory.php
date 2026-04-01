@@ -54,9 +54,6 @@ class Inventory extends MX_Controller
 
     public function items()
     {
-        // Ensure the inventory_categories table exists and has sample data
-        $this->ensureCategoriesTableExists();
-        
         $data = array();
         $data['page'] = 'inventory_items';
         $data['page_title'] = $this->lang->line('inventory_items');
@@ -375,9 +372,6 @@ class Inventory extends MX_Controller
 
     public function categories()
     {
-        // Ensure the inventory_categories table exists and has sample data
-        $this->ensureCategoriesTableExists();
-        
         $data = array();
         $data['page'] = 'inventory_categories';
         $data['page_title'] = 'Inventory Categories';
@@ -1235,99 +1229,6 @@ class Inventory extends MX_Controller
                 $categories = $this->db->get('inventory_categories')->result();
                 echo "<h4>All Categories:</h4>";
                 echo "<pre>" . print_r($categories, true) . "</pre>";
-            }
-        }
-    }
-
-    private function ensureCategoriesTableExists()
-    {
-        // Check if table exists
-        if (!$this->db->table_exists('inventory_categories')) {
-            // Create the table
-            $this->db->query("
-                CREATE TABLE `inventory_categories` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` varchar(255) NOT NULL,
-                  `description` text DEFAULT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `status` enum('active','inactive') DEFAULT 'active',
-                  `hospital_id` int(11) NOT NULL,
-                  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-                  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                  `created_by` int(11) DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  KEY `idx_hospital_id` (`hospital_id`),
-                  KEY `idx_parent_id` (`parent_id`),
-                  KEY `idx_status` (`status`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            ");
-            log_message('debug', 'Created inventory_categories table');
-        }
-        
-        // Check if we have any categories for the current hospital
-        $hospital_id = $this->session->userdata('hospital_id') ?: 1;
-        
-        // Also check for any categories in the table (in case hospital_id is different)
-        $total_categories = $this->db->count_all_results('inventory_categories');
-        $existing_categories = $this->db->where('hospital_id', $hospital_id)->count_all_results('inventory_categories');
-        
-        log_message('debug', 'Hospital ID: ' . $hospital_id . ', Total categories: ' . $total_categories . ', Existing categories: ' . $existing_categories);
-        
-        // If no categories exist at all, or no categories for current hospital, insert sample data
-        if ($total_categories == 0 || $existing_categories == 0) {
-            // Insert sample categories
-            $sample_categories = array(
-                array(
-                    'name' => 'Medical Equipment',
-                    'description' => 'Medical devices and equipment',
-                    'parent_id' => null,
-                    'status' => 'active',
-                    'hospital_id' => $hospital_id,
-                    'created_by' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                ),
-                array(
-                    'name' => 'Surgical Instruments',
-                    'description' => 'Surgical tools and instruments',
-                    'parent_id' => null,
-                    'status' => 'active',
-                    'hospital_id' => $hospital_id,
-                    'created_by' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                ),
-                array(
-                    'name' => 'Pharmaceuticals',
-                    'description' => 'Medicines and drugs',
-                    'parent_id' => null,
-                    'status' => 'active',
-                    'hospital_id' => $hospital_id,
-                    'created_by' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                ),
-                array(
-                    'name' => 'Laboratory Supplies',
-                    'description' => 'Lab consumables and reagents',
-                    'parent_id' => null,
-                    'status' => 'active',
-                    'hospital_id' => $hospital_id,
-                    'created_by' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                ),
-                array(
-                    'name' => 'Office Supplies',
-                    'description' => 'Administrative and office materials',
-                    'parent_id' => null,
-                    'status' => 'active',
-                    'hospital_id' => $hospital_id,
-                    'created_by' => 1,
-                    'created_at' => date('Y-m-d H:i:s')
-                )
-            );
-            
-            $result = $this->db->insert_batch('inventory_categories', $sample_categories);
-            log_message('debug', 'Inserted sample categories. Result: ' . ($result ? 'SUCCESS' : 'FAILED'));
-            if (!$result) {
-                log_message('error', 'Database error: ' . print_r($this->db->error(), true));
             }
         }
     }

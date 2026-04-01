@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2020 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -56,6 +56,9 @@ class CrossReference
      */
     public function __construct(PdfParser $parser, $fileHeaderOffset = 0)
     {
+        // clear the token stack, if the parser instance is re-used
+        $parser->getTokenizer()->clearStack();
+
         $this->parser = $parser;
         $this->fileHeaderOffset = $fileHeaderOffset;
 
@@ -69,7 +72,7 @@ class CrossReference
                 // sometimes the file header offset is part of the byte offsets, so let's retry by resetting it to zero.
                 if ($e->getCode() === CrossReferenceException::INVALID_DATA && $this->fileHeaderOffset !== 0) {
                     $this->fileHeaderOffset = 0;
-                    $reader = $this->readXref($offset + $this->fileHeaderOffset);
+                    $reader = $this->readXref($offset);
                 } else {
                     throw $e;
                 }

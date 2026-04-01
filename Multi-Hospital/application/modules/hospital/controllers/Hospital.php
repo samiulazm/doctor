@@ -228,9 +228,6 @@ class Hospital extends MX_Controller
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));  //Post Fields
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            //
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                             $headers = [
                                 'Authorization: Bearer ' . $paystack->secret,
                                 'Content-Type: application/json',
@@ -793,13 +790,7 @@ For Any Support Please Contact Us At: {phone}';
 
     public function lisenceExpired()
     {
-        $data['hospitals'] = $this->hospital_model->getHospital();
-        $data['packages'] = $this->package_model->getPackage();
-        $data['settings1'] = $this->db->get_where('settings', array('hospital_id' => 'superadmin'))->row();
-        $data['gateway'] = $this->db->get_where('paymentGateway', array('name' => $data['settings1']->payment_gateway, 'hospital_id' => 'superadmin'))->row();
-        $this->load->view('home/dashboard');
-        $this->load->view('expired_hospital', $data);
-        $this->load->view('home/footer');
+        redirect('hospital');
     }
 
     public function reportSubscription()

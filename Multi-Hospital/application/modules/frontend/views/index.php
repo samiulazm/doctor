@@ -2,7 +2,14 @@
 <html lang="en">
 <?php
 $settings = $this->frontend_model->getSettings();
-$title = explode(' ', $settings->title);
+$title = explode(' ', $settings->title ?? '');
+if (isset($settings->description) && $settings->description !== '') {
+    $meta_description = $settings->description;
+} elseif (isset($settings->partner_header_description)) {
+    $meta_description = $settings->partner_header_description;
+} else {
+    $meta_description = '';
+}
 ?>
 
 <head>
@@ -12,14 +19,14 @@ $title = explode(' ', $settings->title);
   <title><?php echo $settings->title; ?></title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="<?php echo $settings->description; ?>" />
+    <meta name="description" content="<?php echo htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8'); ?>" />
     <meta name="keywords" content="software development, HMS software, hospital management system, custom software development" />
     <meta name="author" content="<?php echo $settings->title; ?>">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="<?php echo $settings->title; ?>" />
-    <meta property="og:description" content="<?php echo $settings->description; ?>" />
+    <meta property="og:description" content="<?php echo htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8'); ?>" />
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo base_url(); ?>">
     <meta property="og:site_name" content="<?php echo $settings->title; ?>">
@@ -878,13 +885,20 @@ $title = explode(' ', $settings->title);
 
             <!-- Reviews Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
-          <?php foreach ($services as $service) { ?>
+          <?php foreach ($services as $service) {
+              $service_img = isset($service->img_url) ? trim((string) $service->img_url) : '';
+              if ($service_img === '') {
+                  $service_img = base_url('uploads/userIcon.png');
+              } elseif (!preg_match('#^https?://#i', $service_img)) {
+                  $service_img = base_url($service_img);
+              }
+              ?>
                     <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-t-2xl"></div>
                         
                         <!-- Review Header -->
                         <div class="flex items-center gap-6 mb-8">
-                            <img src="<?php echo $service->img_url ?>" 
+                            <img src="<?php echo htmlspecialchars($service_img, ENT_QUOTES, 'UTF-8'); ?>" 
                                  class="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-xl group-hover:scale-110 transition-transform duration-300" 
                                  alt="Reviewer">
                             <div>

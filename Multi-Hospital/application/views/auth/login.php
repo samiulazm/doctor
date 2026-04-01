@@ -27,14 +27,44 @@
       --gradient-secondary: linear-gradient(135deg, #f6f9fc 0%, #f1f4f8 100%);
     }
 
+    /* Stack vertically like AdminLTE login-page; row would place modal beside the form */
+    body.hold-transition.login-page {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
     body {
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 2rem;
       font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    /* Forgot-password modal: full-screen overlay; hidden until Bootstrap adds .show */
+    body.login-page #myModal.modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1050;
+      display: none !important;
+      overflow-x: hidden;
+      overflow-y: auto;
+      outline: 0;
+    }
+
+    body.login-page #myModal.modal.show {
+      display: block !important;
+    }
+
+    body.login-page #myModal .modal-dialog {
+      margin: 1.75rem auto;
+      max-width: 500px;
     }
 
     .main-container {
@@ -262,6 +292,14 @@
       box-shadow: var(--card-shadow);
     }
 
+    .language-selector .dropdown-menu {
+      display: none;
+    }
+
+    .language-selector .dropdown-menu.show {
+      display: block;
+    }
+
     .forgot-password {
       color: var(--secondary-color);
       transition: all 0.3s ease;
@@ -370,37 +408,53 @@
 </head>
 
 <body class="hold-transition login-page">
+  <?php
+  $flagIcon = 'us';
+  if ($this->language == 'arabic') {
+      $flagIcon = 'sa';
+  } elseif ($this->language == 'english') {
+      $flagIcon = 'us';
+  } elseif ($this->language == 'spanish') {
+      $flagIcon = 'es';
+  } elseif ($this->language == 'french') {
+      $flagIcon = 'fr';
+  } elseif ($this->language == 'italian') {
+      $flagIcon = 'it';
+  } elseif ($this->language == 'portuguese') {
+      $flagIcon = 'pt';
+  } elseif ($this->language == 'turkish') {
+      $flagIcon = 'tr';
+  }
+  ?>
   <!-- Language Dropdown Menu -->
-  <div class="language-selector">
-    <div class="btn-group">
-      <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-        <i class="flag-icon flag-icon-<?php echo $flagIcon; ?> mr-2"></i>
-        <span class="text-dark"><?php echo ucfirst($this->language); ?></span>
-        </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a href="frontend/changeLanguageFlag?lang=arabic" class="dropdown-item <?php echo ($this->language == 'arabic') ? 'active' : ''; ?>">
+  <div class="language-selector dropdown">
+      <button type="button" class="btn btn-light dropdown-toggle" id="loginLangDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="flag-icon flag-icon-<?php echo htmlspecialchars($flagIcon, ENT_QUOTES, 'UTF-8'); ?> mr-2" aria-hidden="true"></i>
+        <span class="text-dark"><?php echo htmlspecialchars(ucfirst((string) $this->language), ENT_QUOTES, 'UTF-8'); ?></span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginLangDropdown">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=arabic" class="dropdown-item <?php echo ($this->language == 'arabic') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-sa mr-2"></i> عربى
         </a>
-        <a href="frontend/changeLanguageFlag?lang=english" class="dropdown-item <?php echo ($this->language == 'english') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=english" class="dropdown-item <?php echo ($this->language == 'english') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-us mr-2"></i> English
         </a>
-        <a href="frontend/changeLanguageFlag?lang=spanish" class="dropdown-item <?php echo ($this->language == 'spanish') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=spanish" class="dropdown-item <?php echo ($this->language == 'spanish') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-es mr-2"></i> Español
         </a>
-        <a href="frontend/changeLanguageFlag?lang=french" class="dropdown-item <?php echo ($this->language == 'french') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=french" class="dropdown-item <?php echo ($this->language == 'french') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-fr mr-2"></i> Français
         </a>
-        <a href="frontend/changeLanguageFlag?lang=italian" class="dropdown-item <?php echo ($this->language == 'italian') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=italian" class="dropdown-item <?php echo ($this->language == 'italian') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-it mr-2"></i> Italiano
         </a>
-        <a href="frontend/changeLanguageFlag?lang=portuguese" class="dropdown-item <?php echo ($this->language == 'portuguese') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=portuguese" class="dropdown-item <?php echo ($this->language == 'portuguese') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-pt mr-2"></i> Português
         </a>
-        <a href="frontend/changeLanguageFlag?lang=turkish" class="dropdown-item <?php echo ($this->language == 'turkish') ? 'active' : ''; ?>">
+        <a href="<?php echo site_url('auth/changeLanguageFlag'); ?>?lang=turkish" class="dropdown-item <?php echo ($this->language == 'turkish') ? 'active' : ''; ?>">
           <i class="flag-icon flag-icon-tr mr-2"></i> Türkçe
         </a>
       </div>
-    </div>
   </div>
 
 <!-- For demo -->
@@ -585,25 +639,25 @@
           </div>
         <?php } ?>
 
-        <form method="post" action="auth/login">
+        <form method="post" action="<?php echo site_url('auth/login'); ?>">
             <div class="input-group">
               <input type="email" name="identity" class="form-control" placeholder="<?php echo lang('email') ?>" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
+              <div class="input-group-append">
+                <div class="input-group-text">
                   <i class="fas fa-envelope"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="input-group">
+            <div class="input-group">
               <input type="password" name="password" class="form-control" placeholder="<?php echo lang('password') ?>" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
+              <div class="input-group-append">
+                <div class="input-group-text">
                   <i class="fas fa-lock"></i>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
+            <div class="row">
+              <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block">
                   <i class="fas fa-sign-in-alt mr-2"></i>
                   <?php echo lang('sign_in') ?>

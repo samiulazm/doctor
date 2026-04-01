@@ -5,6 +5,11 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   php:
@@ -19,13 +24,22 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: "8.2"
           coverage: none
+          extensions: gd, zip, mbstring
 
-      - name: Validate composer.json
-        run: composer validate --no-check-publish
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.composer/cache
+            Multi-Hospital/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('Multi-Hospital/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
-      - name: PHP syntax check (application code)
-        run: |
-          php -l index.php
-          find application -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Validate, PHPUnit, PHP syntax (lint-php)
+        run: composer ci
