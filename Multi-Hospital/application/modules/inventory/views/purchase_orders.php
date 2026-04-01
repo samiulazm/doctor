@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#addPurchaseOrderModal" class="btn btn-success btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#addPurchaseOrderModal" class="btn btn-success btn-sm px-4 py-3">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('create_purchase_order'); ?>
                     </a>
                 </div>
@@ -29,14 +29,14 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -87,7 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="addPurchaseOrderModalLabel"><?php echo lang('create_purchase_order'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -223,7 +223,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="addPurchaseOrderForm" name="submit" class="btn btn-success">
@@ -240,7 +240,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="editPurchaseOrderModalLabel"><?php echo lang('edit') . ' ' . lang('purchase_order'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -353,7 +353,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="editPurchaseOrderForm" name="submit" class="btn btn-primary">
@@ -372,7 +372,7 @@
                 <h4 class="modal-title font-weight-bold" id="viewPurchaseOrderModalLabel">
                     <i class="fas fa-eye mr-2"></i><?php echo lang('purchase_order_details'); ?>
                 </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -520,7 +520,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('close'); ?>
                 </button>
                 <a id="view_print_link" href="#" target="_blank" class="btn btn-info">

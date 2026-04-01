@@ -302,7 +302,7 @@ function dateChanged1() {
 
 }
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
     "use strict";
     $.fn.dataTable
         .tables({ visible: true, api: true })

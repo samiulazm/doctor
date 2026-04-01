@@ -43,9 +43,9 @@ class Auth extends MX_Controller {
         }
         $data['title'] = "Login";
 
-        //validate form input
-        $this->form_validation->set_rules('identity', 'Identity', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+        //validate form input (trim so pasted usernames/emails work)
+        $this->form_validation->set_rules('identity', 'Identity', 'required|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
         if ($this->form_validation->run() == true) {
             //check to see if the user is logging in
@@ -67,10 +67,10 @@ class Auth extends MX_Controller {
 //            }
             $remember = (bool) $this->input->post('remember');
 
-            if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
+            if ($this->ion_auth->login($this->input->post('identity', true), $this->input->post('password'), $remember)) {
                 //if the login is successful
                 //redirect them back to the home page
-                $user_details=$this->db->get_where('users',array('email'=>$this->input->post('identity')))->row();
+                $user_details = $this->ion_auth->user()->row();
                 if (!empty($user_details->hospital_ion_id)) {
                     $hospital_id=$user_details->hospital_ion_id;
                 }else{
@@ -82,27 +82,28 @@ class Auth extends MX_Controller {
                    
                 }
                 $ip_address=$this->input->ip_address();
-                $email_login=$this->input->post('identity');
+                $email_login = $user_details->email;
                 $name=$user_details->username;
-                $groups_ids=$this->db->get_where('users_groups',array('user_id'=>$user_details->id))->row();
-                if($groups_ids->group_id=='1'){
-                    $role='SuperAdmin';
-                }elseif($groups_ids->group_id=='11'){
-                    $role='Admin';
-                }elseif($groups_ids->group_id=='3'){
-                    $role='Accountant';
-                }elseif($groups_ids->group_id=='4'){
-                    $role='Doctor';
-                }elseif($groups_ids->group_id=='5'){
-                    $role='Patient';
-                }elseif($groups_ids->group_id=='6'){
-                    $role='Nurse';
-                }elseif($groups_ids->group_id=='7'){
-                    $role='Pharmacist';
-                }elseif($groups_ids->group_id=='8'){
-                    $role='Laboratorist';
-                }elseif($groups_ids->group_id=='10'){
-                    $role='Receptionist';
+                $groups_ids = $this->db->get_where('users_groups', array('user_id' => $user_details->id))->row();
+                $role = '';
+                if ($groups_ids && $groups_ids->group_id == '1') {
+                    $role = 'SuperAdmin';
+                } elseif ($groups_ids && $groups_ids->group_id == '11') {
+                    $role = 'Admin';
+                } elseif ($groups_ids && $groups_ids->group_id == '3') {
+                    $role = 'Accountant';
+                } elseif ($groups_ids && $groups_ids->group_id == '4') {
+                    $role = 'Doctor';
+                } elseif ($groups_ids && $groups_ids->group_id == '5') {
+                    $role = 'Patient';
+                } elseif ($groups_ids && $groups_ids->group_id == '6') {
+                    $role = 'Nurse';
+                } elseif ($groups_ids && $groups_ids->group_id == '7') {
+                    $role = 'Pharmacist';
+                } elseif ($groups_ids && $groups_ids->group_id == '8') {
+                    $role = 'Laboratorist';
+                } elseif ($groups_ids && $groups_ids->group_id == '10') {
+                    $role = 'Receptionist';
                 }
                $data=array(
                    'hospital_id'=>$hospital_id,
@@ -245,13 +246,8 @@ class Auth extends MX_Controller {
     //forgot password
     function forgot_password() {
 
-        //setting validation rules by checking wheather identity is username or email
-        if ($this->config->item('identity', 'ion_auth') == 'username') {
-            $this->form_validation->set_rules('email', $this->lang->line('forgot_password_username_identity_label'), 'required');
-        } else {
-            $this->form_validation->set_rules('email', $this->lang->line('forgot_password_validation_email_label'), 'required|valid_email');
-        }
-
+        // Accept email or username (same resolution as login; Ion Auth identity column is still email)
+        $this->form_validation->set_rules('email', rtrim($this->lang->line('login_identity_label'), ' :'), 'required|trim');
 
         if ($this->form_validation->run() == false) {
             //setup the input
@@ -259,30 +255,23 @@ class Auth extends MX_Controller {
                 'id' => 'email',
             );
 
-            if ($this->config->item('identity', 'ion_auth') == 'username') {
-                $data['identity_label'] = $this->lang->line('forgot_password_username_identity_label');
-            } else {
-                $data['identity_label'] = $this->lang->line('forgot_password_email_identity_label');
-            }
+            $data['identity_label'] = rtrim($this->lang->line('login_identity_label'), ' :');
 
             //set any errors and display the form
             $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
             $this->_render_page('auth/forgot_password', $data);
         } else {
-            // get identity from username or email
-            if ($this->config->item('identity', 'ion_auth') == 'username') {
-                $identity = $this->ion_auth->where('username', strtolower($this->input->post('email')))->users()->row();
-            } else {
-                $identity = $this->ion_auth->where('email', strtolower($this->input->post('email')))->users()->row();
-            }
+            $raw = $this->input->post('email', true);
+            $tables = $this->config->item('tables', 'ion_auth');
+            $users_table = (is_array($tables) && !empty($tables['users'])) ? $tables['users'] : 'users';
+            $this->db->group_start();
+            $this->db->where('email', $raw);
+            $this->db->or_where('username', $raw);
+            $this->db->group_end();
+            $identity = $this->db->order_by('id', 'desc')->get($users_table, 1)->row();
+
             if (empty($identity)) {
-
-                if ($this->config->item('identity', 'ion_auth') == 'username') {
-                    $this->ion_auth->set_message('forgot_password_username_not_found');
-                } else {
-                    $this->ion_auth->set_message('forgot_password_email_not_found');
-                }
-
+                $this->ion_auth->set_message('forgot_password_email_not_found');
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 redirect("auth/forgot_password", 'refresh');
             }

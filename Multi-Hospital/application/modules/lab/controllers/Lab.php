@@ -627,7 +627,7 @@ class Lab extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -841,7 +841,7 @@ class Lab extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -972,7 +972,7 @@ class Lab extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -1148,7 +1148,7 @@ class Lab extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">

@@ -31,7 +31,7 @@
                         <h3 class="card-title"> <?php echo lang('payment_history'); ?></h3>
 
                         <div class="float-right mr-1 no-print">
-                            <a data-toggle="modal" href="#myModal">
+                            <a data-bs-toggle="modal" href="#myModal">
                                 <button id="" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('deposit'); ?>
                                 </button>
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="float-right mr-1 no-print">
-                            <a data-toggle="modal" href="#myModal5">
+                            <a data-bs-toggle="modal" href="#myModal5">
                                 <button id="" class="btn btn-warning btn-sm">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('invoice'); ?>
                                 </button>
@@ -227,7 +227,7 @@
                                                         <td></td>
                                                         <td class="no-print d-flex gap-1">
                                                             <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>
-                                                                <a type="button" class="btn-sm btn-info editbutton edit_pay" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $deposit->id; ?>"><i class="fa fa-edit"></i></a>
+                                                                <a type="button" class="btn-sm btn-info editbutton edit_pay" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $deposit->id; ?>"><i class="fa fa-edit"></i></a>
                                                             <?php } ?>
                                                             <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>
                                                                 <a type="button" class="btn-sm btn-danger" href="finance/deleteDeposit?id=<?php echo $deposit->id; ?>&patient=<?php echo $patient->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -365,7 +365,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_deposit'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="finance/deposit" id="deposit-form" class="clearfix" method="post" enctype="multipart/form-data">
@@ -534,7 +534,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_deposit'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editDepositform" action="finance/deposit" class="clearfix" method="post" enctype="multipart/form-data">
@@ -737,7 +737,7 @@
         <div class="modal-content">
             <div class="modal-header no-print">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('invoice'); ?></h4>
-                <button type="button" class="close no-print" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close no-print" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body clearfix">
                 <div class="card-primary">

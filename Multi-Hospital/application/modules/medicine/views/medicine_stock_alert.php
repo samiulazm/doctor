@@ -19,7 +19,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">
                         <i class="fas fa-plus mr-2"></i><?php echo lang('add'); ?> <?php echo lang('new'); ?> <?php echo lang('medicine'); ?>
                     </a>
                 </div>
@@ -79,14 +79,14 @@
                                                     echo $medicine->quantity;
                                                 }
                                                 ?>
-                                                <button type="button" class="btn btn-success btn-xs btn_width load" data-toggle="modal" data-id="<?php echo $medicine->id; ?>"><?php echo lang('load'); ?></button>
+                                                <button type="button" class="btn btn-success btn-xs btn_width load" data-bs-toggle="modal" data-id="<?php echo $medicine->id; ?>"><?php echo lang('load'); ?></button>
                                             </td>
                                             <td><?php echo $medicine->generic; ?></td>
                                             <td><?php echo $medicine->company; ?></td>
                                             <td><?php echo $medicine->effects; ?></td>
                                             <td><?php echo $medicine->e_date; ?></td>
                                             <td>
-                                                <a type="button" class="btn btn-info btn-sm editbutton" data-toggle="modal" data-id="<?php echo $medicine->id; ?>"><i class="fa fa-edit"></i></a>
+                                                <a type="button" class="btn btn-info btn-sm editbutton" data-bs-toggle="modal" data-id="<?php echo $medicine->id; ?>"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-danger btn-sm" href="medicine/delete?id=<?php echo $medicine->id; ?>" onclick="return confirm('<?php echo lang('are_you_sure_you_want_to_delete_this_item'); ?>');"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -116,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('medicine'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="medicine/addNewMedicine" class="clearfix" method="post" enctype="multipart/form-data">
@@ -196,7 +196,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit'); ?> <?php echo lang('medicine'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" id="editMedicineForm" class="clearfix" action="medicine/addNewMedicine" method="post" enctype="multipart/form-data">
@@ -268,7 +268,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('load'); ?> <?php echo lang('medicine'); ?></h4>
             </div>
             <div class="modal-body">

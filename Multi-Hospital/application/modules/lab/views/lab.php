@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <!-- <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('lab_report'); ?>
                     </a>
                 </div> -->

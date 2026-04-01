@@ -27,14 +27,14 @@
                     <div class="card-header">
                         <h3 class="card-title"></h3>
                         <div class="float-left mr-2">
-                            <a data-toggle="modal" href="#myModal">
+                            <a data-bs-toggle="modal" href="#myModal">
                                 <button id="" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('deposit'); ?>
                                 </button>
                             </a>
                         </div>
                         <div class="float-left mr-2">
-                            <a data-toggle="modal" href="#myModal5">
+                            <a data-bs-toggle="modal" href="#myModal5">
                                 <button id="" class="btn btn-warning btn-sm">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('invoice'); ?>
                                 </button>
@@ -285,7 +285,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_deposit'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="patient/deposit" id="deposit-form" class="clearfix" method="post" enctype="multipart/form-data">
@@ -413,7 +413,7 @@
         <div class="modal-content">
             <div class="modal-header no-print">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('invoice'); ?></h4>
-                <button type="button" class="close no-print" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close no-print" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body clearfix">
                 <div class="card card-primary">

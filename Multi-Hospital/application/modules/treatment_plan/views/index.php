@@ -20,14 +20,14 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -45,22 +45,22 @@
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="treatmentTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="symptoms-tab" data-toggle="tab" href="#symptoms" role="tab" aria-controls="symptoms" aria-selected="true">
+                                    <a class="nav-link active" id="symptoms-tab" data-bs-toggle="tab" href="#symptoms" role="tab" aria-controls="symptoms" aria-selected="true">
                                         <i class="fas fa-stethoscope mr-1"></i> <?php echo lang('symptoms_input'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">
+                                    <a class="nav-link" id="analysis-tab" data-bs-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">
                                         <i class="fas fa-brain mr-1"></i> <?php echo lang('ai_analysis'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="treatment-tab" data-toggle="tab" href="#treatment" role="tab" aria-controls="treatment" aria-selected="false">
+                                    <a class="nav-link" id="treatment-tab" data-bs-toggle="tab" href="#treatment" role="tab" aria-controls="treatment" aria-selected="false">
                                         <i class="fas fa-pills mr-1"></i> <?php echo lang('treatment_plan'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab" aria-controls="prescription" aria-selected="false">
+                                    <a class="nav-link" id="prescription-tab" data-bs-toggle="tab" href="#prescription" role="tab" aria-controls="prescription" aria-selected="false">
                                         <i class="fas fa-file-prescription mr-1"></i> <?php echo lang('prescription'); ?>
                                     </a>
                                 </li>
@@ -823,7 +823,7 @@ $(document).ready(function() {
 
 
     // Tab change handlers
-    $('#treatmentTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('#treatmentTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
         const target = $(e.target).attr("href");
         
         // Enable/disable buttons based on current state

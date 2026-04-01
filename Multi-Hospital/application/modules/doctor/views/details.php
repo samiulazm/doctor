@@ -34,22 +34,22 @@
                                 <header class="tab-bg-dark-navy-blueee">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#todays"><?php echo lang('todays'); ?> <?php echo lang('appointments'); ?></a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#todays"><?php echo lang('todays'); ?> <?php echo lang('appointments'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#patient"><?php echo lang('patient'); ?></a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#patient"><?php echo lang('patient'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#prescription1"><?php echo lang('prescription'); ?></a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#prescription1"><?php echo lang('prescription'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#schedule"><?php echo lang('schedule'); ?></a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#schedule"><?php echo lang('schedule'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#holiday"><?php echo lang('holidays'); ?></a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#holiday"><?php echo lang('holidays'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#calendar"><?php echo lang('calendar'); ?></a>
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#calendar"><?php echo lang('calendar'); ?></a>
                                         </li>
                                     </ul>
                                 </header>
@@ -60,7 +60,7 @@
                                         <div id="todays" class="tab-pane">
                                             <div class="">
                                                 <div class=" no-print">
-                                                    <a class="btn btn-info btn_width btn-sm" data-toggle="modal" href="#addAppointmentModal">
+                                                    <a class="btn btn-info btn_width btn-sm" data-bs-toggle="modal" href="#addAppointmentModal">
                                                         <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                                                     </a>
                                                 </div>
@@ -110,7 +110,7 @@
                                                                         <td><?php echo $todays_appointment->status; ?></td>
                                                                         <td><?php echo $bill_status; ?></td>
                                                                         <td class="no-print d-flex gap-1">
-                                                                            <button type="button" class="btn btn-info btn-sm btn_width editAppointmentButton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $todays_appointment->id; ?>"><i class="fa fa-edit"></i> </button>
+                                                                            <button type="button" class="btn btn-info btn-sm btn_width editAppointmentButton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $todays_appointment->id; ?>"><i class="fa fa-edit"></i> </button>
                                                                             <a class="btn btn-danger btn-sm btn_width delete_button" title="<?php echo lang('delete'); ?>" href="appointment/delete?id=<?php echo $todays_appointment->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </a>
                                                                             <a class="btn btn-warning btn-sm btn_width green button_his" title="<?php echo lang('history'); ?>" href="patient/medicalHistory?id=<?php echo $todays_appointment->patient; ?>"><i class="fa fa-stethoscope"></i> <?php echo lang('patient'); ?> <?php echo lang('history'); ?></a>
                                                                             <?php if ($todays_appointment->status == 'Confirmed') { ?>
@@ -223,7 +223,7 @@
                                             <div class="">
                                                 <?php if ($this->ion_auth->in_group(array('Doctor'))) { ?>
                                                     <div class=" no-print">
-                                                        <a class="btn btn-info btn_width btn-sm" data-toggle="modal" href="#addScheduleModal">
+                                                        <a class="btn btn-info btn_width btn-sm" data-bs-toggle="modal" href="#addScheduleModal">
                                                             <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                                                         </a>
                                                     </div>
@@ -270,7 +270,7 @@
                                         <div id="holiday" class="tab-pane">
                                             <div class="">
                                                 <div class=" no-print">
-                                                    <a class="btn btn-info btn_width btn-sm" data-toggle="modal" href="#holidayModal">
+                                                    <a class="btn btn-info btn_width btn-sm" data-bs-toggle="modal" href="#holidayModal">
                                                         <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                                                     </a>
                                                 </div>
@@ -295,7 +295,7 @@
                                                                     <td> <?php echo $i; ?></td>
                                                                     <td> <?php echo date('d-m-Y', $holiday->date); ?></td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-info btn-sm btn_width editHoliday" data-toggle="modal" data-id="<?php echo $holiday->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                                                        <button type="button" class="btn btn-info btn-sm btn_width editHoliday" data-bs-toggle="modal" data-id="<?php echo $holiday->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                                                         <a class="btn btn-danger btn-sm btn_width delete_button" href="schedule/deleteHoliday?id=<?php echo $holiday->id; ?>&doctor=<?php echo $doctor->id; ?>&redirect=doctor/details" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                                                     </td>
                                                                 </tr>
@@ -345,7 +345,7 @@
                                     <?php } ?>
                                     <h1 class="text-lg"> <?php echo $doctor->name; ?> </h1>
                                     <p> <?php echo $doctor->email; ?> </p>
-                                    <button type="button" class="btn btn-sm btn-primary doctoreditbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $doctor->id; ?>"><i class="fa fa-edit"> </i> <?php echo lang('edit'); ?></button>
+                                    <button type="button" class="btn btn-sm btn-primary doctoreditbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $doctor->id; ?>"><i class="fa fa-edit"> </i> <?php echo lang('edit'); ?></button>
                                 </div>
 
                                 <ul class="list-group list-group-flush nav nav-pills nav-stacked">
@@ -411,7 +411,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add'); ?> <?php echo lang('files'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="patient/addPatientMaterial" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -446,7 +446,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_medical_history'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="patient/addMedicalHistory" method="post" enctype="multipart/form-data">
@@ -479,7 +479,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-edit"></i> <?php echo lang('edit_medical_history'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="medical_historyEditForm" action="patient/addMedicalHistory" method="post" enctype="multipart/form-data">
@@ -512,7 +512,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -534,7 +534,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_appointment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="appointment/addNew" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -833,7 +833,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_appointment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -1051,7 +1051,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('holiday'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="schedule/addHoliday" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -1086,7 +1086,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit'); ?> <?php echo lang('holiday'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editHolidayForm" action="schedule/addHoliday" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -1118,7 +1118,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('schedule'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="schedule/addSchedule" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -1221,7 +1221,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('edit'); ?> <?php echo lang('time_slot'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editTimeSlotForm" action="schedule/addSchedule" method="post" enctype="multipart/form-data">
@@ -1326,7 +1326,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_doctor'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editDoctorForm" class="clearfix" action="doctor/addNew" method="post" enctype="multipart/form-data">

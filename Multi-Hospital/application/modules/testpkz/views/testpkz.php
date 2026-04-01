@@ -7,7 +7,7 @@
                 <?php echo lang('lab_testpkz'); ?>
                 <?php if ($this->ion_auth->in_group(array('admin', 'Doctor'))) { ?>
                     <div class="col-md-4 no-print pull-right">
-                        <a data-toggle="modal" href="testpkz/addNewView">
+                        <a data-bs-toggle="modal" href="testpkz/addNewView">
                             <div class="btn-group pull-right">
                                 <button id="" class="btn green btn-xs">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('add_testpkz'); ?>

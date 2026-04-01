@@ -29,7 +29,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the active hospital names and related informations'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" class="float-right" href="hospital/addNewView">
+                                <a data-bs-toggle="modal" class="float-right" href="hospital/addNewView">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('create_new_hospital'); ?>
                                     </button>
@@ -83,9 +83,9 @@
                                                     $status = $this->db->get_where('users', array('id' => $hospital->ion_user_id))->row()->active;
                                                     if ($status == '1') {
                                                     ?>
-                                                        <button type="button" class="btn btn-info btn-sm btn_width mb-1" data-toggle="modal" data-id="<?php echo $hospital->id; ?>"><?php echo lang('active'); ?></button>
+                                                        <button type="button" class="btn btn-info btn-sm btn_width mb-1" data-bs-toggle="modal" data-id="<?php echo $hospital->id; ?>"><?php echo lang('active'); ?></button>
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn btn-danger btn-sm delete_button mb-1" data-toggle="modal" data-id="<?php echo $hospital->id; ?>"><?php echo lang('disabled'); ?></button>
+                                                        <button type="button" class="btn btn-danger btn-sm delete_button mb-1" data-bs-toggle="modal" data-id="<?php echo $hospital->id; ?>"><?php echo lang('disabled'); ?></button>
                                                     <?php
                                                     }
                                                     ?>
@@ -95,16 +95,16 @@
                                                     $status = $this->db->get_where('users', array('id' => $hospital->ion_user_id))->row()->active;
                                                     if ($status == '1') {
                                                     ?>
-                                                        <a href="hospital/deactivate?hospital_id=<?php echo $hospital->ion_user_id; ?>&redirect=active" type="button" class="btn btn-info btn-sm status mb-1" data-toggle="modal" data-id="<?php echo $hospital->id; ?>" onclick="return confirm('Are you sure you want to disable this hospital?');"><?php echo lang('disable'); ?></a>
+                                                        <a href="hospital/deactivate?hospital_id=<?php echo $hospital->ion_user_id; ?>&redirect=active" type="button" class="btn btn-info btn-sm status mb-1" data-bs-toggle="modal" data-id="<?php echo $hospital->id; ?>" onclick="return confirm('Are you sure you want to disable this hospital?');"><?php echo lang('disable'); ?></a>
 
                                                     <?php } else {
                                                     ?>
 
-                                                        <a href="hospital/activate?hospital_id=<?php echo $hospital->ion_user_id; ?>&redirect=active" type="button" class="btn btn-info btn-sm status mb-1" data-toggle="modal" data-id="<?php echo $hospital->id; ?>" onclick="return confirm('Are you sure you want to enable this hospital?');"><?php echo lang('enable'); ?></a>
+                                                        <a href="hospital/activate?hospital_id=<?php echo $hospital->ion_user_id; ?>&redirect=active" type="button" class="btn btn-info btn-sm status mb-1" data-bs-toggle="modal" data-id="<?php echo $hospital->id; ?>" onclick="return confirm('Are you sure you want to enable this hospital?');"><?php echo lang('enable'); ?></a>
                                                     <?php
                                                     }
                                                     ?>
-                                                    <a type="button" class="btn btn-info btn-sm btn_width mb-1" data-toggle="" href="hospital/editHospital?id=<?php echo $hospital->id; ?>" data-id="<?php echo $hospital->id; ?>"><i class="fa fa-edit"></i></a>
+                                                    <a type="button" class="btn btn-info btn-sm btn_width mb-1" data-bs-toggle="" href="hospital/editHospital?id=<?php echo $hospital->id; ?>" data-id="<?php echo $hospital->id; ?>"><i class="fa fa-edit"></i></a>
                                                     <a class="btn btn-danger btn-sm btn_width delete_button mb-1" href="hospital/delete?id=<?php echo $hospital->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -144,7 +144,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('create_new_hospital'); ?></h4>
             </div>
             <div class="modal-body">
@@ -239,7 +239,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-edit"></i> <?php echo lang('edit_hospital'); ?></h4>
             </div>
             <div class="modal-body">

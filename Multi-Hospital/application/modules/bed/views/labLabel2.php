@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('Print Label For '); ?><?php echo $patient->name; ?></h3>
                             <div class="float-right  no-print">
-                                <a data-toggle="modal" onclick="window.print()">
+                                <a data-bs-toggle="modal" onclick="window.print()">
                                     <button id="" class="btn btn-warning btn-sm">
                                         <i class="fa fa-print"></i> <?php echo lang('print'); ?>
                                     </button>

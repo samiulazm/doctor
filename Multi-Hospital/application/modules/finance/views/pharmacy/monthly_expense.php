@@ -112,14 +112,14 @@ $previous_year = $currently_processing_year - 1;
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h4 class="modal-title font-weight-bold"><?php echo lang('stock_alert'); ?></h4>
             </div>
             <div class="modal-body">
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
 

@@ -148,7 +148,7 @@
                                             <td><?php echo $deposit->add_date; ?></td>
                                             <td><?php echo $deposit->next_due_date; ?></td>
                                             <td><?php echo $deposit->gateway; ?></td>
-                                            <td><a type="button" class="btn btn-info btn-sm" data-toggle="" href="settings/downloadInvoice?id=<?php echo $deposit->id; ?>" data-id="<?php echo $deposit->id; ?>"><i class="fa fa-download"></i></a> </td>
+                                            <td><a type="button" class="btn btn-info btn-sm" data-bs-toggle="" href="settings/downloadInvoice?id=<?php echo $deposit->id; ?>" data-id="<?php echo $deposit->id; ?>"><i class="fa fa-download"></i></a> </td>
                                         </tr>
                                     <?php
                                         $i++;
@@ -181,7 +181,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_deposit'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" id="editDepositForm" action="settings/changePlanPayment" class="clearfix form-row" method="post" enctype="multipart/form-data">

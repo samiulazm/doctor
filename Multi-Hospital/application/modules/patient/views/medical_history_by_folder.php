@@ -27,7 +27,7 @@
                             <h3 class="card-title"><?php echo lang('patient'); ?> : <?php echo $this->patient_model->getPatientById($folder->patient)->name; ?> | <?php echo lang('folder'); ?> : <?php echo $folder->folder_name; ?></h3>
                             <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                 <div class="float-right">
-                                    <a data-toggle="modal" href="#myModalff">
+                                    <a data-bs-toggle="modal" href="#myModalff">
                                         <button id="" class="btn btn-success btn-sm">
                                             <i class="fa fa-plus-circle"></i> <?php echo lang('add_file'); ?>
                                         </button>
@@ -97,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('files'); ?></h4>
             </div>
             <div class="modal-body">

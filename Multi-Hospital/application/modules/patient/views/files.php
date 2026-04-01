@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="panel-body">
                     <div class="panel-body">
-                        <a class="btn btn-info btn_width" data-toggle="modal" href="#myModal">
+                        <a class="btn btn-info btn_width" data-bs-toggle="modal" href="#myModal">
                             <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                         </a>
                     </div>
@@ -35,7 +35,7 @@
                                         <td><?php echo $medical_history->date; ?></td>
                                         <td><?php echo $medical_history->description; ?></td>
                                         <td class="no-print d-flex gap-1">
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="medical_history/delete?id=<?php echo $medical_history->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o"></i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -47,7 +47,7 @@
                 <div class="panel-body">
                     <?php if ($this->ion_auth->in_group(array('Doctor'))) { ?>
                         <div class="panel-body">
-                            <a class="btn btn-info btn_width" data-toggle="modal" href="#myModa3">
+                            <a class="btn btn-info btn_width" data-bs-toggle="modal" href="#myModa3">
                                 <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                             </a>
                         </div>
@@ -74,7 +74,7 @@
                                         <td class="no-print d-flex gap-1">
                                             <a class="btn btn-info btn-xs btn_width" href="prescription/viewPrescription?id=<?php echo $prescription->id; ?>"><i class="fa fa-eye"> <?php echo lang('view'); ?> </i></a>
                                             <?php if ($this->ion_auth->in_group('Doctor')) { ?>
-                                                <button type="button" class="btn btn-info btn-xs btn_width editPrescription" data-toggle="modal" data-id="<?php echo $prescription->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                                <button type="button" class="btn btn-info btn-xs btn_width editPrescription" data-bs-toggle="modal" data-id="<?php echo $prescription->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                                 <a class="btn btn-info btn-xs btn_width delete_button" href="prescription/delete?id=<?php echo $prescription->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o"></i> <?php echo lang('delete'); ?></a>
                                             <?php } ?>
                                         </td>
@@ -88,7 +88,7 @@
             <div class="col-md-6">
                 <div class="panel-body">
                     <div class="panel-body">
-                        <a class="btn btn-info btn_width" data-toggle="modal" href="#myModal1">
+                        <a class="btn btn-info btn_width" data-bs-toggle="modal" href="#myModal1">
                             <i class="fa fa-plus-circle"> </i> <?php echo lang('add_new'); ?>
                         </a>
                     </div>
@@ -142,7 +142,7 @@
                     <i class="fas fa-file-upload mr-2"></i>
                     <?php echo lang('add'); ?> <?php echo lang('files'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -177,7 +177,7 @@
                     <i class="fas fa-plus-circle mr-2"></i>
                     <?php echo lang('add_medical_history'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -213,7 +213,7 @@
                     <i class="fas fa-edit mr-2"></i>
                     <?php echo lang('edit_medical_history'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -255,7 +255,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                     <i class="fas fa-prescription-bottle mr-2"></i>
                     <?php echo lang('add_prescription'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -327,7 +327,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                     <i class="fas fa-prescription-bottle mr-2"></i>
                     <?php echo lang('add_prescription'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

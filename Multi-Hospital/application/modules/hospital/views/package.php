@@ -89,7 +89,7 @@
                                                 ?>
                                             </td>
                                             <td class="no-print d-flex gap-1">
-                                                <a type="button" class="btn btn-primary btn-sm btn_width" data-toggle="" href="hospital/package/editPackage?id=<?php echo $package->id; ?>" data-id="<?php echo $package->id; ?>"><i class="fa fa-edit"></i></a>
+                                                <a type="button" class="btn btn-primary btn-sm btn_width" data-bs-toggle="" href="hospital/package/editPackage?id=<?php echo $package->id; ?>" data-id="<?php echo $package->id; ?>"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-danger btn-sm btn_width delete_button" href="hospital/package/delete?id=<?php echo $package->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -129,7 +129,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('create_new_package'); ?></h4>
             </div>
             <div class="modal-body">
@@ -224,7 +224,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-edit"></i> <?php echo lang('edit_package'); ?></h4>
             </div>
             <div class="modal-body">

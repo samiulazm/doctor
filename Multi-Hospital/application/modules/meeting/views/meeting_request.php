@@ -50,7 +50,7 @@
     <div class="modal-dialog modal-lg"">
         <div class=" modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             <h4 class="modal-title font-weight-bold"> <?php echo lang('add_meeting'); ?></h4>
         </div>
         <div class="modal-body row">
@@ -164,7 +164,7 @@
         <div class="modal-dialog modal-lg"">
                 <div class=" modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_meeting'); ?></h4>
             </div>
             <div class="modal-body row">

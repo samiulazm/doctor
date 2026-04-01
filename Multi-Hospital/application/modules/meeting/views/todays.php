@@ -7,7 +7,7 @@
                 <div class="col-md-4 clearfix pull-right">
                     <div class="pull-right"></div>
                     <div class="pull-left">
-                        <a data-toggle="modal" href="#myModal">
+                        <a data-bs-toggle="modal" href="#myModal">
                             <div class="btn-group pull-right">
                                 <button id="" class="btn green btn-xs pull-right">
                                     <i class="fa fa-plus-circle"></i> <?php echo lang('add_meeting'); ?>
@@ -63,7 +63,7 @@
                 <i class="fas fa-calendar-plus mr-2"></i>
                 <?php echo lang('add_meeting'); ?>
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -165,7 +165,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold"><?php echo lang('patient') . " " . lang('history'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -176,7 +176,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
     <div class="modal-dialog modal-lg"">
         <div class=" modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_meeting'); ?></h4>
         </div>
         <div class="modal-body row">

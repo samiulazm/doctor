@@ -82,7 +82,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-light">
                 <h5 class="modal-title font-weight-bold text-dark" id="myModalLabel"><?php echo lang('add_superadmin'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -145,7 +145,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-light">
                 <h5 class="modal-title font-weight-bold text-dark" id="myModalLabel"><?php echo lang('edit_superadmin'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

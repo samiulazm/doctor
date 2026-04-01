@@ -17,7 +17,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                     </button>
                 </div>
@@ -53,7 +53,7 @@
                                             <td class="align-middle"><?php echo $accountant->address; ?></td>
                                             <td class="align-middle"><?php echo $accountant->phone; ?></td>
                                             <td class="align-middle no-print">
-                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $accountant->id; ?>">
+                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $accountant->id; ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a class="btn btn-danger btn-sm delete_button" href="accountant/delete?id=<?php echo $accountant->id; ?>" title="<?php echo lang('delete'); ?>" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('add_accountant'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" action="accountant/addNew" class="clearfix" method="post" enctype="multipart/form-data">
@@ -192,7 +192,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('edit_accountant'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" id="editAccountantForm" class="clearfix" action="accountant/addNew" method="post" enctype="multipart/form-data">

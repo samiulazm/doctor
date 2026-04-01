@@ -15,7 +15,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_symptom'); ?>
                     </a>
                 </div>
@@ -59,7 +59,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-light">
                 <h5 class="modal-title font-weight-bold text-dark" id="myModalLabel"><?php echo lang('add_symptom'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -92,7 +92,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-light">
                 <h5 class="modal-title font-weight-bold text-dark" id="myModalLabel"><?php echo lang('edit_symptom'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

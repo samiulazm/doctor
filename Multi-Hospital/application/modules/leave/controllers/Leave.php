@@ -175,12 +175,12 @@ class Leave extends MX_Controller
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin'))) {
 
-                $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                 $options5 = '<a class="btn btn-sm btn-danger delete_button" title="' . lang('delete') . '" href="leave/deleteLeave?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
                 $status = '<span class="badge badge-warning">' . $leavetypes->status . '</span>';
             } else {
                 if ($leavetypes->status == 'pending') {
-                    $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                    $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                     $status = '<span class="badge badge-warning">' . $leavetypes->status . '</span>';
                 } else {
                     $options1 = '';
@@ -194,11 +194,11 @@ class Leave extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options1 ? '<li><a class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options6 ? '<li><a class="btn btn-sm btn-danger" href="' . site_url("leave/deleteLeave?id=" . $leavetypes->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';
@@ -317,16 +317,16 @@ class Leave extends MX_Controller
                 $dropdownOptions = '';
                 $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    <li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>
+                    <li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>
                     <li><a href="leave/deleteLeaveType?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>
 
                 </ul>
             </div>';
-                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                 $options5 = '<a class="btn delete_button" title="' . lang('delete') . '" href="leave/deleteLeaveType?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
 
@@ -336,18 +336,18 @@ class Leave extends MX_Controller
                 $dropdownOptions = '';
                 $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="leave/deleteLeaveType?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
 
                 </ul>
             </div>';
 
 
-                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                 $options5 = '<a class="btn delete_button" title="' . lang('delete') . '" href="leave/deleteLeaveType?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
 

@@ -149,7 +149,7 @@ class Insurance extends MX_Controller
         foreach ($data['insurance_companys'] as $insurance_company) {
             $i = $i + 1;
 
-            $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" data-toggle="modal" data-id="' . $insurance_company->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+            $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $insurance_company->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
 
 
             $options3 = '<a class="btn btn-danger btn-sm" title="' . lang('delete') . '" href="insurance/delete?id=' . $insurance_company->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i> ' . lang('') . '</a>';

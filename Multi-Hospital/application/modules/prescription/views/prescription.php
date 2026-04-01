@@ -78,7 +78,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_prescription'); ?></h4>
             </div>
             <div class="modal-body">
@@ -145,7 +145,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('edit_prescription'); ?></h4>
             </div>
             <div class="modal-body">

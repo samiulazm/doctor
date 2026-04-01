@@ -23,14 +23,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -48,17 +48,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="overviewTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="generate-tab" data-toggle="tab" href="#generate" role="tab" aria-controls="generate" aria-selected="true">
+                                    <a class="nav-link active" id="generate-tab" data-bs-toggle="tab" href="#generate" role="tab" aria-controls="generate" aria-selected="true">
                                         <i class="fas fa-plus mr-1"></i> <?php echo lang('generate_overview'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
+                                    <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
                                         <i class="fas fa-file-medical mr-1"></i> <?php echo lang('patient_report'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
+                                    <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                         <i class="fas fa-history mr-1"></i> <?php echo lang('analysis_history'); ?>
                                     </a>
                                 </li>

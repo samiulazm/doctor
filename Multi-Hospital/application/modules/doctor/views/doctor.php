@@ -19,7 +19,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('doctor'); ?>
                     </a>
                 </div>
@@ -69,7 +69,7 @@
                     <i class="fas fa-user-md mr-2"></i>
                     <?php echo lang('add_new_doctor'); ?>
                 </h5>
-                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
 </a>
             </div>
@@ -178,7 +178,7 @@
                     <i class="fas fa-user-edit mr-2"></i>
                     <?php echo lang('edit_doctor'); ?>
                 </h5>
-                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                                     </a>
             </div>
@@ -300,7 +300,7 @@
                     <i class="fas fa-user-md mr-2"></i>
                     <?php echo lang('doctor'); ?> <?php echo lang('info'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

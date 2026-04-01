@@ -34,6 +34,7 @@
 	},
 	"scripts": {
 		"serve": "@php -S localhost:8080 router.php",
+		"create-superadmin": "@php scripts/create_superadmin.php",
 		"test": "@php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml.dist",
 		"lint-php": "@php scripts/lint-php.php",
 		"ci": [

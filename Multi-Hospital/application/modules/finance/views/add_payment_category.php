@@ -105,7 +105,7 @@
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('type'); ?> <span title="For lab tests that require reporting, choose 'Lab Test'. For all others, select 'Other'" data-toggle="tooltip"><i class="fa fa-question-circle"></i></span></label>
+                                    <label class="text-uppercase text-sm"><?php echo lang('type'); ?> <span title="For lab tests that require reporting, choose 'Lab Test'. For all others, select 'Other'" data-bs-toggle="tooltip"><i class="fa fa-question-circle"></i></span></label>
                                     <select class="form-control form-control-lg" name="type">
                                         <option value="diagnostic" <?php
                                                                     if (!empty($setval)) {

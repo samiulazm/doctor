@@ -63,7 +63,7 @@ if ($this->ion_auth->in_group(array('Patient'))) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add'); ?> <?php echo lang('files'); ?></h4>
             </div>
             <div class="modal-body">
@@ -96,7 +96,7 @@ if ($this->ion_auth->in_group(array('Patient'))) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_medical_history'); ?></h4>
             </div>
             <div class="modal-body">
@@ -127,7 +127,7 @@ if ($this->ion_auth->in_group(array('Patient'))) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-edit"></i> <?php echo lang('edit_medical_history'); ?></h4>
             </div>
             <div class="modal-body">
@@ -165,7 +165,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_prescription'); ?></h4>
             </div>
             <div class="modal-body">
@@ -236,7 +236,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_prescription'); ?></h4>
             </div>
             <div class="modal-body">
@@ -312,7 +312,7 @@ if ($this->ion_auth->in_group('Doctor')) {
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

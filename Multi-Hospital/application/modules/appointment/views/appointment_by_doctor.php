@@ -32,12 +32,12 @@
                         <div class="card-body bg-light p-4">
                             <ul class="nav nav-tabs mb-4">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#calendardetails">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#calendardetails">
                                         <?php echo lang('appointments'); ?> <?php echo lang('calendar'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#list">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#list">
                                         <?php echo lang('appointments'); ?>
                                     </a>
                                 </li>
@@ -120,7 +120,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold"><?php echo lang('edit_appointment'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -166,7 +166,7 @@
         <div class="modal-content bg-light">
             <div class="modal-body" id="medical_history"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
             </div>
         </div>
     </div>

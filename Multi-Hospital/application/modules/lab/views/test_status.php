@@ -33,7 +33,7 @@
                     <div class="card shadow-lg border-0">
                         <div class="card-body bg-light p-4">
                             <div class="alert alert-info text-sm mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <p class="mb-1"><?php echo lang('for_every_paid_diagnostic_test_there_is_a_row_in_this_table'); ?></p>
@@ -127,7 +127,7 @@
                     <i class="fas fa-user-check mr-2"></i>
                     <?php echo lang('done_by_details'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary done_by_btn"><?php echo lang('save_changes'); ?></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
             </div>
         </div>
     </div>

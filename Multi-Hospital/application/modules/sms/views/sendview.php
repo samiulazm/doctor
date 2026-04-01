@@ -32,7 +32,7 @@
                                     <?php echo lang('sent_messages'); ?></button>
                                 <button class='btn btn-success float-right mr-1' onclick="location.href = 'sms/manualSMSTemplate'" type="button">
                                     <?php echo lang('template'); ?></button>
-                                <button class='btn btn-success float-right mr-1' data-toggle="modal" data-target="#myModal1" type="button">
+                                <button class='btn btn-success float-right mr-1' data-bs-toggle="modal" data-bs-target="#myModal1" type="button">
                                     <?php echo lang('add'); ?> <?php echo lang('template'); ?></button>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><?php echo lang('add_new'); ?> <?php echo lang('template'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <?php echo validation_errors(); ?>

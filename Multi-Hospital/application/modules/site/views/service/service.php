@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the service names and related informations'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -52,7 +52,7 @@
                                             <td> <?php echo $service->title; ?></td>
                                             <td><?php echo $service->description; ?></td>
                                             <td class="no-print d-flex gap-1">
-                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $service->id; ?>"><i class="fa fa-edit"> </i></a>
+                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $service->id; ?>"><i class="fa fa-edit"> </i></a>
                                                 <a class="btn btn-danger btn-sm" title="<?php echo lang('delete'); ?>" href="site/service/delete?id=<?php echo $service->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i></a>
                                             </td>
                                         </tr>
@@ -92,7 +92,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_service'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="site/service/addNew" class="clearfix" method="post" enctype="multipart/form-data">
@@ -146,7 +146,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_service'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editServiceForm" class="clearfix" action="site/service/addNew" method="post" enctype="multipart/form-data">

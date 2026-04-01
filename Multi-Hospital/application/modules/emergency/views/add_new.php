@@ -388,7 +388,7 @@
                     <i class="fas fa-search mr-2"></i>
                     <?php echo lang('select_patient'); ?>
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -402,7 +402,7 @@
                 <div id="patient-search-results"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('cancel'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('cancel'); ?></button>
             </div>
         </div>
     </div>
@@ -417,7 +417,7 @@
                     <i class="fas fa-user-plus mr-2"></i>
                     <?php echo lang('create_new_patient'); ?>
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -483,7 +483,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('cancel'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('cancel'); ?></button>
                 <button type="button" class="btn btn-success" id="save-new-patient">
                     <i class="fas fa-save mr-2"></i>
                     <?php echo lang('create_patient'); ?>
@@ -502,7 +502,7 @@
                     <i class="fas fa-robot mr-2"></i>
                     <?php echo lang('ai_patient_analysis'); ?>
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -529,7 +529,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary" id="use-this-patient">
                     <i class="fas fa-check mr-2"></i>
                     <?php echo lang('use_this_patient'); ?>

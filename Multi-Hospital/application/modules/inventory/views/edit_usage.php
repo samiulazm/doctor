@@ -30,14 +30,14 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="card-body bg-light">
-                            <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-dismiss="alert">&times;</button>', '</div>'); ?>
+                            <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-bs-dismiss="alert">&times;</button>', '</div>'); ?>
                             
                             <form role="form" action="<?php echo base_url('inventory/usage/edit/' . $usage->id); ?>" method="post" id="editUsageForm">
                                 <input type="hidden" name="submit" value="1">

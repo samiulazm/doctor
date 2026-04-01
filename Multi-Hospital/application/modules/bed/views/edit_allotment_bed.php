@@ -40,7 +40,7 @@
                         <!-- <div class="card-header">
                             <h3 class="card-title">All the department names and related informations</h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -59,35 +59,35 @@
                                                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                                     <li class="nav-item">
                                                         <a class="nav-link active" id="custom-tabs-one-checkin-tab"
-                                                            data-toggle="pill" href="#checkin" role="tab"
+                                                            data-bs-toggle="pill" href="#checkin" role="tab"
                                                             aria-controls="checkin" aria-selected="true">
                                                             <?php echo lang('check_in'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-daily_progress-tab"
-                                                            data-toggle="pill" href="#daily_progress" role="tab"
+                                                            data-bs-toggle="pill" href="#daily_progress" role="tab"
                                                             aria-controls="daily_progress" aria-selected="false">
                                                             <?php echo lang('daily_progress'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-medicines-tab"
-                                                            data-toggle="pill" href="#medicines" role="tab"
+                                                            data-bs-toggle="pill" href="#medicines" role="tab"
                                                             aria-controls="medicines" aria-selected="false">
                                                             <?php echo lang('medicines'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-services-tab"
-                                                            data-toggle="pill" href="#services" role="tab"
+                                                            data-bs-toggle="pill" href="#services" role="tab"
                                                             aria-controls="services" aria-selected="false">
                                                             <?php echo lang('service'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-diagnostic-tab"
-                                                            data-toggle="pill" href="#diagnostic" role="tab"
+                                                            data-bs-toggle="pill" href="#diagnostic" role="tab"
                                                             aria-controls="diagnostic" aria-selected="false">
                                                             <?php echo lang('diagnostic'); ?>
                                                             <?php echo lang('test'); ?>
@@ -95,14 +95,14 @@
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-bill-tab"
-                                                            data-toggle="pill" href="#bill" role="tab"
+                                                            data-bs-toggle="pill" href="#bill" role="tab"
                                                             aria-controls="bill" aria-selected="false">
                                                             <?php echo lang('bill_summary'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" id="custom-tabs-one-checkout-tab"
-                                                            data-toggle="pill" href="#checkout" role="tab"
+                                                            data-bs-toggle="pill" href="#checkout" role="tab"
                                                             aria-controls="checkout" aria-selected="false">
                                                             <?php echo lang('discharge'); ?>
                                                         </a>
@@ -374,20 +374,20 @@
                                                                     foreach ($daily_progress as $daily) {
                                                                     ?>
                                                                     <tr id="<?php echo $daily->id; ?>">
-                                                                        <td data-target="date">
+                                                                        <td data-bs-target="date">
                                                                             <?php echo $daily->date; ?></td>
-                                                                        <td data-target="time">
+                                                                        <td data-bs-target="time">
                                                                             <?php echo $daily->time; ?></td>
-                                                                        <td data-target="description">
+                                                                        <td data-bs-target="description">
                                                                             <?php echo $daily->description; ?></td>
-                                                                        <td data-target="nurse">
+                                                                        <td data-bs-target="nurse">
                                                                             <?php echo $this->nurse_model->getNurseById($daily->nurse)->name; ?>
                                                                         </td>
                                                                         <td class="no-print d-flex gap-1">
                                                                             <button type="button"
                                                                                 class="btn btn-info btn-sm btn_width editbutton_dailyprogress"
                                                                                 title="<?php echo lang('edit'); ?>"
-                                                                                data-toggle=""
+                                                                                data-bs-toggle=""
                                                                                 data-id="<?php echo $daily->id; ?>"><i
                                                                                     class="fa fa-edit"></i><?php echo lang('edit'); ?>
                                                                             </button>
@@ -524,7 +524,7 @@
                                                                             <div type='button'
                                                                                 class='btn btn-danger btn-sm btn_width delete_medicine'
                                                                                 title='<?php echo lang('delete'); ?>'
-                                                                                data-toggle=''
+                                                                                data-bs-toggle=''
                                                                                 data-id="<?php echo $medicine->id; ?>">
                                                                                 <i class='fa fa-trash'></i>
                                                                             </div>
@@ -678,7 +678,7 @@ if (!empty($service->payment_id)) {
                                                                             <div type='button'
                                                                                 class='btn btn-danger btn-sm btn_width delete_service'
                                                                                 title='<?php echo lang('delete'); ?>'
-                                                                                data-toggle=''
+                                                                                data-bs-toggle=''
                                                                                 data-id="<?php echo $service->id . "**" . $service->service; ?>">
                                                                                 <i class='fa fa-trash'></i>
                                                                             </div>
@@ -848,7 +848,7 @@ if (!empty($service->payment_id)) {
                                                                             <div type='button'
                                                                                 class='btn btn-danger btn-sm btn_width delete_diagnostic'
                                                                                 title='<?php echo lang('delete'); ?>'
-                                                                                data-toggle=''
+                                                                                data-bs-toggle=''
                                                                                 data-id="<?php echo $diagnostic_alloted->id . "**" . $diagnostic_alloted->payment_procedure; ?>">
                                                                                 <i class='fa fa-trash'></i>
                                                                             </div>

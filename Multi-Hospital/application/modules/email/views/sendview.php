@@ -26,7 +26,7 @@
                         <a href="email/manualEmailTemplate" class="btn btn-secondary btn-sm px-4 py-2 mr-2">
                             <?php echo lang('template'); ?>
                         </a>
-                        <a data-toggle="modal" href="#myModal1" class="btn btn-primary btn-sm px-4 py-2">
+                        <a data-bs-toggle="modal" href="#myModal1" class="btn btn-primary btn-sm px-4 py-2">
                             <?php echo lang('add'); ?> <?php echo lang('template'); ?>
                         </a>
                     </div>
@@ -175,7 +175,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><?php echo lang('add_new'); ?> <?php echo lang('template'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <?php echo validation_errors(); ?>
@@ -245,7 +245,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold">Send SMS To Voters</h4>
             </div>
             <div class="modal-body">

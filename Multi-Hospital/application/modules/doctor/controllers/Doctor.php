@@ -446,7 +446,7 @@ class Doctor extends MX_Controller
         foreach ($data['doctors'] as $doctor) {
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
-                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton mr-1" title="' . lang('edit') . '" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
+                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton mr-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
             }
             $options2 = '<a class="btn btn-success btn-sm detailsbutton mr-1" title="' . lang('appointments') . '" href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '"><i class="fa fa-calendar"></i> ' . lang('appointments') . '</a>';
 
@@ -457,7 +457,7 @@ class Doctor extends MX_Controller
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
                 $options4 = '<a href="schedule/holidays?doctor=' . $doctor->id . '" class="btn btn-warning btn-sm mr-1" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('holiday') . '</a>';
                 $options5 = '<a href="schedule/timeSchedule?doctor=' . $doctor->id . '" class="btn btn-secondary btn-sm mr-1" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('time_schedule') . '</a>';
-                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo mr-1" title="' . lang('info') . '" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
+                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo mr-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
             }
 
 
@@ -474,12 +474,12 @@ class Doctor extends MX_Controller
             if (!empty($options6) || !empty($options1) || !empty($options2) || !empty($options4)  || !empty($options5)  || !empty($options3)) {
                 $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-toggle = "modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
+                    ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options2 ? '<li><a  href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '"> <i class="fa fa-print"></i> ' . lang('appointments') . ' </a></li>' : '') . '
                     ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' ' . lang('') . ' </a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="' . site_url("schedule/timeSchedule?doctor=" . $doctor->id) . '" > <i class="fa fa-book"></i> ' . lang('time_schedule') . ' </a></li>' : '') . '
@@ -583,16 +583,16 @@ class Doctor extends MX_Controller
         foreach ($data['doctors'] as $doctor) {
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
-                $options1 = '<a type="button" class="btn btn-warning btn-sm editbutton" title="' . lang('edit') . '" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
+                $options1 = '<a type="button" class="btn btn-warning btn-sm editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
             }
 
             $options2 = '<a class="btn btn-primary btn-sm detailsbutton" title="' . lang('appointments') . '" href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '"><i class="fa fa-calendar"></i> ' . lang('appointments') . '</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
                 $options3 = '<a class="btn btn-danger btn-sm delete_button" title="' . lang('delete') . '" href="doctor/delete?id=' . $doctor->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
-                $options4 = '<a href="schedule/holidays?doctor=' . $doctor->id . '" class="btn btn-success btn-sm" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('holiday') . '</a>';
-                $options5 = '<a href="schedule/timeSchedule?doctor=' . $doctor->id . '" class="btn btn-success btn-sm" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('time_schedule') . '</a>';
-                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo" title="' . lang('info') . '" data-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
+                $options4 = '<a href="schedule/holidays?doctor=' . $doctor->id . '" class="btn btn-success btn-sm" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('holiday') . '</a>';
+                $options5 = '<a href="schedule/timeSchedule?doctor=' . $doctor->id . '" class="btn btn-success btn-sm" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('time_schedule') . '</a>';
+                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
             }
 
 
@@ -610,12 +610,12 @@ class Doctor extends MX_Controller
             if (!empty($options6) || !empty($options1) || !empty($options2) || !empty($options4)  || !empty($options5)  || !empty($options3)) {
                 $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-toggle = "modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
+                    ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options2 ? '<li><a  href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('appointments') . ' </a></li>' : '') . '
                     ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' ' . lang('') . ' </a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="' . site_url("schedule/timeSchedule?doctor=" . $doctor->id) . '" > <i class="fa fa-book"></i> ' . lang('time_schedule') . ' </a></li>' : '') . '

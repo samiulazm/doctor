@@ -1592,7 +1592,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             $i = $i + 1;
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
-                $options1 = '<a type="button" class="btn btn-outline-primary editbutton btn-sm mb-1" title="' . lang('edit') . '" data-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
+                $options1 = '<a type="button" class="btn btn-outline-primary editbutton btn-sm mb-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
             }
 
             $options2 = '<a class="btn btn-outline-info detailsbutton btn-sm mb-1" title="' . lang('info') . '" href="patient/patientDetails?id=' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
@@ -1605,7 +1605,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $options5 = '<a class="btn btn-outline-danger delete_button btn-sm mb-1" title="' . lang('delete') . '" href="patient/delete?id=' . $patient->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('') . '</a>';
             }
 
-            $options6 = '<a type="button" class="btn btn-outline-warning detailsbutton inffo btn-sm mb-1" title="' . lang('info') . '" data-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
+            $options6 = '<a type="button" class="btn btn-outline-warning detailsbutton inffo btn-sm mb-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
 
             if ($this->ion_auth->in_group('Doctor')) {
                 $options7 = '<a class="btn btn-outline-success detailsbutton btn-sm mb-1" title="' . lang('instant_meeting') . '" href="meeting/instantLive?id=' . $patient->id . '" onclick="return confirm(\'Are you sure you want to start a live meeting with this patient? SMS and Email will be sent to the Patient.\');"><i class="fa fa-headphones"></i> ' . lang('start_live') . '</a>';
@@ -1710,7 +1710,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
 
-                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $patient->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             }
 
             $options2 = '<a class="btn detailsbutton" title="' . lang('info') . '" style="color: #fff;" href="patient/patientDetails?id=' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
@@ -1776,17 +1776,17 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
         foreach ($data['cases'] as $case) {
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
-                $options1 = ' <a type="button" class="btn btn-info editbutton btn-sm mt-1" title="' . lang('edit') . '" data-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"></i></a>';
+                $options1 = ' <a type="button" class="btn btn-info editbutton btn-sm mt-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"></i></a>';
             }
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
                 $options2 = '<a class="btn btn-danger delete_button btn-sm mt-1" title="' . lang('delete') . '" href="patient/deleteCaseHistory?id=' . $case->id . '&redirect=case" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i></a>';
-                $options3 = ' <a type="button" class="btn btn-success btn-sm detailsbutton case mt-1" title="' . lang('case') . '" data-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-file"></i></a>';
+                $options3 = ' <a type="button" class="btn btn-success btn-sm detailsbutton case mt-1" title="' . lang('case') . '" data-bs-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-file"></i></a>';
             }
 
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor'))) {
-                $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton mt-1" title="' . lang('gpt_button') . '" data-toggle="modal" data-description="' . $case->description . '" data-id="' . $case->id . '"><i class="far fa-comment"></i></a>';
+                $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton mt-1" title="' . lang('gpt_button') . '" data-bs-toggle="modal" data-description="' . $case->description . '" data-id="' . $case->id . '"><i class="far fa-comment"></i></a>';
             }
 
 
@@ -1806,12 +1806,12 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             if (!empty($options1) || !empty($options3) || !empty($options4) || !empty($options5)  || !empty($options6)) {
                 $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options3 ? '<li><a class="detailsbutton case" title="' . lang('case') . '" data-toggle = "modal" data-id="' . $case->id . '">  <i class="fa fa-file"></i> ' . lang('details') . '</a></li>' : '') . '
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $case->id . '"> <i class="fa fa-edit"></i> ' . lang('edit') . ' </a></li>' : '') . '
+                    ' . ($options3 ? '<li><a class="detailsbutton case" title="' . lang('case') . '" data-bs-toggle="modal" data-id="' . $case->id . '">  <i class="fa fa-file"></i> ' . lang('details') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $case->id . '"> <i class="fa fa-edit"></i> ' . lang('edit') . ' </a></li>' : '') . '
                     ' . ($options2 ? '<li><a class="" title="' . lang('delete') . '" href="patient/deleteCaseHistory?id=' . $case->id . '&redirect=case" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-print"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';
@@ -1915,7 +1915,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -1988,7 +1988,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             $settings = $this->settings_model->getSettings();
             if ($settings->show_odontogram_in_history == 'yes') {
                 $li_option = '<li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#odontogram">' . lang("odontogram") . '</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#odontogram">' . lang("odontogram") . '</a>
         </li>';
             } else {
                 $li_option = ' ';
@@ -2927,29 +2927,29 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             <header class="card-header tab-bg-dark-navy-blueee">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#vital">' . lang("vital_signs") . '</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="#vital">' . lang("vital_signs") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#appointments">' . lang("appointments") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#appointments">' . lang("appointments") . '</a>
                 </li>
                 <li class="nav-item">' . $li_option . '</li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#home">' . lang("case_history") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#home">' . lang("case_history") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#prescription">' . lang("prescription") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#prescription">' . lang("prescription") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#lab">' . lang("lab") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#lab">' . lang("lab") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#profile">' . lang("documents") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#profile">' . lang("documents") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#bed">' . lang("bed") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#bed">' . lang("bed") . '</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#timeline">' . lang("timeline") . '</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#timeline">' . lang("timeline") . '</a>
                 </li>
             </ul>
         </header>

@@ -17,7 +17,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('laboratorist'); ?>
                     </a>
                 </div>
@@ -53,7 +53,7 @@
                                             <td class="align-middle"><?php echo $laboratorist->address; ?></td>
                                             <td class="align-middle"><?php echo $laboratorist->phone; ?></td>
                                             <td class="align-middle no-print">
-                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $laboratorist->id; ?>">
+                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $laboratorist->id; ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a class="btn btn-danger btn-sm delete_button" href="laboratorist/delete?id=<?php echo $laboratorist->id; ?>" title="<?php echo lang('delete'); ?>" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('add_new_laboratorist'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" action="laboratorist/addNew" class="clearfix" method="post" enctype="multipart/form-data">
@@ -192,7 +192,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('edit_laboratorist'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" id="editLaboratoristForm" class="clearfix" action="laboratorist/addNew" method="post" enctype="multipart/form-data">

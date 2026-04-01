@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card shadow-lg border-0">
                         <div class="alert alert-info alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                             <i class="fa fa-info-circle"></i> <?php echo lang('For a delivery, click on the "Deliver" button, enter the reciever name and submit') ?>
                         </div>
 
@@ -115,7 +115,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold"><?php echo lang("report") . " " . lang('delivery'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

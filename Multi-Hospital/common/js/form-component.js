@@ -78,7 +78,7 @@ var Script = function () {
         $(".tagsinput").tagsInput();
 
         // Switch
-        $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+        $("[data-bs-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
 
     });
 

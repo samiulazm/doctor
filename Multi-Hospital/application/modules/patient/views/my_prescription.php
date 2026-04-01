@@ -26,7 +26,7 @@
                             <h3 class="card-title"><?php echo lang('All my prescriptions'); ?></h3>
                             <?php if ($this->ion_auth->in_group('Doctor')) { ?>
                                 <div class="float-right">
-                                    <a data-toggle="modal" href="#myModa3">
+                                    <a data-bs-toggle="modal" href="#myModa3">
                                         <button id="" class="btn btn-success btn-sm">
                                             <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                         </button>
@@ -112,7 +112,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add_prescription'); ?></h4>
             </div>
             <div class="modal-body">
@@ -182,7 +182,7 @@ if ($this->ion_auth->in_group('Doctor')) {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('edit_prescription'); ?></h4>
             </div>
             <div class="modal-body">

@@ -156,7 +156,7 @@ class Macro extends MX_Controller
             $i = $i + 1;
 
 
-            $options1 = ' <a type="button" class="btn btn-sm btn-info editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $macro->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+            $options1 = ' <a type="button" class="btn btn-sm btn-info editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             $options5 = '<a class="btn btn-sm btn-danger delete_button" title="' . lang('delete') . '" href="macro/delete?id=' . $macro->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
 
 
@@ -164,11 +164,11 @@ class Macro extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $macro->id . '" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $macro->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="macro/delete?id=' . $macro->id . '"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';

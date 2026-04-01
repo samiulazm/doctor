@@ -14,8 +14,9 @@
   <link rel="stylesheet" href="adminlte/plugins/flag-icon-css/css/flag-icon.min.css">
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
+  <!-- Theme style (AdminLTE 4 + BS5) -->
   <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="adminlte/dist/css/bs4-compat.css">
 
   <style>
     :root {
@@ -185,6 +186,8 @@
 
     .login-container {
       position: relative;
+      width: 100%;
+      max-width: 460px;
     }
 
     .login-logo {
@@ -200,26 +203,33 @@
     .login-logo a {
       font-size: 1.8rem;
       color: #2d3436;
-      font-weight: 600;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      letter-spacing: -0.02em;
     }
 
     .card {
       border: none;
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
     }
 
     .login-card-body {
-      padding: 2rem;
+      padding: 2.25rem;
     }
 
     .login-box-msg {
-      font-size: 1.2rem;
-      color: var(--secondary-color);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #e9ecef;
+      font-size: 1.15rem;
+      color: #334155;
+      margin-bottom: 1.75rem;
+      text-align: center;
+      font-weight: 600;
+      padding-bottom: 0;
+      border-bottom: none;
     }
 
     .input-group {
@@ -256,6 +266,58 @@
       letter-spacing: 1px;
     }
 
+    .main-container.centered-layout {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .login-field {
+      position: relative;
+    }
+
+    .login-field-icon {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      transform: translateY(-50%);
+      color: #0284c7;
+      font-size: 1rem;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .login-form .form-control {
+      width: 100%;
+      height: auto;
+      min-height: 54px;
+      border-radius: 14px;
+      padding: 14px 16px 14px 44px;
+      font-size: 1rem;
+      border: 1.5px solid #dbe3f0;
+      background: rgba(248, 250, 252, 0.96);
+      box-shadow: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .login-form .form-control:focus {
+      background: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
+    }
+
+    .login-submit {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      margin-top: 0.25rem;
+      box-shadow: 0 16px 30px rgba(2, 132, 199, 0.22);
+    }
+
     .social-auth-links {
       margin-top: 2rem;
       text-align: center;
@@ -288,12 +350,21 @@
     }
 
     .language-selector .btn {
-      border-radius: 10px;
+      border-radius: 999px;
       box-shadow: var(--card-shadow);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.5rem 0.9rem;
+      font-weight: 600;
     }
 
     .language-selector .dropdown-menu {
       display: none;
+      min-width: 13rem;
+      padding: 0.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
     }
 
     .language-selector .dropdown-menu.show {
@@ -314,6 +385,40 @@
     .modal-content {
       border-radius: 15px;
       box-shadow: var(--card-shadow);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border: none;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .modal-body .form-control {
+      min-height: 48px;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding: 1rem;
+      }
+
+      .login-card-body {
+        padding: 1.5rem;
+      }
+
+      .login-logo a {
+        font-size: 1.55rem;
+      }
+
+      .language-selector {
+        top: 12px;
+        right: 12px;
+      }
     }
 
     .modal-header {
@@ -428,7 +533,7 @@
   ?>
   <!-- Language Dropdown Menu -->
   <div class="language-selector dropdown">
-      <button type="button" class="btn btn-light dropdown-toggle" id="loginLangDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="btn btn-light dropdown-toggle" id="loginLangDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="flag-icon flag-icon-<?php echo htmlspecialchars($flagIcon, ENT_QUOTES, 'UTF-8'); ?> mr-2" aria-hidden="true"></i>
         <span class="text-dark"><?php echo htmlspecialchars(ucfirst((string) $this->language), ENT_QUOTES, 'UTF-8'); ?></span>
       </button>
@@ -507,7 +612,7 @@
     <div class="login-container">
       <div class="login-logo">
         <img src="https://cdn-icons-png.flaticon.com/512/2037/2037187.png" alt="Logo">
-        <a href="#"><b><?php echo $this->db->get('settings')->row()->title; ?></b></a>
+        <a href="<?php echo base_url(); ?>"><b><?php echo $this->db->get('settings')->row()->title; ?></b></a>
       </div>
 
       <div class="card">
@@ -521,7 +626,7 @@
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
               <i class="fas fa-exclamation-circle mr-2"></i>
               <?php echo $message; ?>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
           </div>
@@ -529,7 +634,7 @@
 
         <form method="post" action="auth/login">
             <div class="input-group">
-              <input type="email" name="identity" class="form-control" placeholder="<?php echo lang('email') ?>" required>
+              <input type="text" name="identity" class="form-control" placeholder="<?php echo html_escape(rtrim(lang('login_identity_label'), ' :')); ?>" autocomplete="username" required>
             <div class="input-group-append">
               <div class="input-group-text">
                   <i class="fas fa-envelope"></i>
@@ -559,7 +664,7 @@
           </div>
 
           <p class="mt-3 mb-0 text-center">
-            <a href="#" class="forgot-password" data-toggle="modal" data-target="#myModal">
+            <a href="#" class="forgot-password" data-bs-toggle="modal" data-bs-target="#myModal">
               <i class="fas fa-key mr-2"></i>
               <?php echo lang('forgot_your_password') ?>?
             </a>
@@ -633,45 +738,37 @@
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
               <i class="fas fa-exclamation-circle mr-2"></i>
               <?php echo $message; ?>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
           </div>
         <?php } ?>
 
-        <form method="post" action="<?php echo site_url('auth/login'); ?>">
-            <div class="input-group">
-              <input type="email" name="identity" class="form-control" placeholder="<?php echo lang('email') ?>" required>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <i class="fas fa-envelope"></i>
-                </div>
-              </div>
+          <form method="post" action="<?php echo site_url('auth/login'); ?>" class="login-form">
+            <div class="login-field">
+              <i class="fas fa-envelope login-field-icon" aria-hidden="true"></i>
+              <input type="text" name="identity" class="form-control" placeholder="<?php echo html_escape(rtrim(lang('login_identity_label'), ' :')); ?>" autocomplete="username" required>
             </div>
-            <div class="input-group">
-              <input type="password" name="password" class="form-control" placeholder="<?php echo lang('password') ?>" required>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <i class="fas fa-lock"></i>
-                </div>
-              </div>
+            <div class="login-field">
+              <i class="fas fa-lock login-field-icon" aria-hidden="true"></i>
+              <input type="password" name="password" class="form-control" placeholder="<?php echo lang('password') ?>" autocomplete="current-password" required>
             </div>
-            <div class="row">
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block">
-                  <i class="fas fa-sign-in-alt mr-2"></i>
-                  <?php echo lang('sign_in') ?>
-                </button>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block login-submit">
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              <?php echo lang('sign_in') ?>
+            </button>
           </form>
+
+          <p class="text-muted small text-center mt-3 mb-0">
+            <?php echo lang('login_subheading'); ?>
+          </p>
 
           <div class="divider">
             <span>or</span>
           </div>
 
           <p class="mt-3 mb-0 text-center">
-            <a href="#" class="forgot-password" data-toggle="modal" data-target="#myModal">
+            <a href="#" class="forgot-password" data-bs-toggle="modal" data-bs-target="#myModal">
               <i class="fas fa-key mr-2"></i>
               <?php echo lang('forgot_your_password') ?>?
             </a>
@@ -685,21 +782,21 @@
 
   <!-- Forgot Password Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form method="post" action="auth/forgot_password">
+        <form method="post" action="<?php echo site_url('auth/forgot_password'); ?>">
           <div class="modal-header">
             <h4 class="modal-title"><?php echo lang('forgot_your_password') ?>?</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
             <p class="text-muted"><?php echo lang('enter_your_email_address_to_reset_your_password') ?></p>
             <div class="form-group">
-              <input type="email" name="email" class="form-control" placeholder="<?php echo lang('email') ?>" required>
+              <input type="text" name="email" class="form-control" placeholder="<?php echo html_escape(rtrim(lang('login_identity_label'), ' :')); ?>" autocomplete="username" required>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo lang('cancel') ?></button>
             <button type="submit" class="btn btn-primary"><?php echo lang('submit') ?></button>
           </div>
         </form>
@@ -709,7 +806,7 @@
 
   <!-- jQuery -->
   <script src="adminlte/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
+  <!-- Bootstrap 5 -->
   <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="adminlte/dist/js/adminlte.min.js"></script>

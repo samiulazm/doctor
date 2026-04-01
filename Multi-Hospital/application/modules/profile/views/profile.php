@@ -108,11 +108,11 @@
 
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link active" id="general_info-tab" data-toggle="tab" href="#general_info" role="tab" aria-controls="general_info" aria-selected="true"><?php echo lang('general_info'); ?></a>
+                                                <a class="nav-link active" id="general_info-tab" data-bs-toggle="tab" href="#general_info" role="tab" aria-controls="general_info" aria-selected="true"><?php echo lang('general_info'); ?></a>
                                             </li>
                                             <?php if (!$this->ion_auth->in_group(array('superadmin', 'admin'))) { ?>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" id="email_notification-tab" data-toggle="tab" href="#email_notification" role="tab" aria-controls="email_notification" aria-selected="false"><?php echo lang('email_confirmation_during_appointment'); ?></a>
+                                                    <a class="nav-link" id="email_notification-tab" data-bs-toggle="tab" href="#email_notification" role="tab" aria-controls="email_notification" aria-selected="false"><?php echo lang('email_confirmation_during_appointment'); ?></a>
                                                 </li>
                                             <?php } ?>
                                         </ul>

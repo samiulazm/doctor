@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the donor names and related informations'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -63,7 +63,7 @@
                                             <td><?php echo $donor->email; ?></td>
                                             <?php if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Laboratorist', 'Doctor'))) { ?>
                                                 <td class="no-print d-flex gap-1">
-                                                    <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $donor->id; ?>"><i class="fa fa-edit"> </i></a>
+                                                    <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $donor->id; ?>"><i class="fa fa-edit"> </i></a>
                                                     <a class="btn btn-danger btn-sm" title="<?php echo lang('delete'); ?>" href="donor/delete?id=<?php echo $donor->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i></a>
 
                                                 </td>
@@ -99,7 +99,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_donor'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="donor/addDonor" class="clearfix" method="post" enctype="multipart/form-data">
@@ -186,7 +186,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_donor'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editDonorForm" class="clearfix" action="donor/addDonor" method="post" enctype="multipart/form-data">

@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <button type="button" class="btn btn-primary btn-sm px-3 py-2 mr-2" data-toggle="modal" data-target="#addPaymentModal">
+                    <button type="button" class="btn btn-primary btn-sm px-3 py-2 mr-2" data-bs-toggle="modal" data-bs-target="#addPaymentModal">
                         <i class="fas fa-plus"></i> <?php echo lang('add_payment'); ?>
                     </button>
                     <a href="<?php echo base_url(); ?>ambulance" class="btn btn-secondary btn-sm px-3 py-2">
@@ -111,7 +111,7 @@
                     <i class="fas fa-plus-circle mr-2"></i>
                     <?php echo lang('add_payment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary-enhanced" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary-enhanced" data-bs-dismiss="modal">
                         <i class="fas fa-times mr-1"></i>
                         <?php echo lang('cancel'); ?>
                     </button>
@@ -178,7 +178,7 @@
                     <i class="fas fa-edit mr-2"></i>
                     <?php echo lang('edit_payment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -235,7 +235,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary-enhanced" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary-enhanced" data-bs-dismiss="modal">
                         <i class="fas fa-times mr-1"></i>
                         <?php echo lang('cancel'); ?>
                     </button>
@@ -258,7 +258,7 @@
                     <i class="fas fa-eye mr-2"></i>
                     <?php echo lang('payment_details'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -266,7 +266,7 @@
                 <!-- Payment details will be loaded here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary-enhanced" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary-enhanced" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-1"></i>
                     <?php echo lang('close'); ?>
                 </button>

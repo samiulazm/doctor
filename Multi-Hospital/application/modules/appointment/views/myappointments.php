@@ -33,7 +33,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the appointments details'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" onclick="javascript:window.print();" class="btn btn-success btn-sm no-print">
                                         <i class="fa fa-print"></i> <?php echo lang('print'); ?>
                                     </button>
@@ -83,9 +83,9 @@
                                             }
                                             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                                             if (!empty($patientdetails)) {
-                                                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                                                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                                             } else {
-                                                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                                                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                                             }
                                             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
                                             if (!empty($doctordetails)) {

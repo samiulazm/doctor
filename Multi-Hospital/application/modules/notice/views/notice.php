@@ -18,7 +18,7 @@
                 </div>
                 <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
                     <div class="col-sm-6 text-right">
-                        <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                        <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                             <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?>
                         </a>
                     </div>
@@ -64,7 +64,7 @@
                                                 </td>
                                                 <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
                                                     <td class="no-print">
-                                                        <a class="btn btn-info btn-sm editbutton" data-toggle="modal" data-id="<?php echo $notice->id; ?>">
+                                                        <a class="btn btn-info btn-sm editbutton" data-bs-toggle="modal" data-id="<?php echo $notice->id; ?>">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <a class="btn btn-danger btn-sm" href="notice/delete?id=<?php echo $notice->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -140,7 +140,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_notice'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="notice/addNew" class="clearfix row" method="post" enctype="multipart/form-data">
@@ -207,7 +207,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_notice'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editNoticeForm" class="clearfix row" action="notice/addNew" method="post" enctype="multipart/form-data">

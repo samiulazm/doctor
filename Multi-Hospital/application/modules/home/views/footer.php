@@ -1,4 +1,6 @@
-<footer class="site-footer no-print">
+    </main><!-- /.app-main -->
+
+<footer class="app-footer no-print">
     <div class="text-center">
         <?php echo date('Y'); ?> &copy;
         <?php
@@ -11,7 +13,6 @@
     </div>
 </footer>
 <!--footer end-->
-</section>
 
 <?php
 
@@ -104,17 +105,37 @@ if ($language == 'english') {
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+// jQuery bridge for Bootstrap 5 components
+// Allows existing code like $('#myModal').modal('show') to work with BS5
+(function($) {
+    if (!$ || !bootstrap) return;
+    ['Modal','Tooltip','Popover','Alert','Tab','Collapse','Dropdown','Offcanvas'].forEach(function(comp) {
+        var name = comp.toLowerCase();
+        if (bootstrap[comp]) {
+            $.fn[name] = function(option) {
+                return this.each(function() {
+                    var inst = bootstrap[comp].getOrCreateInstance(this);
+                    if (typeof option === 'string' && typeof inst[option] === 'function') {
+                        inst[option]();
+                    }
+                });
+            };
+        }
+    });
+})(jQuery);
+</script>
 <script src="adminlte/dist/js/adminlte.min.js"></script>
 <script src="adminlte/plugins/moment/moment.min.js"></script>
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <script src="adminlte/plugins/sparklines/sparkline.js"></script>
-<script src="adminlte/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE 4: dashboard.js removed -->
 <script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap5.min.js"></script>
 <script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap5.min.js"></script>
 <script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap5.min.js"></script>
 <script src="adminlte/plugins/jszip/jszip.min.js"></script>
 <script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
@@ -140,7 +161,7 @@ if ($language == 'english') {
 
 <script src="adminlte/plugins/daterangepicker/daterangepicker.js"></script>
 
-<script src="adminlte/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- bootstrap-switch removed: use Bootstrap 5 native form-check form-switch -->
 
 
 
@@ -152,7 +173,7 @@ if ($language == 'english') {
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: "<?php echo $lang; ?>",
-            themeSystem: 'bootstrap',
+            themeSystem: 'bootstrap5',
             events: "appointment/getAppointmentByJason",
             headerToolbar: {
                 left: "prev,next today",
@@ -219,7 +240,9 @@ if ($language == 'english') {
                     });
                 }
 
-                $("#cmodal").modal("show");
+                var cmodalEl = document.getElementById('cmodal');
+                var cmodal = bootstrap.Modal.getOrCreateInstance(cmodalEl);
+                cmodal.show();
             },
             slotDuration: "00:05:00",
             businessHours: false,
@@ -334,15 +357,11 @@ $this->session->unset_userdata('swal_title');
     $(document).ready(function() {
         // Auto-hide flash messages after 5 seconds
         $('.alert').each(function() {
-            const alert = $(this);
+            var alertEl = this;
             setTimeout(function() {
-                alert.alert('close');
+                var bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                if (bsAlert) bsAlert.close();
             }, 5000);
-        });
-        
-        // Also hide flash messages when clicking the close button
-        $('.alert .close').on('click', function() {
-            $(this).closest('.alert').alert('close');
         });
     });
 </script>
@@ -368,24 +387,21 @@ if ($this->session->flashdata('success') || $this->session->flashdata('error') |
 <script>
     $(document).ready(function() {
         $('#darkModeToggle').change(function() {
-            if ($(this).is(':checked')) {
-                $('body').toggleClass('dark-mode');
-                $('.main-header').toggleClass('navbar-dark navbar-light');
-                $('.main-sidebar').toggleClass('sidebar-dark-primary sidebar-light-primary');
-                $('.custom-control-label i').toggleClass('fa-moon fa-sun');
+            var isDark = $(this).is(':checked');
+            if (isDark) {
+                document.body.setAttribute('data-bs-theme', 'dark');
             } else {
-                $('body').toggleClass('dark-mode');
-                $('.main-header').toggleClass('navbar-dark navbar-light');
-                $('.main-sidebar').toggleClass('sidebar-dark-primary sidebar-light-primary');
-                $('.custom-control-label i').toggleClass('fa-moon fa-sun');
+                document.body.removeAttribute('data-bs-theme');
             }
-            drawChartTopServices();
-            drawChartTopDiagnoses();
-            drawChartBedOccupancy();
-            drawChartTopTreatments();
-            drawSalesExpenseChart();
+            $('.custom-control-label i').toggleClass('fa-moon fa-sun');
 
-            var darkModeValue = $(this).is(':checked') ? 1 : 0;
+            if (typeof drawChartTopServices === 'function') drawChartTopServices();
+            if (typeof drawChartTopDiagnoses === 'function') drawChartTopDiagnoses();
+            if (typeof drawChartBedOccupancy === 'function') drawChartBedOccupancy();
+            if (typeof drawChartTopTreatments === 'function') drawChartTopTreatments();
+            if (typeof drawSalesExpenseChart === 'function') drawSalesExpenseChart();
+
+            var darkModeValue = isDark ? 1 : 0;
 
             $.ajax({
                 url: 'home/updateDarkMode',
@@ -397,15 +413,12 @@ if ($this->session->flashdata('success') || $this->session->flashdata('error') |
 
 
 
-
-
-
         });
     });
 </script>
 
 
-
+  </div><!-- /.app-wrapper -->
 </body>
 
 </html>

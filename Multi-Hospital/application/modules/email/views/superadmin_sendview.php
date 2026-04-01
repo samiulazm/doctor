@@ -46,7 +46,7 @@
                              </div>
 
                              <div class="float-right mr-2">
-                                 <a data-toggle="modal" href="#myModal1">
+                                 <a data-bs-toggle="modal" href="#myModal1">
                                      <button id="" class="btn btn-info btn-sm">
                                          <i class="fa fa-plus-circle"></i> <?php echo lang('add'); ?> <?php echo lang('template'); ?>
                                      </button>
@@ -180,7 +180,7 @@
          <div class="modal-content">
              <div class="modal-header">
                  <h4 class="modal-title font-weight-bold"><?php echo lang('add_new'); ?> <?php echo lang('template'); ?></h4>
-                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                 <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
              </div>
              <div class="modal-body">
                  <?php echo validation_errors(); ?>

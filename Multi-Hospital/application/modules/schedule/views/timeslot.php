@@ -5,7 +5,7 @@
             <header class="panel-heading">
                 <?php echo lang('time_slots'); ?> (<?php echo $this->db->get_where('doctor', array('id' => $doctorr))->row()->name; ?>)
                 <div class="col-md-4 no-print float-right">
-                    <a data-toggle="modal" href="#myModal">
+                    <a data-bs-toggle="modal" href="#myModal">
                         <div class="btn-group float-right">
                             <button id="" class="btn green btn-xs">
                                 <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
@@ -45,14 +45,14 @@
                                         <td><?php echo $slot->e_time; ?></td>
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
-                                            <!-- <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <!-- <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a> -->
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-info btn-xs label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-bars"></i> <?php echo  lang('actions'); ?><span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"> <i class="fa fa-edit"></i> <?php echo lang('edit') ?> </a></li>
+                                                    <li><a class="editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"> <i class="fa fa-edit"></i> <?php echo lang('edit') ?> </a></li>
                                                     <li><a href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"> <i class="fa fa-trash"></i> <?php echo lang('delete') ?> </a></li>
                                                 </ul>
                                             </div>
@@ -78,7 +78,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -102,7 +102,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -126,7 +126,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -150,7 +150,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -174,7 +174,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -199,7 +199,7 @@
                                         <td><?php echo $slot->weekday; ?></td>
                                         <td>
 
-                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
+                                            <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $slot->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></button>
                                             <a class="btn btn-info btn-xs btn_width delete_button" href="schedule/deleteTimeSlot?id=<?php echo $slot->id; ?>&doctor=<?php echo $doctorr; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                         </td>
                                     </tr>
@@ -226,7 +226,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('add'); ?> <?php echo lang('time_slots'); ?></h4>
             </div>
             <div class="modal-body">
@@ -285,7 +285,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> <?php echo lang('edit'); ?> <?php echo lang('time_slot'); ?></h4>
             </div>
             <div class="modal-body">

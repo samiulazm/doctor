@@ -61,43 +61,43 @@
                                         <ul class="nav nav-tabs card-header-tabs mb-3 text-md">
                                             <li class="nav-item">
                                                 <a class="nav-link <?php echo ($redirect_tab == '') ? 'active' : ''; ?>"
-                                                    data-toggle="tab" href="#basic"><?php echo lang('basic'); ?></a>
+                                                    data-bs-toggle="tab" href="#basic"><?php echo lang('basic'); ?></a>
                                             </li>
                                             <?php if (in_array('appointment', $this->modules)) { ?>
                                                 <li class="nav-item">
                                                     <a class="nav-link <?php echo ($redirect_tab == 'appointment') ? 'active' : ''; ?>"
-                                                        data-toggle="tab"
+                                                        data-bs-toggle="tab"
                                                         href="#appointments"><?php echo lang('appointments'); ?></a>
                                                 </li>
                                             <?php } ?>
                                             <li class="nav-item">
                                                 <a class="nav-link <?php echo ($redirect_tab == 'vital') ? 'active' : ''; ?>"
-                                                    data-toggle="tab"
+                                                    data-bs-toggle="tab"
                                                     href="#vital"><?php echo lang('vital_signs'); ?></a>
                                             </li>
                                              <li class="nav-item">
-                                                <a class="nav-link <?php echo ($redirect_tab == 'case') ? 'active' : ''; ?>" data-toggle="tab" href="#home"><?php echo lang('case_history'); ?></a>
+                                                <a class="nav-link <?php echo ($redirect_tab == 'case') ? 'active' : ''; ?>" data-bs-toggle="tab" href="#home"><?php echo lang('case_history'); ?></a>
                                             </li>
                                             <?php if (in_array('prescription', $this->modules)) { ?>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab"
+                                                    <a class="nav-link" data-bs-toggle="tab"
                                                         href="#about"><?php echo lang('prescription'); ?></a>
                                                 </li>
                                             <?php } ?>
                                             <?php if (in_array('lab', $this->modules)) { ?>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab"
+                                                    <a class="nav-link" data-bs-toggle="tab"
                                                         href="#lab"><?php echo lang('lab'); ?></a>
                                                 </li>
                                             <?php } ?>
                                             <li class="nav-item">
                                                 <a class="nav-link <?php echo ($redirect_tab == 'files') ? 'active' : ''; ?>"
-                                                    data-toggle="tab"
+                                                    data-bs-toggle="tab"
                                                     href="#profile"><?php echo lang('documents'); ?></a>
                                             </li>
                                             <?php if (in_array('bed', $this->modules)) { ?>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab"
+                                                    <a class="nav-link" data-bs-toggle="tab"
                                                         href="#contact"><?php echo lang('bed'); ?></a>
                                                 </li>
                                             <?php } ?>
@@ -105,13 +105,13 @@
                                                 if ($settings->show_odontogram_in_history == 'yes') { ?>
                                                     <li class="nav-item">
                                                         <a class="nav-link <?php echo ($redirect_tab == 'odontogram') ? 'active' : ''; ?>"
-                                                            data-toggle="tab"
+                                                            data-bs-toggle="tab"
                                                             href="#odontogram"><?php echo lang('odontogram'); ?></a>
                                                     </li>
                                             <?php }
                                             } ?>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab"
+                                                <a class="nav-link" data-bs-toggle="tab"
                                                     href="#timeline"><?php echo lang('timeline'); ?></a>
                                             </li>
                                         </ul>
@@ -132,8 +132,8 @@
                                                             </h4>
                                                             <div class="edit_patient_div ml-auto">
                                                                 <button type="button" class="btn btn-light btn-sm editPatient px-4"
-                                                                    title="<?php echo lang('edit'); ?>" data-toggle="modal"
-                                                                    data-target="#infoModal" data-id="<?php echo $patient->id; ?>">
+                                                                    title="<?php echo lang('edit'); ?>" data-bs-toggle="modal"
+                                                                    data-bs-target="#infoModal" data-id="<?php echo $patient->id; ?>">
                                                                     <i class="fa fa-edit mr-1"></i> <?php echo lang('edit'); ?>
                                                                 </button>
                                                             </div>
@@ -254,7 +254,7 @@
                                                 <div class="">
                                                     <?php if (!$this->ion_auth->in_group('Patient')) { ?>
                                                         <div class=" no-print">
-                                                            <a class="btn btn-sm btn-success btn_width" data-toggle="modal"
+                                                            <a class="btn btn-sm btn-success btn_width" data-bs-toggle="modal"
                                                                 href="#addAppointmentModal">
                                                                 <i class="fa fa-plus-circle"> </i>
                                                                 <?php echo lang('add_new'); ?>
@@ -262,7 +262,7 @@
                                                         </div>
                                                     <?php } else { ?>
                                                         <div class=" no-print">
-                                                            <a class="btn btn-sm btn-success btn_width" data-toggle="modal"
+                                                            <a class="btn btn-sm btn-success btn_width" data-bs-toggle="modal"
                                                                 href="#addAppointmentModal">
                                                                 <i class="fa fa-plus-circle"> </i>
                                                                 <?php echo lang('request_a_appointment'); ?>
@@ -375,7 +375,7 @@
                                                                                 <a type="button"
                                                                                     class="btn btn-sm btn-primary editAppointmentButton"
                                                                                     title="<?php echo lang('edit'); ?>"
-                                                                                    data-toggle="modal"
+                                                                                    data-bs-toggle="modal"
                                                                                     data-id="<?php echo $appointment->id; ?>"><i
                                                                                         class="fa fa-edit"></i> </button>
                                                                                     <a class="btn btn-sm btn-danger delete_button"
@@ -1263,7 +1263,7 @@
 
                                                     <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                                         <div class=" no-print">
-                                                            <a class="btn btn-sm btn-success btn_width" data-toggle="modal"
+                                                            <a class="btn btn-sm btn-success btn_width" data-bs-toggle="modal"
                                                                 href="#myModalVital">
                                                                 <i class="fa fa-plus-circle"> </i>
                                                                 <?php echo lang('add_recent'); ?>
@@ -1313,7 +1313,7 @@
                                                                                 <a type="button"
                                                                                     class="btn btn-sm btn-primary editbutton btn_width"
                                                                                     title="<?php echo lang('edit'); ?>"
-                                                                                    data-toggle="modal"
+                                                                                    data-bs-toggle="modal"
                                                                                     data-id="<?php echo $vital_sign->id; ?>"><i
                                                                                         class="fa fa-edit"></i> </a>
                                                                                 <a class="btn btn-sm btn-danger delete_button btn_width"
@@ -1349,7 +1349,7 @@
 
                                                                     <section class="card-body">
 
-                    <!--                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm">-->
+                    <!--                                                <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm">-->
                     <!--    <i class="fa fa-print"></i> All in one-->
                     <!--</a>-->
 
@@ -1371,7 +1371,7 @@
                                                                             </thead>
                                                                             <tbody>
                                                                                 <?php foreach ($medical_histories as $medical_history) {
-                                                                                    $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton" title="' . lang('gpt_button') . '" data-toggle="modal" data-description="' . $medical_history->description . '" data-id="' . $medical_history->id . '"><i class="far fa-comment"></i></a>';
+                                                                                    $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton" title="' . lang('gpt_button') . '" data-bs-toggle="modal" data-description="' . $medical_history->description . '" data-id="' . $medical_history->id . '"><i class="far fa-comment"></i></a>';
 
                                                                                 ?>
                                                                                     <tr class="editbutton"
@@ -1387,9 +1387,9 @@
                                                                                         </div>
                                                                                         <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                                                                             <td class="no-print">
-                                                                                            <a type="button" class="btn btn-success btn-sm detailsbutton case mt-1" title="' . lang('case') . '" data-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-file"></i></a>
+                                                                                            <a type="button" class="btn btn-success btn-sm detailsbutton case mt-1" title="' . lang('case') . '" data-bs-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-file"></i></a>
                                                                                                 <!-- <a class="btn btn-sm btn-primary" title="<?php echo lang('view'); ?>" href="patient/patientCaseList?id=<?php echo $medical_history->patient_id; ?>&case_id=<?php echo $medical_history->id; ?>"><i class="fa fa-eye"></i> </a> -->
-                                                                                                <!-- <button type="button" class="btn btn-sm btn-primary editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> </button> -->
+                                                                                                <!-- <button type="button" class="btn btn-sm btn-primary editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> </button> -->
                                                                                                 <a class="btn btn-sm btn-danger"
                                                                                                     title="<?php echo lang('delete'); ?>"
                                                                                                     href="patient/deleteCaseHistory?id=<?php echo $medical_history->id; ?>&redirect="
@@ -1530,7 +1530,7 @@
                                                                                     <?php } ?>
                                                                                 </select>
                                                                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
-                                                                                <a data-toggle="modal"
+                                                                                <a data-bs-toggle="modal"
                                                                                     href="#mySymptomModal"
                                                                                     class="btn btn-success col-sm-1 btnn">
                                                                                     <i class="fa fa-plus"></i> </a>
@@ -1560,7 +1560,7 @@
                                                                                         <?php } ?>
                                                                                     <?php } ?>
                                                                                 </select>
-                                                                                <!-- <a data-toggle="modal" href="#myTestModal" class="btn btn-success col-sm-1" style="margin-left: 10px;"> + </a> -->
+                                                                                <!-- <a data-bs-toggle="modal" href="#myTestModal" class="btn btn-success col-sm-1" style="margin-left: 10px;"> + </a> -->
                                                                             </div>
 
                                                                             <div class="form-group d-flex">
@@ -1587,7 +1587,7 @@
                                                                                     <?php } ?>
                                                                                 </select>
                                                                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
-                                                                                <a data-toggle="modal"
+                                                                                <a data-bs-toggle="modal"
                                                                                     href="#myDiagnosisModal"
                                                                                     class="btn btn-success col-sm-1 btnn"
                                                                                     style="margin-left: 10px;"> <i
@@ -1618,7 +1618,7 @@
                                                                                     <?php } ?>
                                                                                 </select>
                                                                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
-                                                                                <a data-toggle="modal"
+                                                                                <a data-bs-toggle="modal"
                                                                                     href="#myTreatmentModal"
                                                                                     class="btn btn-success col-sm-1 btnn"
                                                                                     style="margin-left: 10px;"> <i
@@ -1650,7 +1650,7 @@
                                                                                     <?php } ?>
                                                                                 </select>
                                                                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
-                                                                                <a data-toggle="modal"
+                                                                                <a data-bs-toggle="modal"
                                                                                     href="#myAdviceModal"
                                                                                     class="btn btn-success col-sm-1 btnn"
                                                                                     style="margin-left: 10px;"> <i
@@ -1768,7 +1768,7 @@
                                                                                 if ($prescription->doctor == $doctor_table_id) {
                                                                             ?>
                                                                                     <a type="button" class="btn btn-sm btn-primary"
-                                                                                        data-toggle="modal"
+                                                                                        data-bs-toggle="modal"
                                                                                         href="prescription/editPrescription?id=<?php echo $prescription->id; ?>"><i
                                                                                             class="fa fa-edit"></i>
                                                                                         <?php echo lang('edit'); ?></a>
@@ -1850,7 +1850,7 @@
                                                     <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                                         <div class="col-md-12">
 
-                                                            <a class="btn btn-sm btn-success" data-toggle="modal"
+                                                            <a class="btn btn-sm btn-success" data-bs-toggle="modal"
                                                                 href="#myModal1">
                                                                 <i class="fa fa-plus-circle"> </i>
                                                                 <?php echo lang('add_file'); ?>
@@ -1858,7 +1858,7 @@
 
 
                                                             <!--<a class="btn btn-sm btn-success float-right"-->
-                                                            <!--    data-toggle="modal" href="#myModalf">-->
+                                                            <!--    data-bs-toggle="modal" href="#myModalf">-->
                                                             <!--    <i class="fa fa-plus-circle"> </i>-->
                                                             <!--    <?php echo lang('add_folder'); ?>-->
                                                             <!--</a>-->
@@ -2006,7 +2006,7 @@
                                                                         <div class="btn-group">
                                                                             <button type="button"
                                                                                 class="btn btn-info dropdown-toggle"
-                                                                                data-toggle="dropdown">
+                                                                                data-bs-toggle="dropdown">
                                                                                 <span class="">Action</span>
 
                                                                             </button>
@@ -2014,7 +2014,7 @@
                                                                                 role="menu">
                                                                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                                                                     <li> <a type="" class="edittbutton"
-                                                                                            data-toggle="modal"
+                                                                                            data-bs-toggle="modal"
                                                                                             data-id="<?php echo $folder->id; ?>"><?php echo lang('edit'); ?></a>
                                                                                     </li>
                                                                                     <li><a class=""
@@ -2022,7 +2022,7 @@
                                                                                             onclick="return confirm('Are you sure you want to delete this item?');"><?php echo lang('delete'); ?></a>
                                                                                     </li>
                                                                                     <li><a class="uploadbutton"
-                                                                                            data-toggle="modal"
+                                                                                            data-bs-toggle="modal"
                                                                                             data-id="<?php echo $folder->id; ?>">
                                                                                             <?php echo lang('upload_file'); ?>
                                                                                         </a></li>
@@ -2046,7 +2046,7 @@
                                                 <div class="">
                                                     <?php if ($this->ion_auth->in_group(array(''))) { ?>
                                                         <div class=" no-print">
-                                                            <a class="btn btn-sm btn-success btn_width" data-toggle="modal"
+                                                            <a class="btn btn-sm btn-success btn_width" data-bs-toggle="modal"
                                                                 href="#myModa3">
                                                                 <i class="fa fa-plus-circle"> </i>
                                                                 <?php echo lang('add_new'); ?>
@@ -2181,7 +2181,7 @@
                     <i class="fas fa-file-medical mr-2"></i>
                     <?php echo lang('case'); ?> <?php echo lang('details'); ?>
                 </h5>
-                <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close no-print" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2272,7 +2272,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-folder-plus mr-2"></i>
                     <?php echo lang('add'); ?> <?php echo lang('folder'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2304,7 +2304,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-folder-edit mr-2"></i>
                     <?php echo lang('edit'); ?> <?php echo lang('folder'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2342,7 +2342,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-heartbeat mr-2"></i>
                     <?php echo lang('add'); ?> <?php echo lang('vital_sign'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2422,7 +2422,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-edit mr-2"></i>
                     <?php echo lang('edit'); ?> <?php echo lang('vital_sign'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2500,7 +2500,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-file-upload mr-2"></i>
                     <?php echo lang('add'); ?> <?php echo lang('files'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2539,7 +2539,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-file-upload mr-2"></i>
                     <?php echo lang('add'); ?> <?php echo lang('files'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2582,7 +2582,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-plus-circle mr-2"></i>
                     <?php echo lang('add_case'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2627,7 +2627,7 @@ $('#printButtonn').click(function() {
                     <i class="fas fa-edit mr-2"></i>
                     <?php echo lang('edit_case'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -2678,7 +2678,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><?php echo lang('add_appointment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="appointment/addNew" id="addAppointmentForm" class="clearfix row" method="post"
@@ -2901,7 +2901,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content bg-light">
             <div class="modal-header bg-gradient-primary">
                 <h4 class="modal-title font-weight-bold text-white"><?php echo lang('edit_appointment'); ?></h4>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body p-4">
                 <form role="form" id="editAppointmentForm" class="clearfix row" action="appointment/addNew"
@@ -3160,7 +3160,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content bg-light">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('edit_patient'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -3396,7 +3396,7 @@ if ($this->ion_auth->in_group('Doctor')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('gpt_button'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post"

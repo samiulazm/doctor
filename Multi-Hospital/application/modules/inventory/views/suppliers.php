@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#addSupplierModal" class="btn btn-success btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#addSupplierModal" class="btn btn-success btn-sm px-4 py-3">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_supplier'); ?>
                     </a>
                 </div>
@@ -29,21 +29,21 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('warning')) { ?>
                 <div class="alert alert-warning alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('warning'); ?>
                 </div>
             <?php } ?>
@@ -106,7 +106,7 @@
                         <p class="mb-0 text-white-50 small">Add a new inventory supplier</p>
                     </div>
                 </div>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
@@ -199,7 +199,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="addSupplierForm" name="submit" class="btn btn-success">
@@ -217,7 +217,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="editSupplierModalLabel"><?php echo lang('edit') . ' ' . lang('supplier'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -345,7 +345,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="editSupplierForm" name="submit" class="btn btn-primary">

@@ -610,7 +610,7 @@ class Prescription extends MX_Controller
             $option3 = '<a class="btn btn-outline-primary btn-sm btn_width mt-1" href="prescription/editPrescription?id=' . $prescription->id . '" data-id="' . $prescription->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a>';
             $option2 = '<a class="btn btn-outline-danger btn-sm btn_width delete_button mt-1" href="prescription/delete?id=' . $prescription->id . '&admin=' . $prescription->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $options4 = '<a class="btn btn-outline-secondary btn-sm invoicebutton mt-1" title="' . lang('print') . '" href="prescription/viewPrescriptionPrint?id=' . $prescription->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . '</a>';
-            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="Quick View" data-id="' . $prescription->id . '" data-toggle="modal" data-target="#quickViewModal"><i class="fa fa-search-plus"></i> Quick View</button>';
+            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="Quick View" data-id="' . $prescription->id . '" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fa fa-search-plus"></i> Quick View</button>';
 
             if (!empty($prescription->medicine)) {
                 $medicine = explode('###', $prescription->medicine);
@@ -648,12 +648,12 @@ class Prescription extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($option1 ? '<li><a href="prescription/viewPrescription?id=' . $prescription->id . '"  title="' . lang('view_prescription') . '" data-toggle = "modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('view') . ' ' . lang('prescription') . ' </a></li>' : '') . '
-                    ' . ($option3 ? '<li><a href="prescription/editPrescription?id=' . $prescription->id . '" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a></li>' : '') . '
+                    ' . ($option1 ? '<li><a href="prescription/viewPrescription?id=' . $prescription->id . '"  title="' . lang('view_prescription') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('view') . ' ' . lang('prescription') . ' </a></li>' : '') . '
+                    ' . ($option3 ? '<li><a href="prescription/editPrescription?id=' . $prescription->id . '" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a></li>' : '') . '
                     ' . ($options4 ? '<li><a  href="prescription/viewPrescriptionPrint?id=' . $prescription->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . ' </a></li>' : '') . '
                     ' . ($option2 ? '<li><a href="prescription/delete?id=' . $prescription->id . '&admin=' . $prescription->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');" > <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
 

@@ -42,7 +42,7 @@
                                             <td><?php echo $group->group; ?></td>
                                             <td> <?php echo $group->status; ?></td>
                                             <td>
-                                                <a type="button" class="btn btn-primary btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $group->id; ?>"><i class="fa fa-edit"></i> </a>
+                                                <a type="button" class="btn btn-primary btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $group->id; ?>"><i class="fa fa-edit"></i> </a>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -88,7 +88,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('update_blood_bank'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editBloodBank" action="donor/updateBloodBank" method="post" enctype="multipart/form-data">

@@ -87,7 +87,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_appointment'); ?>
                     </a>
                 </div>
@@ -107,22 +107,22 @@
                         <div class="card-body bg-light p-4">
                             <ul class="nav nav-tabs mb-4">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#all"><?php echo lang('all'); ?></a>
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#all"><?php echo lang('all'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#pending"><?php echo lang('pending_confirmation'); ?></a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#pending"><?php echo lang('pending_confirmation'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#confirmed"><?php echo lang('confirmed'); ?></a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#confirmed"><?php echo lang('confirmed'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#treated"><?php echo lang('treated'); ?></a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#treated"><?php echo lang('treated'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#cancelled"><?php echo lang('cancelled'); ?></a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#cancelled"><?php echo lang('cancelled'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#requested"><?php echo lang('requested'); ?></a>
+                                    <a class="nav-link" data-bs-toggle="tab" href="#requested"><?php echo lang('requested'); ?></a>
                                 </li>
                             </ul>
 
@@ -258,7 +258,7 @@
                     <i class="fas fa-calendar-plus mr-2"></i>
                     <?php echo lang('add_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -450,7 +450,7 @@
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -655,7 +655,7 @@
                     <i class="fas fa-file-medical mr-2"></i>
                     Medical History
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -668,7 +668,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -684,7 +684,7 @@
                     <i class="fas fa-eye mr-2"></i>
                     <?php echo lang('appointment'); ?> <?php echo lang('details'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -694,7 +694,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-1"></i> <?php echo lang('close'); ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="printAppointmentBtn">

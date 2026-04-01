@@ -18,7 +18,7 @@ if (!function_exists('lang')) {
                     <i class="fas fa-clock mr-2"></i>
                     <?php echo lang('timezone'); ?> <?php echo lang('settings'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -65,7 +65,7 @@ if (!function_exists('lang')) {
                 </form>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn timezone-btn timezone-btn-secondary" data-dismiss="modal">
+                <a type="button" class="btn timezone-btn timezone-btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-1"></i>
                     <?php echo lang('cancel'); ?>
                             </a>
@@ -259,7 +259,7 @@ $(document).ready(function() {
         
         var notification = $('<div class="timezone-notification alert ' + alertClass + ' alert-dismissible fade show" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">' +
             '<i class="' + iconClass + ' mr-2"></i>' + message +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">' +
             '<span aria-hidden="true">&times;</span>' +
             '</button>' +
             '</div>');

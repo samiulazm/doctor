@@ -29,7 +29,7 @@
             <?php if (!empty($items)) { ?>
                 <!-- Alert -->
                 <div class="alert alert-warning alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
                     You have <?php echo count($items); ?> items with low stock levels that require immediate attention.
                 </div>

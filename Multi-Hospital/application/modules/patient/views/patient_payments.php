@@ -73,7 +73,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('register_new_patient'); ?></h4>
             </div>
             <div class="modal-body row">
@@ -173,7 +173,7 @@
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
-                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-bs-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
                                 </div>
                             </div>
 
@@ -219,7 +219,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_patient'); ?></h4>
             </div>
             <div class="modal-body row">
@@ -319,7 +319,7 @@
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
-                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-bs-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
                                 </div>
                             </div>
 

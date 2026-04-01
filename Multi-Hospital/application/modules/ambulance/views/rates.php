@@ -38,13 +38,13 @@
                         <div class="card-body p-4">
                             <?php if ($this->session->flashdata('feedback')): ?>
                                 <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
                                     <?php echo $this->session->flashdata('feedback'); ?>
                                 </div>
                             <?php endif; ?>
                             <?php if ($this->session->flashdata('feedback_error')): ?>
                                 <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
                                     <?php echo $this->session->flashdata('feedback_error'); ?>
                                 </div>
                             <?php endif; ?>

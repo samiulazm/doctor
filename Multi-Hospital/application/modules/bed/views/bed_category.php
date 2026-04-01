@@ -15,7 +15,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                     </button>
                 </div>
@@ -43,7 +43,7 @@
                                             <td class="align-middle"><?php echo $category->category; ?></td>
                                             <td class="align-middle"><?php echo $category->description; ?></td>
                                             <td class="align-middle no-print">
-                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $category->id; ?>">
+                                                <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $category->id; ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a class="btn btn-danger btn-sm delete_button" href="bed/deleteBedCategory/delete?id=<?php echo $category->id; ?>" title="<?php echo lang('delete'); ?>" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -68,7 +68,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('add_bed_category'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" action="bed/addCategory" class="clearfix" method="post" enctype="multipart/form-data">
@@ -107,7 +107,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('edit_bed_category'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body bg-light p-4">
                 <form role="form" id="editBedCategoryForm" class="clearfix" action="bed/addCategory" method="post" enctype="multipart/form-data">

@@ -35,7 +35,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
                                                     <?php echo lang('general_settings'); ?>
                                                 </a>
                                             </h4>
@@ -133,7 +133,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title  mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
                                                     <?php echo lang('block_text_settings'); ?>
                                                 </a>
                                             </h4>
@@ -191,7 +191,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
                                                     <?php echo lang('social_settings'); ?>
                                                 </a>
                                             </h4>
@@ -259,7 +259,7 @@
                                     <!-- <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false">
                                                     <?php echo lang('section_1_settings'); ?>
                                                 </a>
                                             </h4>
@@ -331,7 +331,7 @@
                                     <!-- <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false">
                                                     <?php echo lang('section_2_setting'); ?>
                                                 </a>
                                             </h4>
@@ -390,7 +390,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false">
                                                     <?php echo lang('section_1_settings'); ?>
                                                 </a>
                                             </h4>
@@ -585,7 +585,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false">
                                                     <?php echo lang('section_2_setting'); ?>
                                                 </a>
                                             </h4>
@@ -802,7 +802,7 @@
                                     <div class="card">
                                         <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false">
                                                     <?php echo lang('tawk_to_settings'); ?>
                                                 </a>
                                             </h4>
@@ -852,7 +852,7 @@
                                     <div class="card">
                                         <!-- <div class="card-header clearfix">
                                             <h4 class="card-title mb-0">
-                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFaq" aria-expanded="false">
+                                                <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseFaq" aria-expanded="false">
                                                     <?php echo lang('section_3_settings'); ?>
                                                 </a>
                                             </h4>

@@ -59,7 +59,7 @@
     </section>
 
     <div class="alert alert-info alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
         <i class="fa fa-info-circle"></i> If you click "Save and ready to deliver", it will appear on the delivery report section.
     </div>
 
@@ -178,7 +178,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header bg-gradient-primary">
                                                 <h5 class="modal-title text-white font-weight-bold"><?php echo lang('template_details'); ?></h5>
-                                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -201,7 +201,7 @@
                                                 <button type="submit" name="template" id="template3" onclick="document.querySelector('#submission_type').value = 'template';" class="btn btn-primary">
                                                     <i class="fas fa-save mr-2"></i><?php echo lang('save_as_template'); ?>
                                                 </button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     <i class="fas fa-times mr-2"></i><?php echo lang('close'); ?>
                                                 </button>
                                             </div>

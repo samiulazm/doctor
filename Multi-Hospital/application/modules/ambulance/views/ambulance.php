@@ -90,27 +90,27 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#fleet" role="tab">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#fleet" role="tab">
                                 <i class="fas fa-ambulance mr-1"></i> <?php echo lang('fleet_management'); ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#bookings" role="tab">
+                            <a class="nav-link" data-bs-toggle="tab" href="#bookings" role="tab">
                                 <i class="fas fa-calendar-check mr-1"></i> <?php echo lang('bookings'); ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#payments" role="tab">
+                            <a class="nav-link" data-bs-toggle="tab" href="#payments" role="tab">
                                 <i class="fas fa-credit-card mr-1"></i> <?php echo lang('payments'); ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#reports" role="tab">
+                            <a class="nav-link" data-bs-toggle="tab" href="#reports" role="tab">
                                 <i class="fas fa-chart-bar mr-1"></i> <?php echo lang('reports'); ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#rates" role="tab">
+                            <a class="nav-link" data-bs-toggle="tab" href="#rates" role="tab">
                                 <i class="fas fa-dollar-sign mr-1"></i> <?php echo lang('rates'); ?>
                             </a>
                         </li>

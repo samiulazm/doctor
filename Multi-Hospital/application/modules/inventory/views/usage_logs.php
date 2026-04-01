@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#addUsageModal" class="btn btn-success btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#addUsageModal" class="btn btn-success btn-sm px-4 py-3">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('log_usage'); ?>
                     </a>
                 </div>
@@ -29,21 +29,21 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('warning')) { ?>
                 <div class="alert alert-warning alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('warning'); ?>
                 </div>
             <?php } ?>
@@ -104,7 +104,7 @@
                         <p class="mb-0 text-white-50 small">Record inventory item usage</p>
                     </div>
                 </div>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
@@ -138,7 +138,7 @@
                 </div>
 
                 <div class="p-4">
-                    <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-dismiss="alert">&times;</button>', '</div>'); ?>
+                    <?php echo validation_errors('<div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-bs-dismiss="alert">&times;</button>', '</div>'); ?>
                         
                         <form role="form" action="<?php echo base_url('inventory/add_usage'); ?>" method="post" id="addUsageForm">
                         <!-- Item Selection Card -->
@@ -435,7 +435,7 @@
                         This will decrease inventory stock levels
             </div>
                     <div>
-                        <button type="button" class="btn btn-light border mr-2" data-dismiss="modal">
+                        <button type="button" class="btn btn-light border mr-2" data-bs-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                         <button type="submit" form="addUsageForm" name="submit" class="btn btn-info shadow">
@@ -601,7 +601,7 @@ $(document).ready(function() {
                         <small class="opacity-75"><?php echo lang('usage_details'); ?></small>
                     </div>
                 </div>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -622,7 +622,7 @@ $(document).ready(function() {
                         <i class="fas fa-info-circle mr-1"></i>
                         <?php echo lang('view_only_mode'); ?>
                     </small>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times mr-2"></i><?php echo lang('close'); ?>
                     </button>
                 </div>

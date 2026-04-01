@@ -376,8 +376,8 @@ class Medicine extends MX_Controller
             } else {
                 $quan = $medicine->quantity;
             }
-            $load = '<button type="button" class="btn btn-success btn-sm btn_width load" data-toggle="modal" data-id="' . $medicine->id . '">' . lang('load') . '</button>';
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $medicine->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+            $load = '<button type="button" class="btn btn-success btn-sm btn_width load" data-bs-toggle="modal" data-id="' . $medicine->id . '">' . lang('load') . '</button>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $medicine->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
 
             $option2 = '<a class="btn btn-danger btn-sm btn_width delete_button" href="medicine/delete?id=' . $medicine->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i> ' . lang('') . '</a>';
 
@@ -387,11 +387,11 @@ class Medicine extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($option1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $medicine->id . '">  <i class="fa fa-edit"></i> ' . lang('') . '</a></li>' : '') . '
+                    ' . ($option1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $medicine->id . '">  <i class="fa fa-edit"></i> ' . lang('') . '</a></li>' : '') . '
                     ' . ($option2 ? '<li><a href="' . site_url("medicine/delete?id=" . $medicine->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('') . ' </a></li>' : '') . '
                 </ul>
             </div>';

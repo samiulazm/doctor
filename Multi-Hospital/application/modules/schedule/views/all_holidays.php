@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('holiday'); ?>
                     </a>
                 </div>
@@ -53,7 +53,7 @@
                                             <td><?php echo date('d-m-Y', $holiday->date); ?></td>
                                             <?php if ($this->ion_auth->in_group(array('admin', 'Doctor'))) { ?>
                                                 <td>
-                                                    <button type="button" class="btn btn-info btn-sm editbutton" data-toggle="modal" data-id="<?php echo $holiday->id; ?>">
+                                                    <button type="button" class="btn btn-info btn-sm editbutton" data-bs-toggle="modal" data-id="<?php echo $holiday->id; ?>">
                                                         <i class="fa fa-edit"></i> <?php echo lang('edit'); ?>
                                                     </button>
                                                     <a class="btn btn-danger btn-sm delete_button" href="schedule/deleteHoliday?id=<?php echo $holiday->id; ?>&doctor=<?php echo $holiday->doctor; ?>&redirect=schedule/allHolidays" onclick="return confirm('Are you sure you want to delete this item?');">
@@ -79,7 +79,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('add'); ?> <?php echo lang('holiday'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -122,7 +122,7 @@
         <div class="modal-content bg-light">
             <div class="modal-header bg-gradient-primary">
                 <h2 class="modal-title text-white font-weight-800"><?php echo lang('edit'); ?> <?php echo lang('holiday'); ?></h2>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

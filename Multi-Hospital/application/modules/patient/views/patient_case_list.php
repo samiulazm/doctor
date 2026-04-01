@@ -124,7 +124,7 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($medical_histories as $medical_history) {
-                                                $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton" title="' . lang('gpt_button') . '" data-toggle="modal" data-description="' . $medical_history->description . '" data-id="' . $medical_history->id . '"><i class="far fa-comment"></i></a>';
+                                                $options4 = ' <a style="background: #88A788; border: #88A788" type="button" class="btn btn-success btn-sm gptButton" title="' . lang('gpt_button') . '" data-bs-toggle="modal" data-description="' . $medical_history->description . '" data-id="' . $medical_history->id . '"><i class="far fa-comment"></i></a>';
 
                                             ?>
                                                 <tr class="editbutton" title="Click to see details" data-id="<?php echo $medical_history->id; ?>">
@@ -136,7 +136,7 @@
                                                     <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
                                                         <td class="no-print">
                                                             <!-- <a class="btn btn-sm btn-primary" title="<?php echo lang('view'); ?>" href="patient/patientCaseList?id=<?php echo $medical_history->patient_id; ?>&case_id=<?php echo $medical_history->id; ?>"><i class="fa fa-eye"></i> </a> -->
-                                                            <!-- <button type="button" class="btn btn-sm btn-primary editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> </button> -->
+                                                            <!-- <button type="button" class="btn btn-sm btn-primary editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $medical_history->id; ?>"><i class="fa fa-edit"></i> </button> -->
                                                             <a class="btn btn-sm btn-danger" title="<?php echo lang('delete'); ?>" href="patient/deleteCaseHistory?id=<?php echo $medical_history->id; ?>&redirect=patient " onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </a>
                                                             <?php echo $options4 ?>
                                                         </td>
@@ -255,7 +255,7 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <a data-toggle="modal" href="#mySymptomModal" class="btn btn-success col-sm-1 btnn"> <i class="fa fa-plus"></i> </a>
+                                            <a data-bs-toggle="modal" href="#mySymptomModal" class="btn btn-success col-sm-1 btnn"> <i class="fa fa-plus"></i> </a>
                                         </div>
 
                                         <div class="form-group d-flex">
@@ -274,7 +274,7 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <!-- <a data-toggle="modal" href="#myTestModal" class="btn btn-success col-sm-1" style="margin-left: 10px;"> + </a> -->
+                                            <!-- <a data-bs-toggle="modal" href="#myTestModal" class="btn btn-success col-sm-1" style="margin-left: 10px;"> + </a> -->
                                         </div>
 
                                         <div class="form-group d-flex">
@@ -293,7 +293,7 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <a data-toggle="modal" href="#myDiagnosisModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
+                                            <a data-bs-toggle="modal" href="#myDiagnosisModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
                                         </div>
                                         <div class="form-group d-flex">
                                             <label for="exampleInputEmail1" class="col-sm-4"><?php echo lang('treatment'); ?> </label>
@@ -311,7 +311,7 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <a data-toggle="modal" href="#myTreatmentModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
+                                            <a data-bs-toggle="modal" href="#myTreatmentModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
                                         </div>
 
                                         <div class="form-group d-flex">
@@ -330,7 +330,7 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <a data-toggle="modal" href="#myAdviceModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
+                                            <a data-bs-toggle="modal" href="#myAdviceModal" class="btn btn-success col-sm-1 btnn" style="margin-left: 10px;"> <i class="fa fa-plus"></i> </a>
                                         </div>
 
                                         <div class="form-group no-print">
@@ -377,7 +377,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('gpt_button'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post" enctype="multipart/form-data">
@@ -409,7 +409,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_new_symptom'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -438,7 +438,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_new_test'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -467,7 +467,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_diagnosis'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
 
@@ -516,7 +516,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_new_treatment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -545,7 +545,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_new_advice'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 

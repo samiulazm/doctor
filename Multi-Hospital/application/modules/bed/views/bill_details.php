@@ -56,12 +56,12 @@
                                             <div class="card-header p-0">
                                                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                                     <li class="nav-item">
-                                                        <a class="nav-link active" id="custom-tabs-one-medicines-tab" data-toggle="pill" href="#medicines" role="tab" aria-controls="custom-tabs-one-medicines" aria-selected="true">
+                                                        <a class="nav-link active" id="custom-tabs-one-medicines-tab" data-bs-toggle="pill" href="#medicines" role="tab" aria-controls="custom-tabs-one-medicines" aria-selected="true">
                                                             <?php echo lang('all_bills'); ?>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" id="custom-tabs-one-bill-tab" data-toggle="pill" href="#bill" role="tab" aria-controls="custom-tabs-one-bill" aria-selected="false">
+                                                        <a class="nav-link" id="custom-tabs-one-bill-tab" data-bs-toggle="pill" href="#bill" role="tab" aria-controls="custom-tabs-one-bill" aria-selected="false">
                                                             <?php echo lang('invoice'); ?>
                                                         </a>
                                                     </li>

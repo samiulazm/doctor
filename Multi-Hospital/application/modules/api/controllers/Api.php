@@ -2008,10 +2008,10 @@ class Api extends MX_Controller
             } else {
                 $patientdetails = $this->api_model->getPatientById($appointment->patient, $this->hospitalID);
                 if (!empty($patientdetails)) {
-                    //$patientname = ' <a type="button" class="" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                    //$patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                     $patientname = $patientdetails->name;
                 } else {
-                    //$patientname = ' <a type="button" class="" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                    //$patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                     $patientname = $appointment->patientname;
                 }
                 $doctordetails = $this->api_model->getDoctorById($appointment->doctor, $this->hospitalID);

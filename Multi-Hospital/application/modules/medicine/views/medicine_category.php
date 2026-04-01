@@ -15,7 +15,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-success btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-success btn-sm px-4 py-3">
                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                                             <td><?php echo $category->category; ?></td>
                                             <td><?php echo $category->description; ?></td>
                                             <td>
-                                                <a type="button" class="btn btn-info btn-sm editbutton" data-toggle="modal" data-id="<?php echo $category->id; ?>"><i class="fa fa-edit"></i></a>
+                                                <a type="button" class="btn btn-info btn-sm editbutton" data-bs-toggle="modal" data-id="<?php echo $category->id; ?>"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-danger btn-sm" href="medicine/deleteMedicineCategory?id=<?php echo $category->id; ?>" onclick="return confirm('<?php echo lang('are_you_sure_you_want_to_delete_this_item'); ?>');"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -73,7 +73,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><?php echo lang('create'); ?> <?php echo lang('medicine'); ?> <?php echo lang('category'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -105,7 +105,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"><?php echo lang('edit'); ?> <?php echo lang('medicine'); ?> <?php echo lang('category'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">

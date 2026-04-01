@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_appointment'); ?>
                     </a>
                 </div>
@@ -89,7 +89,7 @@
                     <i class="fas fa-calendar-plus mr-2"></i>
                     <?php echo lang('add_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -324,7 +324,7 @@
                     <i class="fas fa-file-medical mr-2"></i>
                     <?php echo lang('medical_history'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -337,7 +337,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times mr-1"></i>Close
                     </button>
                 </div>
@@ -356,7 +356,7 @@
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -597,7 +597,7 @@
                     <i class="fas fa-sms mr-2"></i>
                     <?php echo lang('send_sms_to_patient'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -608,7 +608,7 @@
                     </div>
                     <input type="hidden" id="id" value="" name="id">
                     <button type="submit" name="submit" class="btn btn-info submit_button"><?php echo lang('yes'); ?></button>
-                    <button type="submit" name="submit" class="btn btn-info invoicebutton" data-dismiss="modal" aria-hidden="true"><?php echo lang('cancel'); ?></button>
+                    <button type="submit" name="submit" class="btn btn-info invoicebutton" data-bs-dismiss="modal" aria-hidden="true"><?php echo lang('cancel'); ?></button>
                 </form>
             </div>
         </div><!-- /.modal-content -->

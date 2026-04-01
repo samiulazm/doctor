@@ -68,7 +68,7 @@
                                                     $status = $this->db->get_where('request', array('id' => $request->id))->row()->status;
                                                     if ($status == 'Pending') {
                                                     ?>
-                                                     <a href="request/approve?id=<?php echo $request->id; ?>" type="button" class="btn btn-info btn-xs status" data-toggle="modal" data-id="<?php echo $request->id; ?>"><?php echo lang('approve'); ?></a>
+                                                     <a href="request/approve?id=<?php echo $request->id; ?>" type="button" class="btn btn-info btn-xs status" data-bs-toggle="modal" data-id="<?php echo $request->id; ?>"><?php echo lang('approve'); ?></a>
 
                                                  <?php }
                                                     ?>

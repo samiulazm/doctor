@@ -365,7 +365,7 @@
                         <div class="row no-print">
                             <div class="col-12">
 
-                                <button type="button" class="btn btn-success float-right depositButton" data-toggle="modal" data-id="<?php echo $payment->id ?>" data-from="<?php echo $payment->payment_from ?>"><i class="far fa-credit-card"></i>
+                                <button type="button" class="btn btn-success float-right depositButton" data-bs-toggle="modal" data-id="<?php echo $payment->id ?>" data-from="<?php echo $payment->payment_from ?>"><i class="far fa-credit-card"></i>
                                     <?php echo lang('submit'); ?>
                                     <?php echo lang('payment'); ?>
                                 </button>
@@ -457,7 +457,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_deposit'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="finance/deposit" id="deposit-form" class="clearfix" method="post" enctype="multipart/form-data">

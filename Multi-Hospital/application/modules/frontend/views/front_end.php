@@ -182,7 +182,7 @@ $title = explode(' ', $settings->title);
       top: -12px;
       right: 0;">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown">
                             <button type="button" class="btn btn-default btn-sm">
                                 <i class="flag-icon flag-icon-<?php echo $flagIcon; ?>"></i>
                                 <span class="ml-2 text-lg" style="text-transform: capitalize;"><?php echo $this->language; ?> </span>

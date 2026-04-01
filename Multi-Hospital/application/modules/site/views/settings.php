@@ -39,7 +39,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseOne">
+                                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseOne">
                                                     <?php echo lang('general_settings'); ?>
                                                 </a>
                                             </h4>
@@ -141,7 +141,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo">
+                                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseTwo">
                                                     Block Text Settings
                                                 </a>
                                             </h4>
@@ -189,7 +189,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseFour">
+                                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFour">
                                                     <?php echo lang('appointment_button_block_settings'); ?>
                                                 </a>
                                             </h4>
@@ -260,7 +260,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
-                                                <a class="collapsed" data-toggle="collapse" href="#collapseThree">
+                                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseThree">
                                                     <?php echo lang('social_settings'); ?>
                                                 </a>
                                             </h4>
@@ -326,7 +326,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
-                                                <a class="collapsed" data-toggle="collapse" href="#language">
+                                                <a class="collapsed" data-bs-toggle="collapse" href="#language">
                                                     <?php echo lang('select'); ?> <?php echo lang('website'); ?> <?php echo lang('language'); ?>
                                                 </a>
                                             </h4>

@@ -50,8 +50,8 @@
     color: #333 !important;
 }
 
-.sidebar {
-    height: 2800px;
+.sidebar-wrapper {
+    overflow-y: auto;
 }
 
 /* .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
@@ -168,7 +168,8 @@ table.table-bordered.dataTable tbody td {
     font-weight: 200 !important;
 }
 
-.sidebar-dark-primary {
+.sidebar-dark-primary,
+.app-sidebar[data-bs-theme="dark"] {
     color: #fff !important;
     background-color: #092433 !important;
 }
@@ -183,19 +184,26 @@ table.table-bordered.dataTable tbody td {
 
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
-.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+.sidebar-dark-primary .sidebar-menu>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .sidebar-menu>.nav-item>.nav-link.active,
+.app-sidebar[data-bs-theme="dark"] .sidebar-menu>.nav-item>.nav-link.active {
     background-color: #223A48;
     color: #efefef;
 }
 
 [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active,
 [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus,
-[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover,
+.app-sidebar[data-bs-theme="dark"] .nav-treeview>.nav-item>.nav-link.active,
+.app-sidebar[data-bs-theme="dark"] .nav-treeview>.nav-item>.nav-link.active:focus,
+.app-sidebar[data-bs-theme="dark"] .nav-treeview>.nav-item>.nav-link.active:hover {
     background-color: #223A48;
     color: #efefef;
 }
 
 .nav-sidebar>.nav-header,
+.sidebar-menu>.nav-header,
 .sidebar-form {
     letter-spacing: 1.5;
 }
@@ -415,7 +423,8 @@ table.table-bordered.dataTable tbody td {
     font-size: 12px;
 }
 
-button i {
+/* Scoped: only hide icons inside DataTable export buttons */
+.dt-buttons button i {
     display: none !important;
 }
 
@@ -423,8 +432,8 @@ button i {
     letter-spacing: -1px;
 }
 
-.nav-compact .nav-item .nav-link {
-    padding: 00.25rem 0.25rem !important;
+.sidebar-menu .nav-item .nav-link {
+    padding: 0.25rem 0.25rem !important;
     letter-spacing: -0.5px;
 }
 
@@ -432,7 +441,8 @@ button i {
     border-radius: 10px !important;
 }
 
-.sidebar .nav-link p {
+.sidebar .nav-link p,
+.sidebar-wrapper .nav-link p {
     opacity: 0.8;
     letter-spacing: 0px;
     font-size: 16px;

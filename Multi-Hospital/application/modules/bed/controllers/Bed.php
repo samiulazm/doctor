@@ -504,7 +504,7 @@ class Bed extends MX_Controller
             $option1 = '';
             $option2 = '';
             if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor', 'Accountant', 'Receptionist'))) {
-                $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $bed->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $bed->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
             }
             if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor', 'Accountant', 'Receptionist'))) {
                 $option2 = '<a class="btn btn-danger btn-sm btn_width delete_button" href="bed/delete?id=' . $bed->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i> ' . lang('') . '</a>';
@@ -674,7 +674,7 @@ class Bed extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -1137,7 +1137,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $service->quantity . ' </td>
                                                         <td>' . $settings->currency . ' ' . $service->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                 } else {
                     if (empty($service->payment_id)) {
@@ -1149,7 +1149,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $service->quantity . '  </td>
                                                         <td>' . $settings->currency . ' ' . $service->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                     } else {
                         if (in_array($servicename->id, $pay_service_new)) {
@@ -1172,7 +1172,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $service->quantity . '  </td>
                                                         <td>' . $settings->currency . ' ' . $service->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-service-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $service->id . "**" . $service_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                         }
                     }
@@ -1284,7 +1284,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $diagnostic->quantity . ' </td>
                                                         <td>' . $settings->currency . ' ' . $diagnostic->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang('delete') . ' data-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                 } else {
                     if (empty($diagnostic->payment_id)) {
@@ -1296,7 +1296,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $diagnostic->quantity . '  </td>
                                                         <td>' . $settings->currency . ' ' . $diagnostic->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang('delete') . ' data-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                     } else {
                         if (in_array($servicename->id, $pay_diagnostic_new)) {
@@ -1319,7 +1319,7 @@ class Bed extends MX_Controller
                                                         <td>' . $settings->currency . ' ' . $price . '</td>
                                                         <td>' . $diagnostic->quantity . '  </td>
                                                         <td>' . $settings->currency . ' ' . $diagnostic->quantity * $price . '</td>
-                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
+                                                        <td class="no-print" id="delete-diagnostic-' . $date_explode[0] . '-' . $servicename->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang('delete') . ' data-bs-toggle=" "data-id="' . $diagnostic->id . "**" . $diagnostic_update . '"><i class="fa fa-trash"></i></div></td>
                                                     </tr>';
                         }
                     }
@@ -1992,7 +1992,7 @@ class Bed extends MX_Controller
             $payment_details = $this->finance_model->getPaymentById($service->payment_id);
             $service_name = $this->pservice_model->getPserviceById($service->service);
             $nurse_name = $this->nurse_model->getNurseById($service->nurse)->name;
-            $option = '<td class="no-print" id="delete-service-' . date("d") . '-' . $service->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang("delete") . ' data-toggle="" data-id="' . $service->id . "**" . $service->service . '"><i class="fa fa-trash"></i></div></td>';
+            $option = '<td class="no-print" id="delete-service-' . date("d") . '-' . $service->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_service" title=' . lang("delete") . ' data-bs-toggle="" data-id="' . $service->id . "**" . $service->service . '"><i class="fa fa-trash"></i></div></td>';
             $info[] = array(
                 $service_name->name,
                 date('d-m-y h:i A', $service->date),
@@ -2034,7 +2034,7 @@ class Bed extends MX_Controller
         foreach ($all_diagnostics as $diagnostic) {
             $payment_details = $this->finance_model->getPaymentById($diagnostic->payment_id);
             $payment_procedure = $this->finance_model->getPaymentCategoryById($diagnostic->payment_procedure)->category;
-            $option = '<td class="no-print" id="delete-diagnostic-' . date("d") . '-' . $diagnostic->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang("delete") . ' data-toggle="" data-id="' . $diagnostic->id . "**" . $diagnostic->payment_procedure . '"><i class="fa fa-trash"></i></div></td>';
+            $option = '<td class="no-print" id="delete-diagnostic-' . date("d") . '-' . $diagnostic->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_diagnostic" title=' . lang("delete") . ' data-bs-toggle="" data-id="' . $diagnostic->id . "**" . $diagnostic->payment_procedure . '"><i class="fa fa-trash"></i></div></td>';
             $info[] = array(
                 $payment_procedure,
                 date('d-m-y h:i A', $diagnostic->date),
@@ -2079,7 +2079,7 @@ class Bed extends MX_Controller
             } else {
                 $invoice_id = '';
             }
-            $option = '<td class="no-print" id="delete-' . $medicine->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_medicine" title=' . lang("delete") . ' data-toggle="" data-id="' . $medicine->id . '"><i class="fa fa-trash"></i></div></td>';
+            $option = '<td class="no-print" id="delete-' . $medicine->id . '"><div type="button" class="btn btn-danger btn-sm btn_width delete_medicine" title=' . lang("delete") . ' data-bs-toggle="" data-id="' . $medicine->id . '"><i class="fa fa-trash"></i></div></td>';
             $info[] = array(
                 date('d-m-y h:i A', $medicine->date),
                 $medicine->generic_name,

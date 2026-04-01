@@ -30,7 +30,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the case history details'); ?></h3>
                             <!-- <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>

@@ -1715,9 +1715,9 @@ function settings()
                 $option3 = '<a class="btn btn-info btn-xs btn_width green" href="meeting/live?id=' . $meeting->id . '&meeting_id=' . $meeting->meeting_id . '" target="_blank"><i class="fa fa-headphones"> </i> ' . lang('join_live') . ' </a>';
                 $patientdetails = $this->patient_model->getPatientById($meeting->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($meeting->doctor);
                 if (!empty($doctordetails)) {
@@ -1829,9 +1829,9 @@ function settings()
 
                 $patientdetails = $this->patient_model->getPatientById($meeting->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($meeting->doctor);
                 if (!empty($doctordetails)) {
@@ -1938,9 +1938,9 @@ function settings()
 
                 $patientdetails = $this->patient_model->getPatientById($meeting->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $meeting->patient . '"> ' . $meeting->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($meeting->doctor);
                 if (!empty($doctordetails)) {

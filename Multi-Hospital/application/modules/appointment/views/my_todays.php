@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the department names and related informations') ?></h3>
                             <!-- <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -94,7 +94,7 @@
                 <i class="fas fa-calendar-plus mr-2"></i>
                 <?php echo lang('add_appointment'); ?>
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -197,7 +197,7 @@
                     <i class="fas fa-file-medical mr-2"></i>
                     <?php echo lang('medical_history'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -210,7 +210,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times mr-1"></i>Close
                     </button>
                 </div>
@@ -232,7 +232,7 @@
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

@@ -95,7 +95,7 @@
                         <div class="card shadow-sm">
                             <div class="card-header bg-info text-white">
                                 <h3 class="card-title"> <?php echo lang('edit'); ?> <?php echo lang('language'); ?> </h3>
-                                <button class="btn btn-success float-right" data-toggle="modal" href="#myModal">
+                                <button class="btn btn-success float-right" data-bs-toggle="modal" href="#myModal">
                                     <i class="fas fa-plus mr-2"></i><?php echo lang('add_new'); ?>
                                 </button>
                             </div>
@@ -156,7 +156,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('language'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="settings/addLanguage" class="clearfix form-row" method="post" enctype="multipart/form-data">
@@ -241,7 +241,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('language'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="settings/addLanguage" id="editLanguageForm" class="clearfix form-row" method="post" enctype="multipart/form-data">

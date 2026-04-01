@@ -103,7 +103,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('case'); ?> <?php echo lang('details'); ?></h4>
-                <button type="button" class="close no-print" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close no-print" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                     <div class="card mb-3 shadow-sm">
@@ -193,7 +193,7 @@
                     </nav>
                 </div>
                 <!-- <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('case'); ?>
                     </a>
                 </div> -->
@@ -245,7 +245,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="symptomchoose" name="symptom_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="diagnosischoose" name="diagnosis_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="treatmentchoose" name="treatment_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +284,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="advicechoose" name="advice_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +356,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_medical_history'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post" enctype="multipart/form-data">
@@ -400,7 +400,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('edit_medical_history'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="medical_historyEditForm" class="clearfix" action="patient/addMedicalHistory" method="post" enctype="multipart/form-data">
@@ -466,7 +466,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('gpt_button'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post" enctype="multipart/form-data">
@@ -501,7 +501,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_symptom'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -530,7 +530,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_test'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -560,7 +560,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_diagnosis'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
 
@@ -607,7 +607,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_treatment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -636,7 +636,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_advice'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 

@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the Leave type names and related informations'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -80,7 +80,7 @@
             <div class="modal-header">
 
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_new_leave'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="leave/addNewLeaveType" class="clearfix" method="post" enctype="multipart/form-data">
@@ -114,7 +114,7 @@
             <div class="modal-header">
 
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_leave_type'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editDoctorForm" class="clearfix" action="leave/updateLeaveType" method="post" enctype="multipart/form-data">
@@ -141,7 +141,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('doctor'); ?> <?php echo lang('info'); ?></h4>
             </div>
             <div class="modal-body">

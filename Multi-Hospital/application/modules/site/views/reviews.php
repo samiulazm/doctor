@@ -29,7 +29,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading clearfix">
                                                 <h4 class="panel-title">
-                                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
+                                                    <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false">
                                                         <div class="form-group col-md-6">
                                                             <h4><?php echo lang('ListofAllAppointments'); ?>General Settings</h4>
                                                         </div>
@@ -109,7 +109,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading clearfix">
                                                 <h4 class="panel-title">
-                                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
+                                                    <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
                                                         <div class="form-group col-md-6">
                                                             <h4>Block Text Settings</h4>
                                                         </div>
@@ -150,7 +150,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading clearfix">
                                                 <h4 class="panel-title">
-                                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
+                                                    <a class="accordion-toggle collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
                                                         <div class="form-group col-md-6">
                                                             <h4>Social Settings</h4>
                                                         </div>

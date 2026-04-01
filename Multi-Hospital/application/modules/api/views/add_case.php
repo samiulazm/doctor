@@ -178,7 +178,7 @@ if (!empty($selected_symptoms)) {
 
         </select>
         <div class="input-group-append">
-            <a data-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+            <a data-bs-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
         </div>
     </div>
 </div>
@@ -214,7 +214,7 @@ if (!empty($selected_diagnosis)) {
 
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@ if (!empty($selected_treatment)) {
 
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +254,7 @@ if (!empty($selected_advice)) {
 
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-bs-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@ if (!empty($selected_advice)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_symptom'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -316,7 +316,7 @@ if (!empty($selected_advice)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_test'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -346,7 +346,7 @@ if (!empty($selected_advice)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_diagnosis'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
 
@@ -393,7 +393,7 @@ if (!empty($selected_advice)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_treatment'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 
@@ -422,7 +422,7 @@ if (!empty($selected_advice)) {
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_advice'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
 

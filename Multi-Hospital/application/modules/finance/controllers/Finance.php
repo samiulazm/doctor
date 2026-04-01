@@ -2475,7 +2475,7 @@ class Finance extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group dropleft">
-                <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu" style="margin-top: -50px;">
@@ -2844,7 +2844,7 @@ class Finance extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
@@ -3752,7 +3752,7 @@ class Finance extends MX_Controller
             if (empty($options3)) {
                 $options3 = '';
             }
-            $deposit = ' <a type="button" class="btn btn-sm btn-success depositButton mr-1 mt-1" title="' . lang('deposit') . '" data-toggle = "modal" data-id="' . $payment->id . '" data-from="' . $payment->payment_from . '"><i class="fa fa-money"> </i> ' . lang('deposit') . '</a>';
+            $deposit = ' <a type="button" class="btn btn-sm btn-success depositButton mr-1 mt-1" title="' . lang('deposit') . '" data-bs-toggle="modal" data-id="' . $payment->id . '" data-from="' . $payment->payment_from . '"><i class="fa fa-money"> </i> ' . lang('deposit') . '</a>';
             $doctor_details = $this->doctor_model->getDoctorById($payment->doctor);
 
             if (!empty($doctor_details)) {
@@ -3788,12 +3788,12 @@ class Finance extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-                <div type="" class="btn btn-info btn-sm label-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div type="" class="btn btn-info btn-sm label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
                 </div> 
                 <ul class="dropdown-menu">
                     ' . ($options1 ? '<li><a title="' . lang('edit') . '" href="finance/editPayment?id=' . $payment->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . ' </a></li>' : '') . '
-                    ' . ($deposit ? '<li><a class="depositButton" title="' . lang('deposit') . '" data-toggle = "modal" data-id="' . $payment->id . '" data-from="' . $payment->payment_from . '"><i class="fa fa-money-check"></i> ' . lang('deposit') . ' </a></li>' : '') . '
+                    ' . ($deposit ? '<li><a class="depositButton" title="' . lang('deposit') . '" data-bs-toggle="modal" data-id="' . $payment->id . '" data-from="' . $payment->payment_from . '"><i class="fa fa-money-check"></i> ' . lang('deposit') . ' </a></li>' : '') . '
                     ' . ($options3 ? '<li><a href="' . site_url("finance/delete?id=" . $payment->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a></li>' : '') . '
                 </ul>
             </div>';
@@ -3980,7 +3980,7 @@ class Finance extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-                <div type="" class="btn btn-info btn-sm label-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div type="" class="btn btn-info btn-sm label-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
                 </div> 
                 <ul class="dropdown-menu">
@@ -4117,10 +4117,10 @@ class Finance extends MX_Controller
                 $options3 = '<a class="btn btn-danger btn-sm delete_button mr-1 mt-1" title="' . lang('delete') . '" href="finance/deletePaymentCategory?id=' . $category->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
 
                 if (empty($category->report)) {
-                    $template1 = '<a type="button" class="btn btn-sm btn-success template mr-1 mt-1" title="' . lang('template') . '" data-toggle = "modal" data-id="' . $category->id . '"><i class="fa fa-money"> </i>' .  lang('template') . '</a>';
+                    $template1 = '<a type="button" class="btn btn-sm btn-success template mr-1 mt-1" title="' . lang('template') . '" data-bs-toggle="modal" data-id="' . $category->id . '"><i class="fa fa-money"> </i>' .  lang('template') . '</a>';
                     $template2 = '';
                 } else {
-                    $template2 = '<a type="button" class="btn btn-sm btn-success template mr-1 mt-1" title="' .  lang('template') . '" data-toggle = "modal" data-id="' . $category->id . '"><i class="fa fa-money"> </i>' . lang('edit') . ' ' . lang('template') . '</a>';
+                    $template2 = '<a type="button" class="btn btn-sm btn-success template mr-1 mt-1" title="' .  lang('template') . '" data-bs-toggle="modal" data-id="' . $category->id . '"><i class="fa fa-money"> </i>' . lang('edit') . ' ' . lang('template') . '</a>';
                     $template1 = '';
                 }
             } else {
@@ -4151,13 +4151,13 @@ class Finance extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
                     ' . ($options2 ? '<li><a class="editbutton" title="' . lang('edit') . '" href="finance/editPaymentCategory?id=' . $category->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
-                    ' . ($template1 ? '<li><a class="template" data-toggle = "modal" data-id="' . $category->id . '"> <i class="fa fa-file"></i> ' . lang('report') . ' ' . lang('template') . ' </a></li>' : '') . '
-                    ' . ($template2 ? '<li><a class="template" data-toggle = "modal" data-id="' . $category->id . '"> <i class="fa fa-file"></i> ' . lang('edit') . ' ' . lang('template') . ' </a></li>' : '') . '
+                    ' . ($template1 ? '<li><a class="template" data-bs-toggle="modal" data-id="' . $category->id . '"> <i class="fa fa-file"></i> ' . lang('report') . ' ' . lang('template') . ' </a></li>' : '') . '
+                    ' . ($template2 ? '<li><a class="template" data-bs-toggle="modal" data-id="' . $category->id . '"> <i class="fa fa-file"></i> ' . lang('edit') . ' ' . lang('template') . ' </a></li>' : '') . '
                     ' . ($options3 ? '<li><a href="finance/deletePaymentCategory?id=' . $category->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';

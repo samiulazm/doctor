@@ -15,7 +15,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('department'); ?>
                     </a>
                 </div>
@@ -43,7 +43,7 @@
                                             <td><?php echo $department->name; ?></td>
                                             <td><?php echo $department->description; ?></td>
                                             <td class="no-print">
-                                                <a type="button" class="btn btn-primary btn-sm editbutton" data-toggle="modal" title="<?php echo lang('edit'); ?>" data-id="<?php echo $department->id; ?>"><i class="fa fa-edit"></i></a>
+                                                <a type="button" class="btn btn-primary btn-sm editbutton" data-bs-toggle="modal" title="<?php echo lang('edit'); ?>" data-id="<?php echo $department->id; ?>"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-success btn-sm" title="<?php echo lang('doctor_directory'); ?>" href="department/doctorDirectory?id=<?php echo $department->id; ?>"><i class="fa fa-users"></i></a>
                                                 <a class="btn btn-danger btn-sm" title="<?php echo lang('delete'); ?>" href="department/delete?id=<?php echo $department->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i></a>
                                             </td>
@@ -65,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h3 class="modal-title text-white font-weight-800"><?php echo lang('add_department'); ?></h3>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -95,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
                 <h3 class="modal-title text-white font-weight-800"><?php echo lang('edit_department'); ?></h3>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

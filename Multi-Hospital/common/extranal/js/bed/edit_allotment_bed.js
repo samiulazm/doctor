@@ -151,7 +151,7 @@ $(document).ready(function () {
             data.nurse.name +
             "</td><td class='no-print'> <button type='button' class='btn btn-info btn-xs btn_width editbutton_dailyprogress' title='" +
             edit +
-            "' data-toggle='' data-id=" +
+            "' data-bs-toggle='' data-id=" +
             data.info.id +
             "><i class='fa fa-edit'></i>" +
             edit +
@@ -163,16 +163,16 @@ $(document).ready(function () {
             .val();
           //  alert(data.info.id);
           $("#" + id)
-            .children("td[data-target=date]")
+            .children("td[data-bs-target=date]")
             .text(data.info.date);
           $("#" + id)
-            .children("td[data-target=time]")
+            .children("td[data-bs-target=time]")
             .text(data.info.time);
           $("#" + id)
-            .children("td[data-target=description]")
+            .children("td[data-bs-target=description]")
             .text(data.info.description);
           $("#" + id)
-            .children("td[data-target=nurse]")
+            .children("td[data-bs-target=nurse]")
             .text(data.nurse.name);
         }
         // $('#editBedAllotment')[0].reset();
@@ -488,7 +488,7 @@ $(document).ready(function () {
           data.info.id +
           "'> <div type='button' class='btn btn-danger btn-xs btn_width delete_medicine pt-4' title='" +
           delete_lang +
-          "' data-toggle='' data-id=" +
+          "' data-bs-toggle='' data-id=" +
           data.info.id +
           "><i class='fa fa-trash'></i></div></td></tr>";
         $("#medicine_table").after(row_data);

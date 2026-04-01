@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All the documents'); ?></h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal1">
+                                <a data-bs-toggle="modal" href="#myModal1">
                                     <button id="" class="btn btn-success btn-sm">
                                         <i class="fa fa-plus-circle"></i> <?php echo lang('add_new'); ?>
                                     </button>
@@ -130,7 +130,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('files'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="patient/addPatientMaterial" class="clearfix" method="post" enctype="multipart/form-data">

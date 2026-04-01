@@ -216,7 +216,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
                             </a>
                         </li>
                         <li class="nav-item ms-3">
-                            <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary px-4 py-2 rounded-pill appointment-btn shadow-sm hover-scale fs-6 d-inline-flex align-items-center">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary px-4 py-2 rounded-pill appointment-btn shadow-sm hover-scale fs-6 d-inline-flex align-items-center">
                                 <i class="fas fa-calendar-check me-2"></i>
                                 <?php echo lang('book_an_appointment'); ?>
                             </button>
@@ -250,7 +250,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
                                             <i class="fas fa-calendar-check me-2"></i>
                                             <?php echo lang('get_started_now'); ?>
                                         </a>
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-primary py-3 rounded-pill fs-5 shadow-lg hover:shadow-primary/50 transition-all ms-3">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-primary py-3 rounded-pill fs-5 shadow-lg hover:shadow-primary/50 transition-all ms-3">
                                             <i class="fas fa-calendar-check me-2"></i>
                                             <?php echo lang('book_an_appointment'); ?>
                                         </button>
@@ -341,7 +341,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
                                 <?php echo $settings->appointment_description; ?>
                             </p>
                         </div>
-                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-lg px-5 py-3 rounded-pill appointment-btn shadow-lg hover-scale fs-5">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary btn-lg px-5 py-3 rounded-pill appointment-btn shadow-lg hover-scale fs-5">
                             <i class="fas fa-calendar-check me-2"></i>
                             <?php echo lang('book_an_appointment'); ?>
                         </button>
@@ -355,7 +355,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
                                             <i class="fas fa-calendar-plus me-2"></i>
                                             <?php echo lang('book_an_appointment'); ?>
                                         </h5>
-                                        <button type="button" class="btn-close btn-close-white modal_close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="btn-close btn-close-white modal_close" data-bs-dismiss="modal" aria-label="Close">
                                         </button>
                                     </div>
                                     <div class="modal-body p-5">

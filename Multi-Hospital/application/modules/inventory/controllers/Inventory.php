@@ -239,11 +239,11 @@ class Inventory extends MX_Controller
             
             $actions = '
                 <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                         <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#editItemModal" data-toggle="modal" onclick="loadItemData(' . $item->id . ', \'' . addslashes($item->item_code) . '\', \'' . addslashes($item->name) . '\', \'' . addslashes($item->description) . '\', \'' . $item->category . '\', \'' . addslashes($item->subcategory) . '\', \'' . addslashes($item->unit_of_measure) . '\', ' . $item->minimum_stock . ', ' . $item->maximum_stock . ', ' . $item->reorder_level . ', ' . $calculated_stock . ', ' . $item->unit_cost . ', ' . $item->selling_price . ', \'' . addslashes($item->storage_location) . '\', \'' . addslashes($item->expiry_tracking) . '\', \'' . addslashes($item->barcode) . '\', \'' . addslashes($item->manufacturer) . '\', \'' . addslashes($item->brand) . '\', \'' . addslashes($item->model_number) . '\', \'' . addslashes($item->specifications) . '\', \'' . addslashes($item->status) . '\')">
+                        <a class="dropdown-item" href="#editItemModal" data-bs-toggle="modal" onclick="loadItemData(' . $item->id . ', \'' . addslashes($item->item_code) . '\', \'' . addslashes($item->name) . '\', \'' . addslashes($item->description) . '\', \'' . $item->category . '\', \'' . addslashes($item->subcategory) . '\', \'' . addslashes($item->unit_of_measure) . '\', ' . $item->minimum_stock . ', ' . $item->maximum_stock . ', ' . $item->reorder_level . ', ' . $calculated_stock . ', ' . $item->unit_cost . ', ' . $item->selling_price . ', \'' . addslashes($item->storage_location) . '\', \'' . addslashes($item->expiry_tracking) . '\', \'' . addslashes($item->barcode) . '\', \'' . addslashes($item->manufacturer) . '\', \'' . addslashes($item->brand) . '\', \'' . addslashes($item->model_number) . '\', \'' . addslashes($item->specifications) . '\', \'' . addslashes($item->status) . '\')">
                             <i class="fas fa-edit mr-2"></i>' . lang('edit') . '
                         </a>
                         <div class="dropdown-divider"></div>
@@ -605,14 +605,14 @@ class Inventory extends MX_Controller
 
             // Options column
             $options = '<div class="btn-group">
-                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-cog"></i>
                           </button>
                           <div class="dropdown-menu">
                               <a class="dropdown-item" href="inventory/supplier/view/' . $supplier->id . '">
                                   <i class="fas fa-eye mr-2"></i>' . lang('view') . '
                               </a>
-                              <a class="dropdown-item" href="#" onclick="editSupplier(' . $supplier->id . ')" data-toggle="modal" data-target="#editSupplierModal">
+                              <a class="dropdown-item" href="#" onclick="editSupplier(' . $supplier->id . ')" data-bs-toggle="modal" data-bs-target="#editSupplierModal">
                                   <i class="fas fa-edit mr-2"></i>' . lang('edit') . '
                               </a>
                               <div class="dropdown-divider"></div>
@@ -769,17 +769,17 @@ class Inventory extends MX_Controller
 
             // Options column with dynamic actions based on status
             $options = '<div class="btn-group">
-                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-cog"></i>
                           </button>
                           <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#" onclick="viewPurchaseOrder(' . $po->id . ')" data-toggle="modal" data-target="#viewPurchaseOrderModal">
+                              <a class="dropdown-item" href="#" onclick="viewPurchaseOrder(' . $po->id . ')" data-bs-toggle="modal" data-bs-target="#viewPurchaseOrderModal">
                                   <i class="fas fa-eye mr-2"></i>' . lang('view') . '
                               </a>';
 
             // Allow editing for most statuses (exclude only completed and cancelled)
             if (!in_array($po->status, array('completed', 'cancelled'))) {
-                $options .= '<a class="dropdown-item" href="#editPurchaseOrderModal" data-toggle="modal" onclick="loadPurchaseOrderData(' . $po->id . ')">
+                $options .= '<a class="dropdown-item" href="#editPurchaseOrderModal" data-bs-toggle="modal" onclick="loadPurchaseOrderData(' . $po->id . ')">
                                  <i class="fas fa-edit mr-2"></i>' . lang('edit') . '
                              </a>';
             }
@@ -974,11 +974,11 @@ class Inventory extends MX_Controller
 
             // Options column
             $options = '<div class="btn-group">
-                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-cog"></i>
                           </button>
                           <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#" onclick="editCategory(' . $category->id . ')" data-toggle="modal" data-target="#editCategoryModal">
+                              <a class="dropdown-item" href="#" onclick="editCategory(' . $category->id . ')" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
                                   <i class="fas fa-edit mr-2"></i>' . lang('edit') . '
                               </a>
                               <div class="dropdown-divider"></div>
@@ -3208,7 +3208,7 @@ class Inventory extends MX_Controller
 
             // Actions
             $actions = '<div class="btn-group">
-                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cog"></i>
                             </button>
                             <div class="dropdown-menu">

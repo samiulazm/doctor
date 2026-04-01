@@ -50,33 +50,31 @@
 
 
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AdminLTE 4 (includes Bootstrap 5.3) -->
+  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="adminlte/dist/css/bs4-compat.css">
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <link rel="stylesheet" href="adminlte/plugins/jqvmap/jqvmap.min.css">
-  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/enhanced-sidebar-styles.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/enhanced-components-styles.css">
   <link rel="stylesheet" href="adminlte/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.min.css">
 
-
-  <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- DataTables BS5 -->
+  <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap5.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap5.min.css">
 
   <link rel="stylesheet" href="adminlte/dist/css/changes.css">
 
-  <link rel="stylesheet" href="adminlte/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="adminlte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
   <link rel="stylesheet" href="adminlte/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-  <link rel="stylesheet" href="adminlte/plugins/daterangepicker/daterangepicker.css">
-
 
   <link rel="stylesheet" href="adminlte/plugins/fullcalendar/main.css">
   <link rel="stylesheet" href="adminlte/plugins/flag-icon-css/css/flag-icon.min.css">
@@ -88,9 +86,6 @@
   <link rel="stylesheet" type="text/css" href="common/assets/jquery-multi-select/css/multi-select.css" />
   <link rel="stylesheet" type="text/css" href="common/css/lightbox.css" />
 
-
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="adminlte/plugins/toastr/toastr.min.css">
 
@@ -104,7 +99,7 @@
   <?php
 
   if ($this->language == 'arabic') { ?>
-    <link rel="stylesheet" href="adminlte/dist/css/rtl.css">
+    <link rel="stylesheet" href="adminlte/dist/css/adminlte.rtl.min.css">
   <?php } ?>
 
   <!-- <link rel="stylesheet" href="common/css/bootstrap-select-country.min.css"> -->
@@ -114,17 +109,11 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini <?php
+<body class="layout-fixed sidebar-mini <?php
                                           if ($this->ion_auth->user()->row()->sidebar != 1) {
                                             echo 'sidebar-collapse';
                                           }
-
-                                          if ($this->session->userdata('darkMode') == 1) {
-                                            echo 'dark-mode ';
-                                          } else {
-                                          }
-
-                                          ?> ">
+                                          ?>" <?php if ($this->session->userdata('darkMode') == 1) { echo 'data-bs-theme="dark"'; } ?>>
 
 
 
@@ -160,20 +149,14 @@
 
 
 
-  <div class="wrapper">
+  <div class="app-wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-transparent py-3 <?php
-                                                                          if ($this->session->userdata('darkMode') == 1) {
-                                                                            echo 'navbar-dark';
-                                                                          } else {
-                                                                            echo 'navbar-light';
-                                                                          }
-                                                                          ?>">
+    <nav class="app-header navbar navbar-expand navbar-light py-3">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link collapse-server nav-link-enhanced" data-widget="pushmenu" href="#" role="button" title="<?php echo lang('toggle_sidebar'); ?>">
+          <a class="nav-link collapse-server nav-link-enhanced" data-lte-toggle="sidebar" href="#" role="button" title="<?php echo lang('toggle_sidebar'); ?>">
             <i class="fas fa-bars nav-icon"></i>
           </a>
         </li>
@@ -189,7 +172,7 @@
         <!-- Search Section -->
         <li class="nav-item search-item">
           <div class="form-inline">
-            <div class="input-group search-container" data-widget="sidebar-search">
+            <div class="input-group search-container" data-lte-toggle="sidebar-search">
               <input class="form-control form-control-sidebar search-input" type="search" placeholder="<?php echo lang('search'); ?>" aria-label="Search">
               <div class="input-group-append">
                 <button class="btn btn-sidebar search-btn" title="<?php echo lang('search'); ?>">
@@ -203,7 +186,7 @@
         <!-- Timezone Section -->
         <?php if (!$this->ion_auth->in_group(array('superadmin'))) { ?>
         <li class="nav-item">
-          <a href="#" id="timezone-display" class="nav-link nav-link-enhanced timezone-link" data-toggle="modal" data-target="#timezoneModal" title="<?php echo lang('timezone'); ?>">
+          <a href="#" id="timezone-display" class="nav-link nav-link-enhanced timezone-link" data-bs-toggle="modal" data-bs-target="#timezoneModal" title="<?php echo lang('timezone'); ?>">
             <i class="fas fa-clock nav-icon"></i>
             <span id="current-timezone" class="timezone-text"><?php echo $settings->timezone ?? 'UTC'; ?></span>
             <i class="fas fa-edit timezone-edit-icon"></i>
@@ -215,7 +198,7 @@
 
         <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
           <li class="nav-item dropdown d-none d-md-block">
-            <a class="nav-link nav-link-enhanced quick-actions-link" data-toggle="dropdown" href="#" title="<?php echo lang('quick_actions'); ?>">
+            <a class="nav-link nav-link-enhanced quick-actions-link" data-bs-toggle="dropdown" href="#" title="<?php echo lang('quick_actions'); ?>">
               <i class="fas fa-bolt nav-icon"></i>
               <span class="badge badge-info navbar-badge quick-actions-badge"></span>
             </a>
@@ -385,7 +368,7 @@
         <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) : ?>
           <?php if (in_array('finance', $this->modules)) : ?>
             <li class="nav-item dropdown">
-              <a class="nav-link nav-link-enhanced payment-link" data-toggle="dropdown" href="#" title="<?php echo lang('payment'); ?>">
+              <a class="nav-link nav-link-enhanced payment-link" data-bs-toggle="dropdown" href="#" title="<?php echo lang('payment'); ?>">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <?php
                 $this->db->where('hospital_id', $this->hospital_id);
@@ -423,7 +406,7 @@
         <?php if ($this->ion_auth->in_group(['admin', 'Accountant', 'Doctor', 'Nurse', 'Laboratorist'])) : ?>
           <?php if (in_array('patient', $this->modules)) : ?>
             <li class="nav-item dropdown">
-              <a class="nav-link nav-link-enhanced patient-link" data-toggle="dropdown" href="#" title="<?php echo lang('patient'); ?>">
+              <a class="nav-link nav-link-enhanced patient-link" data-bs-toggle="dropdown" href="#" title="<?php echo lang('patient'); ?>">
                 <i class="fas fa-user-plus nav-icon"></i>
                 <?php
                 $this->db->where('hospital_id', $this->hospital_id);
@@ -472,7 +455,7 @@
         <!-- Language Dropdown Menu -->
         <?php if ($this->ion_auth->in_group(array('admin', 'superadmin'))) { ?>
           <li class="nav-item dropdown">
-            <a class="nav-link nav-link-enhanced language-link" data-toggle="dropdown" href="#" title="<?php echo lang('language'); ?>">
+            <a class="nav-link nav-link-enhanced language-link" data-bs-toggle="dropdown" href="#" title="<?php echo lang('language'); ?>">
               <i class="flag-icon flag-icon-<?php echo $flagIcon; ?> language-flag"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right p-0">
@@ -496,7 +479,7 @@
 
         <?php if ($this->ion_auth->in_group(array('Patient', 'Doctor'))) { ?>
           <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="">
+            <a class="nav-link" data-bs-toggle="dropdown" href="">
               <i class="flag-icon flag-icon-<?php echo $flagIcon; ?>"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right p-0">
@@ -522,7 +505,7 @@
         <?php } ?>
 
         <li class="nav-item d-none d-md-block">
-          <a class="nav-link nav-link-enhanced fullscreen-link" title="<?php echo lang('full_screen'); ?>" data-widget="fullscreen" role="button">
+          <a class="nav-link nav-link-enhanced fullscreen-link" title="<?php echo lang('full_screen'); ?>" data-lte-toggle="fullscreen" role="button">
             <i class="fas fa-expand-arrows-alt nav-icon"></i>
           </a>
         </li>
@@ -548,109 +531,43 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-1 px-2">
-      <!-- Brand Logo -->
-      <a href="home" class="brand-link py-6 bg-gradient-to-r from-indigo-900 to-purple-900">
-        <?php if (!$this->ion_auth->in_group(array('superadmin'))) { ?>
-          <div class="flex items-center justify-center py-1">
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image w-24 h-24 rounded-full shadow-2xl border-4 border-white">
-            <span class="brand-text text-3xl font-black text-white tracking-widest uppercase"><?php echo $settings->title; ?></span>
-          </div>
-        <?php } else { ?>
-          <div class="flex flex-col items-center justify-center">
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image w-24 h-24 rounded-full shadow-2xl border-4 border-white">
-            <span class="brand-text text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"><?php echo $settings->title; ?></span>
-          </div>
-        <?php } ?>
-      </a>
+    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+      <!--begin::Sidebar Brand-->
+      <div class="sidebar-brand">
+        <a href="home" class="brand-link">
+          <?php if (!$this->ion_auth->in_group(array('superadmin'))) { ?>
+            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
+            <span class="brand-text fw-light"><?php echo $settings->title; ?></span>
+          <?php } else { ?>
+            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
+            <span class="brand-text fw-light"><?php echo $settings->title; ?></span>
+          <?php } ?>
+        </a>
+      </div>
+      <!--end::Sidebar Brand-->
 
-      <!-- <div class="user-panel d-flex border-bottom-0">
-        <div class="mt-2 ml-2">
-          <?php
-          $user_id = $this->ion_auth->get_user_id();
-          $user_group = $this->ion_auth->get_users_groups($user_id)->row();
-          $group_name = strtolower($user_group->name);
-
-          if ($group_name === 'admin') {
-            $table = 'users';
-            $id_field = 'id';
-          } elseif ($group_name === 'superadmin') {
-            $table = 'superadmin';
-            $id_field = 'ion_user_id';
-          } else {
-            $table = $group_name;
-            $id_field = 'ion_user_id';
-          }
-
-          $user = $this->db->get_where($table, array($id_field => $user_id))->row();
-          ?>
-        </div>
-        <div class="info mt-2">
-          <a href="profile" class="d-block text-sm text-gray">
-            <i class="fas fa-user-circle mr-2"></i>
-            <?php
-            $username = $this->ion_auth->user()->row()->username;
-            echo !empty($username) ? $username : '';
-            ?>
-            - <small class="text-gray-300">
-              <?php echo ucfirst($group_name); ?>
-            </small>
-          </a>
-        </div>
-      </div> -->
-
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-
-
-        <!-- SidebarSearch Form -->
-        <!-- <div class="form-inline">
-          <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div> -->
-
-        <!-- Sidebar Menu -->
+      <!--begin::Sidebar Wrapper-->
+      <div class="sidebar-wrapper">
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column nav-compact" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-
+          <!--begin::Sidebar Menu-->
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" data-accordion="false">
 
             <?php $this->load->view('menu'); ?>
 
-            <?php
-            //  $this->load->view('menu_demo');
-            ?>
-
           </ul>
+          <!--end::Sidebar Menu-->
         </nav>
-        <!-- /.sidebar-menu -->
       </div>
-      <!-- /.sidebar -->
+      <!--end::Sidebar Wrapper-->
     </aside>
 
-
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark elevation-4">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+    <!-- Main Content Wrapper -->
+    <main class="app-main">
 
 
 
   <style>
-    .nav-compact .nav-item .nav-link {
+    .sidebar-menu .nav-item .nav-link {
       padding: 0.5rem 0.5rem;
     }
 
@@ -696,7 +613,7 @@
 
 
   <style>
-    .nav-sidebar .nav-item .nav-link {
+    .sidebar-menu .nav-item .nav-link {
       padding: 0.75rem 1rem;
       font-size: 1.1em;
       font-weight: 500;
@@ -773,17 +690,17 @@
 
 
 
-    .main-sidebar {
+    .app-sidebar {
       background: #2c3e50;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
-    .nav-sidebar .nav-item .nav-link {
+    .sidebar-menu .nav-item .nav-link {
       color: #ecf0f1;
       transition: all 0.3s ease;
     }
 
-    .nav-sidebar .nav-item .nav-link:hover {
+    .sidebar-menu .nav-item .nav-link:hover {
       background: var(--accent-color);
       transform: translateX(5px);
     }
@@ -1135,16 +1052,16 @@
     }
 
     /* Enhanced Header Elements - Individual Improvements */
-    .main-header {
+    .app-header {
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
     }
 
-    .main-header .navbar-nav {
+    .app-header .navbar-nav {
       align-items: center;
     }
 
-    .main-header .navbar-nav .nav-item {
+    .app-header .navbar-nav .nav-item {
       margin: 0 2px;
     }
 

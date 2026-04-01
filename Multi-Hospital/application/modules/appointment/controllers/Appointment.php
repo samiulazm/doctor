@@ -1622,7 +1622,7 @@ class Appointment extends MX_Controller
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
 
-                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-toggle = "modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             }
 
             $options2 = '<a class="btn detailsbutton buttoncolor" title="' . lang('info') . '"  href="appointment/appointmentDetails?id=' . $appointment->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
@@ -1717,7 +1717,7 @@ class Appointment extends MX_Controller
         foreach ($data['appointments'] as $appointment) {
             $i = $i + 1;
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -1737,9 +1737,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -1895,7 +1895,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -1915,9 +1915,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-danger btn-sm delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2049,7 +2049,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2069,9 +2069,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2204,7 +2204,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
 $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amount;
@@ -2223,9 +2223,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2366,7 +2366,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2386,9 +2386,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2530,7 +2530,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2550,9 +2550,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2680,7 +2680,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2700,9 +2700,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2868,7 +2868,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
 
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
@@ -2891,9 +2891,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             if ($appointment->date > strtotime(date('Y-m-d'))) {
                 $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="history" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
                 if (!empty($doctordetails)) {
@@ -3118,13 +3118,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $patient_details = $this->patient_model->getPatientByIonUserId($patient_ion_id);
             $patient_id = $patient_details->id;
             if ($patient_id == $appointment->patient) {
-                $option1 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></button>';
+                $option1 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></button>';
                 $option2 = '<a class="btn btn-info btn-xs btn_width delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
                 $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="" data-toggle = "modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                    $patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
                 if (!empty($doctordetails)) {

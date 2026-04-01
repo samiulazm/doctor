@@ -55,7 +55,7 @@
                                             <td><?php echo $slide->text3; ?></td>
                                             <td><?php echo $slide->status; ?></td>
                                             <td class="no-print d-flex gap-1">
-                                                <a type="button" class="btn btn-primary btn-sm btn_width editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $slide->id; ?>"><i class="fa fa-edit"> </i></a>
+                                                <a type="button" class="btn btn-primary btn-sm btn_width editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $slide->id; ?>"><i class="fa fa-edit"> </i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -98,7 +98,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_slide'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
 
             <div class="modal-body">

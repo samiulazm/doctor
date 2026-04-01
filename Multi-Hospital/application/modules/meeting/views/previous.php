@@ -58,7 +58,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
     <div class="modal-dialog modal-lg"">
         <div class=" modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             <h4 class="modal-title font-weight-bold"> <?php echo lang('add_meeting'); ?></h4>
         </div>
         <div class="modal-body row">
@@ -179,7 +179,7 @@
     <div class="modal-dialog modal-lg"">
         <div class=" modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_meeting'); ?></h4>
         </div>
         <div class="modal-body row">
@@ -279,7 +279,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-location-arrow"></i> <?php echo lang('send_sms_to_patient'); ?></h4>
             </div>
             <div class="modal-body">
@@ -289,7 +289,7 @@
                     </div>
                     <input type="hidden" id="id" value="" name="id">
                     <button type="submit" name="submit" class="btn btn-info submit_button"><?php echo lang('yes'); ?></button>
-                    <button type="submit" name="submit" class="btn btn-info invoicebutton" data-dismiss="modal" aria-hidden="true"><?php echo lang('cancel'); ?></button>
+                    <button type="submit" name="submit" class="btn btn-info invoicebutton" data-bs-dismiss="modal" aria-hidden="true"><?php echo lang('cancel'); ?></button>
                 </form>
             </div>
         </div><!-- /.modal-content -->

@@ -243,7 +243,7 @@
                 <h5 class="modal-title">
                     <i class="fas fa-info-circle mr-2"></i>Medicine Details
                 </h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body" id="medicineDetailsBody">
                 <!-- Details will be loaded here -->

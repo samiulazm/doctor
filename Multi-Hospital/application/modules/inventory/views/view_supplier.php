@@ -20,7 +20,7 @@
                     <a href="inventory/supplier" class="btn btn-secondary btn-sm px-4 py-3">
                         <i class="fa fa-arrow-left"></i> <?php echo lang('suppliers') ?: 'Back to Suppliers'; ?>
                     </a>
-                    <a href="#" onclick="editSupplier(<?php echo $supplier->id; ?>)" data-toggle="modal" data-target="#editSupplierModal" class="btn btn-primary btn-sm px-4 py-3">
+                    <a href="#" onclick="editSupplier(<?php echo $supplier->id; ?>)" data-bs-toggle="modal" data-bs-target="#editSupplierModal" class="btn btn-primary btn-sm px-4 py-3">
                         <i class="fa fa-edit"></i> <?php echo lang('edit_supplier') ?: 'Edit Supplier'; ?>
                     </a>
                 </div>
@@ -33,14 +33,14 @@
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>

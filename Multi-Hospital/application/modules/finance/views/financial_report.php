@@ -44,7 +44,7 @@
                         <!-- <div class="card-header">
                             <h3 class="card-title">All the department names and related informations</h3>
                             <div class="float-right">
-                                <a data-toggle="modal" href="#myModal">
+                                <a data-bs-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm" onclick="javascript:window.print();">
                                         <i class="fa fa-print"></i> <?php echo lang('print'); ?>
                                     </button>

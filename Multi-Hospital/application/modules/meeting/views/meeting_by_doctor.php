@@ -13,10 +13,10 @@
                 <header class="panel-heading tab-bg-dark-navy-blueee row">
                     <ul class="nav nav-tabs col-md-8">
                         <li class="active">
-                            <a data-toggle="tab" href="#calendardetails"><?php echo lang('meetings'); ?> <?php echo lang('calendar'); ?></a>
+                            <a data-bs-toggle="tab" href="#calendardetails"><?php echo lang('meetings'); ?> <?php echo lang('calendar'); ?></a>
                         </li>
                         <li class="">
-                            <a data-toggle="tab" href="#list"><?php echo lang('meetings'); ?></a>
+                            <a data-bs-toggle="tab" href="#list"><?php echo lang('meetings'); ?></a>
                         </li>
 
                     </ul>
@@ -83,7 +83,7 @@
                                                         </td>
                                                         <td>
                                                             <!--
-                                                        <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-toggle="modal" data-id="<?php echo $meeting->id; ?>"><i class="fa fa-edit"> <?php echo lang('edit'); ?></i></button>   
+                                                        <button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="<?php echo $meeting->id; ?>"><i class="fa fa-edit"> <?php echo lang('edit'); ?></i></button>   
                                                         -->
                                                             <a class="btn btn-info btn-xs btn_width delete_button" href="meeting/delete?id=<?php echo $meeting->id; ?>&doctor_id=<?php echo $meeting->doctor; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i></a>
                                                         </td>
@@ -163,7 +163,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">�</button>
                 <h4 class="modal-title font-weight-bold"><i class="fa fa-edit"></i> <?php echo lang('edit_meeting'); ?></h4>
             </div>
             <div class="modal-body">
@@ -221,7 +221,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold"><?php echo lang('patient') . " " . lang('history'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -232,7 +232,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

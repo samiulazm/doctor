@@ -1,0 +1,281 @@
+/* ======================================
+   Bootstrap 4 -> 5 Compatibility Shim
+   Load AFTER adminlte.min.css
+   Preserves BS4 class names so 400+ view
+   files don't need modification.
+   ====================================== */
+
+/* form-group: 2,363 occurrences across 236 files */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* BS4 directional spacing -> preserved for BS5 */
+.ml-0 { margin-left: 0 !important; }
+.ml-1 { margin-left: 0.25rem !important; }
+.ml-2 { margin-left: 0.5rem !important; }
+.ml-3 { margin-left: 1rem !important; }
+.ml-4 { margin-left: 1.5rem !important; }
+.ml-5 { margin-left: 3rem !important; }
+.ml-auto { margin-left: auto !important; }
+
+.mr-0 { margin-right: 0 !important; }
+.mr-1 { margin-right: 0.25rem !important; }
+.mr-2 { margin-right: 0.5rem !important; }
+.mr-3 { margin-right: 1rem !important; }
+.mr-4 { margin-right: 1.5rem !important; }
+.mr-5 { margin-right: 3rem !important; }
+.mr-auto { margin-right: auto !important; }
+
+.pl-0 { padding-left: 0 !important; }
+.pl-1 { padding-left: 0.25rem !important; }
+.pl-2 { padding-left: 0.5rem !important; }
+.pl-3 { padding-left: 1rem !important; }
+.pl-4 { padding-left: 1.5rem !important; }
+.pl-5 { padding-left: 3rem !important; }
+
+.pr-0 { padding-right: 0 !important; }
+.pr-1 { padding-right: 0.25rem !important; }
+.pr-2 { padding-right: 0.5rem !important; }
+.pr-3 { padding-right: 1rem !important; }
+.pr-4 { padding-right: 1.5rem !important; }
+.pr-5 { padding-right: 3rem !important; }
+
+/* Directional text alignment */
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+
+/* Directional float */
+.float-left { float: left !important; }
+.float-right { float: right !important; }
+
+/* font-weight-* renamed in BS5 to fw-* */
+.font-weight-bold { font-weight: 700 !important; }
+.font-weight-bolder { font-weight: bolder !important; }
+.font-weight-normal { font-weight: 400 !important; }
+.font-weight-light { font-weight: 300 !important; }
+.font-weight-lighter { font-weight: lighter !important; }
+
+/* font-italic renamed in BS5 */
+.font-italic { font-style: italic !important; }
+
+/* close button: BS5 uses .btn-close, shim old .close */
+button.close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  color: #000;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+button.close:hover {
+  opacity: 0.75;
+}
+.close span { display: none; }
+
+/* dropdown-menu-right -> dropdown-menu-end */
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+
+/* input-group-append / input-group-prepend removed in BS5 */
+.input-group-append,
+.input-group-prepend {
+  display: flex;
+}
+
+/* btn-block removed in BS5 */
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* custom-control / custom-switch / custom-select */
+.custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+}
+.custom-control-input {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 1rem;
+  height: 1rem;
+  opacity: 0;
+}
+.custom-control-label {
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+  cursor: pointer;
+}
+.custom-switch {
+  padding-left: 2.25rem;
+}
+.custom-select {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  appearance: none;
+}
+
+/* badge-pill -> rounded-pill in BS5 */
+.badge-pill {
+  border-radius: 50rem !important;
+}
+
+/* badge color classes (BS5 uses bg-* instead of badge-*) */
+.badge-primary { background-color: var(--bs-primary, #0d6efd) !important; color: #fff !important; }
+.badge-secondary { background-color: var(--bs-secondary, #6c757d) !important; color: #fff !important; }
+.badge-success { background-color: var(--bs-success, #198754) !important; color: #fff !important; }
+.badge-danger { background-color: var(--bs-danger, #dc3545) !important; color: #fff !important; }
+.badge-warning { background-color: var(--bs-warning, #ffc107) !important; color: #212529 !important; }
+.badge-info { background-color: var(--bs-info, #0dcaf0) !important; color: #212529 !important; }
+.badge-light { background-color: var(--bs-light, #f8f9fa) !important; color: #212529 !important; }
+.badge-dark { background-color: var(--bs-dark, #212529) !important; color: #fff !important; }
+
+/* elevation-* (AdminLTE 3 only) -> shadow utilities */
+.elevation-1 { box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24) !important; }
+.elevation-2 { box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23) !important; }
+.elevation-3 { box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23) !important; }
+.elevation-4 { box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22) !important; }
+
+/* media object removed in BS5 */
+.media { display: flex; align-items: flex-start; }
+.media-body { flex: 1; }
+
+/* content-wrapper: 250+ view files use this class.
+   In AdminLTE 4, this is nested inside <main class="app-main"> from dashboard.php.
+   Make it behave like AdminLTE 4's app-content. */
+.content-wrapper {
+  flex: 1;
+  padding: 0;
+}
+
+/* content-header: maps to AdminLTE 4's app-content-header */
+.content-header {
+  padding: 1rem 0.5rem;
+}
+
+/* content section: maps to AdminLTE 4's app-content */
+.content-wrapper > .content,
+section.content {
+  padding: 0 0.5rem;
+}
+
+/* nav-sidebar compatibility for menu.php (AdminLTE 4 uses .sidebar-menu) */
+.nav-sidebar {
+  flex-direction: column;
+}
+.nav-sidebar .nav-item .nav-link {
+  display: flex;
+  align-items: center;
+}
+.nav-sidebar .nav-link p {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-sidebar .nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  max-width: 1.5rem;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+
+/* AdminLTE 3 arrow (.right.fas.fa-angle-left) -> AdminLTE 4 nav-arrow compatibility */
+.sidebar-menu .nav-link > p > i.right,
+.sidebar-menu .nav-link > p > .fa-angle-left {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  left: auto !important;
+  transition: transform ease-in-out 0.3s;
+  transform: translateY(-50%);
+}
+.sidebar-menu .menu-open > .nav-link > p > i.right,
+.sidebar-menu .menu-open > .nav-link > p > .fa-angle-left {
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+/* card-header BS5 compatibility */
+.card-header:first-child {
+  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+/* BS4 sr-only -> BS5 visually-hidden */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* no-gutters removed in BS5 (use g-0) */
+.no-gutters {
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+}
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* thead-dark / thead-light removed in BS5 */
+.thead-dark th {
+  color: #fff;
+  background-color: #343a40;
+  border-color: #454d55;
+}
+.thead-light th {
+  color: #495057;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+
+/* small-box .icon -> .small-box-icon (AdminLTE 3 -> 4 rename) */
+.small-box > .icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 0;
+  height: 70px;
+  font-size: 70px;
+  color: rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s linear;
+}
+.small-box:hover > .icon {
+  transform: scale(1.1);
+}
+
+/* page-link focus shadow (BS5 changed the focus ring) */
+.page-link:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}

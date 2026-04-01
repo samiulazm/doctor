@@ -904,8 +904,21 @@ class Ion_auth_model extends CI_Model {
             $this->set_error('login_unsuccessful');
             return FALSE;
         }
-        $users = $this->db->get_where('users', array('email' => $identity))->row();
-      
+        $identity = trim((string) $identity);
+        $this->db->group_start();
+        $this->db->where('email', $identity);
+        $this->db->or_where('username', $identity);
+        $this->db->group_end();
+        $users = $this->db->order_by('id', 'desc')->get($this->tables['users'], 1)->row();
+
+        if (empty($users)) {
+            $this->hash_password($password);
+            $this->increase_login_attempts($identity);
+            $this->trigger_events('post_login_unsuccessful');
+            $this->set_error('login_unsuccessful');
+            return FALSE;
+        }
+
         if (!empty($users->hospital_ion_id)) {
             $hospital_details = $this->db->get_where('users', array('id' => $users->hospital_ion_id))->row();
             if (empty($hospital_details)) {
@@ -920,12 +933,6 @@ class Ion_auth_model extends CI_Model {
         }
         $this->trigger_events('extra_where');
 
-        $query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login')
-                ->where($this->identity_column, $identity)
-                ->limit(1)
-                ->order_by('id', 'desc')
-                ->get($this->tables['users']);
-
         if ($this->is_time_locked_out($identity)) {
             //Hash something anyway, just to take up time
             $this->hash_password($password);
@@ -936,34 +943,30 @@ class Ion_auth_model extends CI_Model {
             return FALSE;
         }
 
-        if ($query->num_rows() === 1) {
-            $user = $query->row();
+        $password_ok = $this->hash_password_db($users->id, $password);
 
-            $password = $this->hash_password_db($user->id, $password);
+        if ($password_ok === TRUE) {
+            if ($users->active == 0) {
+                $this->trigger_events('post_login_unsuccessful');
+                $this->set_error('login_unsuccessful_not_active');
 
-            if ($password === TRUE) {
-                if ($user->active == 0) {
-                    $this->trigger_events('post_login_unsuccessful');
-                    $this->set_error('login_unsuccessful_not_active');
-
-                    return FALSE;
-                }
-
-                $this->set_session($user);
-
-                $this->update_last_login($user->id);
-
-                $this->clear_login_attempts($identity);
-
-                if ($remember && $this->config->item('remember_users', 'ion_auth')) {
-                    $this->remember_user($user->id);
-                }
-
-                $this->trigger_events(array('post_login', 'post_login_successful'));
-                $this->set_message('login_successful');
-
-                return TRUE;
+                return FALSE;
             }
+
+            $this->set_session($users);
+
+            $this->update_last_login($users->id);
+
+            $this->clear_login_attempts($identity);
+
+            if ($remember && $this->config->item('remember_users', 'ion_auth')) {
+                $this->remember_user($users->id);
+            }
+
+            $this->trigger_events(array('post_login', 'post_login_successful'));
+            $this->set_message('login_successful');
+
+            return TRUE;
         }
 
         //Hash something anyway, just to take up time

@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 	<a href="#" class="navbar-brand">PayUMoney Gateway</a>
 
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 

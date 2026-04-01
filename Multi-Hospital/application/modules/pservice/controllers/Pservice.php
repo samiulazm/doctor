@@ -182,7 +182,7 @@ class Pservice extends MX_Controller
             $option1 = '';
             if ($this->ion_auth->in_group(array('admin')) || $permis == 'ok') {
 
-                $option1 = '<a type="button" class="btn btn-info btn_width editbutton" data-toggle="modal" data-id="' . $pservice->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+                $option1 = '<a type="button" class="btn btn-info btn_width editbutton" data-bs-toggle="modal" data-id="' . $pservice->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
             }
 
             if ($this->ion_auth->in_group(array('admin')) || $permis_2 == 'ok') {

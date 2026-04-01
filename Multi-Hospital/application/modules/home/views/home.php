@@ -72,7 +72,7 @@
                                             <i class="fas fa-file-medical mr-2"></i>
                                             <?php echo lang('medical_history'); ?>
                                         </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                 <i class="fas fa-times mr-1"></i>Close
                                             </button>
                                         </div>
@@ -721,8 +721,8 @@
 
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
-                                        <a href="hospital" class="small-box-footer">
-                                            <div class="small-box badge-info">
+                                        <a href="hospital" class="text-decoration-none">
+                                            <div class="small-box bg-info">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -738,21 +738,17 @@
 
                                                     <p class="text-lg"><?php echo lang('total'); ?> <?php echo lang('hospitals'); ?></p>
                                                 </div>
-                                                <div class="icon">
+                                                <div class="small-box-icon">
                                                     <i class="fa fa-hospital"></i>
                                                 </div>
-                                                <?php if ($this->ion_auth->in_group('superadmin')) { ?>
-                                                    <!-- <a href="hospital" class="small-box-footer"><?php echo lang("more_infoo"); ?> <i class="fas fa-arrow-circle-right"></i></a> -->
-                                                <?php } ?>
                                             </div>
                                         </a>
                                     </div>
-                                    </a>
 
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
-                                        <a href=" hospital/active" class="small-box-footer">
-                                            <div class="small-box badge-success">
+                                        <a href="hospital/active" class="text-decoration-none">
+                                            <div class="small-box bg-success">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -772,21 +768,17 @@
 
                                                     <p class="text-lg"><?php echo lang('active'); ?> <?php echo lang('hospitals'); ?></p>
                                                 </div>
-                                                <div class="icon">
+                                                <div class="small-box-icon">
                                                     <i class="fa fa-check"></i>
                                                 </div>
-                                                <?php if ($this->ion_auth->in_group('superadmin')) { ?>
-                                                    <!-- <a href=" hospital/active" class="small-box-footer"><?php echo lang("more_infoo"); ?> <i class="fas fa-arrow-circle-right"></i></a> -->
-                                                <?php } ?>
                                             </div>
                                         </a>
                                     </div>
-                                    </a>
 
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
-                                        <a href="hospital/disable" class="small-box-footer">
-                                            <div class="small-box badge-secondary">
+                                        <a href="hospital/disable" class="text-decoration-none">
+                                            <div class="small-box bg-secondary">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -806,21 +798,17 @@
 
                                                     <p class="text-lg"><?php echo lang('inactive'); ?> <?php echo lang('hospitals'); ?></p>
                                                 </div>
-                                                <div class="icon">
+                                                <div class="small-box-icon">
                                                     <i class="fa fa-pause"></i>
                                                 </div>
-                                                <?php if ($this->ion_auth->in_group('superadmin')) { ?>
-                                                    <!-- <a href="hospital/disable" class="small-box-footer"><?php echo lang("more_infoo"); ?> <i class="fas fa-arrow-circle-right"></i></a> -->
-                                                <?php } ?>
                                             </div>
                                         </a>
                                     </div>
-                                    </a>
 
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
-                                        <a href="systems/expiredHospitals" class="small-box-footer">
-                                            <div class="small-box badge-danger">
+                                        <a href="systems/expiredHospitals" class="text-decoration-none">
+                                            <div class="small-box bg-danger">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -845,17 +833,12 @@
 
                                                     <p class="text-lg"><?php echo lang('licence_expired'); ?></p>
                                                 </div>
-                                                <div class="icon">
+                                                <div class="small-box-icon">
                                                     <i class="fa fa-ban"></i>
                                                 </div>
-                                                <?php if ($this->ion_auth->in_group('superadmin')) { ?>
-                                                    <!-- <a href="systems/expiredHospitals" class="small-box-footer"><?php echo lang("more_infoo"); ?> <i class="fas fa-arrow-circle-right"></i></a> -->
-                                                <?php } ?>
                                             </div>
                                         </a>
                                     </div>
-                                    </a>
-
 
                                 </div>
                                 <div class="row">
@@ -1627,10 +1610,6 @@
 
 
 
-
-
-
-</section>
 
 <?php
 if (!$this->ion_auth->in_group(array('superadmin'))) {

@@ -10,7 +10,7 @@
 
                 <div class="col-md-4 no-print float-right">
                     <div class="float-right"></div>
-                    <a data-toggle="modal" href="#myModal">
+                    <a data-bs-toggle="modal" href="#myModal">
                         <div class="btn-group float-right">
                             <button id="" class="btn green btn-xs">
                                 <i class="fa fa-plus-circle"></i> <?php echo lang('add_doctor'); ?>
@@ -43,7 +43,7 @@
                                     <td><?php echo $featured->profile; ?></td>
                                     <td class="center"><?php echo $featured->description; ?></td>
                                     <td class="no-print d-flex gap-1">
-                                        <button type="button" class="btn btn-info btn-xs btn_width editbutton" title="<?php echo lang('edit'); ?>" data-toggle="modal" data-id="<?php echo $featured->id; ?>"><i class="fa fa-edit"> </i></button>
+                                        <button type="button" class="btn btn-info btn-xs btn_width editbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $featured->id; ?>"><i class="fa fa-edit"> </i></button>
                                         <a class="btn btn-info btn-xs btn_width delete_button" title="<?php echo lang('delete'); ?>" href="featured/delete?id=<?php echo $featured->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i></a>
                                     </td>
                                 </tr>
@@ -72,7 +72,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add_doctor'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="featured/addNew" class="clearfix" method="post" enctype="multipart/form-data">
@@ -136,7 +136,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_doctor'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editFeaturedForm" class="clearfix" action="featured/addNew" method="post" enctype="multipart/form-data">
@@ -168,7 +168,7 @@
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
-                                    <!-- <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a> -->
+                                    <!-- <a href="#" class="btn btn-danger fileupload-exists" data-bs-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a> -->
                                 </div>
                             </div>
 

@@ -50,8 +50,8 @@
             <?php echo form_open("auth/forgot_password"); ?>
             <div class="login-wrap">
                 <p>
-                    <label for="identity"><?php echo (($type == 'email') ? sprintf(lang('forgot_password_email_label'), $identity_label) : sprintf(lang('forgot_password_identity_label'), $identity_label)); ?></label> <br />
-                    <input type="text" class="form-control form-control-lg" placeholder="<?php echo lang('email'); ?>" value="" name="email">
+                    <label for="email"><?php echo sprintf(lang('forgot_password_email_label'), $identity_label); ?></label> <br />
+                    <input type="text" class="form-control form-control-lg" id="email" placeholder="<?php echo html_escape($identity_label); ?>" value="" name="email" autocomplete="username">
                 </p>
             </div>
             <input type="submit" class="btn detailsbutton" name="submit" value="Submit">

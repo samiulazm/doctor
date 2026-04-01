@@ -23,14 +23,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -48,17 +48,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="analysisTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
+                                    <a class="nav-link active" id="upload-tab" data-bs-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
                                         <i class="fas fa-upload mr-1"></i> <?php echo lang('upload_analyze'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
+                                    <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
                                         <i class="fas fa-file-medical mr-1"></i> <?php echo lang('analysis_report'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
+                                    <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                         <i class="fas fa-history mr-1"></i> <?php echo lang('analytics_history'); ?>
                                     </a>
                                 </li>
@@ -251,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <i class="fas fa-file-medical mr-2"></i>
                     Medical Image Analysis Report
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -259,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!-- Report content will be loaded here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary" id="printReportBtn">
                     <i class="fas fa-print mr-2"></i>
                     <?php echo lang('print_report'); ?>
@@ -416,7 +416,7 @@ $(document).ready(function() {
     });
     
     // Handle tab clicks using Bootstrap's built-in functionality
-    $('#analysisTabs a[data-toggle="tab"]').on('click', function (e) {
+    $('#analysisTabs a[data-bs-toggle="tab"]').on('click', function (e) {
         e.preventDefault();
         var target = $(this).attr('href');
         console.log('Tab clicked:', target);
