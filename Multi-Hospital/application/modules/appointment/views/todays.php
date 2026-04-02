@@ -77,21 +77,19 @@
 
 
 <!-- Add Appointment Modal-->
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class=" modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold">
                     <i class="fas fa-calendar-plus mr-2"></i>
                     <?php echo lang('add_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" class="clearfix" enctype="multipart/form-data">
-                    <div class="form-row">
+                    <div class="row g-3">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>&#42;</label>
                             <select class="form-control form-control-lg m-bot15 pos_select" id="pos_select" name="patient" value=''>
@@ -344,21 +342,19 @@
 
 
 <!-- Edit Event Modal-->
-<div class="modal fade" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class=" modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold">
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body row">
                 <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix" method="post" enctype="multipart/form-data">
-                    <div class="form-row">
+                    <div class="row g-3">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>&#42;</label>
                             <select class="form-control form-control-lg m-bot15  pos_select1 patient" id="pos_select1" name="patient" value='' required>
@@ -595,4 +591,3 @@
 </script>
 
 <script src="common/extranal/js/appointment/todays.js"></script>
-<script src="common/extranal/js/appointment/appointment_select2.js"></script>

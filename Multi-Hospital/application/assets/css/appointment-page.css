@@ -1,0 +1,147 @@
+/**
+ * Appointment list + Add/Edit modal — layout and visual refresh
+ * Scoped under .appointment-page and #myModal / #myModal2
+ */
+
+/* ---- Page shell ---- */
+.appointment-page {
+  --ap-border: #e2e8f0;
+  --ap-muted: #64748b;
+  --ap-heading: #0f172a;
+  --ap-accent: #3b82f6;
+  --ap-surface: #ffffff;
+  --ap-soft: #f8fafc;
+}
+
+.appointment-page .content-header {
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.appointment-page .appointment-list-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--ap-border);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+}
+
+.appointment-page .appointment-list-card > .card-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid var(--ap-border);
+  padding: 1.25rem 1.5rem;
+}
+
+.appointment-page .appointment-list-card .card-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ap-heading);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* ---- Status tabs ---- */
+.appointment-page .appointment-status-tabs {
+  border-bottom: 1px solid var(--ap-border);
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.appointment-page .appointment-status-tabs .nav-link {
+  border: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: var(--ap-muted);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.65rem 1rem;
+  margin-bottom: -1px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.appointment-page .appointment-status-tabs .nav-link:hover {
+  color: var(--ap-heading);
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.appointment-page .appointment-status-tabs .nav-link.active {
+  color: var(--ap-accent);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border);
+  border-bottom-color: var(--ap-surface);
+}
+
+.appointment-page .card-body.bg-light {
+  background: var(--ap-soft) !important;
+  padding: 1.5rem !important;
+}
+
+/* ---- DataTables table ---- */
+.appointment-page .appointment-table-wrap {
+  background: var(--ap-surface);
+  border-radius: 0.75rem;
+  border: 1px solid var(--ap-border);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.appointment-page .appointment-table-wrap .table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.appointment-page .appointment-table-wrap thead th {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--ap-border) !important;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.appointment-page .appointment-table-wrap tbody td {
+  padding: 0.9rem 1rem;
+  font-size: 0.9375rem;
+  color: #334155;
+  border-color: #f1f5f9 !important;
+  vertical-align: middle;
+}
+
+.appointment-page .appointment-table-wrap tbody tr:hover td {
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.appointment-page .appointment-table-wrap.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* DataTables injected wrapper */
+.appointment-page .dataTables_wrapper .dataTables_length,
+.appointment-page .dataTables_wrapper .dataTables_filter {
+  padding: 0.75rem 1rem 0;
+  font-size: 0.875rem;
+}
+
+.appointment-page .dataTables_wrapper .dataTables_info,
+.appointment-page .dataTables_wrapper .dataTables_paginate {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.appointment-page .dataTables_wrapper .dataTables_filter input {
+  border-radius: 0.5rem;
+  border: 1px solid var(--ap-border);
+  padding: 0.35rem 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.appointment-page .dataTables_wrapper .pagination .page-link {
+  border-radius: 0.375rem;
+  margin: 0 0.125rem;
+}
+
+/* ---- Add / Edit modal form ---- */
+/* Modal styles are now defined inline in appointment.php for specificity */

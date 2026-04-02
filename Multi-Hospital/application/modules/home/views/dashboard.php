@@ -18,6 +18,7 @@
 
 <head>
   <base href="<?php echo base_url(); ?>"> 
+  <script>window.CI_BASE_URL = <?php echo json_encode(rtrim(base_url(), '/') . '/'); ?>;</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php

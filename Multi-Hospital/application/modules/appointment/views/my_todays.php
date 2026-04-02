@@ -344,4 +344,3 @@
 </script>
 
 <script src="common/extranal/js/appointment/appointment_my_todays.js"></script>
-<script src="common/extranal/js/appointment/appointment_select2.js"></script>

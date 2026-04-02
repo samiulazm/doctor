@@ -143,6 +143,16 @@ if ($language == 'english') {
 <script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="adminlte/plugins/select2/js/select2.full.min.js"></script>
+<?php
+// Appointment views included these scripts before jQuery/Select2 in the footer; $.fn.select2 was undefined.
+if ($this->router->fetch_class() === 'appointment') {
+    $m = $this->router->fetch_method();
+    if (in_array($m, ['index', 'request'], true)) {
+        echo '<script src="common/extranal/js/appointment/appointment.js"></script>' . "\n";
+    }
+    echo '<script src="common/extranal/js/appointment/appointment_select2.js"></script>' . "\n";
+}
+?>
 <script src="adminlte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 <script src="adminlte/plugins/inputmask/jquery.inputmask.min.js"></script>
 <script src="adminlte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>

@@ -465,4 +465,3 @@
 <script type="text/javascript">
     var select_patient = "<?php echo lang('select_patient'); ?>";
 </script>
-<script src="common/extranal/js/appointment/appointment_select2.js"></script>

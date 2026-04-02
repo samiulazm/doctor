@@ -2,75 +2,254 @@
 <!--main content start-->
 
 <style>
-    .select2-container--default .select2-selection--single {
-        width: 248px !important;
+    /* Full-width Select2 inside appointment modals */
+    #myModal.modal-enhanced .select2-container,
+    #myModal2.modal-enhanced .select2-container {
+        width: 100% !important;
+        max-width: 100%;
     }
-    
+    #myModal.modal-enhanced .select2-container .select2-selection--single,
+    #myModal2.modal-enhanced .select2-container .select2-selection--single {
+        width: 100% !important;
+    }
+
+    /* ===== Cool Appointment Modal ===== */
+    .appointment-add-modal .modal-dialog {
+        max-width: 780px;
+    }
+
+    .appointment-add-modal .modal-content {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+    }
+
+    /* Header */
+    .appointment-add-modal .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.25rem 1.5rem;
+        border: none;
+        position: relative;
+    }
+    .appointment-add-modal .modal-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #f59e0b, #ef4444, #ec4899, #8b5cf6, #3b82f6);
+    }
+    .appointment-add-modal .modal-title {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        letter-spacing: -.01em;
+    }
+    .appointment-add-modal .modal-title i {
+        font-size: 1.1rem;
+        opacity: .9;
+    }
+    .appointment-add-modal .btn-close-white {
+        filter: invert(1) grayscale(100%) brightness(200%);
+        opacity: .8;
+        transition: opacity .2s;
+    }
+    .appointment-add-modal .btn-close-white:hover { opacity: 1; }
+
+    /* Body */
+    .appointment-add-modal .modal-body {
+        padding: 1.5rem;
+        background: #f8fafc;
+        max-height: min(75vh, 820px);
+        overflow-y: auto;
+    }
+    .appointment-add-modal .modal-body::-webkit-scrollbar { width: 6px; }
+    .appointment-add-modal .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .appointment-add-modal .modal-body::-webkit-scrollbar-thumb {
+        background: #cbd5e1; border-radius: 3px;
+    }
+
+    /* Form row */
+    .appointment-add-modal #addAppointmentForm > .row,
+    .appointment-add-modal #editAppointmentForm > .row {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: .5rem;
+    }
+
+    /* Section titles */
+    .appointment-add-modal .appointment-form-section-title {
+        font-size: .7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+        color: #94a3b8;
+        margin: 1rem 0 .5rem;
+        padding-bottom: .4rem;
+        border-bottom: 2px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+    }
+    .appointment-add-modal .appointment-form-section-title::before {
+        content: '';
+        width: 3px; height: 14px;
+        border-radius: 2px;
+        background: linear-gradient(180deg, #667eea, #764ba2);
+        display: inline-block;
+    }
+
+    /* Labels */
+    .appointment-add-modal label:not(.form-check-label):not(.custom-control-label) {
+        display: block;
+        font-size: .8rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: .35rem;
+        letter-spacing: .01em;
+    }
+
+    /* Inputs & selects */
+    .appointment-add-modal .form-control,
+    .appointment-add-modal .form-control-lg {
+        font-size: .9rem;
+        border: 1.5px solid #e2e8f0;
+        border-radius: .6rem;
+        padding: .55rem .75rem;
+        background: #fff;
+        transition: border-color .2s, box-shadow .2s;
+        height: auto;
+    }
+    .appointment-add-modal .form-control:focus {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 3px rgba(129,140,248,.18);
+    }
+
+    /* Select2 overrides */
+    .appointment-add-modal .select2-container--default .select2-selection--single {
+        min-height: 2.5rem;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: .6rem !important;
+        display: flex;
+        align-items: center;
+        padding: .15rem .5rem !important;
+        transition: border-color .2s, box-shadow .2s;
+    }
+    .appointment-add-modal .select2-container--default.select2-container--focus .select2-selection--single,
+    .appointment-add-modal .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: #818cf8 !important;
+        box-shadow: 0 0 0 3px rgba(129,140,248,.18) !important;
+    }
+    .appointment-add-modal .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 1.4 !important;
+        padding-right: 1.5rem !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: .9rem;
+        color: #334155;
+    }
+    .appointment-add-modal .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100%;
+        right: 6px;
+    }
+
+    /* pos_client / new patient section */
+    .appointment-add-modal .pos_client,
+    .appointment-add-modal .pos_client1 {
+        background: #f1f5f9;
+        border-radius: .75rem;
+        border: 1.5px dashed #cbd5e1;
+        padding: .75rem .5rem .25rem;
+        margin-top: .25rem !important;
+    }
+
+    /* Pay now checkbox */
+    .appointment-add-modal .info_message {
+        font-size: .8rem;
+        color: #64748b;
+        line-height: 1.45;
+    }
+
+    /* Card payment section */
+    .appointment-add-modal .cardPayment,
+    .appointment-add-modal .card1 {
+        border-radius: .75rem;
+        border: 1.5px solid #e2e8f0;
+        padding: 1rem;
+        background: #fff;
+        margin-top: .5rem;
+    }
+
+    /* Submit buttons inside form */
+    .appointment-add-modal .cashsubmit .btn,
+    .appointment-add-modal .cashsubmit1 .btn,
+    .appointment-add-modal .cardsubmit .btn,
+    .appointment-add-modal .cardsubmit1 .btn {
+        display: none;
+    }
+
+    /* Footer */
+    .appointment-add-modal .modal-footer {
+        background: #fff;
+        border-top: 1px solid #f1f5f9;
+        padding: 1rem 1.5rem;
+        gap: .75rem;
+    }
+    .appointment-add-modal .modal-footer .btn-outline-secondary {
+        border-radius: .5rem;
+        font-weight: 600;
+        font-size: .875rem;
+        padding: .5rem 1.25rem;
+        border-color: #e2e8f0;
+        color: #64748b;
+        transition: all .2s;
+    }
+    .appointment-add-modal .modal-footer .btn-outline-secondary:hover {
+        background: #f1f5f9;
+        color: #334155;
+    }
+    .appointment-add-modal .modal-footer .btn-primary {
+        border-radius: .5rem;
+        font-weight: 700;
+        font-size: .875rem;
+        padding: .5rem 1.75rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        box-shadow: 0 4px 14px rgba(102,126,234,.35);
+        transition: all .2s;
+    }
+    .appointment-add-modal .modal-footer .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(102,126,234,.45);
+    }
+
     /* View Appointment Modal Styles */
     .appointment-detail-row {
         margin-bottom: 15px;
         padding: 10px;
         border-bottom: 1px solid #eee;
     }
-    
-    .appointment-detail-row:last-child {
-        border-bottom: none;
-    }
-    
-    .detail-label {
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 5px;
-    }
-    
-    .detail-value {
-        color: #666;
-        word-wrap: break-word;
-    }
-    
-    .status-badge {
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: bold;
-    }
-    
-    .status-pending {
-        background-color: #fff3cd;
-        color: #856404;
-    }
-    
-    .status-confirmed {
-        background-color: #d4edda;
-        color: #155724;
-    }
-    
-    .status-treated {
-        background-color: #cce5ff;
-        color: #004085;
-    }
-    
-    .status-cancelled {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-    
-    .status-requested {
-        background-color: #e2e3e5;
-        color: #383d41;
-    }
-    
-    .view-btn {
-        padding: 4px 8px;
-        font-size: 12px;
-    }
+    .appointment-detail-row:last-child { border-bottom: none; }
+    .detail-label { font-weight: bold; color: #333; margin-bottom: 5px; }
+    .detail-value { color: #666; word-wrap: break-word; }
+    .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .status-pending { background-color: #fff3cd; color: #856404; }
+    .status-confirmed { background-color: #d4edda; color: #155724; }
+    .status-treated { background-color: #cce5ff; color: #004085; }
+    .status-cancelled { background-color: #f8d7da; color: #721c24; }
+    .status-requested { background-color: #e2e3e5; color: #383d41; }
+    .view-btn { padding: 4px 8px; font-size: 12px; }
 </style>
+<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/appointment-page.css">
 
 
 
 
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-gradient-light appointment-page">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -99,13 +278,13 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
+                    <div class="card shadow-lg border-0 appointment-list-card">
                         <div class="card-header bg-white py-4">
                             <h3 class="card-title font-weight-bold"><?php echo lang('List of All Appointments'); ?></h3>
                         </div>
 
                         <div class="card-body bg-light p-4">
-                            <ul class="nav nav-tabs mb-4">
+                            <ul class="nav nav-tabs mb-4 appointment-status-tabs">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#all"><?php echo lang('all'); ?></a>
                                 </li>
@@ -128,7 +307,8 @@
 
                             <div class="tab-content">
                                 <div id="all" class="tab-pane active">
-                                    <table class="table table-bordered" id="editable-sample5" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample5" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -141,10 +321,12 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div id="pending" class="tab-pane">
-                                    <table class="table table-bordered" id="editable-sample1" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample1" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -157,10 +339,12 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div id="confirmed" class="tab-pane">
-                                    <table class="table table-bordered" id="editable-sample2" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample2" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -173,10 +357,12 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div id="treated" class="tab-pane">
-                                    <table class="table table-bordered" id="editable-sample3" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample3" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -189,10 +375,12 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div id="cancelled" class="tab-pane">
-                                    <table class="table table-bordered" id="editable-sample4" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample4" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -205,10 +393,12 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div id="requested" class="tab-pane">
-                                    <table class="table table-bordered" id="editable-sample6" width="100%">
+                                    <div class="table-responsive appointment-table-wrap">
+                                    <table class="table table-hover align-middle mb-0" id="editable-sample6" width="100%">
                                         <thead>
                                             <tr class="bg-light">
                                                 <th class="font-weight-bold"><?php echo lang('id'); ?></th>
@@ -221,6 +411,7 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -250,25 +441,23 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
 
 <!-- Add Appointment Modal-->
-<div class="modal fade modal-enhanced" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-calendar-plus mr-2"></i>
                     <?php echo lang('add_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body row">
+            <div class="modal-body">
                 <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" class="clearfix" enctype="multipart/form-data">
 
-                    <div class="form-row">
-                        <div class="col-md-6 patient_div">
-                            <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15 pos_select" id="pos_select" name="patient" value='' required>
+                    <div class="row g-3">
+                        <div class="col-md-6 patient_div mb-3">
+                            <label for="pos_select"> <?php echo lang('patient'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15 pos_select" id="pos_select" name="patient" value='' required>
                             </select>
                         </div>
                         <input type="hidden" name="redirectlink" value="10">
@@ -297,24 +486,27 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 doctor_div">
-                            <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" id="adoctors" name="doctor" value='' required>
+                        <div class="col-md-6 doctor_div mb-3">
+                            <label for="adoctors"> <?php echo lang('doctor'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15" id="adoctors" name="doctor" value='' required>
                             </select>
                         </div>
 
-                        <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang('date'); ?> &#42;</label>
-                            <input type="text" class="form-control form-control-lg col-sm-8 default-date-picker" autocomplete="off" id="date" onkeypress="return false;" name="date" id="exampleInputEmail1" value='' placeholder="" required>
+                        <div class="col-12">
+                            <div class="appointment-form-section-title"><?php echo lang('schedule'); ?></div>
                         </div>
-                        <div class="col-md-6 aslots mt-3">
-                            <label for="exampleInputEmail1"><?php echo lang('available_slots'); ?> </label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="time_slot" id="aslots" value=''>
+                        <div class="col-md-6 mt-1">
+                            <label for="date"> <?php echo lang('date'); ?> &#42;</label>
+                            <input type="text" class="form-control form-control-lg w-100 default-date-picker" autocomplete="off" id="date" onkeypress="return false;" name="date" value='' placeholder="" required>
+                        </div>
+                        <div class="col-md-6 aslots mt-1">
+                            <label for="aslots"><?php echo lang('available_slots'); ?> </label>
+                            <select class="form-control form-control-lg w-100 m-bot15" name="time_slot" id="aslots" value=''>
                             </select>
                         </div>
                         <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('status'); ?></label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="status" value=''>
+                            <label for="add_appt_status"><?php echo lang('status'); ?></label>
+                            <select class="form-control form-control-lg w-100 m-bot15" id="add_appt_status" name="status" value=''>
                                 <option value="Pending Confirmation"> <?php echo lang('pending_confirmation'); ?> </option>
                                 <option value="Confirmed"> <?php echo lang('confirmed'); ?> </option>
                                 <option value="Treated"> <?php echo lang('treated'); ?> </option>
@@ -323,12 +515,15 @@
                         </div>
 
                         <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang('remarks'); ?></label>
-                            <input type="text" class="form-control form-control-lg" name="remarks" id="exampleInputEmail1" value='' placeholder="">
+                            <label for="add_appt_remarks"><?php echo lang('remarks'); ?></label>
+                            <input type="text" class="form-control form-control-lg w-100" name="remarks" id="add_appt_remarks" value='' placeholder="">
+                        </div>
+                        <div class="col-12">
+                            <div class="appointment-form-section-title"><?php echo lang('visit'); ?> · <?php echo lang('charges'); ?></div>
                         </div>
                         <div class="col-md-6 mt-3">
-                            <label class="col-sm-4"><?php echo lang('visit'); ?> <?php echo lang('type'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="visit_description" id="visit_description" value='' required>
+                            <label for="visit_description"><?php echo lang('visit'); ?> <?php echo lang('type'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15" name="visit_description" id="visit_description" value='' required>
                             </select>
                         </div>
                         <div class="form-group col-md-6 form_data mt-3">
@@ -344,6 +539,9 @@
                             <input type="number" class="form-control form-control-lg" name="grand_total" id="grand_total" value='0' placeholder="" readonly="">
                         </div>
                         <?php if (!$this->ion_auth->in_group(array('Nurse', 'Doctor'))) { ?>
+                            <div class="col-12">
+                                <div class="appointment-form-section-title"><?php echo lang('payment'); ?></div>
+                            </div>
                             <div class="col-md-6">
                                 <label for="" class="col-sm-4"> <?php echo lang('pay_now'); ?></label>
                                 <input type="checkbox" id="pay_now_appointment" name="pay_now_appointment" value="pay_now_appointment">
@@ -436,30 +634,32 @@
                     </div>
                 </form>
             </div>
+            <div class="modal-footer border-top bg-light flex-wrap gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-primary px-4" id="addAppointmentFooterSubmit"><?php echo lang('submit'); ?></button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
 <!-- Add Appointment Modal-->
 
 <!-- Edit Event Modal-->
-<div class="modal fade modal-enhanced" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body row">
+            <div class="modal-body">
                 <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix" method="post" enctype="multipart/form-data">
-                    <div class="form-row">
-                        <div class="col-md-6 patient_div">
-                            <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15  pos_select1 patient" id="pos_select1" name="patient" value='' required>
+                    <div class="row g-3">
+                        <div class="col-md-6 patient_div mb-3">
+                            <label for="pos_select1"> <?php echo lang('patient'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15 pos_select1 patient" id="pos_select1" name="patient" value='' required>
                             </select>
                         </div>
                         <div class="pos_client1 clearfix col-md-12 row">
@@ -487,24 +687,27 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 doctor_div1">
-                            <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15 doctor" id="adoctors1" name="doctor" value='' required>
+                        <div class="col-md-6 doctor_div1 mb-3">
+                            <label for="adoctors1"> <?php echo lang('doctor'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15 doctor" id="adoctors1" name="doctor" value='' required>
                             </select>
                         </div>
                         <input type="hidden" name="redirectlink" value="10">
-                        <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang('date'); ?> &#42;</label>
-                            <input type="text" class="form-control form-control-lg col-sm-8 default-date-picker" autocomplete="off" id="date1" required="" onkeypress="return false;" name="date" id="exampleInputEmail1" value='' placeholder="">
+                        <div class="col-12">
+                            <div class="appointment-form-section-title"><?php echo lang('schedule'); ?></div>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1">Available Slots</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="time_slot" id="aslots1" value=''>
+                        <div class="col-md-6 mt-1">
+                            <label for="date1"> <?php echo lang('date'); ?> &#42;</label>
+                            <input type="text" class="form-control form-control-lg w-100 default-date-picker" autocomplete="off" id="date1" required="" onkeypress="return false;" name="date" value='' placeholder="">
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <label for="aslots1"><?php echo lang('available_slots'); ?></label>
+                            <select class="form-control form-control-lg w-100 m-bot15" name="time_slot" id="aslots1" value=''>
                             </select>
                         </div>
                         <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('status'); ?></label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="status" value=''>
+                            <label for="edit_appt_status"><?php echo lang('status'); ?></label>
+                            <select class="form-control form-control-lg w-100 m-bot15" id="edit_appt_status" name="status" value=''>
                                 <option value="Pending Confirmation"> <?php echo lang('pending_confirmation'); ?> </option>
                                 <option value="Confirmed"> <?php echo lang('confirmed'); ?> </option>
                                 <option value="Treated"> <?php echo lang('treated'); ?> </option>
@@ -513,12 +716,15 @@
                         </div>
 
                         <div class="col-md-6 mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang('remarks'); ?></label>
-                            <input type="text" class="form-control form-control-lg" name="remarks" id="exampleInputEmail1" value='' placeholder="">
+                            <label for="edit_appt_remarks"><?php echo lang('remarks'); ?></label>
+                            <input type="text" class="form-control form-control-lg w-100" name="remarks" id="edit_appt_remarks" value='' placeholder="">
+                        </div>
+                        <div class="col-12">
+                            <div class="appointment-form-section-title"><?php echo lang('visit'); ?> · <?php echo lang('charges'); ?></div>
                         </div>
                         <div class="col-md-6 mt-3">
-                            <label class="col-sm-4"><?php echo lang('visit'); ?> <?php echo lang('type'); ?> &#42;</label>
-                            <select class="form-control form-control-lg col-sm-8 m-bot15" name="visit_description" id="visit_description1" value='' required>
+                            <label for="visit_description1"><?php echo lang('visit'); ?> <?php echo lang('type'); ?> &#42;</label>
+                            <select class="form-control form-control-lg w-100 m-bot15" name="visit_description" id="visit_description1" value='' required>
                             </select>
                         </div>
 
@@ -536,6 +742,9 @@
                             <input type="number" class="form-control form-control-lg" name="grand_total" id="grand_total1" value='0' placeholder="" readonly="">
                         </div>
                         <?php if (!$this->ion_auth->in_group(array('Nurse', 'Doctor'))) { ?>
+                            <div class="col-12">
+                                <div class="appointment-form-section-title"><?php echo lang('payment'); ?></div>
+                            </div>
                             <div class="col-md-6 d-none pay_now">
                                 <label for="" class="col-sm-4"> <?php echo lang('pay_now'); ?></label>
                                 <input type="checkbox" id="pay_now_appointment1" name="pay_now_appointment" value="pay_now_appointment">
@@ -625,6 +834,10 @@
                         <?php } ?>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer border-top bg-light flex-wrap gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-primary px-4" id="editAppointmentFooterSubmit"><?php echo lang('submit'); ?></button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -741,8 +954,28 @@
     var no_available_timeslots = "<?php echo lang('no_available_timeslots'); ?>";
 </script>
 
-<script src="common/extranal/js/appointment/appointment.js"></script>
-<script src="common/extranal/js/appointment/appointment_select2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#addAppointmentFooterSubmit').on('click', function () {
+            var $form = $('#addAppointmentForm');
+            var $btn = $form.find('button[type="submit"]').filter(function () {
+                return $(this).is(':visible') && $(this).closest('.d-none').length === 0;
+            }).first();
+            if ($btn.length) {
+                $btn.trigger('click');
+            }
+        });
+        $('#editAppointmentFooterSubmit').on('click', function () {
+            var $form = $('#editAppointmentForm');
+            var $btn = $form.find('button[type="submit"]').filter(function () {
+                return $(this).is(':visible') && $(this).closest('.d-none').length === 0;
+            }).first();
+            if ($btn.length) {
+                $btn.trigger('click');
+            }
+        });
+    });
+</script>
 
 <script type="text/javascript">
     // Function to view appointment details

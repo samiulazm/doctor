@@ -38,7 +38,8 @@
       "Bash(node:*)",
       "Bash(find /c/Users/Samiul/Pictures/doctor/Multi-Hospital/application/modules/hospital/views -type f -name *.php)",
       "Bash(grep -E \"\\\\.\\(css|scss\\)$\")",
-      "Bash(awk 'NR>=1610 && NR<=1625' \"Multi-Hospital/application/modules/home/views/home.php\")"
+      "Bash(awk 'NR>=1610 && NR<=1625' \"Multi-Hospital/application/modules/home/views/home.php\")",
+      "Bash(php:*)"
     ]
   }
 }

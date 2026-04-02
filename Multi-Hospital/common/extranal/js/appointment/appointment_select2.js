@@ -1,4 +1,18 @@
 "use strict";
+
+/** Resolve AJAX URL (works with base href edge cases and PHP built-in server). */
+function ciAjaxUrl(path) {
+  var base = typeof window.CI_BASE_URL !== "undefined" ? window.CI_BASE_URL : "";
+  path = String(path || "").replace(/^\//, "");
+  return base + path;
+}
+
+/** Select2 inside Bootstrap modals needs the modal as parent for correct z-index and focus. */
+function select2DropdownParent($el) {
+  var $modal = $el.closest(".modal");
+  return $modal.length ? $modal : $(document.body);
+}
+
 $(document).ready(function () {
   "use strict";
   $(".pos_client").hide();
@@ -25,98 +39,83 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   "use strict";
-  $("#pos_select").select2({
-    placeholder: select_patient,
-    allowClear: true,
-    ajax: {
-      url: "patient/getPatientinfoWithAddNewOption",
-      type: "post",
-      dataType: "json",
-      delay: 250,
-      data: function (params) {
-        "use strict";
-        return {
-          searchTerm: params.term, // search term
-        };
-      },
-      processResults: function (response) {
-        "use strict";
-        return {
-          results: response,
-        };
-      },
-      cache: true,
-    },
-  });
-  $("#pos_select1").select2({
-    placeholder: select_patient,
-    allowClear: true,
-    ajax: {
-      url: "patient/getPatientinfoWithAddNewOption",
-      type: "post",
-      dataType: "json",
-      delay: 250,
-      data: function (params) {
-        "use strict";
-        return {
-          searchTerm: params.term, // search term
-        };
-      },
-      processResults: function (response) {
-        "use strict";
-        return {
-          results: response,
-        };
-      },
-      cache: true,
-    },
-  });
 
-  $("#adoctors").select2({
-    placeholder: select_doctor,
-    allowClear: true,
-    ajax: {
-      url: "doctor/getDoctorInfo",
-      type: "post",
-      dataType: "json",
-      delay: 250,
-      data: function (params) {
-        "use strict";
-        return {
-          searchTerm: params.term, // search term
-        };
-      },
-      processResults: function (response) {
-        "use strict";
-        return {
-          results: response,
-        };
-      },
-      cache: true,
+  var patientAjax = {
+    url: ciAjaxUrl("patient/getPatientinfoWithAddNewOption"),
+    type: "post",
+    dataType: "json",
+    delay: 250,
+    data: function (params) {
+      return {
+        searchTerm: params.term,
+      };
     },
-  });
-  $("#adoctors1").select2({
-    placeholder: select_doctor,
-    allowClear: true,
-    ajax: {
-      url: "doctor/getDoctorInfo",
-      type: "post",
-      dataType: "json",
-      delay: 250,
-      data: function (params) {
-        "use strict";
-        return {
-          searchTerm: params.term, // search term
-        };
-      },
-      processResults: function (response) {
-        "use strict";
-        return {
-          results: response,
-        };
-      },
-      cache: true,
+    processResults: function (response) {
+      return {
+        results: response,
+      };
     },
+    cache: true,
+  };
+
+  var doctorAjax = {
+    url: ciAjaxUrl("doctor/getDoctorInfo"),
+    type: "post",
+    dataType: "json",
+    delay: 250,
+    data: function (params) {
+      return {
+        searchTerm: params.term,
+      };
+    },
+    processResults: function (response) {
+      return {
+        results: response,
+      };
+    },
+    cache: true,
+  };
+
+  var select2Common = {
+    width: "100%",
+    minimumInputLength: 0,
+    allowClear: true,
+  };
+
+  $("#pos_select").select2(
+    $.extend({}, select2Common, {
+      placeholder: select_patient,
+      dropdownParent: select2DropdownParent($("#pos_select")),
+      ajax: patientAjax,
+    })
+  );
+  $("#pos_select1").select2(
+    $.extend({}, select2Common, {
+      placeholder: select_patient,
+      dropdownParent: select2DropdownParent($("#pos_select1")),
+      ajax: patientAjax,
+    })
+  );
+
+  $("#adoctors").select2(
+    $.extend({}, select2Common, {
+      placeholder: select_doctor,
+      dropdownParent: select2DropdownParent($("#adoctors")),
+      ajax: doctorAjax,
+    })
+  );
+  $("#adoctors1").select2(
+    $.extend({}, select2Common, {
+      placeholder: select_doctor,
+      dropdownParent: select2DropdownParent($("#adoctors1")),
+      ajax: doctorAjax,
+    })
+  );
+
+  $("#myModal, #myModal2").on("shown.bs.modal", function () {
+    var $modal = $(this);
+    $modal.find(".select2-container").css("width", "100%");
+    $modal.find(".select2-container .select2-selection--single").css("width", "100%");
   });
 });
 

@@ -324,5 +324,3 @@
 <?php } else { ?>
     <script src="common/extranal/js/appointment/add_new.js"></script>
 <?php } ?>
-
-<script src="common/extranal/js/appointment/appointment_select2.js"></script>
