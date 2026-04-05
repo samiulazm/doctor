@@ -150,6 +150,28 @@ if ($language == 'english') {
 <script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="adminlte/plugins/select2/js/select2.full.min.js"></script>
 <?php
+$_inv = strtolower((string) $this->router->fetch_class()) === 'inventory';
+$_m = strtolower((string) $this->router->fetch_method());
+if ($_inv && $_m === 'items') {
+    $this->load->view('inventory/items_datatable_scripts');
+}
+if ($_inv && $_m === 'categories') {
+    $this->load->view('inventory/categories_datatable_scripts');
+}
+if ($_inv && ($_m === 'supplier' || $_m === 'suppliers')) {
+    $this->load->view('inventory/suppliers_datatable_scripts');
+}
+if ($_inv && ($_m === 'purchase' || $_m === 'purchase_orders')) {
+    $this->load->view('inventory/purchase_orders_scripts');
+}
+$_em = strtolower((string) $this->router->fetch_class()) === 'email';
+if ($_em && $_m === 'autoemailtemplate') {
+    echo '<script src="common/js/codearistos.min.js"></script>' . "\n";
+    echo '<script src="common/assets/tinymce/tinymce.min.js"></script>' . "\n";
+    echo '<script src="common/extranal/js/email/auto_email_template.js"></script>' . "\n";
+}
+?>
+<?php
 // Appointment views included these scripts before jQuery/Select2 in the footer; $.fn.select2 was undefined.
 if ($this->router->fetch_class() === 'appointment') {
     $m = $this->router->fetch_method();
@@ -263,8 +285,9 @@ if ($this->router->fetch_class() === 'appointment') {
                 }
 
                 var cmodalEl = document.getElementById('cmodal');
-                var cmodal = bootstrap.Modal.getOrCreateInstance(cmodalEl);
-                cmodal.show();
+                if (cmodalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    bootstrap.Modal.getOrCreateInstance(cmodalEl).show();
+                }
             },
             slotDuration: "00:05:00",
             businessHours: false,

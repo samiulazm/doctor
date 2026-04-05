@@ -25,6 +25,7 @@
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-white py-3">
                             <h3 class="card-title font-weight-bold"><?php echo lang('Auto generated email templates'); ?></h3>
+                            <div class="custom_buttons float-end"></div>
                         </div>
 
                         <div class="card-body bg-light p-4">
@@ -92,9 +93,3 @@
         </div>
     </div>
 </div>
-
-
-
-<script src="common/js/codearistos.min.js"></script>
-<script src="common/assets/tinymce/tinymce.min.js"></script>
-<script src="common/extranal/js/email/auto_email_template.js"></script>

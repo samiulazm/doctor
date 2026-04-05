@@ -227,7 +227,7 @@ if (superadmin_login == 'no') {
     function drawVisualization() {
         "use strict";
         var data = google.visualization.arrayToDataTable([
-            ['Month', '', ''],
+            ['Month', income_lang, expense_lang],
             [jan, this_year['january'], this_year_expenses['january']],
             [feb, this_year['february'], this_year_expenses['february']],
             [mar, this_year['march'], this_year_expenses['march']],

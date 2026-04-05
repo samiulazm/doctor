@@ -84,6 +84,23 @@ class Home extends MX_Controller
                 $data['appointments'] = $this->appointment_model->getAppointment();
             }
 
+            $data['appointment_patients_by_id'] = array();
+            if (!empty($data['appointments']) && is_array($data['appointments'])) {
+                $patient_ids = array();
+                foreach ($data['appointments'] as $apt) {
+                    if (!empty($apt->patient)) {
+                        $patient_ids[] = (int) $apt->patient;
+                    }
+                }
+                $patient_ids = array_unique($patient_ids);
+                if (!empty($patient_ids)) {
+                    $this->db->where_in('id', $patient_ids);
+                    foreach ($this->db->get('patient')->result() as $prow) {
+                        $data['appointment_patients_by_id'][$prow->id] = $prow;
+                    }
+                }
+            }
+
             if ($this->ion_auth->in_group(array('Accountant', 'Receptionist'))) {
                 redirect('finance/addPaymentView');
             }
@@ -298,8 +315,8 @@ class Home extends MX_Controller
 
 
                 // diseas with outbrerak potential starts
-                $data['diseasesWithOutbreakPotential'] = $this->home_model->getDiseasesWithOutbreakPotential() ?? [];
                 $diseases = $this->home_model->getDiseasesWithOutbreakPotential() ?? [];
+                $data['diseasesWithOutbreakPotential'] = $diseases;
 
                 $data['cases'] = []; // Initialize the array for storing case ratios
 
@@ -366,6 +383,7 @@ class Home extends MX_Controller
                 $this->load->view('footer', $data);
             }
         } else {
+            $data['appointment_patients_by_id'] = array();
             $data['hospitals'] = $this->hospital_model->getHospital();
             $data['this_month']['payment'] = $this->hospital_model->thisMonthlyDepositCount();
             $data['this_yearly']['payment'] = $this->hospital_model->thisYearlyDepositCount();

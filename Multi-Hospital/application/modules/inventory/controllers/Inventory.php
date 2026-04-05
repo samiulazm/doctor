@@ -178,9 +178,10 @@ class Inventory extends MX_Controller
     public function getInventoryItemsList()
     {
         $requestData = $_REQUEST;
-        $start = $requestData['start'];
-        $limit = $requestData['length'];
-        $search = $this->input->post('search')['value'];
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $search_row = $this->input->post('search');
+        $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
 
         $order = $this->input->post("order");
         $columns_valid = array(
@@ -270,7 +271,7 @@ class Inventory extends MX_Controller
             : $totalRecords;
 
         $output = array(
-            "draw" => intval($requestData['draw']),
+            "draw" => isset($requestData['draw']) ? intval($requestData['draw']) : 0,
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $filteredRecords,
             "data" => $info
@@ -546,9 +547,11 @@ class Inventory extends MX_Controller
     public function getSuppliers()
     {
         $requestData = $_REQUEST;
-        $start = $requestData['start'];
-        $limit = $requestData['length'];
-        $search = $this->input->post('search')['value'];
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $search_row = $this->input->post('search');
+        $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
+        $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
 
         $order = $this->input->post("order");
         $columns_valid = array(
@@ -635,17 +638,19 @@ class Inventory extends MX_Controller
             );
         }
 
+        $total = count($this->supplier_model->getSuppliers());
         if (!empty($data['suppliers'])) {
             $output = array(
-                "draw" => intval($requestData['draw']),
-                "recordsTotal" => count($this->supplier_model->getSuppliers()),
-                "recordsFiltered" => count($this->supplier_model->getSuppliers()),
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
                 "data" => $info
             );
         } else {
             $output = array(
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
                 "data" => []
             );
         }
@@ -704,9 +709,11 @@ class Inventory extends MX_Controller
     public function getPurchaseOrders()
     {
         $requestData = $_REQUEST;
-        $start = $requestData['start'];
-        $limit = $requestData['length'];
-        $search = $this->input->post('search')['value'];
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $search_row = $this->input->post('search');
+        $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
+        $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
 
         $order = $this->input->post("order");
         $columns_valid = array(
@@ -829,17 +836,19 @@ class Inventory extends MX_Controller
             );
         }
 
+        $total = count($this->purchase_model->getPurchaseOrders());
         if (!empty($data['purchase_orders'])) {
             $output = array(
-                "draw" => intval($requestData['draw']),
-                "recordsTotal" => count($this->purchase_model->getPurchaseOrders()),
-                "recordsFiltered" => count($this->purchase_model->getPurchaseOrders()),
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
                 "data" => $info
             );
         } else {
             $output = array(
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
                 "data" => []
             );
         }
@@ -924,9 +933,10 @@ class Inventory extends MX_Controller
     {
         try {
             $requestData = $_REQUEST;
-            $start = $requestData['start'];
-            $limit = $requestData['length'];
-            $search = $this->input->post('search')['value'];
+            $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+            $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+            $search_row = $this->input->post('search');
+            $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
 
         $order = $this->input->post("order"); 
         $columns_valid = array(
@@ -1002,16 +1012,17 @@ class Inventory extends MX_Controller
         $this->db->where('status', 'active');
         $total_count = $this->db->count_all_results('inventory_categories');
         
+        $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
         if (!empty($data['categories'])) {
             $output = array(
-                "draw" => intval($requestData['draw']),
+                "draw" => $draw,
                 "recordsTotal" => $total_count,
                 "recordsFiltered" => $total_count,
                 "data" => $info
             );
         } else {
             $output = array(
-                "draw" => intval($requestData['draw']),
+                "draw" => $draw,
                 "recordsTotal" => $total_count,
                 "recordsFiltered" => $total_count,
                 "data" => []

@@ -1,3 +1,24 @@
+<?php
+if (!function_exists('format_number_short')) {
+    /**
+     * Compact display for large numbers (K/M/B). Optional args match number_format (PHP 8+ safe).
+     */
+    function format_number_short($n, $decimals = 2, $dec_point = '.', $thousands_sep = ',')
+    {
+        $n = (float) $n;
+        if ($n >= 1000000000) {
+            return number_format($n / 1000000000, $decimals, $dec_point, $thousands_sep) . 'B';
+        }
+        if ($n >= 1000000) {
+            return number_format($n / 1000000, $decimals, $dec_point, $thousands_sep) . 'M';
+        }
+        if ($n >= 1000) {
+            return number_format($n / 1000, $decimals, $dec_point, $thousands_sep) . 'K';
+        }
+        return number_format($n, $decimals, $dec_point, $thousands_sep);
+    }
+}
+?>
 <script type="text/javascript" src="common/js/google-loader.js"></script>
 <div class="content-wrapper ap-dashboard">
 
@@ -67,12 +88,10 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">
-                                            <i class="fas fa-file-medical mr-2"></i>
+                                            <i class="fas fa-file-medical me-2"></i>
                                             <?php echo lang('medical_history'); ?>
                                         </h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div id='medical_history' class="row">
@@ -84,7 +103,7 @@
                                     <div class="modal-footer">
                                         <div class="col-md-12">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                <i class="fas fa-times mr-1"></i>Close
+                                                <i class="fas fa-times me-1"></i><?php echo lang('close'); ?>
                                             </button>
                                         </div>
                                     </div>
@@ -96,7 +115,7 @@
 
                         <?php if ($this->ion_auth->in_group(array('Doctor'))) { ?>
                             <?php if (in_array('appointment', $this->modules)) { ?>
-                                <div class="row state-overview col-md-5 state_overview_design">
+                                <div class="card w-100 border shadow-sm state-overview state_overview_design mb-3">
                                     <header class="card-header">
                                         <i class="fa fa-user"></i> <?php echo lang('todays_appointments'); ?>
                                     </header>
@@ -115,19 +134,31 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
+                                                    $appointment_patients_by_id = isset($appointment_patients_by_id) && is_array($appointment_patients_by_id)
+                                                        ? $appointment_patients_by_id
+                                                        : array();
+                                                    if (!isset($appointments) || !is_array($appointments)) {
+                                                        $appointments = array();
+                                                    }
                                                     foreach ($appointments as $appointment) {
                                                         if ($appointment->date == strtotime(date('Y-m-d'))) {
+                                                            $pt = isset($appointment_patients_by_id[$appointment->patient])
+                                                                ? $appointment_patients_by_id[$appointment->patient]
+                                                                : null;
+                                                            if (!$pt) {
+                                                                continue;
+                                                            }
                                                     ?>
                                                             <tr class="">
-                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->id; ?></td>
-                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->name; ?></td>
+                                                                <td> <?php echo html_escape($pt->id); ?></td>
+                                                                <td> <?php echo html_escape($pt->name); ?></td>
 
-                                                                <td class="center"> <strong> <?php echo $appointment->s_time; ?> </strong></td>
+                                                                <td class="center"> <strong> <?php echo html_escape($appointment->s_time); ?> </strong></td>
                                                                 <td>
-                                                                    <?php echo $appointment->status; ?>
+                                                                    <?php echo html_escape($appointment->status); ?>
                                                                 </td>
                                                                 <td>
-                                                                    <a class="btn detailsbutton" title="<?php lang('history') ?>" href="patient/medicalHistory?id=<?php echo $appointment->patient ?>"><i class="fa fa-stethoscope"></i> <?php echo lang('history'); ?></a>
+                                                                    <a class="btn detailsbutton" title="<?php echo html_escape(lang('history')); ?>" href="patient/medicalHistory?id=<?php echo (int) $appointment->patient; ?>"><i class="fa fa-stethoscope"></i> <?php echo lang('history'); ?></a>
                                                                 </td>
                                                             </tr>
                                                     <?php
@@ -331,7 +362,7 @@
 
                                         <?php if (in_array('doctor', $this->modules)) { ?>
                                             <div class="col-lg-6 col-md-6">
-                                                <div class="card stat-card h-100 shadow-lg custom-rounded ml-2 text-center">
+                                                <div class="card stat-card h-100 shadow-lg custom-rounded ms-2 text-center">
                                                     <a href="finance/payment">
                                                         <div class="card-body stat-card-body">
 
@@ -359,7 +390,7 @@
 
                                         <?php if (in_array('patient', $this->modules)) { ?>
                                             <div class="col-lg-6 col-md-6">
-                                                <div class="card stat-card h-100 shadow-lg custom-rounded mr-2 text-center">
+                                                <div class="card stat-card h-100 shadow-lg custom-rounded me-2 text-center">
                                                     <a href="finance/payment">
                                                         <div class="card-body stat-card-body">
                                                             <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('total'); ?> <?php echo lang('deposit'); ?></p><br>
@@ -384,7 +415,7 @@
 
                                         <?php if (in_array('appointment', $this->modules)) { ?>
                                             <div class="col-lg-6 col-md-6">
-                                                <div class="card stat-card h-100 shadow-lg custom-rounded ml-2 text-center">
+                                                <div class="card stat-card h-100 shadow-lg custom-rounded ms-2 text-center">
                                                     <a href="finance/dueCollection">
                                                         <div class="card-body stat-card-body">
                                                             <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('pending'); ?></p><br>
@@ -393,12 +424,14 @@
                                                             <div class="percentage-change text-xs">
 
                                                                 <?php
-                                                                if ($percentage_change_due > 0): ?>
-                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $percentage_change_due; ?>%</span>
-                                                                <?php elseif ($percentage_change_due < 0): ?>
-                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $percentage_change_due; ?>%</span>
+                                                                $pct_due_display = isset($percentage_change_due) ? $percentage_change_due : '0.00';
+                                                                $pct_due_num = (float) str_replace(',', '', (string) $pct_due_display);
+                                                                if ($pct_due_num > 0): ?>
+                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $pct_due_display; ?>%</span>
+                                                                <?php elseif ($pct_due_num < 0): ?>
+                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $pct_due_display; ?>%</span>
                                                                 <?php else: ?>
-                                                                    <span><?php echo $percentage_change_due; ?>%</span>
+                                                                    <span><?php echo $pct_due_display; ?>%</span>
                                                                 <?php endif; ?>
                                                             </div>
                                                         </div>
@@ -409,7 +442,7 @@
 
                                         <?php if (in_array('prescription', $this->modules)) { ?>
                                             <div class="col-lg-6 col-md-6">
-                                                <div class="card stat-card h-100 shadow-lg custom-rounded mr-2 text-center">
+                                                <div class="card stat-card h-100 shadow-lg custom-rounded me-2 text-center">
                                                     <a href="finance/expense">
                                                         <div class="card-body stat-card-body">
                                                             <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('total'); ?> <?php echo lang('expense'); ?></p><br>
@@ -441,7 +474,7 @@
                                                 <div class="col-lg-12 col-sm-12">
                                                     <div class="card card-custom shadow-lg custom-rounded mx-1 m-2">
                                                         <div class="card-body">
-                                                            <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('sales_vs_expenses') ?> <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('this_year') ?></span></h5>
+                                                            <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('sales_vs_expenses') ?> <span class="text-xs badge badge-secondary ms-2 p-2"><?php echo lang('this_year') ?></span></h5>
                                                             <div id="sales_expense_chart" style="width: 100%; height: 300px;"></div>
                                                             <script type="text/javascript">
                                                                 google.charts.load('current', {
@@ -929,7 +962,7 @@
                             <div class="p-3">
                                 <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold">
                                     <?php echo lang('top_services') ?>
-                                    <span class="text-xs badge badge-secondary ml-2 p-2">
+                                    <span class="text-xs badge badge-secondary ms-2 p-2">
                                         <?php echo lang('last_30_days') ?>
                                     </span>
                                 </h5>
@@ -1021,7 +1054,7 @@
                                 <div class="">
                                     <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold">
                                         <?php echo lang('top_diagnoses') ?>
-                                        <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span>
+                                        <span class="text-xs badge badge-secondary ms-2 p-2"><?php echo lang('last_30_days') ?></span>
                                     </h5>
                                 </div>
 
@@ -1128,25 +1161,25 @@
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                                     <h6 class="fw-bold mb-0"><?php echo htmlspecialchars($diagnosisName); ?></h6>
                                                     <?php
-                                                    // Initialize alert class and text with null safety
-                                                    $alertClass = 'alert-success';
+                                                    // Bootstrap 5: badges and progress use bg-* (not alert-* on badges)
+                                                    $barClass = 'bg-success';
                                                     $alertText = lang('under_control');
 
                                                     if ($ratio > 0.8 && $ratio < 1) {
-                                                        $alertClass = 'alert-warning';
+                                                        $barClass = 'bg-warning';
                                                         $alertText = lang('moderately_spreading');
                                                     } elseif ($ratio >= 1 && $ratio < 2) {
-                                                        $alertClass = 'alert-danger';
+                                                        $barClass = 'bg-danger';
                                                         $alertText = lang('alert');
                                                     } elseif ($ratio >= 2) {
-                                                        $alertClass = 'alert-danger';
+                                                        $barClass = 'bg-danger';
                                                         $alertText = lang('red_alert');
                                                     }
                                                     ?>
-                                                    <span class="badge <?php echo $alertClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
+                                                    <span class="badge <?php echo $barClass === 'bg-warning' ? 'bg-warning text-dark' : $barClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
                                                 </div>
                                                 <div class="progress" style="height: 6px;">
-                                                    <div class="progress-bar <?php echo $alertClass; ?>" role="progressbar" style="width: <?php echo min(floatval($ratio) * 100, 100); ?>%" aria-valuenow="<?php echo floatval($ratio); ?>" aria-valuemin="0" aria-valuemax="1"></div>
+                                                    <div class="progress-bar <?php echo $barClass; ?>" role="progressbar" style="width: <?php echo min(floatval($ratio) * 100, 100); ?>%" aria-valuenow="<?php echo floatval($ratio); ?>" aria-valuemin="0" aria-valuemax="1"></div>
                                                 </div>
                                             </div>
                                 <?php
@@ -1326,7 +1359,7 @@
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3">
                             <div class="p-3">
-                                <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('top_treatments') ?> <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span></h5>
+                                <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('top_treatments') ?> <span class="text-xs badge badge-secondary ms-2 p-2"><?php echo lang('last_30_days') ?></span></h5>
 
                                 <div id="topTreatmentsChart"></div>
                                 <script type="text/javascript">
@@ -1410,14 +1443,14 @@
                                 <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('today'); ?> - <?php echo lang('overview'); ?></h5>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('admitted'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedToday ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('discharged'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedToday ?? 0; ?></p>
@@ -1426,14 +1459,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('registered'); ?> </h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredToday ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?> </h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_day['payment'] ?? 0, 2, '.', ','); ?></p>
@@ -1442,14 +1475,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_day['expense'] ?? 0, 2, '.', ','); ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointments'); ?> </h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_day['appointment'] ?? 0; ?></p>
@@ -1465,14 +1498,14 @@
                                 <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_month'); ?> - <?php echo lang('overview'); ?></h5>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('admitted'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedThisMonth ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('discharged'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedThisMonth ?? 0; ?></p>
@@ -1481,14 +1514,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('registered'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredThisMonth ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['payment'] ?? 0, 2, '.', ','); ?></p>
@@ -1497,14 +1530,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['expense'] ?? 0, 2, '.', ','); ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointment'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_month['appointment'] ?? 0; ?></p>
@@ -1520,14 +1553,14 @@
                                 <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_year'); ?> - <?php echo lang('overview'); ?></h5>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('admitted'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedThisYear ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('discharged'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedThisYear ?? 0; ?></p>
@@ -1536,14 +1569,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('registered'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredThisYear ?? 0; ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_year['payment'] ?? 0, 2, '.', ','); ?></p>
@@ -1552,14 +1585,14 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                        <div class="stat-card bg-light p-3 ms-3 border rounded">
                                             <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_year['expense'] ?? 0, 2, '.', ','); ?></p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                        <div class="stat-card bg-light p-3 me-3 border rounded">
                                             <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
                                             <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointment'); ?></h6>
                                             <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_year['appointment'] ?? 0; ?></p>
@@ -1719,19 +1752,5 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
 <script src="common/extranal/js/home.js"></script>
 <script src="<?php echo asset_url('application/assets/js/enhanced-sidebar.js'); ?>"></script>
 <script src="<?php echo asset_url('application/assets/js/enhanced-components.js'); ?>"></script>
-
-<?php
-function format_number_short($n)
-{
-    if ($n >= 1000000000) {
-        return number_format($n / 1000000000, 2) . 'B';
-    } elseif ($n >= 1000000) {
-        return number_format($n / 1000000, 2) . 'M';
-    } elseif ($n >= 1000) {
-        return number_format($n / 1000, 2) . 'K';
-    }
-    return number_format($n, 2);
-}
-?>
 
 <!-- Timezone modal is now included globally in dashboard.php -->

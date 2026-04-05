@@ -53,9 +53,6 @@ $(document).ready(function () {
             type: 'POST',
             'data': { 'type': 'sms' }
         },
-        scroller: {
-            loadingIndicator: true
-        },
         dom: "<'row'<'col-sm-3'><'col-sm-5 text-center'B><'col-sm-4'>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'>>",

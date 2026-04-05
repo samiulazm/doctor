@@ -534,9 +534,11 @@ class Email extends MX_Controller
     {
         $type = $this->input->post('type');
         $requestData = $_REQUEST;
-        $start = $requestData['start'];
-        $limit = $requestData['length'];
-        $search = $this->input->post('search')['value'];
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $search_row = $this->input->post('search');
+        $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
+        $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
 
         if ($limit == -1) {
             if (!empty($search)) {
@@ -554,8 +556,10 @@ class Email extends MX_Controller
 
         $i = 0;
         $count = 0;
+        $info = array();
         foreach ($data['cases'] as $case) {
             $i = $i + 1;
+            $options1 = '';
             if ($this->ion_auth->in_group(array('admin'))) {
 
                 $options1 = ' <a type="button" class="btn btn-success btn-sm btn_width editbutton1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"> </i></a>';
@@ -570,17 +574,18 @@ class Email extends MX_Controller
             $count = $count + 1;
         }
 
+        $total = count($this->email_model->getAutoEmailTemplate());
         if (!empty($data['cases'])) {
             $output = array(
-                "draw" => intval($requestData['draw']),
-                "recordsTotal" => count($this->email_model->getAutoEmailTemplate()),
+                "draw" => $draw,
+                "recordsTotal" => $total,
                 "recordsFiltered" => $count,
                 "data" => $info
             );
         } else {
             $output = array(
-                // "draw" => 1,
-                "recordsTotal" => 0,
+                "draw" => $draw,
+                "recordsTotal" => $total,
                 "recordsFiltered" => 0,
                 "data" => []
             );

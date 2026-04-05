@@ -34,6 +34,7 @@
                             <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('patient_enrollment_form'); ?></h2>
                         </div>
                         <div class="card-body bg-light p-4">
+                            <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                             <form role="form" action="patient/addNew" method="post" enctype="multipart/form-data">
 
                                 <!-- Personal Information -->
@@ -150,8 +151,8 @@
 
                                     <div class="col-md-12 mb-4">
                                         <div class="form-group">
-                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?></label>
-                                            <textarea class="form-control shadow-sm" name="address" rows="3" placeholder="<?php echo lang('complete_residential_address'); ?>"></textarea>
+                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?> <span class="text-danger">*</span></label>
+                                            <textarea class="form-control shadow-sm" name="address" rows="3" placeholder="<?php echo lang('complete_residential_address'); ?>" required minlength="2"></textarea>
                                         </div>
                                     </div>
 

@@ -14,7 +14,7 @@ $(document).ready(function (e) {
     $("#p_email").prop("required", false);
     $("#p_phone").prop("required", false);
 
-    e.preventDefault;
+    e.preventDefault();
   });
   var tot = 0;
   $(".ms-list").on("click", ".ms-selected", function () {
