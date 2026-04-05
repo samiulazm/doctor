@@ -73,12 +73,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+$_ci_db_host = getenv('CI_DB_HOST') !== false ? getenv('CI_DB_HOST') : '127.0.0.1';
+$_ci_db_user = getenv('CI_DB_USER') !== false ? getenv('CI_DB_USER') : 'root';
+$_ci_db_pass = getenv('CI_DB_PASSWORD') !== false ? getenv('CI_DB_PASSWORD') : '';
+$_ci_db_name = getenv('CI_DB_NAME') !== false ? getenv('CI_DB_NAME') : 'democa_hmz_v2';
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'democa_hmz_v2',
+	'hostname' => $_ci_db_host,
+	'username' => $_ci_db_user,
+	'password' => $_ci_db_pass,
+	'database' => $_ci_db_name,
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

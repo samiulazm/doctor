@@ -806,6 +806,7 @@
 
   <!-- jQuery -->
   <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+  <?php $this->load->view('csrf_inject'); ?>
   <!-- Bootstrap 5 -->
   <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->

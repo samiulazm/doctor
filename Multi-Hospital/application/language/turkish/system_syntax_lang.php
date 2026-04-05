@@ -1753,6 +1753,9 @@ $lang['bed_available'] = "Müsait Yataklar";
 $lang['top_services'] = "En İyi Hizmetler";
 
 $lang['overview'] = "Genel Bakış";
+$lang['clinical_care'] = 'Klinik bakım';
+$lang['hospital_operations'] = 'Hastane operasyonları';
+$lang['system_and_settings'] = 'Sistem ve ayarlar';
 
 $lang['sales_vs_expenses'] = "Satışlar - Giderler";
 $lang['bed_occupancy'] = "Yatak Doluluk Oranı";
@@ -2252,7 +2255,15 @@ $lang['an_error_occurred'] = 'Bir hata oluştu';
 $lang['preview'] = 'Önizleme';
 $lang['invalid_timezone'] = 'Geçersiz saat dilimi';
 
-
-
-
-
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Reçetelenmiş ilaç yok.';
+$lang['history_and_symptoms'] = 'Öykü / semptomlar';
+$lang['prescribed_medicines'] = 'Reçetelenmiş ilaçlar';
+$lang['quick_view_load_failed'] = 'Reçete yüklenemedi. Lütfen tekrar deneyin.';
+$lang['prescription_id_required'] = 'Reçete kimliği sağlanmadı.';
+$lang['prescription_not_found'] = 'Reçete bulunamadı.';
+$lang['permission_denied'] = 'İzin reddedildi.';

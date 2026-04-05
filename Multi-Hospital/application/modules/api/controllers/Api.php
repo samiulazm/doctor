@@ -16,7 +16,7 @@ class Api extends MX_Controller
         parent::__construct();
         $this->load->model('api/api_model');
         $this->load->library(array('ion_auth', 'form_validation'));
-        require APPPATH . 'third_party/stripe/stripe-php2/init.php';
+        require APPPATH . 'third_party/stripe/stripe-php/init.php';
         $this->load->module('paypal');
     }
 
@@ -2480,7 +2480,7 @@ class Api extends MX_Controller
         if ($currency == 'R' || strtoupper($currency) == 'ZAR') {
             $currency = 'ZAR';
         }
-        if (strtoupper($currency) == 'TK' || strtoupper($currency) == 'BDT' || strtoupper($currency) == 'TAKA' || $currency == 'ট') {
+        if (strtoupper($currency) == 'TK' || strtoupper($currency) == 'BDT' || strtoupper($currency) == 'TAKA' || $currency == 'ট' || (defined('HOSPITAL_CURRENCY_SYMBOL') && $currency === HOSPITAL_CURRENCY_SYMBOL)) {
             $currency = 'BDT';
         }
         if (strtoupper($currency) == 'CNY') {

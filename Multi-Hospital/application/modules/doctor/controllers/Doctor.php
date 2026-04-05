@@ -446,18 +446,18 @@ class Doctor extends MX_Controller
         foreach ($data['doctors'] as $doctor) {
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
-                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton mr-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
+                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton mr-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
             }
             $options2 = '<a class="btn btn-success btn-sm detailsbutton mr-1" title="' . lang('appointments') . '" href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '"><i class="fa fa-calendar"></i> ' . lang('appointments') . '</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
-                $options3 = '<a class="btn btn-danger btn-sm delete_button mr-1" title="' . lang('delete') . '" href="doctor/delete?id=' . $doctor->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-danger btn-sm delete_button mr-1" title="' . lang('delete') . '" href="doctor/delete?id=' . $doctor->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
                 $options4 = '<a href="schedule/holidays?doctor=' . $doctor->id . '" class="btn btn-warning btn-sm mr-1" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('holiday') . '</a>';
                 $options5 = '<a href="schedule/timeSchedule?doctor=' . $doctor->id . '" class="btn btn-secondary btn-sm mr-1" data-id="' . $doctor->id . '"><i class="fa fa-book"></i> ' . lang('time_schedule') . '</a>';
-                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo mr-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
+                $options6 = '<a type="button" class="btn btn-info btn-sm detailsbutton inffo mr-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
             }
 
 
@@ -481,7 +481,7 @@ class Doctor extends MX_Controller
                     ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
                     ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options2 ? '<li><a  href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '"> <i class="fa fa-print"></i> ' . lang('appointments') . ' </a></li>' : '') . '
-                    ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' ' . lang('') . ' </a></li>' : '') . '
+                    ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' </a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="' . site_url("schedule/timeSchedule?doctor=" . $doctor->id) . '" > <i class="fa fa-book"></i> ' . lang('time_schedule') . ' </a></li>' : '') . '
                     ' . ($options6 ? '<li><a href="' . site_url("doctor/delete?id=" . $doctor->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
 
@@ -617,7 +617,7 @@ class Doctor extends MX_Controller
                     ' . ($options6 ? '<li><a class="detailsbutton inffo"' . lang('info') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('info') . ' </a></li>' : '') . '
                     ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options2 ? '<li><a  href="appointment/getAppointmentByDoctorId?id=' . $doctor->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('appointments') . ' </a></li>' : '') . '
-                    ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' ' . lang('') . ' </a></li>' : '') . '
+                    ' . ($options4 ? '<li><a href="schedule/holidays?doctor=' . $doctor->id . '" > <i class="fa fa-money-check"></i> ' . lang('holiday') . ' </a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="' . site_url("schedule/timeSchedule?doctor=" . $doctor->id) . '" > <i class="fa fa-book"></i> ' . lang('time_schedule') . ' </a></li>' : '') . '
                     ' . ($options6 ? '<li><a href="' . site_url("doctor/delete?id=" . $doctor->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
 

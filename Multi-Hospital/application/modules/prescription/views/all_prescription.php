@@ -287,7 +287,7 @@ if ($this->ion_auth->in_group('Doctor')) {
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title font-weight-bold" id="quickViewModalLabel">
                     <i class="fas fa-search-plus mr-2"></i>
-                    Quick View Prescription
+                    <?php echo lang('quick_view_prescription'); ?>
                 </h5>
                 <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -296,18 +296,18 @@ if ($this->ion_auth->in_group('Doctor')) {
             <div class="modal-body" id="quickViewContent">
                 <div class="text-center">
                     <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                    <p class="mt-2">Loading prescription details...</p>
+                    <p class="mt-2"><?php echo lang('loading_prescription_details'); ?></p>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times mr-1"></i>Close
+                    <i class="fas fa-times mr-1"></i><?php echo lang('close'); ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="printQuickView">
-                    <i class="fas fa-print mr-1"></i>Print
+                    <i class="fas fa-print mr-1"></i><?php echo lang('print'); ?>
                 </button>
                 <button type="button" class="btn btn-success" id="viewFullPrescription">
-                    <i class="fas fa-eye mr-1"></i>View Full
+                    <i class="fas fa-eye mr-1"></i><?php echo lang('view_full'); ?>
                 </button>
             </div>
         </div>
@@ -317,5 +317,25 @@ if ($this->ion_auth->in_group('Doctor')) {
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
     var language = "<?php echo $this->language; ?>";
+    var prescriptionQuickViewLang = <?php echo json_encode(array(
+        'loading_prescription_details' => lang('loading_prescription_details'),
+        'medicine' => lang('medicine'),
+        'dosage' => lang('dosage'),
+        'frequency' => lang('frequency'),
+        'instruction' => lang('instruction'),
+        'days' => lang('days'),
+        'no_medicines_prescribed' => lang('no_medicines_prescribed'),
+        'prescription' => lang('prescription'),
+        'date' => lang('date'),
+        'patient' => lang('patient'),
+        'doctor' => lang('doctor'),
+        'patient_id' => lang('patient_id'),
+        'history_and_symptoms' => lang('history_and_symptoms'),
+        'prescribed_medicines' => lang('prescribed_medicines'),
+        'notes' => lang('notes'),
+        'advice' => lang('advice'),
+        'symptom' => lang('symptom'),
+        'quick_view_load_failed' => lang('quick_view_load_failed'),
+    ), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE); ?>;
 </script>
 <script src="common/extranal/js/prescription/all_prescription.js"></script>

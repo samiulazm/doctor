@@ -6,6 +6,9 @@ if (!defined('BASEPATH'))
 class Patient extends MX_Controller
 {
 
+    /** @var object|null Hospital settings row when assigned (legacy / JSON builders). */
+    public $settings;
+
     function __construct()
     {
         parent::__construct();
@@ -309,6 +312,14 @@ class Patient extends MX_Controller
                     $id_info = array('ion_user_id' => $ion_user_id);
                     $this->patient_model->updatePatient($patient_user_id, $id_info);
                     $this->hospital_model->addHospitalIdToIonUser($ion_user_id, $this->hospital_id);
+                    audit_log(
+                        'patient.create',
+                        'patient',
+                        (int) $patient_user_id,
+                        array('patient_id' => (string) $patient_id),
+                        null,
+                        (int) $this->ion_auth->get_user_id()
+                    );
                     $base_url = str_replace(array('http://', 'https://', ' '), '', base_url()) . "auth/login";
                     //sms
                     $set['settings'] = $this->settings_model->getSettings();
@@ -389,11 +400,12 @@ class Patient extends MX_Controller
                 }
                 $this->patient_model->updateIonUser($username, $email, $password, $ion_user_id);
                 $this->patient_model->updatePatient($id, $data);
+                audit_log('patient.update', 'patient', (int) $id, null, null, (int) $this->ion_auth->get_user_id());
                 show_swal(lang('patient_details_updated_successfully'), 'success', lang('updated'));
             }
 
             if (!empty($redirect)) {
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'patient'));
             } else {
                 redirect('patient');
             }
@@ -702,20 +714,27 @@ class Patient extends MX_Controller
         $this->form_validation->set_rules('deposited_amount', 'Deposited Amount', 'trim|min_length[1]|max_length[100]|xss_clean');
         if ($this->form_validation->run() == FALSE) {
             redirect('patient/myPaymentsHistory');
-        } else {
-            $data = array();
-            $data = array(
+            return;
+        }
+
+        $payment_details = $this->finance_model->getPaymentById($payment_id);
+        if (empty($payment_details)) {
+            show_swal(lang('payment_record_not_found'), 'error', lang('error'));
+            redirect('patient/myPaymentsHistory');
+            return;
+        }
+
+        $data = array(
                 'patient' => $patient,
                 'payment_id' => $payment_id,
                 'deposited_amount' => $deposited_amount,
                 'deposit_type' => $deposit_type,
                 'user' => $user
             );
-            if ($payment_details->payment_from == 'admitted_patient_bed_medicine') {
+            $payment_from = isset($payment_details->payment_from) ? $payment_details->payment_from : '';
+            if ($payment_from === 'admitted_patient_bed_medicine') {
                 $data['payment_from'] = 'admitted_patient_bed_medicine';
-            } elseif ($payment_details->payment_from == 'admitted_patient_bed_medicine') {
-                $data['payment_from'] = 'admitted_patient_bed_medicine';
-            } elseif ($payment_details->payment_from == 'payment') {
+            } elseif ($payment_from === 'payment') {
                 $data['payment_from'] = 'payment';
             }
             if (empty($id)) {
@@ -735,7 +754,6 @@ class Patient extends MX_Controller
 
                 );
                 if ($deposit_type == 'Card') {
-                    $payment_details = $this->finance_model->getPaymentById($payment_id);
                     $gateway = $this->settings_model->getSettings()->payment_gateway;
                     if ($gateway == 'PayPal') {
                         $card_type = $this->input->post('card_type');
@@ -792,7 +810,7 @@ class Patient extends MX_Controller
                                 'date' => $date,
                                 'patient' => $patient,
                                 'payment_id' => $payment_id,
-                                'deposited_amount' => $amount_received,
+                                'deposited_amount' => $deposited_amount,
                                 'gateway' => 'Stripe',
                                 'user' => $user,
                                 'hospital_id' => $this->session->userdata('hospital_id')
@@ -842,8 +860,7 @@ class Patient extends MX_Controller
 
                 show_swal(lang('amount_updated_successfully'), 'success', lang('updated'));
             }
-            redirect('patient/myPaymentHistory');
-        }
+        redirect('patient/myPaymentHistory');
     }
 
     function myInvoice()
@@ -955,7 +972,7 @@ $doctor_id = $this->input->post('doctor_id');
             if ($redirect == 'patientcase') {
                 redirect("patient/patientCaseList?id=" . $patient_id . "&case_id=" . $inserted_id);
             } else {
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'patient'));
             }
         }
     }
@@ -1410,7 +1427,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
         if ($this->form_validation->run() == FALSE) {
             show_swal(lang('validation_error'), 'error', lang('error'));
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'patient'));
         } else {
 
             if (!empty($patient_id)) {
@@ -1490,7 +1507,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             if ($type == 'doc') {
                 redirect("patient/medicalHistoryByFolder?id=" . $folder);
             } else {
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'patient'));
             }
         }
     }
@@ -1551,6 +1568,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
         $this->db->where('id', $ion_user_id);
         $this->db->delete('users');
         $this->patient_model->delete($id);
+        audit_log('patient.delete', 'patient', (int) $id, null, null, (int) $this->ion_auth->get_user_id());
         show_swal(lang('patient_deleted'), 'warning', lang('deleted'));
         redirect('patient');
     }
@@ -1592,20 +1610,20 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             $i = $i + 1;
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
-                $options1 = '<a type="button" class="btn btn-outline-primary editbutton btn-sm mb-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
+                $options1 = '<a type="button" class="btn btn-outline-primary editbutton btn-sm mb-1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
             }
 
-            $options2 = '<a class="btn btn-outline-info detailsbutton btn-sm mb-1" title="' . lang('info') . '" href="patient/patientDetails?id=' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-outline-info detailsbutton btn-sm mb-1" title="' . lang('info') . '" href="patient/patientDetails?id=' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
 
             $options3 = '<a class="btn btn-outline-info btn-sm mb-1" title="' . lang('details') . '" href="patient/medicalHistory?id=' . $patient->id . '"><i class="fa fa-stethoscope"></i> ' . lang('details') . '</a>';
 
             $options4 = '<a class="btn btn-outline-secondary btn-sm mb-1" title="' . lang('payment') . '" href="finance/patientPaymentHistory?patient=' . $patient->id . '"><i class="fa fa-money-bill-alt"></i> ' . lang('payment') . '</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist', 'Nurse', 'Doctor'))) {
-                $options5 = '<a class="btn btn-outline-danger delete_button btn-sm mb-1" title="' . lang('delete') . '" href="patient/delete?id=' . $patient->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('') . '</a>';
+                $options5 = '<a class="btn btn-outline-danger delete_button btn-sm mb-1" title="' . lang('delete') . '" href="patient/delete?id=' . $patient->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
 
-            $options6 = '<a type="button" class="btn btn-outline-warning detailsbutton inffo btn-sm mb-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('') . '</a>';
+            $options6 = '<a type="button" class="btn btn-outline-warning detailsbutton inffo btn-sm mb-1" title="' . lang('info') . '" data-bs-toggle="modal" data-id="' . $patient->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
 
             if ($this->ion_auth->in_group('Doctor')) {
                 $options7 = '<a class="btn btn-outline-success detailsbutton btn-sm mb-1" title="' . lang('instant_meeting') . '" href="meeting/instantLive?id=' . $patient->id . '" onclick="return confirm(\'Are you sure you want to start a live meeting with this patient? SMS and Email will be sent to the Patient.\');"><i class="fa fa-headphones"></i> ' . lang('start_live') . '</a>';
@@ -2157,6 +2175,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
         }
 
         $all_appointments = '';
+        $settings_row = $this->settings_model->getSettings();
         foreach ($appointments as $appointment) {
 
             $doctor_details = $this->doctor_model->getDoctorById($appointment->doctor);
@@ -2172,10 +2191,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $time_slot_exploded = explode(' To ', $time_slot);
                 $time_slot =  $time_slot_exploded[0] . ' ' . lang('to') . ' ' . $time_slot_exploded[1];
 
-                $this->db->where('hospital_id', $this->hospital_id);
-                $this->settings = $this->db->get('settings')->row();
-
-                if ($this->settings->time_format == 24) {
+                if ($settings_row && isset($settings_row->time_format) && (int) $settings_row->time_format === 24) {
                     $s_time = $this->settings_model->convert_to_24h($time_slot_exploded[0]);
                     $e_time = $this->settings_model->convert_to_24h($time_slot_exploded[1]);
                     $time_slot = $s_time . ' - ' . $e_time;
@@ -3238,6 +3254,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
         $this->db->where('id', $ion_user_id);
         $this->db->delete('users');
         $this->patient_model->delete($id);
+        audit_log('patient.delete', 'patient', (int) $id, null, null, (int) $this->ion_auth->get_user_id());
         show_swal(lang('patient_deleted'), 'warning', lang('deleted'));
         redirect('patient');
     }
@@ -3721,7 +3738,6 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 // echo json_encode(['message' => 'No response']); // Handle no response scenario
             }
         }
-        curl_close($ch);
     }
 
 

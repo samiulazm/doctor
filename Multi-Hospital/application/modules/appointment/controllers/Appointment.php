@@ -6,6 +6,9 @@ if (!defined('BASEPATH'))
 class Appointment extends MX_Controller
 {
 
+    /** @var object|null Cached settings row (hospital); assigned in several DataTable builders. */
+    public $settings;
+
     function __construct()
     {
         parent::__construct();
@@ -355,7 +358,7 @@ class Appointment extends MX_Controller
                 if ($this->ion_auth->email_check($p_email)) {
                     show_swal(lang('this_email_address_is_already_registered'), 'warning', lang('warning'));
                     if (!empty($redirect)) {
-                        redirect($redirect);
+                        redirect(safe_ci_redirect($redirect, 'appointment'));
                     } else {
                         redirect('appointment');
                     }
@@ -1575,7 +1578,7 @@ class Appointment extends MX_Controller
                     $this->finance_model->deletePayment($payment->id);
                     $this->finance_model->deleteDepositByInvoiceId($payment->id);
                 } else {
-                    redirect($_SERVER['HTTP_REFERER']);
+                    redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('appointment')));
                 }
             } else {
                 $this->appointment_model->delete($id);
@@ -1592,7 +1595,7 @@ class Appointment extends MX_Controller
             redirect('appointment/getAppointmentByDoctorId?id=' . $doctor_id);
         } else {
             show_swal(lang('appointment_deleted'), 'warning', lang('deleted'));
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('appointment')));
         }
     }
 
@@ -1717,7 +1720,7 @@ class Appointment extends MX_Controller
         foreach ($data['appointments'] as $appointment) {
             $i = $i + 1;
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -1890,12 +1893,14 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             }
         }
 
+        $this->db->where('hospital_id', $this->hospital_id);
+        $this->settings = $this->db->get('settings')->row();
 
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -1948,9 +1953,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             if ($appointment->s_time == 'Not Selected') {
                 $time_string = lang('not_selected');
             } else {
-                $this->db->where('hospital_id', $this->hospital_id);
-                $this->settings = $this->db->get('settings')->row();
-                if ($this->settings->time_format == '24') {
+                if ($this->settings && isset($this->settings->time_format) && $this->settings->time_format == '24') {
                     $appointment->s_time = $this->settings_model->convert_to_24h($appointment->s_time);
                     $appointment->e_time = $this->settings_model->convert_to_24h($appointment->e_time);
                 }
@@ -2049,7 +2052,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2204,7 +2207,8 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
 $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amount;
@@ -2366,7 +2370,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2530,7 +2534,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2680,7 +2684,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2868,7 +2872,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
 
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);

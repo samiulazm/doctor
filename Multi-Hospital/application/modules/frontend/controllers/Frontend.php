@@ -175,7 +175,7 @@ class Frontend extends MX_Controller
                 // Adding New Patient
                 if ($this->ion_auth->email_check($p_email)) {
                     show_swal(lang('this_email_address_is_already_registered'), 'warning', lang('warning'));
-                    redirect($redirect);
+                    redirect(safe_ci_redirect($redirect, 'frontend'));
                 } else {
                     $dfg = 5;
                     $this->ion_auth->register($username, $password, $p_email, $dfg);
@@ -229,7 +229,7 @@ class Frontend extends MX_Controller
             }
 
             if (!empty($redirect)) {
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'frontend'));
             } else {
                 redirect('appointment');
             }
@@ -1761,7 +1761,7 @@ class Frontend extends MX_Controller
                 'system_vendor' => 'Code Aristos - Hospital management System',
                 'discount' => 'flat',
                 'sms_gateway' => 'Twilio',
-                'currency' => '$',
+                'currency' => HOSPITAL_CURRENCY_SYMBOL,
                 'emailtype' => 'Smtp',
                 'footer_message' => 'By' . $name,
                 'show_odontogram_in_history' => 'yes',
@@ -2043,11 +2043,11 @@ For Any Support Please Contact with Phone No: {phone}';
             'name'   => 'language_site',
             'value'  => $selectedLanguage,
             'expire' => '2595000',
-            'secure' => FALSE,
+            'secure' => (bool) $this->config->item('cookie_secure'),
         );
         $this->input->set_cookie($cookie);
 
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('frontend')));
     }
 
 
@@ -2060,11 +2060,11 @@ For Any Support Please Contact with Phone No: {phone}';
             'name'   => 'language_site',
             'value'  => $selectedLanguage,
             'expire' => '2595000',
-            'secure' => FALSE,
+            'secure' => (bool) $this->config->item('cookie_secure'),
         );
         $this->input->set_cookie($cookie);
 
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('frontend')));
     }
 
 
@@ -2076,10 +2076,10 @@ For Any Support Please Contact with Phone No: {phone}';
             'name'   => 'language_site',
             'value'  => $selectedLanguage,
             'expire' => '2595000',
-            'secure' => FALSE,
+            'secure' => (bool) $this->config->item('cookie_secure'),
         );
         $this->input->set_cookie($cookie);
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('frontend')));
     }
 
     function checkIfUsernameAvailable()

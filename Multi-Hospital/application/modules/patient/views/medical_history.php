@@ -6,7 +6,7 @@
 <!--main content start-->
 
 <link href="common/extranal/css/patient/medical_history.css" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <div class="content-wrapper bg-light no-print">
     <!-- Content Header (Page header) -->

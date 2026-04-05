@@ -18,6 +18,26 @@ final class PhpSyntaxSmokeTest extends TestCase
         $this->assertFilePassesPhpLint('index.php');
     }
 
+    public function test_asset_helper_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'asset_helper.php');
+    }
+
+    public function test_health_controller_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'Health.php');
+    }
+
+    public function test_audit_log_model_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'Audit_log_model.php');
+    }
+
+    public function test_logs_module_controller_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'Logs.php');
+    }
+
     private function assertFilePassesPhpLint(string $relativeToProjectRoot): void
     {
         $root = dirname(__DIR__, 2);

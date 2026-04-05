@@ -272,4 +272,20 @@ $lang['ai_settings'] = 'Настройки ИИ';
 $lang['ai_patient_overview'] = 'Обзор пациента ИИ';
 $lang['ai_image_analysis'] = 'Анализ изображений ИИ';
 $lang['ai_treatment_plan'] = 'План лечения ИИ';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'Клиническая помощь';
+$lang['hospital_operations'] = 'Деятельность больницы';
+$lang['system_and_settings'] = 'Система и настройки';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Назначенных лекарств нет.';
+$lang['history_and_symptoms'] = 'Анамнез / симптомы';
+$lang['prescribed_medicines'] = 'Назначенные лекарства';
+$lang['quick_view_load_failed'] = 'Не удалось загрузить рецепт. Повторите попытку.';
+$lang['prescription_id_required'] = 'Не указан ID рецепта.';
+$lang['prescription_not_found'] = 'Рецепт не найден.';
+$lang['permission_denied'] = 'Доступ запрещён.';

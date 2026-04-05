@@ -4,9 +4,11 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 require_once APPPATH . '../vendor/autoload.php';
 
-use Dompdf\Dompdf;
 use \Mpdf\Mpdf;
 //require_once 'dompdf/autoload.inc.php';
+/**
+ * @property CI_Loader $load
+ */
 class Lab extends MX_Controller
 {
 
@@ -27,14 +29,8 @@ class Lab extends MX_Controller
 
     public function load_view($view, $data = array())
     {
-        $html = $this->ci()->load->view($view, $data, TRUE);
-
-        $this->load_html($html);
-    }
-
-    protected function ci()
-    {
-        return get_instance();
+        $html = $this->load->view($view, $data, TRUE);
+        echo $html;
     }
 
     function testPdf2()
@@ -54,42 +50,6 @@ class Lab extends MX_Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output('INV' . $id . '_' . date('dmYHis') . '.pdf', 'D');
         die();
-
-
-        $data = array();
-        $id = $this->input->get('id');
-        $data['settings'] = $this->settings_model->getSettings();
-        $data['lab'] = $this->lab_model->getLabById($id);
-
-        if ($data['lab']->hospital_id != $this->session->userdata('hospital_id')) {
-            $this->load->view('home/permission');
-        }
-
-        //$this->load->view('home/dashboard');
-        $this->load->view('downloadInvoice', $data);
-        //$this->load->view('home/footer'); // just the footer fi
-        //$html = file_get_contents($this->load->view('downloadInvoice', $data)); 
-        $html = $this->load->view('downloadInvoice', $data, TRUE);
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'portrait');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        $dompdf->stream();
-
-        //        	$this->load->library('pdf');
-        //
-        //
-        //  	$this->pdf->load_view('mypdf');
-        //  	$this->pdf->render();
-        //
-        //
-        //  	$this->pdf->stream("welcome.pdf");
     }
 
     // function testPdf()
@@ -410,16 +370,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton mb-1 mr-1" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton mb-1 mr-1" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton mb-1 mr-1" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton mb-1 mr-1" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton mb-1 mr-1" title="Download PDF" target="_blank" style="" href="lab/viewReport?id=' . $lab->id . '"><i class="fas fa-eye"></i></a>'
                 . '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"> PDF</a>';
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button mb-1 mr-1" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button mb-1 mr-1" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -527,18 +487,18 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-success btn-sm editbutton mb-1 mr-1" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-success btn-sm editbutton mb-1 mr-1" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm btn-success mb-1 mr-1" title="' . lang('lab') . '" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm btn-success mb-1 mr-1" title="' . lang('lab') . '" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm btn-success mb-1 mr-1" title="Download PDF" href="lab/testPdf?id=' . $lab->id . '">PDF</a>';
             $option_list_1 = '<a class="btn btn-sm btn-success invoicebutton mb-1 mr-1" target="_blank" href="lab/printLabel?id=' . $lab->id . '">' . lang('label_print') . '</a>';
             $option_list_2 = '<a class="btn btn-sm btn-warning mb-1 mr-1" href="lab/pdfLabel?id=' . $lab->id . '"><i class="fas fa-file-pdf"></i></a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button mb-1 mr-1" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button mb-1 mr-1" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -631,7 +591,7 @@ class Lab extends MX_Controller
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($option_list_1 ? '<li><a  style="margin-right: 10px" target="_blank" href="lab/printLabel?id=' . $lab->id . '">  <i class="fa fa-print"></i> ' . lang('label_print') . ' ' . lang('') . '</a></li>' : '') . '
+                    ' . ($option_list_1 ? '<li><a  style="margin-right: 10px" target="_blank" href="lab/printLabel?id=' . $lab->id . '">  <i class="fa fa-print"></i> ' . lang('label_print') . '</a></li>' : '') . '
                     ' . ($option_list_2 ? '<li><a href="lab/pdfLabel?id=' . $lab->id . '"> <i class="fa fa-file-pdf"></i> ' . lang('download') . ' </a></li>' : '') . '
                 </ul>
             </div>';
@@ -744,7 +704,7 @@ class Lab extends MX_Controller
 
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button mr-1 mb-2" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button mr-1 mb-2" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -845,7 +805,7 @@ class Lab extends MX_Controller
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options1 ? '<li><a  style="margin-right: 10px" title="' . lang('report') . '" href="lab?id=' . $lab->id . '">  <i class="fa fa-edit"></i> ' . lang('report') . ' ' . lang('') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a  style="margin-right: 10px" title="' . lang('report') . '" href="lab?id=' . $lab->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('report') . '</a></li>' : '') . '
                     ' . ($options2 ? '<li><a title="' . lang('view') . ' ' . lang('report') . '" target="_blank" href="lab/viewReport?id=' . $lab->id . '"> <i class="fa fa-eye"></i> ' . lang('view') . ' </a></li>' : '') . '
                     ' . ($options4 ? '<li><a href="lab/pdfLabel?id=' . $lab->id . '".> <i class="fa fa-file-pdf"></i> ' . lang('download') . ' </a></li>' : '') . '
                 </ul>
@@ -976,7 +936,7 @@ class Lab extends MX_Controller
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($option1 ? '<li><a  style="margin-right: 10px" href="lab/editTemplate?id=' . $template->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a></li>' : '') . '
+                    ' . ($option1 ? '<li><a  style="margin-right: 10px" href="lab/editTemplate?id=' . $template->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('template') . '</a></li>' : '') . '
                     ' . ($option2 ? '<li><a href="lab/deleteTemplate?id=' . $template->id . '"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';
@@ -1067,7 +1027,7 @@ class Lab extends MX_Controller
             //     . '<a class="btn btn-sm invoicebutton" title="Download Word" style=" margin-right: 5px" href="lab/makeWord?id=' . $lab->id . '"> Word</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-danger btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-danger btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -1702,7 +1662,7 @@ class Lab extends MX_Controller
                 $inserted_id = $this->db->insert_id();
 
                 show_swal(lang('added'), 'success', lang('added'));
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'lab'));
             } else {
                 $currentLab = $this->lab_model->getLabById($id);
                 $status = "pending";
@@ -1756,7 +1716,7 @@ class Lab extends MX_Controller
                 );
                 $this->lab_model->updateLab($id, $data);
                 show_swal(lang('updated'), 'success', lang('updated'));
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'lab'));
             }
         }
     }
@@ -2137,16 +2097,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i> PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2248,16 +2208,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i>  PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2359,16 +2319,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i>  PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2470,16 +2430,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i>  PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2581,16 +2541,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i>  PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2692,16 +2652,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i> PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2803,16 +2763,16 @@ class Lab extends MX_Controller
             $i = $i + 1;
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style="" href="lab/testPdf?id=' . $lab->id . '"><i class="fas fa-eye"></i> PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -2939,16 +2899,16 @@ class Lab extends MX_Controller
 
             $date = date('d-m-y', $lab->date);
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
-                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $options1 = ' <a class="btn btn-info btn-sm editbutton" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
                 $options1 = '';
             }
 
-            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-sm invoicebutton" title="' . lang('lab') . '" style="" href="lab/invoice?id=' . $lab->id . '"><i class="fa fa-file"></i> ' . lang('invoice') . '</a>';
             $options2 = '<a class="btn btn-sm invoicebutton" title="Download PDF" style=" margin-right: 5px" href="lab/testPdf?id=' . $lab->id . '"> PDF</a>';
 
             if ($this->ion_auth->in_group(array('admin', 'Doctor', 'Laboratorist'))) {
-                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i>' . lang('') . '</a>';
+                $options3 = '<a class="btn btn-info btn-sm delete_button" title="' . lang('delete') . '" href="lab/delete?id=' . $lab->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             } else {
                 $options3 = '';
             }
@@ -3265,7 +3225,7 @@ class Lab extends MX_Controller
         //$this->load->view('home/footer'); // just the footer fi
         //$html = file_get_contents($this->load->view('downloadInvoice', $data)); 
         $htmlContent = $this->load->view('downloadInvoice', $data, TRUE);
-        $htd->createDoc($htmlContent, $lab->id . "_" . date('YmdHis') . "_Word", 1);
+        $htd->createDoc($htmlContent, $data['lab']->id . "_" . date('YmdHis') . "_Word", 1);
     }
 
     function sendLabReport()

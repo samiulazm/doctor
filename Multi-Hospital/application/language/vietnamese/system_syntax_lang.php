@@ -266,4 +266,20 @@ $lang['medicine_number'] = 'Number Of Medicines';
 $lang['item_name'] = 'Item Name';
 $lang['invoice_id'] = 'Invoice Id';
 $lang['new_sale'] = 'New Sale';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'Chăm sóc lâm sàng';
+$lang['hospital_operations'] = 'Vận hành bệnh viện';
+$lang['system_and_settings'] = 'Hệ thống và cài đặt';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Không có thuốc được kê.';
+$lang['history_and_symptoms'] = 'Tiền sử / triệu chứng';
+$lang['prescribed_medicines'] = 'Thuốc đã kê';
+$lang['quick_view_load_failed'] = 'Không tải được đơn thuốc. Vui lòng thử lại.';
+$lang['prescription_id_required'] = 'Chưa cung cấp mã đơn thuốc.';
+$lang['prescription_not_found'] = 'Không tìm thấy đơn thuốc.';
+$lang['permission_denied'] = 'Không có quyền.';

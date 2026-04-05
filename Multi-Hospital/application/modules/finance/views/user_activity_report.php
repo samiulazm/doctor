@@ -215,7 +215,7 @@
                                                                                                                                         echo date('m/d/Y', $date_from);
                                                                                                                                     }
                                                                                                                                     ?>" placeholder="<?php echo lang('date_from'); ?>" readonly="">
-                                                            <span class="input-group-addon"><?php echo lang(''); ?></span>
+                                                            <span class="input-group-addon"><?php echo lang('to'); ?></span>
                                                             <input type="text" class="form-control dpd2" name="date_to" value="<?php
                                                                                                                                 if (!empty($date_to)) {
                                                                                                                                     echo date('m/d/Y', $date_to);

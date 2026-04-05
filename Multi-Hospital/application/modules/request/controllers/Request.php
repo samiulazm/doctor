@@ -206,7 +206,7 @@ class Request extends MX_Controller {
                 'system_vendor' => 'Code Aristos | Hospital management System',
                 'sms_gateway' => 'Twilio',
                 'discount' => 'flat',
-                'currency' => '$',
+                'currency' => HOSPITAL_CURRENCY_SYMBOL,
                 'payment_gateway' => 'PayPal'
             );
             $this->settings_model->insertSettings($hospital_settings_data);

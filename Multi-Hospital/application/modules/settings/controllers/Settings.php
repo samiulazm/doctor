@@ -244,7 +244,7 @@ class Settings extends MX_Controller
                 $this->settings_model->updateSettings($id, $data);
                 show_swal(lang('settings_updated_successfully'), 'success', lang('updated'));
 
-                redirect($_SERVER["HTTP_REFERER"]);
+                redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('settings')));
             }
         } else {
             show_swal(lang('email_required'), 'warning', lang('warning'));
@@ -277,7 +277,7 @@ class Settings extends MX_Controller
             );
             $this->settings_model->updateSettings($id, $data);
             show_swal(lang('settings_updated_successfully'), 'success', lang('updated'));
-            redirect($_SERVER["HTTP_REFERER"]);
+            redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('settings')));
         }
     }
 
@@ -355,10 +355,10 @@ class Settings extends MX_Controller
             'name'   => 'language_site',
             'value'  => $selectedLanguage,
             'expire' => '2595000', // Set to one day (in seconds)
-            'secure' => FALSE,
+            'secure' => (bool) $this->config->item('cookie_secure'),
         );
         $this->input->set_cookie($cookie);
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('settings')));
     }
 
     function selectPaymentGateway()
@@ -1171,7 +1171,7 @@ For Any Support Please Contact with Phone No: {phone}';
             );
             $this->settings_model->updateSettings($id, $data);
             show_swal(lang('updated'), 'success', lang('updated'));
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('settings/chatgpt')));
         }
     }
 

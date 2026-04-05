@@ -39,7 +39,9 @@
       "Bash(find /c/Users/Samiul/Pictures/doctor/Multi-Hospital/application/modules/hospital/views -type f -name *.php)",
       "Bash(grep -E \"\\\\.\\(css|scss\\)$\")",
       "Bash(awk 'NR>=1610 && NR<=1625' \"Multi-Hospital/application/modules/home/views/home.php\")",
-      "Bash(php:*)"
+      "Bash(php:*)",
+      "Bash(python3 -c \"import json; data = json.load\\(open\\('deploy_progress.json'\\)\\); print\\(f'Total completed files: {len\\(data[\\\\\"completed\\\\\"]\\)}'\\); print\\('Sample entries:'\\); [print\\(f'  {x}'\\) for x in data['completed'][:5]]\")",
+      "Bash(ls -1 \"C:\\\\Users\\\\Samiul\\\\Pictures\\\\doctor/Multi-Hospital/common/assets/fontawesome5pro/webfonts\"/*.svg)"
     ]
   }
 }

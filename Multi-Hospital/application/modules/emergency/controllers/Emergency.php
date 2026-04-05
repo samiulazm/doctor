@@ -11,7 +11,7 @@ class Emergency extends MX_Controller
         $this->load->model('emergency_model');
         $this->load->model('patient/patient_model');
         $this->load->model('doctor/doctor_model');
-        if (!$this->ion_auth->in_group(array('admin', 'Doctor', 'Nurse'))) {
+        if (!$this->ion_auth->in_group(array('superadmin', 'admin', 'Doctor', 'Nurse'))) {
             redirect('home/permission');
         }
     }

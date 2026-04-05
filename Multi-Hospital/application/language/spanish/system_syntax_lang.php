@@ -1753,6 +1753,9 @@ $lang['bed_available'] = "Camas Disponibles";
 $lang['top_services'] = "Principales Servicios";
 
 $lang['overview'] = "Resumen";
+$lang['clinical_care'] = 'Atención clínica';
+$lang['hospital_operations'] = 'Operaciones hospitalarias';
+$lang['system_and_settings'] = 'Sistema y configuración';
 
 $lang['sales_vs_expenses'] = "Ventas vs Gastos";
 $lang['bed_occupancy'] = "Ocupación de Camas";
@@ -2270,6 +2273,15 @@ $lang['an_error_occurred'] = 'Ocurrió un error';
 $lang['preview'] = 'Vista Previa';
 $lang['invalid_timezone'] = 'Zona horaria inválida';
 
-
-
-
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'No hay medicamentos prescritos.';
+$lang['history_and_symptoms'] = 'Historial / síntomas';
+$lang['prescribed_medicines'] = 'Medicamentos prescritos';
+$lang['quick_view_load_failed'] = 'Error al cargar la receta. Inténtelo de nuevo.';
+$lang['prescription_id_required'] = 'No se proporcionó el ID de la receta.';
+$lang['prescription_not_found'] = 'Receta no encontrada.';
+$lang['permission_denied'] = 'Permiso denegado.';

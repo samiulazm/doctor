@@ -272,4 +272,20 @@ $lang['ai_settings'] = 'AI设置';
 $lang['ai_patient_overview'] = 'AI患者概览';
 $lang['ai_image_analysis'] = 'AI图像分析';
 $lang['ai_treatment_plan'] = 'AI治疗计划';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = '临床护理';
+$lang['hospital_operations'] = '医院运营';
+$lang['system_and_settings'] = '系统与设置';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = '无处方药品。';
+$lang['history_and_symptoms'] = '病史 / 症状';
+$lang['prescribed_medicines'] = '处方药品';
+$lang['quick_view_load_failed'] = '加载处方详情失败，请重试。';
+$lang['prescription_id_required'] = '未提供处方编号。';
+$lang['prescription_not_found'] = '未找到处方。';
+$lang['permission_denied'] = '无权限。';

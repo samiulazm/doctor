@@ -195,7 +195,9 @@ class Sma {
 
     public function dd()
     {
-        die("<script type='text/javascript'>setTimeout(function(){ window.top.location.href = '" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : site_url('pos')) . "'; }, 10);</script>");
+        $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+        $target = safe_redirect_target($ref, site_url('pos'));
+        die('<script type="text/javascript">setTimeout(function(){ window.top.location.href = ' . json_encode($target) . '; }, 10);</script>');
     }
 	
 }

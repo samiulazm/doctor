@@ -61,7 +61,7 @@
 
 
 <!-- Include Global Modal Styles -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <!-- Add Patient Modal-->
 <div class="modal fade modal-enhanced" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

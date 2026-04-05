@@ -168,7 +168,7 @@ class Macro extends MX_Controller
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a></li>' : '') . '
+                    ' . ($options1 ? '<li><a class="editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $macro->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . '</a></li>' : '') . '
                     ' . ($options5 ? '<li><a href="macro/delete?id=' . $macro->id . '"> <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';

@@ -266,4 +266,20 @@ $lang['medicine_number'] = 'Number Of Medicines';
 $lang['item_name'] = 'Item Name';
 $lang['invoice_id'] = 'Invoice Id';
 $lang['new_sale'] = 'New Sale';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'Opieka kliniczna';
+$lang['hospital_operations'] = 'Działalność szpitalna';
+$lang['system_and_settings'] = 'System i ustawienia';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Brak przepisanych leków.';
+$lang['history_and_symptoms'] = 'Wywiad / objawy';
+$lang['prescribed_medicines'] = 'Przepisane leki';
+$lang['quick_view_load_failed'] = 'Nie udało się wczytać recepty. Spróbuj ponownie.';
+$lang['prescription_id_required'] = 'Nie podano ID recepty.';
+$lang['prescription_not_found'] = 'Nie znaleziono recepty.';
+$lang['permission_denied'] = 'Brak uprawnień.';

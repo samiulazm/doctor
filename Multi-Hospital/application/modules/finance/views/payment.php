@@ -44,7 +44,7 @@
                             <table class="table table-hover datatables text-sm" id="editable-sample3" width="100%">
                                 <thead>
                                     <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang(''); ?> #</th>
+                                        <th class="font-weight-bold"><?php echo lang('invoice'); ?> #</th>
                                         <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
                                         <!-- <th class="font-weight-bold"><?php echo lang('doctor'); ?></th> -->
                                         <th class="font-weight-bold"><?php echo lang('date'); ?></th>
@@ -52,7 +52,7 @@
                                         <th class="font-weight-bold"><?php echo lang('vat'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('discount'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('grand_total'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('paid'); ?> <?php echo lang(''); ?></th>
+                                        <th class="font-weight-bold"><?php echo lang('paid'); ?> <?php echo lang('amount'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('due'); ?></th>
                                         <!-- <th class="font-weight-bold"><?php echo lang('remarks'); ?></th> -->
                                         <th class="font-weight-bold"><?php echo lang('from'); ?></th>
@@ -83,7 +83,7 @@
 
 
 <!-- Include Global Modal Styles -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <div class="modal fade modal-enhanced" id="editPaymentModal" role="dialog" aria-labelledby="editPaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

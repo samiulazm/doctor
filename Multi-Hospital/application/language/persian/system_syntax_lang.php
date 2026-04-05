@@ -266,4 +266,20 @@ $lang['medicine_number'] = 'Number Of Medicines';
 $lang['item_name'] = 'Item Name';
 $lang['invoice_id'] = 'Invoice Id';
 $lang['new_sale'] = 'New Sale';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'مراقبت بالینی';
+$lang['hospital_operations'] = 'عملیات بیمارستان';
+$lang['system_and_settings'] = 'سیستم و تنظیمات';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'دارویی تجویز نشده است.';
+$lang['history_and_symptoms'] = 'سابقه / علائم';
+$lang['prescribed_medicines'] = 'داروهای تجویزشده';
+$lang['quick_view_load_failed'] = 'بارگذاری نسخه ناموفق بود. دوباره تلاش کنید.';
+$lang['prescription_id_required'] = 'شناسه نسخه ارسال نشده است.';
+$lang['prescription_not_found'] = 'نسخه یافت نشد.';
+$lang['permission_denied'] = 'دسترسی رد شد.';

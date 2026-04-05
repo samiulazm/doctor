@@ -391,7 +391,7 @@ class Status extends MX_Controller
                     'system_vendor' => 'Code Aristos - Hospital management System',
                     'discount' => 'flat',
                     'sms_gateway' => 'Twilio',
-                    'currency' => '$',
+                    'currency' => HOSPITAL_CURRENCY_SYMBOL,
                     'emailtype' => 'Smtp'
                 );
                 $this->settings_model->insertSettings($hospital_settings_data);

@@ -1444,5 +1444,6 @@ function switchPlan(plan) {
     
 
     </script>
+<?php $this->load->view('csrf_inject'); ?>
 </body>
 </html>

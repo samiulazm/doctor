@@ -1,0 +1,965 @@
+/**
+ * Hospital Dashboard — Enhanced Component Styles
+ * Aesthetic: "Clinical Precision meets Warm Vitality"
+ * Loads after AdminLTE + app-design-tokens.css
+ *
+ * Overrides inline <style> blocks scattered in home.php and dashboard.php.
+ * Every selector uses .ap-dashboard scope so it only touches the dashboard page.
+ */
+
+/* ─── Fonts ─────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* ─── Extended Design Tokens ────────────────────────────────────────────── */
+:root {
+  /* Core palette — clinical navy + teal vitality */
+  --dash-navy:       #0f1d33;
+  --dash-navy-soft:  #1a2a45;
+  --dash-teal:       #0d9488;
+  --dash-teal-soft:  rgba(13, 148, 136, 0.10);
+  --dash-teal-glow:  rgba(13, 148, 136, 0.25);
+  --dash-emerald:    #059669;
+  --dash-emerald-soft: rgba(5, 150, 105, 0.10);
+  --dash-amber:      #d97706;
+  --dash-amber-soft: rgba(217, 119, 6, 0.10);
+  --dash-rose:       #e11d48;
+  --dash-rose-soft:  rgba(225, 29, 72, 0.08);
+  --dash-blue:       #2563eb;
+  --dash-blue-soft:  rgba(37, 99, 235, 0.08);
+  --dash-indigo:     #6366f1;
+  --dash-indigo-soft:rgba(99, 102, 241, 0.08);
+
+  /* Surfaces */
+  --dash-bg:         #f0f4f8;
+  --dash-surface:    #ffffff;
+  --dash-surface-raised: #ffffff;
+  --dash-border:     #e2e8f0;
+  --dash-border-hover: #cbd5e1;
+
+  /* Typography */
+  --dash-font-body:  'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --dash-font-head:  'Outfit', 'DM Sans', sans-serif;
+  --dash-text:       #1e293b;
+  --dash-text-secondary: #64748b;
+  --dash-text-faint: #94a3b8;
+
+  /* Shadows — layered depth */
+  --dash-shadow-xs:  0 1px 2px rgba(15, 23, 42, 0.04);
+  --dash-shadow-sm:  0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --dash-shadow-md:  0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --dash-shadow-lg:  0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --dash-shadow-glow-teal: 0 0 0 3px rgba(13, 148, 136, 0.12), 0 4px 12px rgba(13, 148, 136, 0.10);
+
+  /* Radii */
+  --dash-radius:     0.625rem;
+  --dash-radius-lg:  0.875rem;
+  --dash-radius-xl:  1.125rem;
+
+  /* Motion */
+  --dash-ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --dash-duration:   0.25s;
+}
+
+/* ─── Dark Mode Tokens ──────────────────────────────────────────────────── */
+body[data-bs-theme="dark"] {
+  --dash-bg:         #0c1222;
+  --dash-surface:    #162032;
+  --dash-surface-raised: #1c2a42;
+  --dash-border:     #253350;
+  --dash-border-hover: #334766;
+  --dash-text:       #e2e8f0;
+  --dash-text-secondary: #94a3b8;
+  --dash-text-faint: #64748b;
+  --dash-shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.20);
+  --dash-shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.20);
+  --dash-shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.30), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+  --dash-shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+  --dash-teal-soft:  rgba(13, 148, 136, 0.15);
+  --dash-emerald-soft: rgba(5, 150, 105, 0.15);
+  --dash-amber-soft: rgba(217, 119, 6, 0.15);
+  --dash-rose-soft:  rgba(225, 29, 72, 0.12);
+  --dash-blue-soft:  rgba(37, 99, 235, 0.14);
+}
+
+/* ─── Page Background ───────────────────────────────────────────────────── */
+.ap-dashboard {
+  font-family: var(--dash-font-body);
+  color: var(--dash-text);
+  background-color: var(--dash-bg);
+  /* Subtle dot-grid texture for depth */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.12) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.06) 1px, transparent 0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. HERO / WELCOME SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .ap-dashboard-hero {
+  background:
+    linear-gradient(135deg, rgba(13, 148, 136, 0.06) 0%, rgba(37, 99, 235, 0.04) 50%, rgba(99, 102, 241, 0.03) 100%),
+    var(--dash-surface) !important;
+  border: 1px solid var(--dash-border) !important;
+  border-radius: var(--dash-radius-xl) !important;
+  box-shadow: var(--dash-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative accent line on left edge */
+.ap-dashboard .ap-dashboard-hero::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--dash-teal), var(--dash-blue), var(--dash-indigo));
+  border-radius: 4px 0 0 4px;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .ap-dashboard-hero {
+  background:
+    linear-gradient(135deg, rgba(13, 148, 136, 0.10) 0%, rgba(37, 99, 235, 0.06) 50%, rgba(99, 102, 241, 0.04) 100%),
+    var(--dash-surface) !important;
+}
+
+.ap-dashboard .ap-dashboard-eyebrow {
+  font-family: var(--dash-font-head);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  font-size: 0.6875rem !important;
+  color: var(--dash-teal) !important;
+  text-transform: uppercase;
+}
+
+.ap-dashboard .welcome-text {
+  font-family: var(--dash-font-head) !important;
+  font-weight: 700 !important;
+  color: var(--dash-text) !important;
+  letter-spacing: -0.02em;
+  line-height: 1.2 !important;
+}
+
+.ap-dashboard .ap-dashboard-tagline {
+  color: var(--dash-text-secondary) !important;
+  font-size: 0.8125rem !important;
+}
+
+.ap-dashboard .ap-dashboard-avatar {
+  width: 4.5rem !important;
+  height: 4.5rem !important;
+  object-fit: cover;
+  border: 3px solid var(--dash-surface);
+  box-shadow: var(--dash-shadow-md), 0 0 0 2px var(--dash-teal-soft);
+  border-radius: 50% !important;
+}
+
+/* Action buttons */
+.ap-dashboard .ap-dashboard-action-btn {
+  font-family: var(--dash-font-head) !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+  border-radius: var(--dash-radius) !important;
+  border: none !important;
+  box-shadow: var(--dash-shadow-sm);
+  transition: all var(--dash-duration) var(--dash-ease) !important;
+  letter-spacing: 0.01em;
+}
+
+.ap-dashboard .ap-dashboard-action-btn.btn-primary {
+  background: linear-gradient(135deg, var(--dash-blue), #4f46e5) !important;
+}
+
+.ap-dashboard .ap-dashboard-action-btn.btn-success {
+  background: linear-gradient(135deg, var(--dash-emerald), var(--dash-teal)) !important;
+}
+
+.ap-dashboard .ap-dashboard-action-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--dash-shadow-lg) !important;
+  filter: brightness(1.08);
+}
+
+.ap-dashboard .ap-dashboard-action-btn:active {
+  transform: translateY(0) !important;
+  filter: brightness(0.96);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. STAT CARDS (Financial KPIs)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .ap-dashboard-metrics .stat-card {
+  background: var(--dash-surface) !important;
+  border: 1px solid var(--dash-border) !important;
+  border-radius: var(--dash-radius-lg) !important;
+  box-shadow: var(--dash-shadow-sm) !important;
+  transition: all var(--dash-duration) var(--dash-ease) !important;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left-edge gradient accent per card — cascade via nth-child */
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(1) .stat-card::before,
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(2) .stat-card::before,
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(3) .stat-card::before,
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(4) .stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(1) .stat-card::before {
+  background: linear-gradient(180deg, var(--dash-blue), #818cf8);
+}
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(2) .stat-card::before {
+  background: linear-gradient(180deg, var(--dash-emerald), #34d399);
+}
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(3) .stat-card::before {
+  background: linear-gradient(180deg, var(--dash-amber), #fbbf24);
+}
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(4) .stat-card::before {
+  background: linear-gradient(180deg, #06b6d4, #67e8f9);
+}
+
+.ap-dashboard .ap-dashboard-metrics .stat-card:hover {
+  box-shadow: var(--dash-shadow-md) !important;
+  transform: translateY(-3px) !important;
+  border-color: var(--dash-border-hover) !important;
+}
+
+.ap-dashboard .ap-dashboard-metrics .stat-card a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.ap-dashboard .stat-card-body {
+  padding: 1.25rem 1.25rem 1.25rem 1.5rem !important;
+  position: relative;
+}
+
+.ap-dashboard .stat-card-body .badge {
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+  font-size: 0.6875rem !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--dash-text-secondary) !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.ap-dashboard .stat-card-body .sub-text {
+  font-size: 0.6875rem !important;
+  color: var(--dash-text-faint) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ap-dashboard .dashboard-title {
+  font-family: var(--dash-font-head) !important;
+  font-weight: 800 !important;
+  font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+  letter-spacing: -0.03em;
+  line-height: 1.15 !important;
+  font-variant-numeric: tabular-nums;
+  margin-top: 0.25rem;
+  margin-bottom: 0.375rem;
+}
+
+/* Color overrides for dashboard-title  */
+.ap-dashboard .dashboard-title.text-primary {
+  color: var(--dash-blue) !important;
+}
+.ap-dashboard .dashboard-title.text-success {
+  color: var(--dash-emerald) !important;
+}
+.ap-dashboard .dashboard-title.text-orange {
+  color: var(--dash-amber) !important;
+}
+.ap-dashboard .dashboard-title.text-info {
+  color: #0891b2 !important;
+}
+
+.ap-dashboard .percentage-change {
+  font-family: var(--dash-font-body);
+  font-weight: 600;
+  font-size: 0.75rem !important;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  display: inline-block;
+}
+
+.ap-dashboard .percentage-change .text-success {
+  color: var(--dash-emerald) !important;
+  background: var(--dash-emerald-soft);
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+}
+
+.ap-dashboard .percentage-change .text-danger {
+  color: var(--dash-rose) !important;
+  background: var(--dash-rose-soft);
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. GENERIC CARD POLISH (card-custom, shadow-lg, custom-rounded)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .card-custom,
+.ap-dashboard .card.shadow-lg.custom-rounded {
+  background: var(--dash-surface) !important;
+  border: 1px solid var(--dash-border) !important;
+  border-radius: var(--dash-radius-lg) !important;
+  box-shadow: var(--dash-shadow-sm) !important;
+  transition: box-shadow var(--dash-duration) var(--dash-ease), transform var(--dash-duration) var(--dash-ease);
+  overflow: hidden;
+}
+
+.ap-dashboard .card-custom:hover,
+.ap-dashboard .card.shadow-lg.custom-rounded:hover {
+  box-shadow: var(--dash-shadow-md) !important;
+}
+
+/* Card headers */
+.ap-dashboard .card-custom .card-header,
+.ap-dashboard .card.shadow-lg .card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--dash-border);
+  padding: 1rem 1.25rem;
+}
+
+.ap-dashboard .card-custom .card-header h5,
+.ap-dashboard .card.shadow-lg h5 {
+  font-family: var(--dash-font-head);
+  font-weight: 700;
+  color: var(--dash-text);
+  font-size: 0.875rem !important;
+  letter-spacing: -0.01em;
+}
+
+/* Badge inside card headers */
+.ap-dashboard .card-custom .badge-secondary,
+.ap-dashboard .card.shadow-lg .badge-secondary {
+  background: var(--dash-teal-soft) !important;
+  color: var(--dash-teal) !important;
+  font-weight: 600;
+  font-size: 0.625rem !important;
+  letter-spacing: 0.04em;
+  border-radius: 1rem;
+}
+
+/* Card footers */
+.ap-dashboard .card-footer {
+  background: transparent !important;
+  border-top: 1px solid var(--dash-border);
+  padding: 0.75rem 1.25rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. CHARTS CONTAINERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard #sales_expense_chart,
+.ap-dashboard #topServicesChart,
+.ap-dashboard #topDiagnosesChart,
+.ap-dashboard #bedOccupancyChart,
+.ap-dashboard #topTreatmentsChart {
+  border-radius: var(--dash-radius);
+  overflow: hidden;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. TABLES — Logs, Transaction Logs, Doctor Appointments
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .table {
+  font-size: 0.8125rem;
+  color: var(--dash-text);
+}
+
+.ap-dashboard .table thead th {
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dash-text-faint);
+  border-bottom: 2px solid var(--dash-border) !important;
+  padding: 0.75rem 1rem;
+  background: transparent;
+}
+
+.ap-dashboard .table tbody td {
+  padding: 0.75rem 1rem;
+  border-color: var(--dash-border);
+  vertical-align: middle;
+}
+
+.ap-dashboard .table-hover tbody tr:hover {
+  background-color: var(--dash-teal-soft) !important;
+}
+
+.ap-dashboard .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(241, 245, 249, 0.5);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(30, 41, 59, 0.3);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .table-hover tbody tr:hover {
+  background-color: rgba(13, 148, 136, 0.08) !important;
+}
+
+/* List-group inside cards */
+.ap-dashboard .list-group-item {
+  background: transparent;
+  border-color: var(--dash-border);
+  color: var(--dash-text);
+  padding: 0.875rem 1rem;
+  font-size: 0.8125rem;
+  transition: background var(--dash-duration) ease;
+}
+
+.ap-dashboard .list-group-item:hover {
+  background: var(--dash-teal-soft);
+}
+
+.ap-dashboard .list-group-item h6 {
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+  color: var(--dash-text);
+}
+
+.ap-dashboard .list-group-item .badge-primary {
+  background: var(--dash-teal) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. DISEASE OUTBREAK ALERTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .disease-alert {
+  padding: 0.75rem;
+  border-radius: var(--dash-radius);
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid var(--dash-border);
+  transition: all var(--dash-duration) ease;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .disease-alert {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.ap-dashboard .disease-alert:hover {
+  box-shadow: var(--dash-shadow-xs);
+}
+
+.ap-dashboard .disease-alert h6 {
+  font-family: var(--dash-font-head);
+  font-size: 0.8125rem;
+  color: var(--dash-text);
+}
+
+.ap-dashboard .disease-alert .badge {
+  font-size: 0.625rem !important;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 1rem;
+}
+
+.ap-dashboard .disease-alert .progress {
+  background: var(--dash-border);
+  border-radius: 1rem;
+  height: 5px !important;
+  overflow: hidden;
+}
+
+.ap-dashboard .disease-alert .progress-bar.alert-success {
+  background: var(--dash-emerald) !important;
+}
+
+.ap-dashboard .disease-alert .progress-bar.alert-warning {
+  background: var(--dash-amber) !important;
+}
+
+.ap-dashboard .disease-alert .progress-bar.alert-danger {
+  background: var(--dash-rose) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. TODAY / THIS MONTH / THIS YEAR OVERVIEW TILES
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Parent transparent card wrapper */
+.ap-dashboard .card.bg-transparent {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ap-dashboard .card.bg-transparent > div > h5 {
+  font-family: var(--dash-font-head);
+  font-weight: 700;
+  font-size: 0.875rem !important;
+  color: var(--dash-text);
+  letter-spacing: -0.01em;
+}
+
+/* The individual stat tiles inside overview */
+.ap-dashboard .card.bg-transparent .stat-card.bg-light {
+  background: var(--dash-surface) !important;
+  border: 1px solid var(--dash-border) !important;
+  border-radius: var(--dash-radius) !important;
+  box-shadow: var(--dash-shadow-xs);
+  transition: all var(--dash-duration) var(--dash-ease);
+  padding: 1rem !important;
+}
+
+.ap-dashboard .card.bg-transparent .stat-card.bg-light:hover {
+  box-shadow: var(--dash-shadow-sm);
+  transform: translateY(-2px);
+  border-color: var(--dash-teal-glow);
+}
+
+/* Icon circles inside overview tiles */
+.ap-dashboard .card.bg-transparent .stat-card .rounded-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  box-shadow: var(--dash-shadow-xs);
+}
+
+/* Icon bg overrides to use our palette */
+.ap-dashboard .card.bg-transparent .stat-card .bg-success.rounded-circle {
+  background: linear-gradient(135deg, var(--dash-emerald), #34d399) !important;
+}
+.ap-dashboard .card.bg-transparent .stat-card .bg-danger.rounded-circle {
+  background: linear-gradient(135deg, var(--dash-rose), #fb7185) !important;
+}
+.ap-dashboard .card.bg-transparent .stat-card .bg-info.rounded-circle {
+  background: linear-gradient(135deg, #0891b2, #22d3ee) !important;
+}
+.ap-dashboard .card.bg-transparent .stat-card .bg-primary.rounded-circle {
+  background: linear-gradient(135deg, var(--dash-blue), #818cf8) !important;
+}
+.ap-dashboard .card.bg-transparent .stat-card .bg-warning.rounded-circle {
+  background: linear-gradient(135deg, var(--dash-amber), #fbbf24) !important;
+}
+.ap-dashboard .card.bg-transparent .stat-card .bg-secondary.rounded-circle {
+  background: linear-gradient(135deg, #475569, #94a3b8) !important;
+}
+
+/* Tile label text */
+.ap-dashboard .card.bg-transparent .stat-card h6 {
+  font-family: var(--dash-font-head) !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  color: var(--dash-text-secondary) !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Tile value text */
+.ap-dashboard .card.bg-transparent .stat-card p.fw-bold {
+  font-family: var(--dash-font-head) !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important;
+  color: var(--dash-text) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. CALENDAR CARD
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard #calendar {
+  font-family: var(--dash-font-body);
+}
+
+.ap-dashboard .fc .fc-toolbar-title {
+  font-family: var(--dash-font-head);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--dash-text);
+}
+
+.ap-dashboard .fc .fc-button {
+  font-family: var(--dash-font-body);
+  font-weight: 500;
+  border-radius: var(--dash-radius) !important;
+  font-size: 0.8125rem;
+  transition: all 0.15s ease;
+}
+
+.ap-dashboard .fc .fc-button-primary {
+  background: var(--dash-surface) !important;
+  border: 1px solid var(--dash-border) !important;
+  color: var(--dash-text) !important;
+}
+
+.ap-dashboard .fc .fc-button-primary:hover {
+  background: var(--dash-teal-soft) !important;
+  border-color: var(--dash-teal) !important;
+  color: var(--dash-teal) !important;
+}
+
+.ap-dashboard .fc .fc-button-primary.fc-button-active {
+  background: var(--dash-teal) !important;
+  border-color: var(--dash-teal) !important;
+  color: #fff !important;
+}
+
+.ap-dashboard .fc .fc-daygrid-day-number,
+.ap-dashboard .fc .fc-col-header-cell-cushion {
+  font-weight: 500;
+  color: var(--dash-text);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. BUTTONS INSIDE DASHBOARD
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .btn-info {
+  background: linear-gradient(135deg, #0891b2, var(--dash-teal)) !important;
+  border: none !important;
+  color: #fff !important;
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  border-radius: var(--dash-radius) !important;
+  box-shadow: var(--dash-shadow-xs);
+  transition: all var(--dash-duration) var(--dash-ease);
+}
+
+.ap-dashboard .btn-info:hover {
+  filter: brightness(1.08);
+  box-shadow: var(--dash-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.ap-dashboard .btn-success {
+  background: linear-gradient(135deg, var(--dash-emerald), var(--dash-teal)) !important;
+  border: none !important;
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+  border-radius: var(--dash-radius) !important;
+}
+
+.ap-dashboard .btn-success:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. SUPERADMIN DASHBOARD — Small Boxes
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .small-box {
+  border-radius: var(--dash-radius-lg) !important;
+  box-shadow: var(--dash-shadow-sm);
+  transition: all var(--dash-duration) var(--dash-ease);
+  border: none;
+  overflow: hidden;
+}
+
+.ap-dashboard .small-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--dash-shadow-lg);
+}
+
+.ap-dashboard .small-box .inner h3 {
+  font-family: var(--dash-font-head);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-dashboard .small-box .inner p {
+  font-family: var(--dash-font-head);
+  font-weight: 600;
+}
+
+.ap-dashboard .small-box.bg-info {
+  background: linear-gradient(135deg, #0891b2, #06b6d4) !important;
+}
+
+.ap-dashboard .small-box.bg-success {
+  background: linear-gradient(135deg, var(--dash-emerald), #34d399) !important;
+}
+
+.ap-dashboard .small-box.bg-secondary {
+  background: linear-gradient(135deg, #475569, #64748b) !important;
+}
+
+.ap-dashboard .small-box.bg-danger {
+  background: linear-gradient(135deg, var(--dash-rose), #f43f5e) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. MODAL POLISH
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard .modal-content {
+  border-radius: var(--dash-radius-xl) !important;
+  border: 1px solid var(--dash-border);
+  box-shadow: var(--dash-shadow-lg);
+  overflow: hidden;
+}
+
+.ap-dashboard .modal-header {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.06), rgba(37, 99, 235, 0.03));
+  border-bottom: 1px solid var(--dash-border);
+  padding: 1.25rem 1.5rem;
+}
+
+.ap-dashboard .modal-header .modal-title {
+  font-family: var(--dash-font-head);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dash-text);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .modal-content {
+  background: var(--dash-surface);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. SCROLLBAR STYLING
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ap-dashboard ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.ap-dashboard ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ap-dashboard ::-webkit-scrollbar-thumb {
+  background: var(--dash-border);
+  border-radius: 3px;
+}
+
+.ap-dashboard ::-webkit-scrollbar-thumb:hover {
+  background: var(--dash-text-faint);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   13. INLINE STYLE OVERRIDES
+   Kill the scattered inline <style> blocks with higher specificity
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Override: card-custom from inline styles */
+.ap-dashboard .card-custom {
+  border: 1px solid var(--dash-border) !important;
+  border-radius: var(--dash-radius-lg) !important;
+  transition: all var(--dash-duration) var(--dash-ease) !important;
+}
+
+/* Override: stat-card background from inline */
+.ap-dashboard .ap-dashboard-metrics .stat-card {
+  background-color: var(--dash-surface) !important;
+  border-radius: var(--dash-radius-lg) !important;
+}
+
+/* Override: stat-number & stat-text from inline */
+.ap-dashboard .stat-number {
+  font-family: var(--dash-font-head) !important;
+  font-weight: 700 !important;
+  color: var(--dash-text) !important;
+}
+
+.ap-dashboard .stat-text {
+  font-family: var(--dash-font-body) !important;
+  color: var(--dash-text-secondary) !important;
+}
+
+/* Override: analytics bg */
+.ap-dashboard .analytics {
+  background: var(--dash-surface) !important;
+}
+
+/* Override: .stat-icon from inline */
+.ap-dashboard .stat-icon {
+  color: var(--dash-teal) !important;
+  opacity: 0.08 !important;
+}
+
+/* Override: stat-card-body padding from inline */
+.ap-dashboard .ap-dashboard-metrics .stat-card-body {
+  padding: 1.25rem 1.25rem 1rem 1.5rem !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   14. RESPONSIVE REFINEMENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767.98px) {
+  .ap-dashboard .ap-dashboard-hero .card-body {
+    padding: 1rem !important;
+  }
+
+  .ap-dashboard .ap-dashboard-avatar {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+
+  .ap-dashboard .welcome-text {
+    font-size: 1.25rem !important;
+  }
+
+  .ap-dashboard .address-text {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.75rem;
+  }
+
+  .ap-dashboard .dashboard-title {
+    font-size: 1.5rem !important;
+  }
+
+  .ap-dashboard .card.bg-transparent .stat-card.bg-light {
+    padding: 0.75rem !important;
+  }
+
+  .ap-dashboard .logs-row {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .ap-dashboard .dashboard-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem) !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .ap-dashboard .dashboard-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem) !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   15. ENTRANCE ANIMATIONS (subtle, performance-safe)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes dash-fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ap-dashboard .ap-dashboard-hero {
+  animation: dash-fadeUp 0.5s var(--dash-ease) both;
+}
+
+.ap-dashboard .ap-dashboard-stats-row > div {
+  animation: dash-fadeUp 0.5s var(--dash-ease) both;
+}
+
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(1) { animation-delay: 0.08s; }
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(2) { animation-delay: 0.14s; }
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(3) { animation-delay: 0.20s; }
+.ap-dashboard .ap-dashboard-stats-row > div:nth-child(4) { animation-delay: 0.26s; }
+
+.ap-dashboard .card-custom,
+.ap-dashboard .card.shadow-lg.custom-rounded {
+  animation: dash-fadeUp 0.45s var(--dash-ease) both;
+  animation-delay: 0.3s;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. DARK MODE — DEEP OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+body[data-bs-theme="dark"] .ap-dashboard {
+  color: var(--dash-text);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .stat-card-body .badge {
+  color: var(--dash-text-secondary) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .stat-card-body .sub-text {
+  color: var(--dash-text-faint) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .card.bg-transparent .stat-card.bg-light {
+  background: var(--dash-surface) !important;
+  border-color: var(--dash-border) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .card.bg-transparent .stat-card h6 {
+  color: var(--dash-text-secondary) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .card.bg-transparent .stat-card p.fw-bold {
+  color: var(--dash-text) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .list-group-item {
+  color: var(--dash-text);
+  border-color: var(--dash-border);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .list-group-item h6 {
+  color: var(--dash-text);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .table {
+  color: var(--dash-text);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .table thead th {
+  color: var(--dash-text-faint);
+  border-color: var(--dash-border);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .table tbody td {
+  border-color: var(--dash-border);
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .card-custom,
+body[data-bs-theme="dark"] .ap-dashboard .card.shadow-lg.custom-rounded {
+  background: var(--dash-surface) !important;
+  border-color: var(--dash-border) !important;
+}
+
+body[data-bs-theme="dark"] .ap-dashboard .modal-header {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.10), rgba(37, 99, 235, 0.05));
+}
+
+/* Ensure chart bg stays transparent in dark */
+body[data-bs-theme="dark"] .ap-dashboard .card-custom .card-body,
+body[data-bs-theme="dark"] .ap-dashboard .card.shadow-lg .card-body {
+  background: transparent;
+}

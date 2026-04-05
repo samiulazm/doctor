@@ -223,4 +223,28 @@ class Sms_model extends CI_model {
         return $query->row();
     }
 
+    function countGatewaysForHospital()
+    {
+        $hid = $this->session->userdata('hospital_id');
+        if (!$hid) {
+            return 0;
+        }
+        $this->db->where('hospital_id', $hid);
+        return (int) $this->db->count_all_results('sms_settings');
+    }
+
+    function countSmsSentToday()
+    {
+        $hid = $this->session->userdata('hospital_id');
+        if (!$hid) {
+            return 0;
+        }
+        $start = strtotime('today');
+        $end = strtotime('tomorrow') - 1;
+        $this->db->where('hospital_id', $hid);
+        $this->db->where('date >=', $start);
+        $this->db->where('date <=', $end);
+        return (int) $this->db->count_all_results('sms');
+    }
+
 }

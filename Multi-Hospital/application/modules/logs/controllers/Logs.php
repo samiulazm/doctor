@@ -187,4 +187,100 @@ class Logs extends MX_Controller
 
         echo json_encode($output);
     }
+
+    /**
+     * Read-only audit trail (platform config audit_ui_enabled).
+     */
+    function audit()
+    {
+        if (!$this->config->item('audit_ui_enabled')) {
+            redirect('home/permission');
+        }
+        $data = array();
+        $data['audit_table_ready'] = $this->db->table_exists('audit_log');
+        $data['audit_scope'] = $this->ion_auth->in_group(array('superadmin')) ? 'all' : 'hospital';
+        $data['platform_release'] = $this->config->item('platform_release');
+        $data['audit_log_enabled'] = (bool) $this->config->item('audit_log_enabled');
+        $data['audit_total_count'] = null;
+        if ($data['audit_table_ready']) {
+            $this->load->model('audit_log_model');
+            $data['audit_total_count'] = $this->audit_log_model->audit_count_total(
+                $this->ion_auth->in_group(array('superadmin'))
+            );
+        }
+        $this->load->view('home/dashboard');
+        $this->load->view('audit', $data);
+        $this->load->view('home/footer');
+    }
+
+    function getAuditJson()
+    {
+        if (!$this->config->item('audit_ui_enabled')) {
+            show_error('Forbidden', 403);
+            return;
+        }
+        $this->load->model('audit_log_model');
+
+        $requestData = $_REQUEST;
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $searchRaw = $this->input->post('search');
+        $search = (is_array($searchRaw) && isset($searchRaw['value'])) ? $searchRaw['value'] : '';
+
+        $order = $this->input->post('order');
+        $columns_valid = array(
+            '0' => 'created_at',
+            '1' => 'action',
+            '2' => 'entity_type',
+            '3' => 'entity_id',
+            '4' => 'user_id',
+            '5' => 'ip_address',
+            '6' => 'metadata',
+        );
+        $values = $this->settings_model->getColumnOrder($order, $columns_valid);
+        $dir = $values[0];
+        $orderCol = !empty($values[1]) ? $values[1] : 'created_at';
+
+        $superadmin = $this->ion_auth->in_group(array('superadmin'));
+
+        if (!$this->db->table_exists('audit_log')) {
+            $output = array(
+                'draw' => intval($requestData['draw']),
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => array(),
+            );
+            echo json_encode($output);
+            return;
+        }
+
+        $total = $this->audit_log_model->audit_count_total($superadmin);
+        $filtered = $this->audit_log_model->audit_count_filtered($superadmin, $search);
+        $rows = $this->audit_log_model->audit_datatable_rows($start, $limit, $search, $orderCol, $dir, $superadmin);
+
+        $info = array();
+        foreach ($rows as $r) {
+            $meta = isset($r->metadata) ? (string) $r->metadata : '';
+            if (strlen($meta) > 120) {
+                $meta = substr($meta, 0, 117) . '...';
+            }
+            $info[] = array(
+                $r->created_at,
+                $r->action,
+                $r->entity_type !== null && $r->entity_type !== '' ? $r->entity_type : '—',
+                $r->entity_id !== null ? $r->entity_id : '—',
+                $r->user_id !== null ? $r->user_id : '—',
+                $r->ip_address !== null ? $r->ip_address : '—',
+                $meta !== '' ? $meta : '—',
+            );
+        }
+
+        $output = array(
+            'draw' => intval($requestData['draw']),
+            'recordsTotal' => $total,
+            'recordsFiltered' => $filtered,
+            'data' => $info,
+        );
+        echo json_encode($output);
+    }
 }

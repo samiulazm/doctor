@@ -58,7 +58,7 @@
                                           <th class="font-weight-bold text-uppercase"><?php echo lang('name'); ?></th>
                                           <th class="font-weight-bold"><?php echo lang('code'); ?></th>
                                           <th class="font-weight-bold"><?php echo lang('service_point'); ?></th>
-                                          <th class="font-weight-bold"><?php echo lang(''); ?> <?php echo lang('price'); ?> ( <?php echo $settings->currency; ?> )</th>
+                                          <th class="font-weight-bold"><?php echo lang('default'); ?> <?php echo lang('price'); ?> ( <?php echo $settings->currency; ?> )</th>
                                           <th class="font-weight-bold"><?php echo lang('doctors_commission'); ?></th>
                                           <th class="font-weight-bold"><?php echo lang('type'); ?></th>
                                           <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>

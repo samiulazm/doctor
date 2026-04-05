@@ -63,7 +63,7 @@
                                             <td><?php echo $schedule->e_time; ?></td>
                                             <td><?php echo $schedule->duration * 5 . ' ' . lang('minitues'); ?></td>
                                             <td>
-                                                <a class="btn btn-danger btn-sm btn_width delete_button" href="schedule/deleteSchedule?id=<?php echo $schedule->id; ?>&doctor=<?php echo $doctorr; ?>&weekday=<?php echo $schedule->weekday; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang(''); ?></a>
+                                                <a class="btn btn-danger btn-sm btn_width delete_button" href="schedule/deleteSchedule?id=<?php echo $schedule->id; ?>&doctor=<?php echo $doctorr; ?>&weekday=<?php echo $schedule->weekday; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"> </i> <?php echo lang('delete'); ?></a>
                                             </td>
                                         </tr>
                                     <?php

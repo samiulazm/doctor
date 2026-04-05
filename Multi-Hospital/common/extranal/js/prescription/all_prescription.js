@@ -40,12 +40,11 @@ $(document).ready(function () {
                 "use strict";
                 var de = response.prescription.date * 1000;
                 var d = new Date(de);
-                var da = (d.getDate() + 1) + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+                var da = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
 
                 $('#prescriptionEditForm').find('[name="id"]').val(response.prescription.id).end();
                 $('#prescriptionEditForm').find('[name="date"]').val(da).end();
                 $('#prescriptionEditForm').find('[name="patient"]').val(response.prescription.patient).end();
-                $('#prescriptionEditForm').find('[name="doctor"]').val(response.prescription.doctor).end();
                 $('#prescriptionEditForm').find('[name="doctor"]').val(response.prescription.doctor).end();
 
                 myEditor.setData(response.prescription.symptom);
@@ -115,40 +114,52 @@ $(document).ready(function () {
 // Quick View Modal Functionality
 $(document).ready(function () {
     "use strict";
-    
+
+    var L = window.prescriptionQuickViewLang || {};
+    function qv(key, fallback) {
+        var v = L[key];
+        return (v !== undefined && v !== null && v !== '') ? v : (fallback || key);
+    }
+    /** Escape text inserted into HTML (medicine rows, names, API errors). */
+    function esc(s) {
+        if (s === undefined || s === null) {
+            return '';
+        }
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
     var currentPrescriptionId = null;
-    
+
     // Handle Quick View button click
     $(document).on('click', '.quick-view-btn', function(e) {
         e.preventDefault();
-        console.log('Quick view button clicked');
         var prescriptionId = $(this).data('id');
         currentPrescriptionId = prescriptionId;
-        console.log('Prescription ID:', prescriptionId);
-        
+
         // Show loading state
         $('#quickViewContent').html(`
             <div class="text-center">
                 <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                <p class="mt-2">Loading prescription details...</p>
+                <p class="mt-2">${qv('loading_prescription_details', 'Loading prescription details...')}</p>
             </div>
         `);
         
         // Fetch prescription data
-        console.log('Fetching prescription data for ID:', prescriptionId);
         $.ajax({
             url: 'prescription/getPrescriptionForQuickView?id=' + prescriptionId,
             method: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log('AJAX Response:', response);
                 if (response.error) {
-                    $('#quickViewContent').html(`
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            ${response.error}
-                        </div>
-                    `);
+                    $('#quickViewContent').html(
+                        '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle mr-2"></i>' +
+                        esc(response.error) +
+                        '</div>'
+                    );
                     return;
                 }
                 
@@ -160,11 +171,11 @@ $(document).ready(function () {
                             <table class="table table-sm table-bordered">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Medicine</th>
-                                        <th>Dosage</th>
-                                        <th>Frequency</th>
-                                        <th>Instructions</th>
-                                        <th>Days</th>
+                                        <th>${qv('medicine', 'Medicine')}</th>
+                                        <th>${qv('dosage', 'Dosage')}</th>
+                                        <th>${qv('frequency', 'Frequency')}</th>
+                                        <th>${qv('instruction', 'Instruction')}</th>
+                                        <th>${qv('days', 'Days')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,11 +184,11 @@ $(document).ready(function () {
                     response.medicines.forEach(function(medicine) {
                         medicinesHtml += `
                             <tr>
-                                <td><strong>${medicine.name}</strong></td>
-                                <td>${medicine.dosage}</td>
-                                <td>${medicine.frequency}</td>
-                                <td>${medicine.instruction}</td>
-                                <td>${medicine.days}</td>
+                                <td><strong>${esc(medicine.name)}</strong></td>
+                                <td>${esc(medicine.dosage)}</td>
+                                <td>${esc(medicine.frequency)}</td>
+                                <td>${esc(medicine.instruction)}</td>
+                                <td>${esc(medicine.days)}</td>
                             </tr>
                         `;
                     });
@@ -188,7 +199,7 @@ $(document).ready(function () {
                         </div>
                     `;
                 } else {
-                    medicinesHtml = '<p class="text-muted">No medicines prescribed.</p>';
+                    medicinesHtml = '<p class="text-muted">' + qv('no_medicines_prescribed', 'No medicines prescribed.') + '</p>';
                 }
                 
                 // Build the complete modal content
@@ -200,28 +211,28 @@ $(document).ready(function () {
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0 font-weight-bold">
                                             <i class="fas fa-prescription mr-2 text-primary"></i>
-                                            Prescription #${response.prescription.id}
+                                            ${qv('prescription', 'Prescription')} #${response.prescription.id}
                                         </h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="info-group mb-2">
-                                                    <label class="font-weight-bold text-muted">Date:</label>
+                                                    <label class="font-weight-bold text-muted">${qv('date', 'Date')}:</label>
                                                     <span class="ml-2">${response.formatted_date}</span>
                                                 </div>
                                                 <div class="info-group mb-2">
-                                                    <label class="font-weight-bold text-muted">Patient:</label>
-                                                    <span class="ml-2">${response.patient ? response.patient.name : response.prescription.patientname}</span>
+                                                    <label class="font-weight-bold text-muted">${qv('patient', 'Patient')}:</label>
+                                                    <span class="ml-2">${esc(response.patient ? response.patient.name : response.prescription.patientname)}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="info-group mb-2">
-                                                    <label class="font-weight-bold text-muted">Doctor:</label>
-                                                    <span class="ml-2">${response.doctor ? response.doctor.name : response.prescription.doctorname}</span>
+                                                    <label class="font-weight-bold text-muted">${qv('doctor', 'Doctor')}:</label>
+                                                    <span class="ml-2">${esc(response.doctor ? response.doctor.name : response.prescription.doctorname)}</span>
                                                 </div>
                                                 <div class="info-group mb-2">
-                                                    <label class="font-weight-bold text-muted">Patient ID:</label>
+                                                    <label class="font-weight-bold text-muted">${qv('patient_id', 'Patient ID')}:</label>
                                                     <span class="ml-2">${response.prescription.patient}</span>
                                                 </div>
                                             </div>
@@ -238,7 +249,7 @@ $(document).ready(function () {
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0 font-weight-bold">
                                             <i class="fas fa-stethoscope mr-2 text-info"></i>
-                                            History/Symptoms
+                                            ${qv('history_and_symptoms', 'History / Symptoms')}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -255,7 +266,7 @@ $(document).ready(function () {
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0 font-weight-bold">
                                             <i class="fas fa-pills mr-2 text-success"></i>
-                                            Prescribed Medicines
+                                            ${qv('prescribed_medicines', 'Prescribed Medicines')}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -272,7 +283,7 @@ $(document).ready(function () {
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0 font-weight-bold">
                                             <i class="fas fa-sticky-note mr-2 text-warning"></i>
-                                            Notes
+                                            ${qv('notes', 'Notes')}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -290,7 +301,7 @@ $(document).ready(function () {
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0 font-weight-bold">
                                             <i class="fas fa-lightbulb mr-2 text-primary"></i>
-                                            Advice
+                                            ${qv('advice', 'Advice')}
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -305,15 +316,12 @@ $(document).ready(function () {
                 
                 $('#quickViewContent').html(modalContent);
             },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', xhr.responseText, status, error);
-                $('#quickViewContent').html(`
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        Error loading prescription details. Please try again.<br>
-                        <small>Status: ${status} | Error: ${error}</small>
-                    </div>
-                `);
+            error: function() {
+                $('#quickViewContent').html(
+                    '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle mr-2"></i>' +
+                    qv('quick_view_load_failed', 'Error loading prescription details. Please try again.') +
+                    '</div>'
+                );
             }
         });
     });

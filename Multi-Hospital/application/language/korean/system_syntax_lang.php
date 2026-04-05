@@ -272,4 +272,20 @@ $lang['ai_settings'] = 'AI 설정';
 $lang['ai_patient_overview'] = 'AI 환자 개요';
 $lang['ai_image_analysis'] = 'AI 이미지 분석';
 $lang['ai_treatment_plan'] = 'AI 치료 계획';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = '임상 진료';
+$lang['hospital_operations'] = '병원 운영';
+$lang['system_and_settings'] = '시스템 및 설정';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = '처방된 약이 없습니다.';
+$lang['history_and_symptoms'] = '병력 / 증상';
+$lang['prescribed_medicines'] = '처방 약품';
+$lang['quick_view_load_failed'] = '처방전을 불러오지 못했습니다. 다시 시도하세요.';
+$lang['prescription_id_required'] = '처방 ID가 없습니다.';
+$lang['prescription_not_found'] = '처방을 찾을 수 없습니다.';
+$lang['permission_denied'] = '권한이 거부되었습니다.';

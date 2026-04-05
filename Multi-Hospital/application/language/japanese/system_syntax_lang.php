@@ -272,4 +272,20 @@ $lang['ai_settings'] = 'AI設定';
 $lang['ai_patient_overview'] = 'AI患者概要';
 $lang['ai_image_analysis'] = 'AI画像解析';
 $lang['ai_treatment_plan'] = 'AI治療計画';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = '臨床ケア';
+$lang['hospital_operations'] = '病院運営';
+$lang['system_and_settings'] = 'システムと設定';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = '処方された薬はありません。';
+$lang['history_and_symptoms'] = '既往歴 / 症状';
+$lang['prescribed_medicines'] = '処方薬';
+$lang['quick_view_load_failed'] = '処方の読み込みに失敗しました。もう一度お試しください。';
+$lang['prescription_id_required'] = '処方IDがありません。';
+$lang['prescription_not_found'] = '処方が見つかりません。';
+$lang['permission_denied'] = '権限がありません。';

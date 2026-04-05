@@ -158,12 +158,12 @@ class Treatment extends MX_Controller
 
             if ($this->ion_auth->in_group(array('admin'))) {
                 // The 'btn btn-primary' classes make the button blue, indicating a primary action.
-                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $treatment->id . '"><i class="fa fa-edit"></i> ' . lang('') . '</a>';
+                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $treatment->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
             }
 
             if ($this->ion_auth->in_group(array('admin'))) {
                 // The 'btn btn-danger' classes make the button red, indicating a potentially dangerous action.
-                $options5 = '<a class="btn btn-danger btn-sm delete_button" title="' . lang('delete') . '" href="treatment/delete?id=' . $treatment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('') . '</a>';
+                $options5 = '<a class="btn btn-danger btn-sm delete_button" title="' . lang('delete') . '" href="treatment/delete?id=' . $treatment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
             }
 
 

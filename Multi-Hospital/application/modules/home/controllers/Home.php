@@ -150,7 +150,25 @@ class Home extends MX_Controller
                 $data['percentage_change_due'] = number_format($percentage_change_due, 2, '.', ',');
                 $data['percentage_change_expense'] = $this->home_model->expensePercentageChangedFromLastMonth();
 
+                $today_start = strtotime('today');
+                $today_end = strtotime('tomorrow') - 1;
+                $yesterday_start = strtotime('yesterday');
+                $yesterday_end = strtotime('today') - 1;
+                $data['dash_billing_today'] = array(
+                    'billed' => $this->home_model->sumPaymentGrossBetween($today_start, $today_end),
+                    'collected' => $this->home_model->sumDepositBetween($today_start, $today_end),
+                );
+                $data['dash_billing_yesterday'] = array(
+                    'billed' => $this->home_model->sumPaymentGrossBetween($yesterday_start, $yesterday_end),
+                    'collected' => $this->home_model->sumDepositBetween($yesterday_start, $yesterday_end),
+                );
+                $data['dash_total_outstanding_due'] = $this->home_model->getTotalOutstandingDueHospital();
+                $data['dash_weekly_collections'] = $this->home_model->getWeeklyBillCollectionSeries();
+                $data['dash_appointments_by_doctor'] = $this->home_model->getAppointmentCountsByDoctorToday();
 
+                $this->load->model('sms/sms_model');
+                $data['dash_sms_gateways'] = $this->sms_model->countGatewaysForHospital();
+                $data['dash_sms_sent_today'] = $this->sms_model->countSmsSentToday();
 
 
                 // Now stats starts
@@ -395,9 +413,12 @@ class Home extends MX_Controller
         $this->load->view('business_chart');
     }
 
-    function modernDashboard()    
+    function modernDashboard()
     {
-        $this->load->view('modern_dashboard');
+        $data['settings'] = $this->settings_model->getSettings();
+        $this->load->view('dashboard');
+        $this->load->view('modern_dashboard', $data);
+        $this->load->view('footer', $data);
     }
 
     function gmtTime() {

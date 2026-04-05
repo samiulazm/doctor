@@ -1,62 +1,60 @@
 <script type="text/javascript" src="common/js/google-loader.js"></script>
-<div class="content-wrapper bg-light">
+<div class="content-wrapper ap-dashboard">
 
-    <section class="content-header">
-        <div class="container-fluid mt-5">
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6 pl-4">
-                    <div class="welcome-text-container">
-                        <?php
-                        $user_id = $this->ion_auth->user()->row()->id;
-                        $user_image = $this->db->get_where('users', array('id' => $user_id))->row()->img_url;
-                        $default_image = 'uploads/default.png';
-                        ?>
-                        <div class="d-flex align-items-center">
-                            <div class="user-image-container mr-3">
-                                <img src="<?php echo $user_image ? base_url() . $user_image : base_url() . $default_image; ?>"
-                                    alt="User Image"
-                                    class="img-circle elevation-2"
-                                    style="width: 70px; height: 70px; object-fit: cover; margin-top: -20px;">
+    <section class="content-header ap-dashboard-header border-0 pb-0">
+        <div class="container-fluid pt-3 pb-0 px-3 px-lg-4">
+            <?php
+            $user_id = $this->ion_auth->user()->row()->id;
+            $user_row = $this->db->get_where('users', array('id' => $user_id))->row();
+            $user_image = $user_row ? $user_row->img_url : '';
+            $default_image = 'uploads/default.png';
+            $username = $this->ion_auth->user()->row()->username;
+            $dashboard_site = isset($settings->title) ? trim((string) $settings->title) : '';
+            ?>
+            <div class="ap-dashboard-hero mb-3">
+                <div class="ap-dashboard-hero-inner">
+                    <div class="row align-items-center g-3">
+                        <div class="col-lg-7">
+                            <div class="d-flex align-items-center">
+                                <div class="ap-dashboard-avatar-wrap flex-shrink-0 me-3">
+                                    <img src="<?php echo $user_image ? base_url() . $user_image : base_url() . $default_image; ?>"
+                                        alt=""
+                                        class="img-circle elevation-2 ap-dashboard-avatar">
+                                </div>
+                                <div class="min-w-0">
+                                    <h1 class="font-weight-bold welcome-text title-spacing mb-1 text-truncate">
+                                        <?php echo lang('welcome'); ?><?php echo !empty($username) ? ', ' . html_escape($username) : ''; ?>!
+                                    </h1>
+                                    <p class="text-muted small mb-0 ap-dashboard-tagline">
+                                        <?php
+                                        echo $dashboard_site !== ''
+                                            ? sprintf(lang('dashboard_welcome_site'), html_escape($dashboard_site))
+                                            : lang('dashboard_hub_subtitle');
+                                        ?>
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h1 class="font-weight-bold welcome-text title-spacing mb-0">
-                                    <?php echo lang('welcome') ?>, 
-                                    <?php
-                                    $username = $this->ion_auth->user()->row()->username;
-                                    if (!empty($username)) {
-                                        echo $username;
-                                    }
-                                    ?>!
-                                </h1> 
-                                <p class="welcome-text mt-2">Welcome to the dashboard of <?php echo $settings->title ?? ''; ?></p>
-                            </div>
+                        </div>
+                        <div class="col-lg-5 address-text">
+                            <?php if ($this->ion_auth->in_group('admin')): ?>
+                                <div class="d-flex flex-wrap justify-content-lg-end gap-2 ap-dashboard-quick-actions">
+                                    <a href="finance/addPaymentView" class="btn btn-primary ap-dashboard-action-btn">
+                                        <i class="fa fa-plus me-1"></i> <?php echo lang('new_invoice'); ?>
+                                    </a>
+                                    <a href="patient/addNewView" class="btn btn-success ap-dashboard-action-btn">
+                                        <i class="fa fa-plus me-1"></i> <?php echo lang('add_patient'); ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 address-text">
-
-                    <?php if ($this->ion_auth->in_group('admin')): ?>
-                        <div class="d-flex justify-content-end">
-                            <a href="finance/addPaymentView" class="btn btn-primary mr-2 px-4 py-3 text-sm">
-                                <i class="fa fa-plus mr-1"></i> <?php echo lang('new_invoice'); ?>
-                            </a>
-                            <a href="patient/addNewView" class="btn btn-success mr-2 px-4 py-3 text-sm">
-                                <i class="fa fa-plus mr-1"></i> <?php echo lang('add_patient'); ?>
-                            </a>
-                        </div>
-                    <?php endif; ?>
-
-
                 </div>
             </div>
         </div>
     </section>
 
-
-
-
-    <section class="content">
-        <div class="container-fluid">
+    <section class="content ap-dashboard-content pt-0">
+        <div class="container-fluid px-3 px-lg-4">
             <div class="row">
                 <div class="<?php if ($this->ion_auth->in_group(array('admin'))) {
                                 echo 'col-md-6 col-lg-6 col-12';
@@ -153,14 +151,6 @@
                                         border: none;
                                         border-radius: 0.5rem;
                                         transition: transform 0.2s ease-in-out;
-                                    }
-
-                                    .card-custom:hover {
-                                        /* transform: scale(1.05); */
-                                    }
-
-                                    .card-body-custom {
-                                        /* padding: 0 rem; */
                                     }
 
                                     .icon-custom {
@@ -1727,8 +1717,8 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
 </script>
 
 <script src="common/extranal/js/home.js"></script>
-<script src="<?php echo base_url(); ?>application/assets/js/enhanced-sidebar.js"></script>
-<script src="<?php echo base_url(); ?>application/assets/js/enhanced-components.js"></script>
+<script src="<?php echo asset_url('application/assets/js/enhanced-sidebar.js'); ?>"></script>
+<script src="<?php echo asset_url('application/assets/js/enhanced-components.js'); ?>"></script>
 
 <?php
 function format_number_short($n)

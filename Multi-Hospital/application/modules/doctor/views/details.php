@@ -639,7 +639,7 @@ if ($this->ion_auth->in_group('Doctor')) {
 
 
                         <div class="form-group mt-3 d-flex">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('status'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('status'); ?></label>
                             <select class="form-control col-sm-9 m-bot15" name="status" value=''>
                                 <option value="Pending Confirmation" <?php
                                                                         ?>> <?php echo lang('pending_confirmation'); ?> </option>
@@ -684,7 +684,7 @@ if ($this->ion_auth->in_group('Doctor')) {
 
 
                         <div class="form-group d-flex form_data">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('charges'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
                             <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges" value='' placeholder="" readonly="">
                         </div>
                         <div class="form-group d-flex form_data mt-3">
@@ -867,7 +867,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                         </div>
 
                         <div class="form-group d-flex mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('status'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('status'); ?></label>
                             <select class="form-control col-sm-9 m-bot15" name="status" value=''>
                                 <option value="Pending Confirmation" <?php
                                                                         ?>> <?php echo lang('pending_confirmation'); ?> </option>
@@ -902,7 +902,7 @@ if ($this->ion_auth->in_group('Doctor')) {
 
                         <input type="hidden" name="id" id="appointment_id" value=''>
                         <div class="form-group d-flex d-none consultant_fee_div mt-3">
-                            <label for="exampleInputEmail1"> <?php echo lang(''); ?> <?php echo lang('charges'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
                             <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges1" value='' placeholder="" readonly="">
                         </div>
                         <div class="form-group d-flex d-none consultant_fee_div mt-3">
@@ -1393,7 +1393,7 @@ if ($this->ion_auth->in_group('Doctor')) {
 
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3"><?php echo lang(''); ?> <?php echo lang('image'); ?> </label>
+                            <label class="col-sm-3"><?php echo lang('profile'); ?> <?php echo lang('image'); ?> </label>
                             <div class="">
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     <div class="fileupload-new thumbnail img_class fileupload-preview fileupload-exists thumbnail img_thumb">

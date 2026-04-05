@@ -1,7 +1,7 @@
 <!--sidebar end-->
 <!--main content start-->
 
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 
 

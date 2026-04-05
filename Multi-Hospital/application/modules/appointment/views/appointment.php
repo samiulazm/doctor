@@ -243,7 +243,7 @@
     .status-requested { background-color: #e2e3e5; color: #383d41; }
     .view-btn { padding: 4px 8px; font-size: 12px; }
 </style>
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/appointment-page.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
 
 
@@ -438,7 +438,7 @@
 
 
 <!-- Include Global Modal Styles -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <!-- Add Appointment Modal-->
 <div class="modal fade modal-enhanced appointment-add-modal" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -527,7 +527,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6 form_data mt-3">
-                            <label for="exampleInputEmail1"><?php echo lang(''); ?> <?php echo lang('charges'); ?></label>
+                            <label for="exampleInputEmail1"><?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
                             <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges" value='' placeholder="" readonly="">
                         </div>
                         <div class="form-group col-md-6 form_data mt-3">
@@ -730,7 +730,7 @@
 
                         <input type="hidden" name="id" id="appointment_id" value=''>
                         <div class="form-group col-md-6 d-none consultant_fee_div mt-3">
-                            <label for="exampleInputEmail1"><?php echo lang(''); ?> <?php echo lang('charges'); ?></label>
+                            <label for="exampleInputEmail1"><?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
                             <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges1" value='' placeholder="" readonly="">
                         </div>
                         <div class="form-group col-md-6 d-none consultant_fee_div mt-3">

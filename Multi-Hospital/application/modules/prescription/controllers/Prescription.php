@@ -291,27 +291,28 @@ class Prescription extends MX_Controller
 
     function getPrescriptionForQuickView()
     {
+        $this->output->set_content_type('application/json', 'utf-8');
         $id = $this->input->get('id');
-        
+
         if (empty($id)) {
-            echo json_encode(['error' => 'No prescription ID provided']);
+            echo json_encode(['error' => lang('prescription_id_required')], JSON_UNESCAPED_UNICODE);
             return;
         }
-        
+
         $prescription = $this->prescription_model->getPrescriptionById($id);
-        
+
         if (empty($prescription)) {
-            echo json_encode(['error' => 'Prescription not found']);
+            echo json_encode(['error' => lang('prescription_not_found')], JSON_UNESCAPED_UNICODE);
             return;
         }
-        
+
         if (!empty($prescription->hospital_id)) {
             if ($prescription->hospital_id != $this->session->userdata('hospital_id')) {
-                echo json_encode(['error' => 'Permission denied']);
+                echo json_encode(['error' => lang('permission_denied')], JSON_UNESCAPED_UNICODE);
                 return;
             }
         } else {
-            echo json_encode(['error' => 'Permission denied']);
+            echo json_encode(['error' => lang('permission_denied')], JSON_UNESCAPED_UNICODE);
             return;
         }
 
@@ -348,7 +349,7 @@ class Prescription extends MX_Controller
             'formatted_date' => date('M d, Y', $prescription->date)
         ];
 
-        echo json_encode($data);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
     function getPrescriptionByPatientIdByJason()
@@ -606,11 +607,11 @@ class Prescription extends MX_Controller
             //$i = $i + 1;
             $settings = $this->settings_model->getSettings();
 
-            $option1 = '<a title="' . lang('view') . ' ' . lang('prescription') . '" class="btn btn-outline-success btn-sm btn_width mt-1" href="prescription/viewPrescription?id=' . $prescription->id . '"><i class="fa fa-eye"> ' . lang('view') . ' ' . lang('') . ' </i></a>';
-            $option3 = '<a class="btn btn-outline-primary btn-sm btn_width mt-1" href="prescription/editPrescription?id=' . $prescription->id . '" data-id="' . $prescription->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('') . '</a>';
+            $option1 = '<a title="' . lang('view') . ' ' . lang('prescription') . '" class="btn btn-outline-success btn-sm btn_width mt-1" href="prescription/viewPrescription?id=' . $prescription->id . '"><i class="fa fa-eye"> ' . lang('view') . ' ' . lang('prescription') . ' </i></a>';
+            $option3 = '<a class="btn btn-outline-primary btn-sm btn_width mt-1" href="prescription/editPrescription?id=' . $prescription->id . '" data-id="' . $prescription->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a>';
             $option2 = '<a class="btn btn-outline-danger btn-sm btn_width delete_button mt-1" href="prescription/delete?id=' . $prescription->id . '&admin=' . $prescription->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $options4 = '<a class="btn btn-outline-secondary btn-sm invoicebutton mt-1" title="' . lang('print') . '" href="prescription/viewPrescriptionPrint?id=' . $prescription->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . '</a>';
-            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="Quick View" data-id="' . $prescription->id . '" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fa fa-search-plus"></i> Quick View</button>';
+            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="' . lang('quick_view') . '" data-id="' . $prescription->id . '" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fa fa-search-plus"></i> ' . lang('quick_view') . '</button>';
 
             if (!empty($prescription->medicine)) {
                 $medicine = explode('###', $prescription->medicine);
@@ -652,8 +653,8 @@ class Prescription extends MX_Controller
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">
-                    ' . ($option1 ? '<li><a href="prescription/viewPrescription?id=' . $prescription->id . '"  title="' . lang('view_prescription') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '"> <i class="fa fa-file-invoice"></i> ' . lang('view') . ' ' . lang('prescription') . ' </a></li>' : '') . '
-                    ' . ($option3 ? '<li><a href="prescription/editPrescription?id=' . $prescription->id . '" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $doctor->id . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a></li>' : '') . '
+                    ' . ($option1 ? '<li><a href="prescription/viewPrescription?id=' . $prescription->id . '"  title="' . lang('view_prescription') . '"> <i class="fa fa-file-invoice"></i> ' . lang('view') . ' ' . lang('prescription') . ' </a></li>' : '') . '
+                    ' . ($option3 ? '<li><a href="prescription/editPrescription?id=' . $prescription->id . '" title="' . lang('edit') . '">  <i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a></li>' : '') . '
                     ' . ($options4 ? '<li><a  href="prescription/viewPrescriptionPrint?id=' . $prescription->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . ' </a></li>' : '') . '
                     ' . ($option2 ? '<li><a href="prescription/delete?id=' . $prescription->id . '&admin=' . $prescription->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');" > <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
 

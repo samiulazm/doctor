@@ -23,3 +23,9 @@ $hook['post_controller_constructor'][] = array(
         'filename' => 'auto_migrate.php',
         'filepath' => 'hooks',
 );
+
+$hook['post_controller_constructor'][] = array(
+        'function' => 'security_headers',
+        'filename' => 'security_headers.php',
+        'filepath' => 'hooks',
+);

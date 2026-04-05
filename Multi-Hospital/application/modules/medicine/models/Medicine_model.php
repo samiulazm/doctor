@@ -631,6 +631,89 @@ class Medicine_model extends CI_model
         $this->db->insert('medicine_stock_movements', $data);
     }
 
+    /**
+     * Put stock back into batches for a pharmacy payment before re-applying an edited sale.
+     * Uses ledger rows from the original sale, then removes those sale rows so a second edit cannot double-restore.
+     *
+     * @param int $payment_id pharmacy payment row id (reference_id on movements)
+     * @return int number of sale movement lines processed
+     */
+    function reversePrescriptionSaleMovements($payment_id)
+    {
+        if (!$this->db->table_exists('medicine_stock_movements')) {
+            return 0;
+        }
+
+        $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
+        $this->db->where('reference_type', 'prescription');
+        $this->db->where('reference_id', (int) $payment_id);
+        $this->db->where('movement_type', 'sale');
+        $movements = $this->db->get('medicine_stock_movements')->result();
+
+        if (empty($movements)) {
+            return 0;
+        }
+
+        foreach ($movements as $m) {
+            if (empty($m->batch_id) || !$this->getBatchById((int) $m->batch_id)) {
+                log_message(
+                    'error',
+                    'reversePrescriptionSaleMovements: invalid batch on movement id ' . (int) $m->id . ' for payment ' . (int) $payment_id
+                );
+                return -1;
+            }
+            if ((int) $m->quantity <= 0) {
+                log_message(
+                    'error',
+                    'reversePrescriptionSaleMovements: non-positive quantity on movement id ' . (int) $m->id
+                );
+                return -1;
+            }
+        }
+
+        $medicine_ids = array();
+
+        foreach ($movements as $m) {
+            $batch = $this->getBatchById((int) $m->batch_id);
+            $qty = (int) $m->quantity;
+
+            $new_stock = (int) $batch->current_stock + $qty;
+            $new_sold = (int) $batch->quantity_sold - $qty;
+            if ($new_sold < 0) {
+                $new_sold = 0;
+            }
+
+            $this->updateBatch((int) $batch->id, array(
+                'current_stock' => $new_stock,
+                'quantity_sold' => $new_sold,
+            ));
+
+            $this->logStockMovement(
+                (int) $m->medicine_id,
+                (int) $m->batch_id,
+                'return',
+                $qty,
+                'prescription',
+                (int) $payment_id,
+                'Pharmacy sale voided — batch stock restored'
+            );
+
+            $medicine_ids[(int) $m->medicine_id] = true;
+        }
+
+        $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
+        $this->db->where('reference_type', 'prescription');
+        $this->db->where('reference_id', (int) $payment_id);
+        $this->db->where('movement_type', 'sale');
+        $this->db->delete('medicine_stock_movements');
+
+        foreach (array_keys($medicine_ids) as $medicine_id) {
+            $this->updateMedicineTotalStock($medicine_id);
+        }
+
+        return count($movements);
+    }
+
     function getStockMovements($medicine_id = null, $batch_id = null)
     {
         $this->db->select('msm.*, m.name as medicine_name, mb.batch_number');

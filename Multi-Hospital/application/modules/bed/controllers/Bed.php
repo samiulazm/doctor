@@ -91,10 +91,10 @@ class Bed extends MX_Controller
             if (empty($id)) {
                 $this->bed_model->insertBed($data);
                 //  $this->log_model->insertLog($this->ion_auth->get_user_id(), date('d-m-Y H:i:s', time()), 'Add New Bed(id='.$this->db->insert_id().' )', $this->db->insert_id());
-                show_swal(lang('bed_added_successfully'), 'succcess', lang('added'));
+                show_swal(lang('bed_added_successfully'), 'success', lang('added'));
             } else {
                 $this->bed_model->updateBed($id, $data);
-                show_swal(lang('bed_updated_successfully'), 'succcess', lang('updated'));
+                show_swal(lang('bed_updated_successfully'), 'success', lang('updated'));
             }
             redirect('bed');
         }
@@ -391,7 +391,7 @@ class Bed extends MX_Controller
                         'current_allotment_id' => $inserted_id,
                     );
                     $this->bed_model->updateBed($bed_id, $bed_data);
-                    show_swal(lang('bed_successfully_alloted_to_a_patient'), 'success', lang('addedd'));
+                    show_swal(lang('bed_successfully_alloted_to_a_patient'), 'success', lang('added'));
                 }
             } else {
                 $this->bed_model->updateAllotment($id, $data);
@@ -504,10 +504,10 @@ class Bed extends MX_Controller
             $option1 = '';
             $option2 = '';
             if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor', 'Accountant', 'Receptionist'))) {
-                $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $bed->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $bed->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             }
             if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor', 'Accountant', 'Receptionist'))) {
-                $option2 = '<a class="btn btn-danger btn-sm btn_width delete_button" href="bed/delete?id=' . $bed->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i> ' . lang('') . '</a>';
+                $option2 = '<a class="btn btn-danger btn-sm btn_width delete_button" href="bed/delete?id=' . $bed->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i> ' . lang('delete') . '</a>';
             }
 
 
@@ -667,7 +667,7 @@ class Bed extends MX_Controller
             }
 
             $due = $this->bed_model->getAllBedPaymentsSummary($bed->id)['due'];
-            $due_formated = number_format($due, 2);
+            $due_formatted = number_format($due, 2);
 
 
 
@@ -681,7 +681,7 @@ class Bed extends MX_Controller
                     ' . ($option1 ? '<li><a href="bed/bedAllotmentDetails?id=' . $bed->id . '" > <i class="fa fa-bed"></i> ' . lang('manage') . ' ' . lang('admission') . ' </a></li>' : '') . '
                     ' . ($bill_summary_button ? '<li><a href="bed/billDetails?id=' . $bed->id . '" title="' . lang('bill') . '">  <i class="fa fa-edit"></i> ' . lang('bill') . ' ' . lang('details') . '</a></li>' : '') . '
                     ' . ($option3 ? '<li><a  href="bed/printLabel?id=' . $bed->id . '" target="_blank"> <i class="fa fa-print"></i> ' . 'Label Print' . ' </a></li>' : '') . '
-                    ' . ($decharge ? '<li><a href="bed/dischargeReport?id=' . $bed->id . '" > <i class="fa fa-file"></i> ' . lang('discharge_report') . ' ' . lang('') . ' </a></li>' : '') . '
+                    ' . ($decharge ? '<li><a href="bed/dischargeReport?id=' . $bed->id . '" > <i class="fa fa-file"></i> ' . lang('discharge_report') . ' </a></li>' : '') . '
                     ' . ($option2 ? '<li><a href="bed/deleteAllotment?id=' . $bed->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');" > <i class="fa fa-trash"></i> ' . lang('delete') . ' </a></li>' : '') . '
                 </ul>
             </div>';
@@ -698,7 +698,7 @@ class Bed extends MX_Controller
                 $doctorname,
                 $bed->a_time,
                 $bed->d_time,
-                $this->settings->currency . $due_formated,
+                $this->settings->currency . $due_formatted,
                 $option1 . ' ' . $bill_summary_button . ' ' . $option3 . ' ' . $decharge . ' ' . $option2
                 // $dropdownOptions
 
@@ -1189,13 +1189,7 @@ class Bed extends MX_Controller
     {
         $id = $this->input->get('id');
         $service_details = $this->bed_model->getServicedById($id);
-        $price_new = array();
-        $service_new = array();
-        if (empty($price_new)) {
-            $this->bed_model->deleteServices($id);
-        } else {
-            $this->bed_model->updateServices($id, $data);
-        }
+        $this->bed_model->deleteServices($id);
 
         $arr['message'] = array('message' => lang('delete'), 'title' => lang('delete'), 'date' => $service_details->date);
         // $arr['date1'] = array();
@@ -1525,7 +1519,7 @@ class Bed extends MX_Controller
         if (empty($payment_id)) {
             $payments = $this->bed_model->getPaymentByAdmissionIdAndPaymentFrom($id, 'admitted_patient_bed_service');
             foreach ($payments as $payment) {
-                $this->finace_model->deletePayment($payment->id);
+                $this->finance_model->deletePayment($payment->id);
             }
         }
 
@@ -1627,7 +1621,7 @@ class Bed extends MX_Controller
         if (empty($payment_id)) {
             $payments = $this->bed_model->getPaymentByAdmissionIdAndPaymentFrom($id, 'admitted_patient_bed_diagnostic');
             foreach ($payments as $payment) {
-                $this->finace_model->deletePayment($payment->id);
+                $this->finance_model->deletePayment($payment->id);
             }
         }
 
@@ -1730,7 +1724,6 @@ class Bed extends MX_Controller
 
                 $payment_procedure_id = $lab->payment_procedure;
                 $payment_procedure[] = $lab->payment_procedure;
-                $idss[] = $lab->id;
                 if (!empty($lab->payment_id)) {
                     $payment_id = $lab->payment_id;
                 }
@@ -1790,8 +1783,8 @@ class Bed extends MX_Controller
         $data['discharge'] = $this->bed_model->getCheckoutByBedId($bed_id);
 
         $data['bed'] = $this->bed_model->getBedAllotmentsById($data['discharge']->alloted_bed_id);
-        $data['patient'] = $this->patient_model->getPatientbyId($data['bed']->patient);
-        $data['doctor'] = $this->doctor_model->getDoctorbyId($data['discharge']->doctor);
+        $data['patient'] = $this->patient_model->getPatientById($data['bed']->patient);
+        $data['doctor'] = $this->doctor_model->getDoctorById($data['discharge']->doctor);
         $data['settings'] = $this->settings_model->getSettings();
         $data['redirectlink'] = '';
         $data['redirect'] = '';
@@ -1805,8 +1798,8 @@ class Bed extends MX_Controller
         $data['discharge'] = $this->bed_model->getCheckoutByBedId($bed_id);
 
         $data['bed'] = $this->bed_model->getBedAllotmentsById($data['discharge']->alloted_bed_id);
-        $data['patient'] = $this->patient_model->getPatientbyId($data['bed']->patient);
-        $data['doctor'] = $this->doctor_model->getDoctorbyId($data['discharge']->doctor);
+        $data['patient'] = $this->patient_model->getPatientById($data['bed']->patient);
+        $data['doctor'] = $this->doctor_model->getDoctorById($data['discharge']->doctor);
         $data['settings'] = $this->settings_model->getSettings();
         error_reporting(0);
         $data['redirect'] = 'download';
@@ -1910,7 +1903,7 @@ class Bed extends MX_Controller
     {
         $requestData = $_REQUEST;
         $start = $requestData['start'];
-        $legthh = $requestData['length'];
+        $length = $requestData['length'];
         $search = $this->input->post('search')['value'];
         $status = $this->input->get('status');
         $order = $this->input->post('order');

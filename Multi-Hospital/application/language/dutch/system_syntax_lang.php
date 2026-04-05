@@ -272,4 +272,20 @@ $lang['ai_settings'] = 'AI Instellingen';
 $lang['ai_patient_overview'] = 'AI Patiënt Overzicht';
 $lang['ai_image_analysis'] = 'AI Beeldanalyse';
 $lang['ai_treatment_plan'] = 'AI Behandelplan';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'Klinische zorg';
+$lang['hospital_operations'] = 'Ziekenhuisactiviteiten';
+$lang['system_and_settings'] = 'Systeem en instellingen';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Geen medicijnen voorgeschreven.';
+$lang['history_and_symptoms'] = 'Anamnese / symptomen';
+$lang['prescribed_medicines'] = 'Voorgeschreven medicijnen';
+$lang['quick_view_load_failed'] = 'Recept kon niet worden geladen. Probeer het opnieuw.';
+$lang['prescription_id_required'] = 'Geen recept-ID opgegeven.';
+$lang['prescription_not_found'] = 'Recept niet gevonden.';
+$lang['permission_denied'] = 'Toegang geweigerd.';

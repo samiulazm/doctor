@@ -10,10 +10,10 @@
 ?>
 
 <!-- Document-Style Tables CSS -->
-<link rel="stylesheet" href="<?php echo base_url('application/assets/css/document-style-tables.css'); ?>" type="text/css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/document-style-tables.css'); ?>" type="text/css">
 
 <!-- Document-Style Tables JavaScript -->
-<script src="<?php echo base_url('application/assets/js/document-style-tables.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo asset_url('application/assets/js/document-style-tables.js'); ?>" type="text/javascript"></script>
 
 <!-- Auto-apply document style to existing tables -->
 <script type="text/javascript">

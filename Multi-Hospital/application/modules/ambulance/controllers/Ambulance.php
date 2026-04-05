@@ -361,6 +361,8 @@ class Ambulance extends MX_Controller
     // Payment Management
     public function payments()
     {
+        $this->load->model('settings/settings_model');
+        $data['settings'] = $this->settings_model->getSettings();
         $data['payments'] = $this->ambulance_model->getPayments();
         $data['bookings'] = $this->ambulance_model->getBookings();
         $this->load->view('home/dashboard');

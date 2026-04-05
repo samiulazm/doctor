@@ -1136,7 +1136,7 @@ function settings()
             // Loading View
 
             if (!empty($redirect)) {
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'meeting/upcoming'));
             } else {
                 redirect('meeting/upcoming');
             }

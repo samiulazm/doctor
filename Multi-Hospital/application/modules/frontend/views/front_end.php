@@ -1087,8 +1087,7 @@ $title = explode(' ', $settings->title);
             });
         </script>
 
-
-
+<?php $this->load->view('csrf_inject'); ?>
 
 </body>
 

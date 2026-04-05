@@ -1743,6 +1743,9 @@ $lang['bed_occupied'] = "Lits occupés";
 $lang['bed_available'] = "Lits disponibles";
 $lang['top_services'] = "Principaux services";
 $lang['overview'] = "Aperçu";
+$lang['clinical_care'] = 'Soins cliniques';
+$lang['hospital_operations'] = 'Opérations hospitalières';
+$lang['system_and_settings'] = 'Système et paramètres';
 $lang['sales_vs_expenses'] = "Ventes vs Dépenses";
 $lang['bed_occupancy'] = "Occupation des lits";
 $lang['patients'] = "Patients";
@@ -2216,7 +2219,17 @@ $lang['timezone_updated_successfully'] = 'Fuseau horaire mis à jour avec succè
 $lang['failed_to_update_timezone'] = 'Échec de la mise à jour du fuseau horaire';
 $lang['an_error_occurred'] = 'Une erreur est survenue';
 $lang['preview'] = 'Aperçu';
-$lang['invalid_timezone'] = 'Fuseau horaire invalide';    
+$lang['invalid_timezone'] = 'Fuseau horaire invalide';
 
-
-
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Aucun médicament prescrit.';
+$lang['history_and_symptoms'] = 'Antécédents / symptômes';
+$lang['prescribed_medicines'] = 'Médicaments prescrits';
+$lang['quick_view_load_failed'] = 'Impossible de charger l’ordonnance. Veuillez réessayer.';
+$lang['prescription_id_required'] = 'Aucun identifiant d’ordonnance fourni.';
+$lang['prescription_not_found'] = 'Ordonnance introuvable.';
+$lang['permission_denied'] = 'Permission refusée.';

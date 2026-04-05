@@ -552,7 +552,7 @@
                                                                             echo 'hidden';
                                                                         } ?> insurance_div">
                                                         <div class="d-flex">
-                                                            <div class="payment_label col-sm-4" style="">
+                                                            <div class="payment_label col-sm-4">
                                                                 <label class="text-uppercase font-weight-bold text-muted">
                                                                     <?php echo lang('insurance'); ?>
                                                                 </label>
@@ -630,8 +630,7 @@
                                                         ?>
                                                             <div class="col-md-12 payment pad_bot d-flex">
                                                                 <label for="exampleInputEmail1" class="col-sm-4">
-                                                                    <?php echo lang(''); ?>
-                                                                    <?php echo lang('name'); ?></label>
+                                                                    <?php echo lang('cardholder_name'); ?></label>
                                                                 <input type="text" id="cardholder" class="form-control form-control-lg col-sm-8 pay_in" name="cardholder" value='' placeholder="">
                                                             </div>
                                                         <?php

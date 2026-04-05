@@ -3,7 +3,7 @@
 <section id="main-content">
     <section class="wrapper site-min-height">
         <link href="common/extranal/css/patient/files.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+        <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
         <section class="panel">
             <header class="panel-heading">
                 <?php echo lang('medical_history'); ?> | <?php echo $patient->name; ?> | <?php echo $patient->phone; ?>

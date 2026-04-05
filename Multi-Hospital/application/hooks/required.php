@@ -31,7 +31,7 @@ function required()
 
 
     $RTR = &load_class('Router');
-    if ($RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "cronjobs" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "site" && $RTR->class != "api") {
+    if ($RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "cronjobs" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "site" && $RTR->class != "api" && $RTR->class != "health") {
         if (!$CI->ion_auth->logged_in()) {
             redirect('auth/login');
         }
@@ -222,15 +222,9 @@ function required()
 
 
 
-        // Currency
+        // Currency (display: Bangladesh Taka everywhere)
         if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status" &&   $RTR->class != "auth" && $RTR->class != "frontend" && $RTR->class != "site") {
-            if (!$CI->ion_auth->in_group(array('superadmin'))) {
-                $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
-                $CI->currency = $CI->db->get('settings')->row()->currency;
-            } else {
-                $CI->db->where('hospital_id', 'superadmin');
-                $CI->currency = $CI->db->get('settings')->row()->currency;
-            }
+            $CI->currency = defined('HOSPITAL_CURRENCY_SYMBOL') ? HOSPITAL_CURRENCY_SYMBOL : '৳';
         }
         // Currency
 
@@ -242,6 +236,10 @@ function required()
                 $CI->db->where('hospital_id', 'superadmin');
                 $CI->settings = $CI->db->get('settings')->row();
             }
+            if (!empty($CI->settings)) {
+                $CI->settings->currency = defined('HOSPITAL_CURRENCY_SYMBOL') ? HOSPITAL_CURRENCY_SYMBOL : '৳';
+            }
+
             if ($CI->settings->emailtype == 'Domain Email') {
 
                 $CI->load->library('email');

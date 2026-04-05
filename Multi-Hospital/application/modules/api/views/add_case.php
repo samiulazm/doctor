@@ -153,7 +153,7 @@
 <?php } ?>
                                 <?php if (!empty($case->id)) { ?>
                                     <div class="form-group col-md-12">
-                                        <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang(''); ?> &ast;</label>
+                                        <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('name'); ?> &ast;</label>
                                         <input type="text" class="form-control form-control-lg" name="" value="<?php echo $case->patient_name; ?>(ID: <?php echo $case->patient_id; ?>)" placeholder="" readonly>
                                     </div>
                                 <?php } ?>

@@ -200,7 +200,7 @@ class Site extends MX_Controller
                 // Adding New Patient
                 if ($this->ion_auth->email_check($p_email)) {
                     show_swal('warning', lang('this_email_address_is_already_registered'));
-                    redirect($redirect);
+                    redirect(safe_ci_redirect($redirect, 'site'));
                 } else {
                     $dfg = 5;
                     $this->ion_auth->register($username, $password, $p_email, $dfg);
@@ -344,7 +344,7 @@ class Site extends MX_Controller
                 } else {
                     show_swal('success', lang('added'));
                     // show_swal('success', lang('appointment_added_successfully_please_wait_you_will_get_a_confirmation_sms'));
-                    redirect($_SERVER['HTTP_REFERER']);
+                    redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('home')));
                 }
             }
 

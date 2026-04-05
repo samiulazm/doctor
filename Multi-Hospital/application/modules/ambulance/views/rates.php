@@ -60,25 +60,25 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label for="emergency_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="emergency_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Emergency][base_rate]" id="emergency_base_rate" 
                                                            value="<?php echo isset($rates['Emergency']['base_rate']) ? $rates['Emergency']['base_rate'] : '50.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="emergency_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="emergency_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Emergency][per_km]" id="emergency_per_km" 
                                                            value="<?php echo isset($rates['Emergency']['per_km']) ? $rates['Emergency']['per_km'] : '2.50'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="emergency_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="emergency_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Emergency][waiting_rate]" id="emergency_waiting_hour" 
                                                            value="<?php echo isset($rates['Emergency']['waiting_rate']) ? $rates['Emergency']['waiting_rate'] : '25.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="emergency_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="emergency_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Emergency][minimum_charge]" id="emergency_minimum_charge" 
                                                            value="<?php echo isset($rates['Emergency']['minimum_charge']) ? $rates['Emergency']['minimum_charge'] : '50.00'; ?>" 
                                                            step="0.01" required>
@@ -96,25 +96,25 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label for="transfer_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="transfer_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Transfer][base_rate]" id="transfer_base_rate" 
                                                            value="<?php echo isset($rates['Transfer']['base_rate']) ? $rates['Transfer']['base_rate'] : '40.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="transfer_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="transfer_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Transfer][per_km]" id="transfer_per_km" 
                                                            value="<?php echo isset($rates['Transfer']['per_km']) ? $rates['Transfer']['per_km'] : '2.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="transfer_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="transfer_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Transfer][waiting_rate]" id="transfer_waiting_hour" 
                                                            value="<?php echo isset($rates['Transfer']['waiting_rate']) ? $rates['Transfer']['waiting_rate'] : '20.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="transfer_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="transfer_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Transfer][minimum_charge]" id="transfer_minimum_charge" 
                                                            value="<?php echo isset($rates['Transfer']['minimum_charge']) ? $rates['Transfer']['minimum_charge'] : '40.00'; ?>" 
                                                            step="0.01" required>
@@ -135,25 +135,25 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label for="discharge_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="discharge_base_rate"><?php echo lang('base_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Discharge][base_rate]" id="discharge_base_rate" 
                                                            value="<?php echo isset($rates['Discharge']['base_rate']) ? $rates['Discharge']['base_rate'] : '35.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="discharge_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="discharge_per_km"><?php echo lang('per_km_rate'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Discharge][per_km]" id="discharge_per_km" 
                                                            value="<?php echo isset($rates['Discharge']['per_km']) ? $rates['Discharge']['per_km'] : '1.80'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="discharge_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="discharge_waiting_hour"><?php echo lang('waiting_per_hour'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Discharge][waiting_rate]" id="discharge_waiting_hour" 
                                                            value="<?php echo isset($rates['Discharge']['waiting_rate']) ? $rates['Discharge']['waiting_rate'] : '15.00'; ?>" 
                                                            step="0.01" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="discharge_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? '$'; ?>)</label>
+                                                    <label for="discharge_minimum_charge"><?php echo lang('minimum_charge'); ?> (<?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>)</label>
                                                     <input type="number" class="form-control" name="rates[Discharge][minimum_charge]" id="discharge_minimum_charge" 
                                                            value="<?php echo isset($rates['Discharge']['minimum_charge']) ? $rates['Discharge']['minimum_charge'] : '35.00'; ?>" 
                                                            step="0.01" required>
@@ -326,7 +326,7 @@
         
         var totalFare = baseRate + (distance * perKm) + (waiting * waitingRate);
         
-        $('#test_result').text('<?php echo lang('estimated_fare'); ?>: <?php echo $currency ?? '$'; ?>' + totalFare.toFixed(2));
+        $('#test_result').text('<?php echo lang('estimated_fare'); ?>: <?php echo $currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>' + totalFare.toFixed(2));
     }
     
     $(document).ready(function() {

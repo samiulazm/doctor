@@ -16,6 +16,12 @@
 
 <?php
 
+// FullCalendar is only used on hospital dashboard (home/index) and appointment/calendar — skip ~200KB+ JS/CSS elsewhere.
+$need_fullcalendar = (
+    ($this->router->fetch_class() === 'home' && $this->router->fetch_method() === 'index')
+    || ($this->router->fetch_class() === 'appointment' && $this->router->fetch_method() === 'calendar')
+);
+
 $language = $this->language;
 
 
@@ -57,8 +63,12 @@ if ($language == 'english') {
 
 ?>
 
+<!-- jQuery first: inline scripts and plugins below depend on $. -->
+<script src="adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <script type="text/javascript">
-    var langdate = "<?php echo $langdate; ?>";
+    var langdate = "<?php echo htmlspecialchars($langdate, ENT_QUOTES, 'UTF-8'); ?>";
     $(document).ready(function() {
         $('.readonly').keydown(function(e) {
             e.preventDefault();
@@ -68,7 +78,7 @@ if ($language == 'english') {
 </script>
 
 <script type="text/javascript">
-    var time_format = "<?php echo $this->settings->time_format ?>";
+    var time_format = "<?php echo htmlspecialchars(isset($this->settings->time_format) ? $this->settings->time_format : '', ENT_QUOTES, 'UTF-8'); ?>";
 </script>
 
 
@@ -85,11 +95,6 @@ if ($language == 'english') {
 <script src="common/js/editable-table.js"></script>
 <script src="common/js/bootstrap-select-country.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-
-
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
-
 
 <script src="common/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script src="common/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
@@ -126,6 +131,7 @@ if ($language == 'english') {
 })(jQuery);
 </script>
 <script src="adminlte/dist/js/adminlte.min.js"></script>
+<?php $this->load->view('csrf_inject'); ?>
 <script src="adminlte/plugins/moment/moment.min.js"></script>
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <script src="adminlte/plugins/sparklines/sparkline.js"></script>
@@ -161,8 +167,10 @@ if ($this->router->fetch_class() === 'appointment') {
 <script type="text/javascript" src="common/assets/jquery-multi-select/js/jquery.multi-select.js"></script>
 <script type="text/javascript" src="common/assets/jquery-multi-select/js/jquery.quicksearch.js"></script>
 <script src="common/js/lightbox.js"></script>
+<?php if (!empty($need_fullcalendar)) : ?>
 <script src="adminlte/plugins/fullcalendar/main.js"></script>
 <script src="adminlte/plugins/fullcalendar/locales/<?php echo $lang; ?>.js"></script>
+<?php endif; ?>
 <script src="adminlte/plugins/dropzone/min/dropzone.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
@@ -175,11 +183,15 @@ if ($this->router->fetch_class() === 'appointment') {
 
 
 
+<?php if (!empty($need_fullcalendar)) : ?>
 <script>
     $(document).ready(function() {
         "use strict";
 
         var calendarEl = document.getElementById('calendar');
+        if (!calendarEl || typeof FullCalendar === 'undefined') {
+            return;
+        }
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: "<?php echo $lang; ?>",
@@ -267,6 +279,7 @@ if ($this->router->fetch_class() === 'appointment') {
         calendar.render();
     });
 </script>
+<?php endif; ?>
 
 <script src="common/extranal/js/footer.js"></script>
 

@@ -496,4 +496,20 @@ $lang['no_matching_records_found'] = 'Keine übereinstimmenden Datensätze gefun
 $lang['error_loading_analysis_history'] = 'Fehler beim Laden der Analysehistorie';
 $lang['ai_patient_overview_report'] = 'KI-Patientenübersicht Bericht';
 $lang['notes_optional'] = 'Notizen (Optional)';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = 'Klinische Versorgung';
+$lang['hospital_operations'] = 'Krankenhausbetrieb';
+$lang['system_and_settings'] = 'System und Einstellungen';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Keine Medikamente verschrieben.';
+$lang['history_and_symptoms'] = 'Anamnese / Symptome';
+$lang['prescribed_medicines'] = 'Verschriebene Medikamente';
+$lang['quick_view_load_failed'] = 'Rezeptdetails konnten nicht geladen werden. Bitte erneut versuchen.';
+$lang['prescription_id_required'] = 'Keine Rezept-ID angegeben.';
+$lang['prescription_not_found'] = 'Rezept nicht gefunden.';
+$lang['permission_denied'] = 'Zugriff verweigert.';

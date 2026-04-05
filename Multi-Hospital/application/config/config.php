@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH . 'config/env_bootstrap.php';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,14 +25,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-
-    $ht = "https://";
+$ci_base_url = getenv('CI_BASE_URL');
+if ($ci_base_url !== false && $ci_base_url !== '') {
+	$config['base_url'] = preg_match('#/$#', $ci_base_url) ? $ci_base_url : $ci_base_url . '/';
 } else {
-	$ht = "http://";
+	$ht = ci_request_is_https() ? 'https://' : 'http://';
+	$config['base_url'] = $ht . $_SERVER['HTTP_HOST'];
+	$config['base_url'] .= preg_replace('@/+$@', '', dirname($_SERVER['SCRIPT_NAME'])) . '/';
 }
-$config['base_url'] = $ht.$_SERVER['HTTP_HOST'];
-$config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/'; 
 
 /*
 |--------------------------------------------------------------------------
@@ -231,7 +233,7 @@ $config['allow_get_array'] = true;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = (ENVIRONMENT === 'production') ? 1 : 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -332,7 +334,7 @@ $config['cache_query_string'] = false;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = getenv('CI_ENCRYPTION_KEY') !== false ? getenv('CI_ENCRYPTION_KEY') : '';
 
 /*
 |--------------------------------------------------------------------------
@@ -388,10 +390,18 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = sys_get_temp_dir();
+$_ci_sess_path = getenv('CI_SESSION_PATH');
+if ($_ci_sess_path !== false && $_ci_sess_path !== '') {
+	$config['sess_save_path'] = $_ci_sess_path;
+} else {
+	$config['sess_save_path'] = APPPATH . 'cache/sessions';
+}
+if (!is_dir($config['sess_save_path'])) {
+	@mkdir($config['sess_save_path'], 0700, true);
+}
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = false;
+$config['sess_regenerate_destroy'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -411,8 +421,8 @@ $config['sess_regenerate_destroy'] = false;
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= false;
-$config['cookie_httponly'] 	= false;
+$config['cookie_secure']	= ci_request_is_https();
+$config['cookie_httponly'] 	= true;
 
 /*
 |--------------------------------------------------------------------------
@@ -456,12 +466,23 @@ $config['global_xss_filtering'] = false;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = false;
-$config['csrf_token_name'] = 'csrf_test_name';
-$config['csrf_cookie_name'] = 'csrf_cookie_name';
+$config['csrf_protection'] = true;
+$config['csrf_token_name'] = 'csrf_token';
+$config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
-$config['csrf_regenerate'] = true;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_regenerate'] = false;
+$config['csrf_exclude_uris'] = array(
+	'api.*',
+	'payu.*',
+	'paystack.*',
+	'status.*',
+	'paypal.*',
+	'pgateway.*',
+	'cronjobs.*',
+	'request.*',
+	'health.*',
+	'api/v1/.*',
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -483,6 +504,8 @@ $config['csrf_exclude_uris'] = array();
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
+// HTML gzip: safe only when nothing is echoed before output. Enable after testing:
+//   $config['compress_output'] = (ENVIRONMENT === 'production' && extension_loaded('zlib'));
 $config['compress_output'] = false;
 
 /*
@@ -529,3 +552,11 @@ $config['rewrite_short_tags'] = false;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Static asset cache busting (CSS/JS under application/assets, etc.)
+|--------------------------------------------------------------------------
+| Increment when you change linked stylesheets or scripts so browsers fetch fresh files.
+*/
+$config['asset_version'] = '20260406';

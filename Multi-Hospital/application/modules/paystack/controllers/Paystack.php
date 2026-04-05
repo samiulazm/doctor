@@ -130,7 +130,7 @@ class Paystack extends MX_Controller {
 
         if(!$result['data']){
             show_swal(lang('transaction_failed'),'error', lang('error'));
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('home')));
         }
 
         $redir = $result['data']['authorization_url'];

@@ -1777,6 +1777,9 @@ $lang['bed_available'] = "الأسرة المتوفرة";
 $lang['top_services'] = "أفضل الخدمات";
 
 $lang['overview'] = "نظرة عامة";
+$lang['clinical_care'] = 'الرعاية السريرية';
+$lang['hospital_operations'] = 'العمليات المستشفية';
+$lang['system_and_settings'] = 'النظام والإعدادات';
 
 $lang['sales_vs_expenses'] = "المبيعات مقابل المصروفات";
 $lang['bed_occupancy'] = "إشغال الأسرة";
@@ -2305,3 +2308,16 @@ $lang['failed_to_update_timezone'] = 'فشل تحديث المنطقة الزم�
 $lang['an_error_occurred'] = 'حدث خطأ';
 $lang['preview'] = 'معاينة';
 $lang['invalid_timezone'] = 'المنطقة الزمنية غير صالحة';
+
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'لا توجد أدوية موصوفة.';
+$lang['history_and_symptoms'] = 'التاريخ / الأعراض';
+$lang['prescribed_medicines'] = 'الأدوية الموصوفة';
+$lang['quick_view_load_failed'] = 'تعذر تحميل تفاصيل الوصفة. يرجى المحاولة مرة أخرى.';
+$lang['prescription_id_required'] = 'لم يُرسل رقم الوصفة.';
+$lang['prescription_not_found'] = 'الوصفة غير موجودة.';
+$lang['permission_denied'] = 'تم رفض الإذن.';

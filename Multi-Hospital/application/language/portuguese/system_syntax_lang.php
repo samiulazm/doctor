@@ -1785,6 +1785,9 @@ $lang['bed_available'] = "Leitos disponíveis";
 $lang['top_services'] = "Principais serviços";
 
 $lang['overview'] = "Visão geral";
+$lang['clinical_care'] = 'Cuidados clínicos';
+$lang['hospital_operations'] = 'Operações hospitalares';
+$lang['system_and_settings'] = 'Sistema e configurações';
 
 $lang['sales_vs_expenses'] = "Vendas vs despesas";
 $lang['bed_occupancy'] = "Ocupação de leitos";
@@ -2287,3 +2290,16 @@ $lang['failed_to_update_timezone'] = 'Falha ao atualizar o fuso horário';
 $lang['an_error_occurred'] = 'Ocorreu um erro';
 $lang['preview'] = 'Visualizar';
 $lang['invalid_timezone'] = 'Fuso horário inválido';
+
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = 'Nenhum medicamento prescrito.';
+$lang['history_and_symptoms'] = 'Histórico / sintomas';
+$lang['prescribed_medicines'] = 'Medicamentos prescritos';
+$lang['quick_view_load_failed'] = 'Erro ao carregar a receita. Tente novamente.';
+$lang['prescription_id_required'] = 'Nenhum ID de receita fornecido.';
+$lang['prescription_not_found'] = 'Receita não encontrada.';
+$lang['permission_denied'] = 'Permissão negada.';

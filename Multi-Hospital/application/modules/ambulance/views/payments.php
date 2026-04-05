@@ -59,7 +59,7 @@
                                                     <tr>
                                                         <td><?php echo $payment->payment_number; ?></td>
                                                         <td><?php echo $payment->booking_number; ?></td>
-                                                        <td><?php echo '$' . number_format($payment->amount, 2); ?></td>
+                                                        <td><?php echo html_escape($settings->currency ?? HOSPITAL_CURRENCY_SYMBOL) . number_format($payment->amount, 2); ?></td>
                                                         <td><?php echo $payment->payment_method; ?></td>
                                                         <td>
                                                             <?php if ($payment->payment_status == 'Completed') { ?>
@@ -100,7 +100,7 @@
 </div>
 
 <!-- Include Global Modal Styles -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/global-modal-styles.css">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <!-- Add Payment Modal -->
 <div class="modal fade modal-enhanced" id="addPaymentModal" tabindex="-1" role="dialog">

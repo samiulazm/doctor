@@ -83,20 +83,20 @@ class Schedule extends MX_Controller
         //     $check = $this->schedule_model->getScheduleByDoctorByWeekday($doctor, $weekday);
         //     if (!empty($check)) {
         //         show_swal('feedback', lang('schedule_already_exists'));
-        //         redirect($redirect);
+        //         redirect(safe_ci_redirect($redirect, 'schedule'));
         //         die();
         //     }
         // }
 
         if (empty($s_time)) {
             show_swal(lang('fields_can_not_be_empty'), 'error', lang('error'));
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
             die();
         }
 
         if (empty($e_time)) {
             show_swal(lang('fields_can_not_be_empty'), 'error', lang('error'));
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
             die();
         }
 
@@ -398,7 +398,7 @@ class Schedule extends MX_Controller
 
         if ($key1 > $key2) {
             show_swal(lang('time_selection_error'), 'error', lang('error'));
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
             die();
         }
 
@@ -422,7 +422,7 @@ class Schedule extends MX_Controller
                         continue;
                     } else {
                         show_swal(lang('slot_overlapped'), 'error', lang('error'));
-                        redirect($redirect);
+                        redirect(safe_ci_redirect($redirect, 'schedule'));
                         die();
                     }
                 } elseif ($key1 > $key_pre_s) {
@@ -431,21 +431,21 @@ class Schedule extends MX_Controller
                             continue;
                         } else {
                             show_swal(lang('slot_overlapped'), 'error', lang('error'));
-                            redirect($redirect);
+                            redirect(safe_ci_redirect($redirect, 'schedule'));
                             die();
                         }
                     } else {
                         show_swal(lang('slot_overlapped'), 'error', lang('error'));
-                        redirect($redirect);
+                        redirect(safe_ci_redirect($redirect, 'schedule'));
                         die();
                     }
                 } elseif ($key1 >= $key_pre_s && $key2 <= $key_pre_e) {
                     show_swal(lang('slot_overlapped'), 'error', lang('error'));
-                    redirect($redirect);
+                    redirect(safe_ci_redirect($redirect, 'schedule'));
                     die();
                 } elseif ($key1 == $key_pre_s) {
                     show_swal(lang('slot_overlapped'), 'error', lang('error'));
-                    redirect($redirect);
+                    redirect(safe_ci_redirect($redirect, 'schedule'));
                     die();
                 }
             }
@@ -518,7 +518,7 @@ class Schedule extends MX_Controller
                 show_swal(lang('schedule_added_successfully'), 'success', lang('added'));
             }
 
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
         }
     }
 
@@ -1055,7 +1055,7 @@ class Schedule extends MX_Controller
             $date = strtotime($date);
         } else {
             show_swal(lang('date_not_selected'), 'error', lang('error'));
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
             die();
         }
 
@@ -1064,7 +1064,7 @@ class Schedule extends MX_Controller
             $is_exist = $this->schedule_model->getHolidayByDoctorByDate($doctor, $date);
             if (!empty($is_exist)) {
                 show_swal(lang('already_exist'), 'error', lang('error'));
-                redirect($redirect);
+                redirect(safe_ci_redirect($redirect, 'schedule'));
                 die();
             }
         } else {
@@ -1072,7 +1072,7 @@ class Schedule extends MX_Controller
             if (!empty($is_exist)) {
                 if ($is_exist->date == $date) {
                     show_swal(lang('already_exist'), 'error', lang('error'));
-                    redirect($redirect);
+                    redirect(safe_ci_redirect($redirect, 'schedule'));
                     die();
                 }
             }
@@ -1106,7 +1106,7 @@ class Schedule extends MX_Controller
                 $this->schedule_model->insertHoliday($data);
             }
 
-            redirect($redirect);
+            redirect(safe_ci_redirect($redirect, 'schedule'));
         }
     }
 
@@ -1134,7 +1134,7 @@ class Schedule extends MX_Controller
         $doctor = $this->input->get('doctor');
         $this->schedule_model->deleteHoliday($id);
         show_swal(lang('holiday_deleted'), 'warning', lang('deleted'));
-        redirect($redirect);
+        redirect(safe_ci_redirect($redirect, 'schedule'));
     }
 
     function delete()

@@ -194,7 +194,11 @@ class Api_model extends CI_model
     {
         $this->db->where('hospital_id', $hospitalID);
         $query = $this->db->get('settings');
-        return $query->row();
+        $row = $query->row();
+        if ($row) {
+            $row->currency = HOSPITAL_CURRENCY_SYMBOL;
+        }
+        return $row;
     }
 
     function getLabCategory($hospitalID)

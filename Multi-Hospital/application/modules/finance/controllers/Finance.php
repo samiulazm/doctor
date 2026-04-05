@@ -2395,7 +2395,7 @@ class Finance extends MX_Controller
             if ($this->ion_auth->in_group(array('admin', 'Accountant'))) {
                 if ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
                     if (count($lab_reports_previous) == count($lab_pending) || empty($lab_reports_previous)) {
-                        $options1 = ' <a class="btn btn-primary btn-sm editbutton mr-1 mt-1" title="' . lang('edit') . '" href="finance/editPayment?id=' . $payment->id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                        $options1 = ' <a class="btn btn-primary btn-sm editbutton mr-1 mt-1" title="' . lang('edit') . '" href="finance/editPayment?id=' . $payment->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                         $href = 'finance/editPayment?id=' . $payment->id;
                     } else {
                         $options1 = '';
@@ -2403,7 +2403,7 @@ class Finance extends MX_Controller
                 } elseif ($payment->payment_from == 'appointment') {
                     $appointment_details = $this->appointment_model->getAppointmentById($payment->appointment_id);
                     if ($appointment_details) {
-                        $options1 = ' <a class="btn btn-primary btn-sm mr-1 mt-1" title="' . lang('edit') . '" href="appointment/editAppointment?id=' . $payment->appointment_id . '"><i class="fa fa-edit"> </i> ' . lang('') . '</a>';
+                        $options1 = ' <a class="btn btn-primary btn-sm mr-1 mt-1" title="' . lang('edit') . '" href="appointment/editAppointment?id=' . $payment->appointment_id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                         $href = 'appointment/editAppointment?id=' . $payment->appointment_id;
                     } else {
                         $options1 = '';
@@ -2413,12 +2413,12 @@ class Finance extends MX_Controller
                 }
             }
 
-            $options2 = '<a class="btn btn-warning btn-sm mt-1" title="' . lang('invoice') . '" href="finance/invoice?id=' . $payment->id . '"><i class="fa fa-file-invoice"></i> ' . lang('') . '</a>';
-            $options4 = '<a class="btn btn-info btn-sm mr-1 mt-1" title="' . lang('print') . '" href="finance/printInvoice?id=' . $payment->id . '"target="_blank"> <i class="fa fa-print"></i> ' . lang('') . '</a>';
+            $options2 = '<a class="btn btn-warning btn-sm mt-1" title="' . lang('invoice') . '" href="finance/invoice?id=' . $payment->id . '"><i class="fa fa-file-invoice"></i> ' . lang('invoice') . '</a>';
+            $options4 = '<a class="btn btn-info btn-sm mr-1 mt-1" title="' . lang('print') . '" href="finance/printInvoice?id=' . $payment->id . '"target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . '</a>';
             if ($this->ion_auth->in_group(array('admin', 'Accountant'))) {
                 if ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
                     if (count($lab_reports_previous) == count($lab_pending) || empty($lab_reports_previous)) {
-                        $options3 = '<a class="btn btn-danger btn-sm delete_button mr-1 mt-1" title="' . lang('delete') . '" href="finance/delete?id=' . $payment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('') . '</a>';
+                        $options3 = '<a class="btn btn-danger btn-sm delete_button mr-1 mt-1" title="' . lang('delete') . '" href="finance/delete?id=' . $payment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
                     } else {
                         $options3 = '';
                     }
@@ -2927,6 +2927,7 @@ class Finance extends MX_Controller
             $patient_info_id = $patient_info->id;
         }
 
+        $doctor = '';
         if (!empty($payment->doctor)) {
             $doc_details = $this->doctor_model->getDoctorById($payment->doctor);
             if (!empty($doc_details)) {
@@ -3166,12 +3167,13 @@ class Finance extends MX_Controller
             $patient_info_id = $patient_info->id;
         }
 
-        if (!empty($payment->doctor)) {
-            $doc_details = $this->doctor_model->getDoctorById($payment->doctor);
+        $doctor = '';
+        if (!empty($data['payment']->doctor)) {
+            $doc_details = $this->doctor_model->getDoctorById($data['payment']->doctor);
             if (!empty($doc_details)) {
                 $doctor = $doc_details->name . ' - <br>' . $doc_details->profile . ' <br>';
             } else {
-                $doctor = $payment->doctor_name . ' <br>';
+                $doctor = $data['payment']->doctor_name . ' <br>';
             }
         }
 
@@ -3209,7 +3211,7 @@ class Finance extends MX_Controller
                                            ' . $settings1->address . '
                                            </h6>
                                            <h4>
-                                               Phone: ' . $settings->phone . '
+                                               Phone: ' . $settings1->phone . '
                                            </h4>
                                            </p>
 
@@ -3295,7 +3297,7 @@ class Finance extends MX_Controller
                                                        <label class="control-label">VN  ' . lang('date') . ' </label>
                                                        <span class="info_text"> :
                                                            
-                                                             ' . date('d/m/Y', $payment->date) . '
+                                                             ' . date('d/m/Y', $data['payment']->date) . '
                                                           
                                                        </span>
                                                    </div>

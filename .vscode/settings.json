@@ -1,5 +1,45 @@
 {
 	"terminal.integrated.env.windows": {
 		"PATH": "C:\\laragon\\bin\\php\\php-8.3.26-Win32-vs16-x64;C:\\laragon\\bin\\composer;${env:PATH}"
-	}
+	},
+	"cSpell.words": [
+		"Laboratorist",
+		"anamneza",
+		"addedd",
+		"anatomopatologic",
+		"Avaiable",
+		"autoemail",
+		"autosms",
+		"bedcategory",
+		"bedlist",
+		"bedstatus",
+		"bloodgroup",
+		"Bysearch",
+		"Checkoutd",
+		"dateexplode",
+		"datestamp",
+		"decharge",
+		"diagnoza",
+		"dikordance",
+		"doctorname",
+		"doctorvisit",
+		"editbutton",
+		"extranal",
+		"invoicebutton",
+		"Listfor",
+		"mpdf",
+		"nursename",
+		"Patiet",
+		"patientdetails",
+		"patientname",
+		"pservice",
+		"reaksione",
+		"redirectlink",
+		"redir",
+		"setval",
+		"shtrimit",
+		"superadmin",
+		"swal",
+		"timesttamp"
+	]
 }

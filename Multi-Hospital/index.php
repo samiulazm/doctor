@@ -40,6 +40,11 @@ ini_set("date.timezone", "Asia/Dhaka");
  */
 
 /*
+ * Load .env before ENVIRONMENT is defined (so CI_ENV in .env applies).
+ */
+require_once __DIR__ . '/application/config/dotenv_loader.php';
+
+/*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT 
  *---------------------------------------------------------------

@@ -19,6 +19,8 @@
 <head>
   <base href="<?php echo base_url(); ?>"> 
   <script>window.CI_BASE_URL = <?php echo json_encode(rtrim(base_url(), '/') . '/'); ?>;</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php
@@ -39,6 +41,9 @@
     ?>
     <?php
     $settings = $this->db->get('settings')->row();
+    if ($settings) {
+        $settings->currency = defined('HOSPITAL_CURRENCY_SYMBOL') ? HOSPITAL_CURRENCY_SYMBOL : '৳';
+    }
     echo $settings->system_vendor;
     ?>
   </title>
@@ -55,14 +60,15 @@
   <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="adminlte/dist/css/bs4-compat.css">
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <link rel="stylesheet" href="adminlte/plugins/jqvmap/jqvmap.min.css">
   <link rel="stylesheet" href="adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/enhanced-sidebar-styles.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>application/assets/css/enhanced-components-styles.css">
+  <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/enhanced-sidebar-styles.css'); ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/enhanced-components-styles.css'); ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/app-design-tokens.css'); ?>">
   <link rel="stylesheet" href="adminlte/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.min.css">
 
@@ -77,7 +83,15 @@
   <link rel="stylesheet" href="adminlte/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
+  <?php
+  $_ap_need_fullcalendar = (
+      ($this->router->fetch_class() === 'home' && $this->router->fetch_method() === 'index')
+      || ($this->router->fetch_class() === 'appointment' && $this->router->fetch_method() === 'calendar')
+  );
+  ?>
+  <?php if (!empty($_ap_need_fullcalendar)) : ?>
   <link rel="stylesheet" href="adminlte/plugins/fullcalendar/main.css">
+  <?php endif; ?>
   <link rel="stylesheet" href="adminlte/plugins/flag-icon-css/css/flag-icon.min.css">
 
   <link rel="stylesheet" href="common/assets/bootstrap-datepicker/css/bootstrap-datepicker.css" />
@@ -105,8 +119,6 @@
 
   <!-- <link rel="stylesheet" href="common/css/bootstrap-select-country.min.css"> -->
 
-  <link rel="stylesheet" href="common/assets/bootstrap-datepicker/css/bootstrap-datepicker.css" />
-
 
 </head>
 
@@ -121,30 +133,21 @@
   <div id="loader" class="loader" style="display:none;"></div>
   <style>
     .loader {
-      border: 16px solid #f3f3f3;
-      /* Light grey */
-      border-top: 16px solid #3498db;
-      /* Blue */
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(13, 148, 136, 0.15);
+      border-top: 3px solid #0d9488;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      animation: spin 1s linear infinite;
+      animation: spin 0.7s linear infinite;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 9999;
     }
-
-    /* Loader animation */
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
   </style>
 
@@ -568,10 +571,6 @@
 
 
   <style>
-    .sidebar-menu .nav-item .nav-link {
-      padding: 0.5rem 0.5rem;
-    }
-
     label {
       display: inline-block;
       margin-bottom: 0px;
@@ -585,32 +584,7 @@
 
 
 
-  <style>
-    .loader {
-      border: 16px solid #f3f3f3;
-      border-top: 16px solid #3498db;
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      animation: spin 1s linear infinite;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-      box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
-    }
-
-    @keyframes spin {
-      0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-
-      100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
-    }
-  </style>
+  <!-- loader styles defined in <head> -->
 
 
   <style>

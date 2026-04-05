@@ -205,6 +205,30 @@ class Pharmacy extends MX_Controller
                 
                 $item_quantity_array = array_combine($item_selected, $quantity);
             }
+
+            $original_qty_by_medicine = array();
+            if (!empty($id)) {
+                $orig_payment = $this->pharmacy_model->getPaymentById($id);
+                if (!$orig_payment || (int) $orig_payment->hospital_id !== (int) $this->session->userdata('hospital_id')) {
+                    redirect('home/permission');
+                }
+                if (!empty($orig_payment->category_name)) {
+                    foreach (explode(',', $orig_payment->category_name) as $line) {
+                        if ($line === '') {
+                            continue;
+                        }
+                        $parts = explode('*', $line);
+                        if (count($parts) < 3) {
+                            continue;
+                        }
+                        $mid = $parts[0];
+                        if (!isset($original_qty_by_medicine[$mid])) {
+                            $original_qty_by_medicine[$mid] = 0;
+                        }
+                        $original_qty_by_medicine[$mid] += (int) $parts[2];
+                    }
+                }
+            }
             
             foreach ($item_quantity_array as $key => $value) {
                 $current_medicine = $this->db->get_where('medicine', array('id' => $key))->row();
@@ -216,11 +240,15 @@ class Pharmacy extends MX_Controller
                 
                 $unit_price = $current_medicine->s_price;
                 $cost = $current_medicine->price;
-                $current_stock = (string) $current_medicine->quantity;
-                $qty = $value;
-                if ($current_stock < $qty) {
+                $current_stock = (int) $current_medicine->quantity;
+                $qty = (int) $value;
+                $stock_credit = !empty($id) && isset($original_qty_by_medicine[$key])
+                    ? (int) $original_qty_by_medicine[$key]
+                    : 0;
+                $available_for_sale = $current_stock + $stock_credit;
+                if ($available_for_sale < $qty) {
                     show_swal(lang('unsufficient_quantity_selected_for_medicine') . $current_medicine->name, 'error', 'quantity_check');
-                    redirect('finance/pharmacy/addPaymentView');
+                    redirect(!empty($id) ? ('finance/pharmacy/editPayment?id=' . $id) : 'finance/pharmacy/addPaymentView');
                 }
                 $item_price[] = $unit_price * $value;
                 $category_name[] = $key . '*' . $unit_price . '*' . $qty . '*' . $cost;
@@ -286,16 +314,41 @@ class Pharmacy extends MX_Controller
                     'amount_received' => $amount_received,
                 );
 
-                $original_sale = $this->pharmacy_model->getPaymentById($id);
-                $original_sale_quantity = array();
-                $original_sale_quantity = explode(',', $original_sale->category_name);
-                $o_s_value[] = array();
-                // For edit operations, we need to reverse the original sale and apply the new one
-                // This is complex with batches, so for now we'll log this as a new transaction
-                // TODO: Implement proper batch-aware edit functionality
+                $original_sale = $orig_payment;
+                $has_batches = $this->db->table_exists('medicine_batches');
+                $has_movements_tbl = $this->db->table_exists('medicine_stock_movements');
+                $reversed_movements = $has_movements_tbl
+                    ? (int) $this->medicine_model->reversePrescriptionSaleMovements($id)
+                    : 0;
+
+                if ($reversed_movements < 0) {
+                    show_swal(
+                        'Stock movements for this sale could not be reversed (batch data may be missing). The sale was not updated.',
+                        'error',
+                        lang('error')
+                    );
+                    redirect('finance/pharmacy/editPayment?id=' . $id);
+                }
+
+                if ($has_batches && $has_movements_tbl && $reversed_movements === 0) {
+                    show_swal(
+                        'This sale has no batch movement history, so stock cannot be adjusted safely on edit. Delete this sale and create a new one instead.',
+                        'error',
+                        lang('error')
+                    );
+                    redirect('finance/pharmacy/editPayment?id=' . $id);
+                }
+
+                if ($reversed_movements === 0 && !empty($original_sale->category_name)) {
+                    $this->restoreMedicineQuantitiesFromPaymentCategory($original_sale->category_name);
+                }
+
                 foreach ($item_quantity_array as $key => $value) {
-                    // Use batch-aware stock reduction
-                    $this->reduceMedicineStockWithBatches($key, $value, $id);
+                    if ($has_batches && !$has_movements_tbl) {
+                        $this->reduceMedicineStockSimple($key, $value);
+                    } else {
+                        $this->reduceMedicineStockWithBatches($key, $value, $id);
+                    }
                 }
                 $this->pharmacy_model->updatePayment($id, $data);
                 show_swal(lang('pharmacy_payment_updated_successfully'), 'success', lang('updated'));
@@ -334,24 +387,36 @@ class Pharmacy extends MX_Controller
             $id = $this->input->get('id');
 
             $payment_details = $this->pharmacy_model->getPaymentById($id);
-            if ($payment_details->hospital_id != $this->session->userdata('hospital_id')) {
+            if (!$payment_details || (int) $payment_details->hospital_id !== (int) $this->session->userdata('hospital_id')) {
                 redirect('home/permission');
             }
 
-            $category_name = $this->pharmacy_model->getPaymentById($id)->category_name;
-            $all_product_details = array();
-            $all_product_details = explode(',', $category_name);
+            $has_batches = $this->db->table_exists('medicine_batches');
+            $has_movements_tbl = $this->db->table_exists('medicine_stock_movements');
+            $reversed_movements = $has_movements_tbl
+                ? (int) $this->medicine_model->reversePrescriptionSaleMovements($id)
+                : 0;
 
-            foreach ($all_product_details as $key => $value) {
-                $product_details = array();
-                $product_details = explode('*', $value);
-                $product_id = $product_details[0];
-                $qty = $product_details[2];
-                $previous_qty = $this->medicine_model->getMedicineById($product_details[0])->quantity;
-                $new_qty = $previous_qty + $qty;
-                $data = array();
-                $data = array('quantity' => $new_qty);
-                $this->medicine_model->updateMedicine($product_id, $data);
+            if ($reversed_movements < 0) {
+                show_swal(
+                    'Stock movements for this sale could not be reversed. The sale was not deleted.',
+                    'error',
+                    lang('error')
+                );
+                redirect('finance/pharmacy/payment');
+            }
+
+            if ($has_batches && $has_movements_tbl && $reversed_movements === 0) {
+                show_swal(
+                    'This sale has no batch movement history; stock cannot be restored safely. Delete is blocked.',
+                    'error',
+                    lang('error')
+                );
+                redirect('finance/pharmacy/payment');
+            }
+
+            if ($reversed_movements === 0 && !empty($payment_details->category_name)) {
+                $this->restoreMedicineQuantitiesFromPaymentCategory($payment_details->category_name);
             }
 
             $this->pharmacy_model->deletePayment($id);
@@ -1109,6 +1174,34 @@ class Pharmacy extends MX_Controller
         } catch (Exception $e) {
             // Log error but don't stop the process
             log_message('error', 'Error in reduceMedicineStockSimple: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Restore aggregate medicine.quantity from a stored payment category_name string (legacy / no batch ledger).
+     */
+    private function restoreMedicineQuantitiesFromPaymentCategory($category_name)
+    {
+        if ($category_name === '' || $category_name === null) {
+            return;
+        }
+        $lines = explode(',', $category_name);
+        foreach ($lines as $line) {
+            if ($line === '') {
+                continue;
+            }
+            $parts = explode('*', $line);
+            if (count($parts) < 3) {
+                continue;
+            }
+            $product_id = $parts[0];
+            $qty = $parts[2];
+            $row = $this->medicine_model->getMedicineById($product_id);
+            if (!$row) {
+                continue;
+            }
+            $new_qty = (int) $row->quantity + (int) $qty;
+            $this->medicine_model->updateMedicine($product_id, array('quantity' => $new_qty));
         }
     }
 

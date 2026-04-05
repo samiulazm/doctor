@@ -65,7 +65,7 @@
                                         <input type="text" class="form-control dpd1" name="date_from" value="<?php if (!empty($date_from)) echo date('m/d/Y', $date_from); ?>" placeholder="<?php echo lang('date_from'); ?>" readonly>
 
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><?php echo lang(''); ?></span>
+                                            <span class="input-group-text"><?php echo lang('to'); ?></span>
                                         </div>
 
                                         <input type="text" class="form-control dpd2" name="date_to" value="<?php if (!empty($date_to)) echo date('m/d/Y', $date_to); ?>" placeholder="<?php echo lang('date_to'); ?>" readonly>
@@ -231,7 +231,7 @@
                                                             <?php } ?>
                                                             <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>
                                                                 <a type="button" class="btn-sm btn-danger" href="finance/deleteDeposit?id=<?php echo $deposit->id; ?>&patient=<?php echo $patient->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                                    <?php echo lang(''); ?> <i class="fa fa-trash"></i>
+                                                                    <?php echo lang('delete'); ?> <i class="fa fa-trash"></i>
                                                                 </a>
                                                             <?php } ?>
                                                         </td>

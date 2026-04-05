@@ -180,12 +180,12 @@ class Pservice extends MX_Controller
             $i = $i + 1;
             $option2 = '';
             $option1 = '';
-            if ($this->ion_auth->in_group(array('admin')) || $permis == 'ok') {
+            if ($this->ion_auth->in_group(array('admin'))) {
 
-                $option1 = '<a type="button" class="btn btn-info btn_width editbutton" data-bs-toggle="modal" data-id="' . $pservice->id . '"><i class="fa fa-edit"> ' . lang('') . '</i></a>';
+                $option1 = '<a type="button" class="btn btn-info btn_width edit-button" data-bs-toggle="modal" data-id="' . $pservice->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             }
 
-            if ($this->ion_auth->in_group(array('admin')) || $permis_2 == 'ok') {
+            if ($this->ion_auth->in_group(array('admin'))) {
                 $option2 = '<a class="btn btn-danger btn_width delete_button" href="pservice/delete?id=' . $pservice->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             }
             if (!empty($pservice->price)) {

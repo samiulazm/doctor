@@ -222,13 +222,13 @@ class Profile extends MX_Controller
                     'name'   => 'language_site',
                     'value'  => $language,
                     'expire' => '2595000', // Set to one day (in seconds)
-                    'secure' => FALSE,
+                    'secure' => (bool) $this->config->item('cookie_secure'),
                 );
                 $this->input->set_cookie($cookie);
             }
         }
 
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(safe_redirect_target($this->input->server('HTTP_REFERER'), site_url('home')));
     }
 }
 

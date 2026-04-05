@@ -37,7 +37,7 @@
                             <div class="col-md-4 date_field ml-4 mt-2">
                                 <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
                                     <input type="text" class="form-control form-control-lg default-date-picker" name="date_from" id="date_from" value="" placeholder="<?php echo lang('date_from'); ?>" readonly="">
-                                    <span class="input-group-addon"> <?php echo lang(''); ?></span>
+                                    <span class="input-group-addon"> <?php echo lang('to'); ?></span>
                                     <input type="text" class="form-control form-control-lg default-date-picker" name="date_to" id="date_to" value="" placeholder="<?php echo lang('date_to'); ?>" readonly="">
                                 </div>
                             </div>

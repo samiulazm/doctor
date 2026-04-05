@@ -21,7 +21,12 @@ class Settings_model extends CI_model
     {
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         $query = $this->db->get('settings');
-        return $query->row();
+        $row = $query->row();
+        if ($row) {
+            // All UI amounts use Bangladesh Taka (BDT) display symbol
+            $row->currency = HOSPITAL_CURRENCY_SYMBOL;
+        }
+        return $row;
     }
 
     function updateSettings($id, $data)

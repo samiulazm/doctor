@@ -1,7 +1,7 @@
 "use strict";
 $(document).ready(function () {
   "use strict";
-  $(".table").on("click", ".editbutton", function () {
+  $(".table").on("click", ".edit-button", function () {
     "use strict";
     $("#loader").show();
     var iid = $(this).attr("data-id");

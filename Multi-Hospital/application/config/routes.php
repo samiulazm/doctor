@@ -51,8 +51,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'frontend';
 $route['transactionLogs'] = 'logs/transactionLogs';
+$route['auditTrail'] = 'logs/audit';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE; 
 $route['site/(?!(?:gallery|gallery/editGalleryByJason|gallery/addNew|gallery/delete|slide|service|gridsection|settings|featured|review|slide/addNew|service/addNew|update|gridsection/addNew|featured/addNew|review/addNew|gallery/delete|slide/delete|service/delete|gridsection/delete|featured/delete|review/delete|getAvailableSlotByDoctorByDateByJason|getDoctorVisitCharges|getAvailableSlotByDoctorByDateByJason|getAvailableSlotByDoctorByDateByJason|getDoctorVisit|addNew|web|slide/editSlideByJason|featured/editFeaturedByJason|service/editServiceByJason|gridsection/editGridsectionByJason|review/editReviewByJason)$)(.+)$'] = 'site/index/(:any)';
 //$route['site/(?!(?:gallery/delete|slide/delete|service/delete|gridsection/delete|featured/delete|review/delete)$)(.+)$'] = 'site/index/(:any)'; 
-//$route['site/(?!(?:slide|slide/addNew|slide/delete)$)(.+)$']='site/(:any)'; 
+//$route['site/(?!(?:slide|slide/addNew|slide/delete)$)(.+)$']='site/(:any)';
+
+/* Public API-style health routes (see application/controllers/Health.php) */
+$route['api/v1/health'] = 'health/index';
+$route['api/v1/ping'] = 'health/ping';
+$route['api/v1/ready'] = 'health/ready';

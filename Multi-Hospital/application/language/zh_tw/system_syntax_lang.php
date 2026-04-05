@@ -266,4 +266,20 @@ $lang['medicine_number'] = 'Number Of Medicines';
 $lang['item_name'] = 'Item Name';
 $lang['invoice_id'] = 'Invoice Id';
 $lang['new_sale'] = 'New Sale';
+// Sidebar section headers (menu)
+$lang['clinical_care'] = '臨床照護';
+$lang['hospital_operations'] = '醫院營運';
+$lang['system_and_settings'] = '系統與設定';
 
+// Prescription quick view (i18n)
+$lang['quick_view'] = 'Quick View';
+$lang['quick_view_prescription'] = 'Quick View Prescription';
+$lang['loading_prescription_details'] = 'Loading prescription details...';
+$lang['view_full'] = 'View Full';
+$lang['no_medicines_prescribed'] = '無處方藥品。';
+$lang['history_and_symptoms'] = '病史 / 症狀';
+$lang['prescribed_medicines'] = '處方藥品';
+$lang['quick_view_load_failed'] = '載入處方詳情失敗，請再試一次。';
+$lang['prescription_id_required'] = '未提供處方編號。';
+$lang['prescription_not_found'] = '找不到處方。';
+$lang['permission_denied'] = '無權限。';

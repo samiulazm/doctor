@@ -660,4 +660,116 @@ function getTotalDueLastMonth(): float
 
     return (float)$lastMonthDue;
 }
+
+    /**
+     * Sum payment gross_total for the current hospital between unix timestamps (inclusive).
+     */
+    public function sumPaymentGrossBetween($from_ts, $to_ts)
+    {
+        $hospitalId = $this->session->userdata('hospital_id');
+        if (!$hospitalId) {
+            return 0.0;
+        }
+        $this->db->select_sum('gross_total');
+        $this->db->where('hospital_id', $hospitalId);
+        $this->db->where('date >=', (int) $from_ts);
+        $this->db->where('date <=', (int) $to_ts);
+        $row = $this->db->get('payment')->row();
+        return (float) ($row->gross_total ?? 0);
+    }
+
+    /**
+     * Sum deposits (collections) for the current hospital between unix timestamps (inclusive).
+     */
+    public function sumDepositBetween($from_ts, $to_ts)
+    {
+        $hospitalId = $this->session->userdata('hospital_id');
+        if (!$hospitalId) {
+            return 0.0;
+        }
+        $this->db->select_sum('deposited_amount');
+        $this->db->where('hospital_id', $hospitalId);
+        $this->db->where('date >=', (int) $from_ts);
+        $this->db->where('date <=', (int) $to_ts);
+        $row = $this->db->get('patient_deposit')->row();
+        return (float) ($row->deposited_amount ?? 0);
+    }
+
+    /**
+     * All-time outstanding: total billed minus total collected for the hospital (floor at zero).
+     */
+    public function getTotalOutstandingDueHospital()
+    {
+        $hospitalId = $this->session->userdata('hospital_id');
+        if (!$hospitalId) {
+            return 0.0;
+        }
+        $this->db->select_sum('gross_total');
+        $this->db->where('hospital_id', $hospitalId);
+        $b = $this->db->get('payment')->row();
+        $bills = (float) ($b->gross_total ?? 0);
+
+        $this->db->select_sum('deposited_amount');
+        $this->db->where('hospital_id', $hospitalId);
+        $d = $this->db->get('patient_deposit')->row();
+        $dep = (float) ($d->deposited_amount ?? 0);
+
+        $due = $bills - $dep;
+        return $due > 0 ? $due : 0.0;
+    }
+
+    /**
+     * Last 7 calendar days: per-day collection (deposits) and billed amount (payment gross).
+     *
+     * @return array<int, array{label: string, date: string, collection: float, billed: float}>
+     */
+    public function getWeeklyBillCollectionSeries()
+    {
+        $out = array();
+        for ($i = 6; $i >= 0; $i--) {
+            $day_start = strtotime('-' . $i . ' days midnight');
+            $day_end = strtotime('-' . $i . ' days 23:59:59');
+            $out[] = array(
+                'label' => date('D', $day_start),
+                'date' => date('Y-m-d', $day_start),
+                'collection' => $this->sumDepositBetween($day_start, $day_end),
+                'billed' => $this->sumPaymentGrossBetween($day_start, $day_end),
+            );
+        }
+        return $out;
+    }
+
+    /**
+     * Today's appointments grouped by doctor (top 15 by count).
+     *
+     * @return array<int, array{name: string, count: int}>
+     */
+    public function getAppointmentCountsByDoctorToday()
+    {
+        $hospitalId = $this->session->userdata('hospital_id');
+        if (!$hospitalId) {
+            return array();
+        }
+        $today = strtotime(date('Y-m-d'));
+        $this->db->select('doctor, COUNT(*) as cnt', false);
+        $this->db->where('hospital_id', $hospitalId);
+        $this->db->where('date', $today);
+        $this->db->where('doctor IS NOT NULL', null, false);
+        $this->db->where('doctor !=', '');
+        $this->db->group_by('doctor');
+        $this->db->order_by('cnt', 'DESC');
+        $this->db->limit(15);
+        $rows = $this->db->get('appointment')->result();
+
+        $out = array();
+        foreach ($rows as $r) {
+            if (empty($r->doctor)) {
+                continue;
+            }
+            $doc = $this->db->get_where('doctor', array('id' => $r->doctor))->row();
+            $name = $doc && !empty($doc->name) ? $doc->name : ('#' . $r->doctor);
+            $out[] = array('name' => $name, 'count' => (int) $r->cnt);
+        }
+        return $out;
+    }
 }

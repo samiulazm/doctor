@@ -123,7 +123,7 @@
                                 <div class="flex-grow-1">
                                     <div class="text-muted small mb-1">TODAY'S REVENUE</div>
                                     <div class="h2 font-weight-bold text-warning mb-0">
-                                        <?php echo $settings->currency ?? '$'; ?>
+                                        <?php echo $settings->currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>
                                         <?php 
                                         $this->db->select('SUM(amount_received) as total');
                                         $this->db->where('hospital_id', $hospital_id);
@@ -366,7 +366,7 @@
                                 <div class="col-md-3 text-center">
                                     <div class="financial-stat">
                                         <div class="h2 font-weight-bold text-success">
-                                            <?php echo $settings->currency ?? '$'; ?>
+                                            <?php echo $settings->currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>
                                             <?php 
                                             $this->db->select('SUM(amount_received) as total');
                                             $this->db->where('hospital_id', $hospital_id);
@@ -382,7 +382,7 @@
                                 <div class="col-md-3 text-center">
                                     <div class="financial-stat">
                                         <div class="h2 font-weight-bold text-danger">
-                                            <?php echo $settings->currency ?? '$'; ?>
+                                            <?php echo $settings->currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>
                                             <?php 
                                             $this->db->select('SUM(amount) as total');
                                             $this->db->where('hospital_id', $hospital_id);
@@ -398,7 +398,7 @@
                                 <div class="col-md-3 text-center">
                                     <div class="financial-stat">
                                         <div class="h2 font-weight-bold text-primary">
-                                            <?php echo $settings->currency ?? '$'; ?>
+                                            <?php echo $settings->currency ?? HOSPITAL_CURRENCY_SYMBOL; ?>
                                             <?php 
                                             $profit = ($month_revenue->total ?? 0) - ($month_expense->total ?? 0);
                                             echo number_format($profit, 2);
@@ -414,7 +414,7 @@
                                             $this->db->select('SUM(amount_due) as total');
                                             $this->db->where('hospital_id', $hospital_id);
                                             $pending_amount = $this->db->get('payment')->row();
-                                            echo $settings->currency ?? '$';
+                                            echo $settings->currency ?? HOSPITAL_CURRENCY_SYMBOL;
                                             echo number_format($pending_amount->total ?? 0, 2);
                                             ?>
                                         </div>
@@ -542,8 +542,8 @@
 <!-- Chart.js for Analytics -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-$(document).ready(function() {
-    // Revenue Chart
+document.addEventListener('DOMContentLoaded', function() {
+    // Revenue Chart (DOMContentLoaded: jQuery loads in footer after this view)
     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
     new Chart(revenueCtx, {
         type: 'line',

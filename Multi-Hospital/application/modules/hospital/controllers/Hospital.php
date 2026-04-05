@@ -376,7 +376,7 @@ class Hospital extends MX_Controller
                     'system_vendor' => 'Code Aristos - Hospital management System',
                     'discount' => 'flat',
                     'sms_gateway' => 'Twilio',
-                    'currency' => '$',
+                    'currency' => HOSPITAL_CURRENCY_SYMBOL,
                     'emailtype' => 'Smtp',
                     'footer_message' => 'By ' . $name,
                     'show_odontogram_in_history' => 'yes',

@@ -367,7 +367,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + value.toLocaleString();
+                                return '৳' + value.toLocaleString();
                             }
                         }
                     }
@@ -419,7 +419,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + value.toLocaleString();
+                                return '৳' + value.toLocaleString();
                             }
                         }
                     }
@@ -450,7 +450,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + value.toLocaleString();
+                                return '৳' + value.toLocaleString();
                             }
                         }
                     }

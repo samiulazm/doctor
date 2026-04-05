@@ -115,10 +115,20 @@ class Auth extends MX_Controller {
                );
               
                 $this->logs_model->insertLogs($data);
+                $auditHospital = ($hospital_id !== '') ? $hospital_id : (($role === 'SuperAdmin') ? 'superadmin' : null);
+                audit_log(
+                    'auth.login',
+                    'user',
+                    (int) $user_details->id,
+                    array('role' => $role, 'remember' => $remember),
+                    $auditHospital,
+                    (int) $user_details->id
+                );
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 redirect('home', 'refresh');
             } else {
                 //if the login was un-successful
+                audit_log('auth.login_failed', null, null, array('outcome' => 'invalid_credentials'));
                 //redirect them back to the login page
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
                 redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
@@ -157,12 +167,12 @@ class Auth extends MX_Controller {
             'name'   => 'language_site',
             'value'  => $selectedLanguage,
             'expire' => '2595000',
-            'secure' => FALSE,
+            'secure' => (bool) $this->config->item('cookie_secure'),
         );
         $this->input->set_cookie($cookie);
         $referer = $this->input->server('HTTP_REFERER');
         if (!empty($referer)) {
-            redirect($referer);
+            redirect(safe_redirect_target($referer, site_url('auth/login')));
         }
         redirect('auth/login', 'refresh');
     }
@@ -171,6 +181,11 @@ class Auth extends MX_Controller {
     function logout() {
 
         ob_start();
+
+        if ($this->ion_auth->logged_in()) {
+            $uid = (int) $this->ion_auth->get_user_id();
+            audit_log('auth.logout', 'user', $uid, null, null, $uid);
+        }
 
         $logout = $this->ion_auth->logout();
 
@@ -234,6 +249,7 @@ class Auth extends MX_Controller {
 
             if ($change) {
                 //if the password was successfully changed
+                audit_log('auth.password_change', 'user', (int) $user->id, null, null, (int) $user->id);
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 $this->logout();
             } else {
