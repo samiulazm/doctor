@@ -3,6 +3,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?/$1 [L]
 
-php_value max_input_vars 20000
-php_value max_multipart_body_parts 20000
-
+# php_value is not allowed on many LiteSpeed/shared hosts and causes HTTP 500.
+# Limits are set in .user.ini (max_input_vars). For max_multipart_body_parts (PHP 8.3+),
+# add it in cPanel → MultiPHP INI Editor or uncomment in .user.ini on PHP 8.3+.

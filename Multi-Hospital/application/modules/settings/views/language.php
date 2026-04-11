@@ -1,28 +1,55 @@
-<div class="content-wrapper bg-light">
+<?php
+$ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
+?>
+<?php if ($ap_settings_saas_ui) : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php endif; ?>
+
+<div class="content-wrapper <?php echo $ap_settings_saas_ui ? 'ap-settings-saas bg-light' : 'bg-light'; ?>">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0 py-4' : ''; ?>">
         <div class="container-fluid">
+            <?php if ($ap_settings_saas_ui) : ?>
+            <div class="row align-items-center pl-1">
+                <div class="col-12 col-lg-8">
+                    <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · SaaS</span>
+                    <h1 class="display-4 font-weight-black mb-0">
+                        <i class="fas fa-language mr-2"></i>
+                        <?php echo lang('select'); ?> <?php echo lang('default'); ?> <?php echo lang('language'); ?>
+                    </h1>
+                    <nav aria-label="breadcrumb" class="mt-2">
+                        <ol class="breadcrumb bg-transparent mb-0">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item"><a href="settings"><?php echo lang('settings'); ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo lang('language'); ?></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <?php else : ?>
             <div class="row my-2 pl-1">
                 <div class="col-sm-6">
                     <h1 class="fw-bold"><i class="fas fa-language mr-2"></i><strong><?php echo lang('select'); ?> <?php echo lang('default'); ?> <?php echo lang('language'); ?></strong></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"> <?php echo lang('select'); ?> <?php echo lang('language'); ?></li>
+                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                        <li class="breadcrumb-item"><a href="settings"><?php echo lang('settings'); ?></a></li>
+                        <li class="breadcrumb-item active"><?php echo lang('language'); ?></li>
                     </ol>
                 </div>
             </div>
+            <?php endif; ?>
         </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content <?php echo $ap_settings_saas_ui ? 'py-4' : ''; ?>">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row g-4">
 
-                <div class="col-12 col-md-6">
-                    <div class="card shadow-sm">
+                <div class="col-12 <?php echo $ap_settings_saas_ui ? 'col-xl-6' : 'col-md-6'; ?>">
+                    <div class="card shadow-sm <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-lang-card border-0' : ''; ?>">
 
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -91,11 +118,11 @@
                 </div>
 
                 <?php if ($this->ion_auth->in_group(array('superadmin'))) { ?>
-                    <div class="col-6">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-info text-white">
-                                <h3 class="card-title"> <?php echo lang('edit'); ?> <?php echo lang('language'); ?> </h3>
-                                <button class="btn btn-success float-right" data-bs-toggle="modal" href="#myModal">
+                    <div class="col-12 col-xl-6">
+                        <div class="card shadow-sm <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-lang-admin border-0' : ''; ?>">
+                            <div class="card-header bg-info text-white d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                <h3 class="card-title mb-0"> <?php echo lang('edit'); ?> <?php echo lang('language'); ?> </h3>
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">
                                     <i class="fas fa-plus mr-2"></i><?php echo lang('add_new'); ?>
                                 </button>
                             </div>

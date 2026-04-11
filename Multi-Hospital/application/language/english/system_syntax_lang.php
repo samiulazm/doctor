@@ -2320,3 +2320,21 @@ $lang['failed_to_update_timezone'] = 'Failed to update timezone';
 $lang['an_error_occurred'] = 'An error occurred';
 $lang['preview'] = 'Preview';
 $lang['invalid_timezone'] = 'Invalid timezone';
+
+// Missing keys referenced in views (fixes "Could not find the language line" log noise)
+$lang['toggle_sidebar'] = 'Toggle sidebar';
+$lang['enter_your_hospital_details_below'] = 'Enter your hospital details below';
+$lang['We\'re here to address your inquiries and provide professional assistance'] = 'We\'re here to address your inquiries and provide professional assistance';
+$lang['For inquiries regarding:'] = 'For inquiries regarding:';
+$lang['Extended licenses or custom projects'] = 'Extended licenses or custom projects';
+$lang['please_paste_this_code_in_ccard_cronjob_add_command_field'] = 'Please paste this code in the cron job add command field';
+$lang['pgateway'] = 'Payment gateway';
+$lang['Insert the email address where you want to recieve the contact us emails.'] = 'Insert the email address where you want to receive the contact us emails.';
+$lang['header_title'] = 'Title';
+$lang['section_4'] = 'Section 4';
+$lang['All the reviews names for frontend website'] = 'All the review names for the frontend website';
+$lang['systems'] = 'Systems';
+$lang['All the active hospitals names and related informations'] = 'All active hospital names and related information';
+$lang['option'] = 'Option';
+$lang['ListofAllAppointments'] = 'List of all appointments';
+$lang['create_new_package'] = 'Create new package';

@@ -17,6 +17,17 @@ if (!function_exists('required_resolve_hospital_id')) {
     }
 }
 
+if (!function_exists('required_settings_row')) {
+    /**
+     * One settings row for a hospital_id, or null if DB is empty / not imported yet.
+     */
+    function required_settings_row($CI, $hospital_id)
+    {
+        $CI->db->where('hospital_id', $hospital_id);
+        return $CI->db->get('settings')->row();
+    }
+}
+
 function required()
 {
     $CI = &get_instance();
@@ -102,7 +113,7 @@ function required()
             // Subscription expiry check removed
         }
 
-        if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "api" ) {
+        if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "api" && $RTR->class != "health") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
                 if ($CI->ion_auth->in_group(array('admin'))) {
                     $current_user_id = $CI->ion_auth->user()->row()->id;
@@ -138,14 +149,14 @@ function required()
         }
 
     if (!$CI->ion_auth->logged_in()) {
-        $CI->db->where('hospital_id', 'superadmin');
-        $CI->timezone = $CI->db->get('settings')->row()->timezone;
+        $row_tz = required_settings_row($CI, 'superadmin');
+        $CI->timezone = $row_tz ? $row_tz->timezone : null;
     } elseif ($CI->ion_auth->in_group(array('superadmin'))) {
-        $CI->db->where('hospital_id', 'superadmin');
-        $CI->timezone = $CI->db->get('settings')->row()->timezone;
+        $row_tz = required_settings_row($CI, 'superadmin');
+        $CI->timezone = $row_tz ? $row_tz->timezone : null;
     } else {
-        $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
-        $CI->timezone = $CI->db->get('settings')->row()->timezone;
+        $row_tz = required_settings_row($CI, required_resolve_hospital_id($CI));
+        $CI->timezone = $row_tz ? $row_tz->timezone : null;
     }
     $timezone = $CI->timezone;
     if (!empty($timezone)) {
@@ -158,8 +169,8 @@ function required()
         // Language
         if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status"  && $RTR->class != "request" && $RTR->class != "api") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
-                $CI->db->where('hospital_id', required_resolve_hospital_id($CI));
-                $CI->language = $CI->db->get('settings')->row()->language;
+                $row_lang = required_settings_row($CI, required_resolve_hospital_id($CI));
+                $CI->language = ($row_lang && !empty($row_lang->language)) ? $row_lang->language : 'english';
                 $CI->hospital_language = $CI->language;
                 $CI->lang->load('system_syntax', $CI->language);
                 if ($CI->ion_auth->in_group(array('Patient'))) {
@@ -181,14 +192,14 @@ function required()
                     }
                 }
             } else {
-                $CI->db->where('hospital_id', 'superadmin');
-                $CI->language = $CI->db->get('settings')->row()->language;
+                $row_lang = required_settings_row($CI, 'superadmin');
+                $CI->language = ($row_lang && !empty($row_lang->language)) ? $row_lang->language : 'english';
                 $CI->lang->load('system_syntax', $CI->language);
             }
         }
         if ($RTR->class == "frontend" || $RTR->class == "request") {
-            $CI->db->where('hospital_id', 'superadmin');
-            $CI->language = $CI->db->get('settings')->row()->language;
+            $row_lang = required_settings_row($CI, 'superadmin');
+            $CI->language = ($row_lang && !empty($row_lang->language)) ? $row_lang->language : 'english';
             $CI->lang->load('system_syntax', $CI->language);
         }
 
@@ -211,7 +222,8 @@ function required()
             if (!empty($session_lang)) {
                 $CI->language = $session_lang;
             } else {
-                $CI->language = $CI->db->get('settings')->row()->language;
+                $row_lang = required_settings_row($CI, 'superadmin');
+                $CI->language = ($row_lang && !empty($row_lang->language)) ? $row_lang->language : 'english';
             }
             if (empty($CI->language)) {
                 $CI->language = 'english';
@@ -267,7 +279,7 @@ function required()
                 $CI->load->library('email');
             }
         }
-        if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status"  && $RTR->class != "frontend" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "api") {
+        if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status"  && $RTR->class != "frontend" && $RTR->class != "request" && $RTR->class != "auth" && $RTR->class != "api" && $RTR->class != "health") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
                 if ($CI->ion_auth->in_group(array('admin'))) {
                     $current_user_id = $CI->ion_auth->user()->row()->id;
@@ -297,7 +309,7 @@ function required()
             }
         }
 
-        $common = array('payu', 'status', 'macro', 'auth', 'pservice', 'frontend', 'settings', 'import', 'home', 'profile', 'request', 'api', 'cronjobs', 'logs', 'doctorvisit', 'site', 'testpkz', 'facilitie', 'faq', 'diagnosis', 'treatment', 'symptom', 'advice', 'inventory', 'treatment_plan', 'ai_image_analysis', 'ai_patient_overview', 'emergency', 'ambulance', 'dashboard', 'radiology'); 
+        $common = array('payu', 'status', 'macro', 'auth', 'pservice', 'frontend', 'settings', 'import', 'home', 'profile', 'request', 'api', 'cronjobs', 'logs', 'doctorvisit', 'site', 'testpkz', 'facilitie', 'faq', 'diagnosis', 'treatment', 'symptom', 'advice', 'inventory', 'treatment_plan', 'ai_image_analysis', 'ai_patient_overview', 'emergency', 'ambulance', 'dashboard', 'radiology', 'health'); 
 
         if (!in_array($RTR->class, $common)) {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {

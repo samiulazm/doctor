@@ -42,7 +42,14 @@ class Frontend extends MX_Controller
         $data['faqs'] = $this->faq_model->getFaq();
         $data['featureds'] = $this->featured_model->getFeatured();
         $data['settings1'] = $this->db->get_where('settings', array('hospital_id' => 'superadmin'))->row();
+        if (!$data['settings1']) {
+            show_error('Database is missing the <strong>settings</strong> row for <code>hospital_id = superadmin</code>. Import your SQL dump in phpMyAdmin (or run the installer), then reload.', 503, 'Database not imported');
+            return;
+        }
         $data['gateway'] = $this->db->get_where('paymentGateway', array('name' => $data['settings1']->payment_gateway, 'hospital_id' => 'superadmin'))->row();
+        if (!$data['gateway']) {
+            $data['gateway'] = (object) array('publish' => '');
+        }
         // $this->load->view('front_end', $data);
         $this->load->view('index', $data);
     }
@@ -58,7 +65,14 @@ class Frontend extends MX_Controller
         $data['services'] = $this->service_model->getService();
         $data['featureds'] = $this->featured_model->getFeatured();
         $data['settings1'] = $this->db->get_where('settings', array('hospital_id' => 'superadmin'))->row();
+        if (!$data['settings1']) {
+            show_error('Database is missing the <strong>settings</strong> row for <code>hospital_id = superadmin</code>. Import your SQL dump in phpMyAdmin, then reload.', 503, 'Database not imported');
+            return;
+        }
         $data['gateway'] = $this->db->get_where('paymentGateway', array('name' => $data['settings1']->payment_gateway, 'hospital_id' => 'superadmin'))->row();
+        if (!$data['gateway']) {
+            $data['gateway'] = (object) array('publish' => '');
+        }
         $this->load->view('front_end', $data);
         // $this->load->view('index', $data);
     }

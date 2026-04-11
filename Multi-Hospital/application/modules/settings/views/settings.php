@@ -1,11 +1,20 @@
+<?php
+$ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
+?>
+<?php if ($ap_settings_saas_ui) : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php endif; ?>
 <!-- <link href="common/extranal/css/settings/settings.css" rel="stylesheet"> -->
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-gradient-light<?php echo $ap_settings_saas_ui ? ' ap-settings-saas' : ''; ?>">
     <!-- Content Header -->
-    <section class="content-header py-4 bg-white shadow-sm">
+    <section class="content-header py-4 <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0' : 'bg-white shadow-sm'; ?>">
         <div class="container-fluid">
             <div class="row align-items-center">
-                <div class="col-sm-6">
+                <div class="col-sm-8 col-lg-7">
+                    <?php if ($ap_settings_saas_ui) : ?>
+                    <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · SaaS</span>
+                    <?php endif; ?>
                     <h1 class="display-4 font-weight-black mb-0">
                         <i class="fas fa-cog fa-lg mr-3"></i>
                         <?php echo lang('settings'); ?>

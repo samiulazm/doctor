@@ -122,7 +122,7 @@
 
 </head>
 
-<body class="layout-fixed sidebar-mini <?php
+<body class="layout-fixed sidebar-expand-lg sidebar-mini <?php
                                           if ($this->ion_auth->user()->row()->sidebar != 1) {
                                             echo 'sidebar-collapse';
                                           }

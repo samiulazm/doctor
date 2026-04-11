@@ -1,34 +1,57 @@
+<?php
+$ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
+?>
+<?php if ($ap_settings_saas_ui) : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php endif; ?>
 <link href="common/extranal/css/slide.css" rel="stylesheet">
 
-<div class="content-wrapper bg-light">
+<div class="content-wrapper <?php echo $ap_settings_saas_ui ? 'ap-settings-saas bg-light' : 'bg-light'; ?>">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0 py-4' : ''; ?>">
         <div class="container-fluid">
+            <?php if ($ap_settings_saas_ui) : ?>
+            <div class="row align-items-center pl-1">
+                <div class="col-12 col-lg-8">
+                    <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · <?php echo lang('saas_tagline'); ?></span>
+                    <h1 class="display-4 font-weight-black mb-0">
+                        <i class="fas fa-images mr-2"></i><?php echo lang('slide'); ?>
+                    </h1>
+                    <nav aria-label="breadcrumb" class="mt-2">
+                        <ol class="breadcrumb bg-transparent mb-0">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo lang('slide'); ?></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <?php else : ?>
             <div class="row my-2 pl-1">
                 <div class="col-sm-6">
                     <h1 class="font-weight-bold">
                         <i class="fas fa-images mr-2"></i>
-                        <?php echo lang('slide') ?>
+                        <?php echo lang('slide'); ?>
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('slide') ?></li>
+                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                        <li class="breadcrumb-item active"><?php echo lang('slide'); ?></li>
                     </ol>
                 </div>
             </div>
+            <?php endif; ?>
         </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content <?php echo $ap_settings_saas_ui ? 'py-4' : ''; ?>">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><?php echo lang('All the slide names and related informations'); ?></h3>
+                    <div class="card <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-slide-shell border-0 shadow' : ''; ?>">
+                        <div class="card-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-slide-card-hd' : ''; ?>">
+                            <h3 class="card-title mb-0"><?php echo lang('All the slide names and related informations'); ?></h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -78,19 +101,6 @@
     </section>
 
     <!-- /.content -->
-</div>
-
-
-
-<!--main content end-->
-<!--footer start-->
-
-
-
-
-
-
-
 
 <!-- Edit Event Modal-->
 <div class="modal fade" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -191,7 +201,11 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<!-- Edit Event Modal-->
+<!-- /Edit Event Modal -->
+
+</div><!-- /.content-wrapper -->
+
+<!--main content end-->
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">

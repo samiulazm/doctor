@@ -8,10 +8,13 @@ class Emergency extends MX_Controller
     function __construct()
     {
         parent::__construct();
+        if ($this->ion_auth->in_group('superadmin')) {
+            redirect('superadmin');
+        }
         $this->load->model('emergency_model');
         $this->load->model('patient/patient_model');
         $this->load->model('doctor/doctor_model');
-        if (!$this->ion_auth->in_group(array('superadmin', 'admin', 'Doctor', 'Nurse'))) {
+        if (!$this->ion_auth->in_group(array('admin', 'Doctor', 'Nurse'))) {
             redirect('home/permission');
         }
     }

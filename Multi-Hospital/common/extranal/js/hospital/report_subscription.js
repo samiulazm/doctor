@@ -9,11 +9,11 @@ $(document).ready(function () {
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
         buttons: [
-            { extend: 'copyHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-            { extend: 'excelHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-            { extend: 'csvHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-            { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-            { extend: 'print', exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
+            { extend: 'copyHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'excelHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'csvHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'print', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
         ],
 
         aLengthMenu: [
@@ -29,7 +29,4 @@ $(document).ready(function () {
         },
 
     });
-
-    table.buttons().container()
-        .appendTo('.custom_buttons');
 });

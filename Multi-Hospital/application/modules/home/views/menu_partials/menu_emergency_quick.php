@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<?php if ($this->ion_auth->in_group(array('superadmin', 'admin', 'Doctor', 'Nurse'))) { ?>
+<?php if (!$this->ion_auth->in_group('superadmin') && $this->ion_auth->in_group(array('admin', 'Doctor', 'Nurse'))) { ?>
     <?php $render_sidebar_section('clinical_care', lang('clinical_care')); ?>
     <li class="nav-item">
         <a class="nav-link text-white" href="emergency">
@@ -10,7 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </a>
     </li>
 <?php } ?>
-<?php if ($this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor'))) { ?>
+<?php if (!$this->ion_auth->in_group('superadmin') && $this->ion_auth->in_group(array('admin', 'Nurse', 'Doctor'))) { ?>
     <!-- <li class="nav-item">
         <a class="nav-link text-white" href="#">
             <i class="text-secondary nav-icon fas fa-bolt"></i>

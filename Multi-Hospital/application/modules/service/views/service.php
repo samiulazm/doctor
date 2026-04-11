@@ -1,37 +1,58 @@
+<?php
+$ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
+?>
+<?php if ($ap_settings_saas_ui) : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php endif; ?>
 <link href="common/extranal/css/service.css" rel="stylesheet">
 
-<div class="content-wrapper bg-light">
+<div class="content-wrapper <?php echo $ap_settings_saas_ui ? 'ap-settings-saas bg-light' : 'bg-light'; ?>">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0 py-4' : ''; ?>">
         <div class="container-fluid">
+            <?php if ($ap_settings_saas_ui) : ?>
+            <div class="row align-items-center pl-1">
+                <div class="col-12 col-lg-8">
+                    <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · SaaS</span>
+                    <h1 class="display-4 font-weight-black mb-0">
+                        <i class="fas fa-star mr-2"></i><?php echo lang('reviews'); ?>
+                    </h1>
+                    <nav aria-label="breadcrumb" class="mt-2">
+                        <ol class="breadcrumb bg-transparent mb-0">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo lang('reviews'); ?></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <?php else : ?>
             <div class="row my-2 pl-1">
                 <div class="col-sm-6">
-                    <h1 class="font-weight-bold"><i class="fas fa-star mr-2"></i><?php echo lang('reviews') ?></h1>
+                    <h1 class="font-weight-bold"><i class="fas fa-star mr-2"></i><?php echo lang('reviews'); ?></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('reviews') ?></li>
+                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                        <li class="breadcrumb-item active"><?php echo lang('reviews'); ?></li>
                     </ol>
                 </div>
             </div>
+            <?php endif; ?>
         </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content <?php echo $ap_settings_saas_ui ? 'py-4' : ''; ?>">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><?php echo lang('All the reviews names for frontend website'); ?></h3>
-                            <div class="float-right">
-                                <a data-bs-toggle="modal" href="#myModal">
-                                    <button id="" class="btn btn-success btn-sm">
-                                        <i class="fa fa-plus-circle"></i> <?php echo lang('add_review'); ?>
-                                    </button>
-                                </a>
+                    <div class="card <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-service-shell border-0 shadow' : ''; ?>">
+                        <div class="card-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-service-card-hd d-flex flex-wrap align-items-center justify-content-between gap-2' : 'clearfix'; ?>">
+                            <h3 class="card-title mb-0"><?php echo lang('All the reviews names for frontend website'); ?></h3>
+                            <div class="<?php echo $ap_settings_saas_ui ? '' : 'float-right'; ?>">
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">
+                                    <i class="fa fa-plus-circle"></i> <?php echo lang('add_review'); ?>
+                                </button>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -78,14 +99,6 @@
     </section>
 
     <!-- /.content -->
-</div>
-
-
-<!--main content end-->
-<!--footer start-->
-
-
-
 
 <!-- Add Service Modal-->
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -163,7 +176,11 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<!-- Edit Event Modal-->
+<!-- /Edit Event Modal -->
+
+</div><!-- /.content-wrapper -->
+
+<!--main content end-->
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">

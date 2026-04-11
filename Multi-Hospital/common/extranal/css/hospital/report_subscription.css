@@ -40,21 +40,23 @@ and open the template in the editor.
   background: #eee;
 }
 .button_div {
-  padding-left: 55px;
+  padding-left: 0;
+  display: flex;
+  gap: 0.5rem;
 }
 .submit_button {
   border-radius: 12px !important;
 }
 .section_middle {
-  margin-top: 184px !important;
-  padding-left: 29px !important;
+  margin-top: 0;
+  padding-left: 0;
 }
 .section_middle_child {
   font-size: 12px !important;
   font-weight: 200 !important;
 }
 .section_middle_child_child {
-  width: 159% !important;
+  width: 100%;
 }
 .degree {
   font-size: 18px !important;

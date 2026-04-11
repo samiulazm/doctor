@@ -2,6 +2,10 @@
 <html lang="en">
 <?php
 $settings = $this->frontend_model->getSettings();
+if (!$settings) {
+    show_error('Database is missing <strong>website_settings</strong> data. Import your SQL dump in cPanel → phpMyAdmin, then reload.', 503, 'Database not imported');
+    return;
+}
 $title = explode(' ', $settings->title ?? '');
 if (isset($settings->description) && $settings->description !== '') {
     $meta_description = $settings->description;
@@ -1135,25 +1139,29 @@ if (isset($settings->description) && $settings->description !== '') {
     </footer>
 
 <?php
-            $googleReCaptchaSiteKey =  $this->settings_model->getGoogleReCaptchaSettings()->site_key;
+            $_recaptcha = $this->settings_model->getGoogleReCaptchaSettings();
+            $googleReCaptchaSiteKey = ($_recaptcha && isset($_recaptcha->site_key)) ? $_recaptcha->site_key : '';
             ?>
     <!-- Scroll to Top Button -->
-    <button id="scrollToTopBtn" style="margin-right:50px;" class="fixed bottom-8 right-8 bg-primary-600 text-white p-3 rounded-full shadow-lg transition-opacity duration-300 opacity-0 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+    <button id="scrollToTopBtn" class="fixed bottom-8 right-8 bg-primary-600 text-white p-3 rounded-full shadow-lg transition-opacity duration-300 opacity-0 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
       </svg>
     </button>
 
-    <!-- Scripts -->
+    <!-- Scripts — jQuery must load first so dependent plugins don't throw "jQuery is not defined" -->
+    <script src="common/js/codearistos.min.js"></script>
     <script src="https://kit.fontawesome.com/0257e3c208.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="new-fnt/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/country-select-js@2.1.0/build/js/countrySelect.min.js"></script>
     <script type="text/javascript" src="common/assets/ckeditor/ckeditor.js"></script>
-    <script src="common/js/codearistos.min.js"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    
- 
+    <!-- Payment variables must be defined before front_end.js so Stripe.setPublishableKey(publish) does not throw -->
+    <script>
+        var payment_gateway = "<?php echo isset($settings1->payment_gateway) ? html_escape($settings1->payment_gateway) : ''; ?>";
+        var publish = "<?php echo isset($gateway->publish) ? html_escape($gateway->publish) : ''; ?>";
+    </script>
 <script src="common/extranal/js/frontend/front_end.js"></script>
     <script type="text/javascript">
         // Initialize Swiper
@@ -1179,8 +1187,7 @@ if (isset($settings->description) && $settings->description !== '') {
             },
         });
 
-        var payment_gateway = "<?php echo $settings1->payment_gateway; ?>";
-        var publish = "<?php echo $gateway->publish; ?>";
+        // payment_gateway and publish are defined before front_end.js loads
 
       // Scroll to Top functionality
       const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -1223,21 +1230,23 @@ if (isset($settings->description) && $settings->description !== '') {
             }
         });
 
-        // Language Dropdown
-  document.getElementById('dropdownButton').addEventListener('click', function() {
-    var dropdownMenu = document.getElementById('dropdownMenu');
-    dropdownMenu.classList.toggle('hidden');
-  });
-
-  document.addEventListener('click', function(event) {
-    var isClickInside = document.getElementById('dropdownButton').contains(event.target);
-    if (!isClickInside) {
+        // Language Dropdown (only wire up if the element exists)
+  var _dropdownButton = document.getElementById('dropdownButton');
+  if (_dropdownButton) {
+    _dropdownButton.addEventListener('click', function() {
       var dropdownMenu = document.getElementById('dropdownMenu');
-      if (!dropdownMenu.classList.contains('hidden')) {
-        dropdownMenu.classList.add('hidden');
+      if (dropdownMenu) dropdownMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!_dropdownButton.contains(event.target)) {
+        var dropdownMenu = document.getElementById('dropdownMenu');
+        if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+          dropdownMenu.classList.add('hidden');
+        }
       }
-    }
-  });
+    });
+  }
 
         // Country Select
   $("#country").countrySelect();
@@ -1372,29 +1381,34 @@ function switchPlan(plan) {
 <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $googleReCaptchaSiteKey; ?>"></script>
         <script>
             grecaptcha.ready(function() {
-                // document.getElementById('addNewHospital').addEventListener('submit', function(event) {
-                document.getElementById('recap').addEventListener('input', function(event) {
-                    event.preventDefault();
-                    var form = this;
-                    grecaptcha.execute('<?php echo $googleReCaptchaSiteKey; ?>', {
-                        action: 'submit'
-                    }).then(function(token) {
-                        document.getElementById('recaptchaResponse').value = token;
-                        // form.submit(); // Submit the form after setting the token
+                var _recap = document.getElementById('recap');
+                if (_recap) {
+                    _recap.addEventListener('input', function(event) {
+                        event.preventDefault();
+                        grecaptcha.execute('<?php echo $googleReCaptchaSiteKey; ?>', {
+                            action: 'submit'
+                        }).then(function(token) {
+                            var r = document.getElementById('recaptchaResponse');
+                            if (r) r.value = token;
+                        });
                     });
-                });
+                }
             });
             grecaptcha.ready(function() {
-                document.getElementById('sendEmail').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    var form = this;
-                    grecaptcha.execute('<?php echo $googleReCaptchaSiteKey; ?>', {
-                        action: 'submit'
-                    }).then(function(token) {
-                        document.getElementById('recaptchaResponse1').value = token;
-                        form.submit();
+                var _sendEmail = document.getElementById('sendEmail');
+                if (_sendEmail) {
+                    _sendEmail.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        var form = this;
+                        grecaptcha.execute('<?php echo $googleReCaptchaSiteKey; ?>', {
+                            action: 'submit'
+                        }).then(function(token) {
+                            var r1 = document.getElementById('recaptchaResponse1');
+                            if (r1) r1.value = token;
+                            form.submit();
+                        });
                     });
-                });
+                }
             });
         </script>
             <script>

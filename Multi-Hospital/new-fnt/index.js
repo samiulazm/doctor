@@ -1,15 +1,17 @@
 const menu = document.getElementById('menu');
 const menuItems = document.querySelector('.menu_items');
 
-menu.addEventListener('click', function () {
-  if (menuItems.classList.contains('hidden','opacity-0')) {
-    menuItems.classList.remove('hidden','opacity-0');
-    menuItems.classList.add('flex','opacity-100');
-  } else {
-    menuItems.classList.add('hidden','opacity-0');
-    menuItems.classList.remove('flex','opacity-100');
-  }
-});
+if (menu && menuItems) {
+  menu.addEventListener('click', function () {
+    if (menuItems.classList.contains('hidden','opacity-0')) {
+      menuItems.classList.remove('hidden','opacity-0');
+      menuItems.classList.add('flex','opacity-100');
+    } else {
+      menuItems.classList.add('hidden','opacity-0');
+      menuItems.classList.remove('flex','opacity-100');
+    }
+  });
+}
 document.addEventListener("DOMContentLoaded", function() {
   const yearlyButton = document.getElementById("yearly");
   const monthlyButton = document.getElementById("monthly");
