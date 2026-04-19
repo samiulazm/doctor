@@ -94,6 +94,13 @@
 
                                 </div>
 
+                                <div class="checkbox single_patient_voice" style="display: none;">
+                                    <label>
+                                        <input type="checkbox" name="voice_call" value="1">
+                                        <?php echo lang('voice_call_twilio_single_patient'); ?>
+                                    </label>
+                                </div>
+
 
 
                                 <div class="">

@@ -4975,6 +4975,7 @@ CREATE TABLE `medicine` (
   `effects` varchar(100) DEFAULT NULL,
   `e_date` varchar(70) DEFAULT NULL,
   `add_date` varchar(100) DEFAULT NULL,
+  `interaction_rules_json` text DEFAULT NULL,
   `hospital_id` varchar(100) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
@@ -6519,6 +6520,8 @@ CREATE TABLE `prescription` (
   `note` varchar(1000) DEFAULT NULL,
   `patientname` varchar(1000) DEFAULT NULL,
   `doctorname` varchar(1000) DEFAULT NULL,
+  `rx_content_version` int(11) unsigned NOT NULL DEFAULT 0,
+  `rx_last_updated_at` int(11) unsigned DEFAULT NULL,
   `hospital_id` varchar(100) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 

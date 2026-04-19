@@ -347,4 +347,47 @@ $(document).ready(function () {
         }
 
     });
+
+    var rxCheckTimer = null;
+    function collectSelectedMedicineIds() {
+        var ids = [];
+        $('input[name="medicine[]"]').each(function () {
+            var v = parseInt($(this).val(), 10);
+            if (!isNaN(v) && v > 0) {
+                ids.push(v);
+            }
+        });
+        return ids;
+    }
+    function renderMedicineInteractionAlerts() {
+        var $box = $('#rx_interaction_alerts');
+        if (!$box.length) {
+            return;
+        }
+        var ids = collectSelectedMedicineIds();
+        if (ids.length < 2) {
+            $box.empty();
+            return;
+        }
+        $.post('prescription/medicineInteractions', { medicine: ids }, function (res) {
+            $box.empty();
+            if (!res || !res.alerts || !res.alerts.length) {
+                return;
+            }
+            res.alerts.forEach(function (a) {
+                var sev = (a.severity === 'major') ? 'danger' : 'warning';
+                var msg = $('<div>').text(a.message || '').html();
+                $box.append('<div class="alert alert-' + sev + ' shadow-sm mb-2" role="alert"><strong>Drug check:</strong> ' + msg + '</div>');
+            });
+        }, 'json');
+    }
+    function scheduleMedicineInteractionCheck() {
+        if (rxCheckTimer) {
+            clearTimeout(rxCheckTimer);
+        }
+        rxCheckTimer = setTimeout(renderMedicineInteractionAlerts, 400);
+    }
+    $('#my_select1_disabled').on('select2:select select2:unselect change', scheduleMedicineInteractionCheck);
+    $(document).on('change', 'input[name="medicine[]"]', scheduleMedicineInteractionCheck);
+    scheduleMedicineInteractionCheck();
 });
