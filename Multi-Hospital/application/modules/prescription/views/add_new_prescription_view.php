@@ -232,6 +232,8 @@ if ($this->ion_auth->in_group('Doctor')) {
 
                                                     </div>
 
+                                                    <div id="rx_interaction_alerts" class="col-12 mb-3"></div>
+
                                                     <div class="col-md-12 medicine_block">
                                                         <div class="form-group">
                                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('medicine'); ?></label>
@@ -331,5 +333,8 @@ if ($this->ion_auth->in_group('Doctor')) {
 </script>
 <script type="text/javascript">
     var language = "<?php echo $this->language; ?>";
+</script>
+<script type="text/javascript">
+    window.prescriptionEditorId = <?php echo !empty($prescription->id) ? (int) $prescription->id : 0; ?>;
 </script>
 <script src="common/extranal/js/prescription/add_new_prescription_view.js"></script>

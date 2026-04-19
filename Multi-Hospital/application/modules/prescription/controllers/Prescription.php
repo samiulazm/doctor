@@ -786,6 +786,68 @@ class Prescription extends MX_Controller
             redirect("prescription/viewPrescription?id=" . "$id");
         }
     }
+
+    /**
+     * JSON for assistants: detect doctor save via rx_content_version bump (requires migration).
+     */
+    public function assistantPoll()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            show_error('', 403);
+            return;
+        }
+        if (!$this->ion_auth->in_group(array('admin', 'Doctor', 'Nurse', 'Receptionist', 'Pharmacist'))) {
+            show_error('', 403);
+            return;
+        }
+        $id = (int) $this->input->get('id');
+        $since = (int) $this->input->get('since_version');
+        if ($id < 1) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('error' => 'invalid_id')));
+            return;
+        }
+        $row = $this->prescription_model->getPrescriptionById($id);
+        if (empty($row) || (string) $row->hospital_id !== (string) $this->session->userdata('hospital_id')) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('error' => 'not_found')));
+            return;
+        }
+        $version = 0;
+        $updated = null;
+        if ($this->db->field_exists('rx_content_version', 'prescription')) {
+            $version = isset($row->rx_content_version) ? (int) $row->rx_content_version : 0;
+            $updated = isset($row->rx_last_updated_at) ? (int) $row->rx_last_updated_at : null;
+        }
+        $changed = ($version > $since && $since >= 0);
+        $out = array(
+            'id' => $id,
+            'rx_content_version' => $version,
+            'rx_last_updated_at' => $updated,
+            'changed_since' => $changed,
+            'print_url' => site_url('prescription/viewPrescriptionPrint?id=' . $id),
+        );
+        $this->output->set_content_type('application/json')->set_output(json_encode($out));
+    }
+
+    /**
+     * POST medicine[] ids — returns optional CDS-style alerts from medicine.interaction_rules_json.
+     */
+    public function medicineInteractions()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            show_error('', 403);
+            return;
+        }
+        if (!$this->ion_auth->in_group(array('admin', 'Doctor', 'Nurse', 'Receptionist', 'Pharmacist'))) {
+            show_error('', 403);
+            return;
+        }
+        $ids = $this->input->post('medicine');
+        if (!is_array($ids)) {
+            $ids = array();
+        }
+        $alerts = $this->prescription_model->buildMedicineInteractionAlerts($ids);
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('alerts' => $alerts)));
+    }
 }
 
 /* End of file prescription.php */

@@ -4,6 +4,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 use Twilio\Rest\Client;
+use Twilio\TwiML\VoiceResponse;
 
 class Sms extends MX_Controller
 {
@@ -194,6 +195,7 @@ class Sms extends MX_Controller
         $userId = $this->ion_auth->get_user_id();
         $is_v_v = $this->input->post('radio');
         $settngsname = $this->settings_model->getSettings()->system_vendor;
+        $single_patient_voice_message = '';
         if ($is_v_v == 'allpatient') {
             $patients = $this->patient_model->getpatient();
             foreach ($patients as $patient) {
@@ -270,6 +272,8 @@ class Sms extends MX_Controller
         }
 
 
+        $voice_call = ($this->input->post('voice_call') === '1' || $this->input->post('voice_call') === 1);
+
         if ($is_v_v == 'single_patient') {
             $patient = $this->input->post('patient');
 
@@ -291,6 +295,7 @@ class Sms extends MX_Controller
             $messageprint = $this->parser->parse_string($message, $data1);
             $data2[] = array($patient_detail->phone => $messageprint);
             $single_patient_phone = $patient_detail->phone;
+            $single_patient_voice_message = $messageprint;
             $recipient = 'Patient Id: ' . $patient_detail->id . '<br> Patient Name: ' . $patient_detail->name . '<br> Patient Phone: ' . $patient_detail->phone;
         }
 
@@ -315,11 +320,72 @@ class Sms extends MX_Controller
                 'user' => $this->ion_auth->get_user_id()
             );
             $this->sms_model->insertSms($data);
+            if ($voice_call && $is_v_v == 'single_patient' && !empty($single_patient_phone) && !empty($single_patient_voice_message)) {
+                $this->_twilioVoiceAnnouncement($single_patient_phone, $single_patient_voice_message);
+            }
             show_swal(lang('message_sent'), 'success', lang('success'));
         } else {
             show_swal(lang('not_sent'), 'error', lang('error'));
         }
         redirect('sms/sendView');
+    }
+
+    /**
+     * Twilio fetches this URL (GET) to read announcement text for outbound calls.
+     * Parameter m is base64-encoded UTF-8 text (keep messages short).
+     */
+    public function twilioAnnounceTwiMl()
+    {
+        $raw = $this->input->get('m');
+        $message = '';
+        if (!empty($raw)) {
+            $decoded = base64_decode(rawurldecode($raw), true);
+            if ($decoded !== false) {
+                $message = $decoded;
+            }
+        }
+        $message = trim(strip_tags($message));
+        if ($message === '') {
+            $message = 'This is an announcement from your clinic.';
+        }
+        if (strlen($message) > 900) {
+            $message = substr($message, 0, 900);
+        }
+
+        $response = new VoiceResponse();
+        $response->say($message, array('voice' => 'Polly.Joanna'));
+
+        $this->output->set_content_type('text/xml');
+        $this->output->set_output((string) $response);
+    }
+
+    private function _twilioVoiceAnnouncement($toPhone, $plainMessage)
+    {
+        $sms_gateway = $this->settings_model->getSettings()->sms_gateway;
+        if ($sms_gateway !== 'Twilio') {
+            return;
+        }
+        $smsSettings = $this->sms_model->getSmsSettingsByGatewayName($sms_gateway);
+        if (empty($smsSettings) || empty($smsSettings->sid) || empty($smsSettings->token) || empty($smsSettings->sendernumber)) {
+            return;
+        }
+        $toPhone = trim((string) $toPhone);
+        if ($toPhone === '') {
+            return;
+        }
+
+        $twimlUrl = site_url('sms/twilioAnnounceTwiMl?m=' . rawurlencode(base64_encode($plainMessage)));
+
+        try {
+            $client = new Client($smsSettings->sid, $smsSettings->token);
+            $client->calls->create(
+                $toPhone,
+                $smsSettings->sendernumber,
+                array('url' => $twimlUrl, 'method' => 'GET')
+            );
+        } catch (Exception $e) {
+            log_message('error', 'Twilio voice announcement failed: ' . $e->getMessage());
+        }
     }
 
     function appointmentReminder()

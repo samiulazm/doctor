@@ -545,6 +545,7 @@ $lang['blood_group_wise'] = 'Blood Group Wise';
 $lang['select_blood_group'] = 'Select Blood Group';
 $lang['message'] = 'Message';
 $lang['single_patient'] = 'Single Patient';
+$lang['voice_call_twilio_single_patient'] = 'Also place a voice call (Twilio, single patient only)';
 $lang['staff'] = 'Staff';
 $lang['select_staff'] = 'Select Staff';
 $lang['sms'] = 'SMS';

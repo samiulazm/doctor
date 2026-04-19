@@ -229,53 +229,25 @@ class Medicine_model extends CI_model
     function getMedicineNameByAvailablity($searchTerm)
     {
         if (!empty($searchTerm)) {
-            $fetched_records = $this->db->select('*')
-            ->from('medicine')
-            ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->group_start()
-                ->like('id', $searchTerm)
-                ->or_like('name', $searchTerm)
-            ->group_end()
-            ->get();
-        
-        $query = $fetched_records->result();
-        } else {
-            $this->db->select('*');
-            $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-            $this->db->limit(10);
-            $fetched_records = $this->db->get('medicine');
-            $query = $fetched_records->result();
+            $users = $this->_searchMedicineRowsRanked($searchTerm, 30);
+            $query = array();
+            foreach ($users as $row) {
+                $query[] = (object) $row;
+            }
+            return $query;
         }
-
-        return $query;
+        $this->db->select('*');
+        $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
+        $this->db->limit(10);
+        $fetched_records = $this->db->get('medicine');
+        return $fetched_records->result();
     }
 
     function getMedicineInfo($searchTerm)
     {
         if (!empty($searchTerm)) {
-            $query = $this->db->select('*')
-            ->from('medicine')
-            ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->group_start()
-                ->like('id', $searchTerm)
-                ->or_like('name', $searchTerm)
-            ->group_end()
-            ->get();
-        
-        $users = $query->result_array();
-
-            // $this->db->select('*');
-            // $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-            // $this->db->where("id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%'");
-            // $fetched_records = $this->db->get('medicine');
-            // $users = $fetched_records->result_array();
+            $users = $this->_searchMedicineRowsRanked($searchTerm, 30);
         } else {
-            // $this->db->select('*');
-            // $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-            // $this->db->limit(10);
-            // $fetched_records = $this->db->get('medicine');
-            // $users = $fetched_records->result_array();
-
             $query = $this->db->select('*')
                 ->from('medicine')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
@@ -283,7 +255,6 @@ class Medicine_model extends CI_model
                 ->get();
             $users = $query->result_array();
         }
-        // Initialize Array with fetched data
         $data = array();
         foreach ($users as $user) {
             $data[] = array("id" => $user['id'] . '*' . $user['name'], "text" => $user['name']);
@@ -291,27 +262,84 @@ class Medicine_model extends CI_model
         return $data;
     }
 
+    /**
+     * Broader match (name, generic, company, id) with deterministic ranking for prescribing UX.
+     */
+    private function _searchMedicineRowsRanked($searchTerm, $limit = 30, $inStockOnly = false)
+    {
+        $hid = $this->session->userdata('hospital_id');
+        $term = trim((string) $searchTerm);
+        if ($term === '') {
+            return array();
+        }
+
+        $this->db->where('hospital_id', $hid);
+        if ($inStockOnly) {
+            $this->db->where('quantity >', 0);
+        }
+        $this->db->group_start();
+        $this->db->like('name', $term);
+        $this->db->or_like('generic', $term);
+        $this->db->or_like('company', $term);
+        if (ctype_digit($term)) {
+            $this->db->or_where('id', (int) $term);
+        }
+        $this->db->group_end();
+        $this->db->limit(120);
+        $rows = $this->db->get('medicine')->result_array();
+
+        $t = strtolower($term);
+        foreach ($rows as &$row) {
+            $row['_rank'] = $this->_medicineSearchRank($row, $t, $term);
+        }
+        unset($row);
+        usort($rows, function ($a, $b) {
+            if ($a['_rank'] === $b['_rank']) {
+                return (int) $a['id'] - (int) $b['id'];
+            }
+            return $a['_rank'] - $b['_rank'];
+        });
+        $rows = array_slice($rows, 0, (int) $limit);
+        foreach ($rows as &$row) {
+            unset($row['_rank']);
+        }
+        unset($row);
+        return $rows;
+    }
+
+    private function _medicineSearchRank($row, $termLower, $termRaw)
+    {
+        $name = strtolower((string) (isset($row['name']) ? $row['name'] : ''));
+        $generic = strtolower((string) (isset($row['generic']) ? $row['generic'] : ''));
+        $company = strtolower((string) (isset($row['company']) ? $row['company'] : ''));
+        if ($termRaw !== '' && ctype_digit($termRaw) && (int) $row['id'] === (int) $termRaw) {
+            return 0;
+        }
+        if ($name !== '' && $name === $termLower) {
+            return 1;
+        }
+        if ($name !== '' && strpos($name, $termLower) === 0) {
+            return 2;
+        }
+        if ($name !== '' && strpos($name, $termLower) !== false) {
+            return 3;
+        }
+        if ($generic !== '' && strpos($generic, $termLower) === 0) {
+            return 4;
+        }
+        if ($generic !== '' && strpos($generic, $termLower) !== false) {
+            return 5;
+        }
+        if ($company !== '' && strpos($company, $termLower) !== false) {
+            return 6;
+        }
+        return 50;
+    }
+
     function getMedicineInfoForPharmacySale($searchTerm)
     {
         if (!empty($searchTerm)) {
-            // $this->db->select('*');
-            // $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-            // $this->db->where('quantity >', '0');
-            // $this->db->where("id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%'");
-            // $fetched_records = $this->db->get('medicine');
-            // $users = $fetched_records->result_array();
-
-            $query = $this->db->select('*')
-            ->from('medicine')
-            ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where('quantity >', '0')
-            ->group_start()
-                ->like('id', $searchTerm)
-                ->or_like('name', $searchTerm)
-            ->group_end()
-            ->get();
-        
-        $users = $query->result_array();
+            $users = $this->_searchMedicineRowsRanked($searchTerm, 30, true);
         } else {
             $this->db->select('*');
             $this->db->where('hospital_id', $this->session->userdata('hospital_id'));

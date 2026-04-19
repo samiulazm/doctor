@@ -18,12 +18,15 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $('.single_patient').hide();
+    $('.single_patient_voice').hide();
     $("#myform").on("change", "input[type=radio][name=radio]", function () {
         "use strict";
         if (this.value == 'single_patient') {
             $('.single_patient').show();
+            $('.single_patient_voice').show();
         } else {
             $('.single_patient').hide();
+            $('.single_patient_voice').hide();
         }
     });
 
