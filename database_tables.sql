@@ -8939,6 +8939,365 @@ CREATE TABLE `website_settings` (
 INSERT INTO `website_settings` (`id`, `title`, `logo`, `address`, `phone`, `emergency`, `support`, `email`, `currency`, `block_1_text_under_title`, `service_block__text_under_title`, `doctor_block__text_under_title`, `facebook_id`, `twitter_id`, `google_id`, `youtube_id`, `skype_id`, `x`, `twitter_username`, `block_img_url`, `comment_1`, `comment_2`, `verified_1`, `verified_2`, `comment_logo_1`, `comment_logo_2`, `partner_header_title`, `partner_header_description`, `section_title_1`, `section_title_2`, `section_title_3`, `section_description_1`, `section_description_2`, `section_description_3`, `section_1_text_1`, `section_2_text_1`, `section_3_text_1`, `section_1_text_2`, `section_2_text_2`, `section_3_text_2`, `section_1_text_3`, `section_2_text_3`, `section_3_text_3`, `partner_image_1`, `partner_image_2`, `partner_image_3`, `market_title`, `market_description`, `market_button_link`, `market_image`, `market_commentator_name`, `market_commentator_designation`, `market_comment`, `commentator_profile_image`, `commentator_logo_1`, `commentator_logo_2`, `commentator_logo_3`, `team_title`, `team_description`, `team_button_link`, `team_commentator_name`, `team_commentator_designation`, `team_comment`, `team_verified`, `team_review_logo`, `team_commentator_image`, `registration_block_text`, `contact_us`, `contact_us_email`, `chat_js`, `google_translation_switch_in_frontend`, `language`, `question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `answer1`, `answer2`, `answer3`, `answer4`, `answer5`, `answer6`, `answer7`, `answer8`, `answer9`, `tawk_to_status`) VALUES
 (1, 'Hospital Saas', 'uploads/66b9a2ee3f71ae0484e26a7bNew_Project_(1).png', 'Boropool, Rajbari-770001', '556165156131', '+01234567891', '+01234567891', 'zzenofast@gmail.com', '$', NULL, 'Lets see what our recent customer says.', NULL, 'https://www.facebook.com/rizvi.plabon/', 'https://www.twitter.com/casoft/', 'https://www.google.com/casoft/', 'https://www.youtube.com/casoft/', 'https://www.skype.com/casoft/', NULL, 'codearistos/', 'uploads/customer.svg', NULL, NULL, NULL, NULL, 'uploads/8th-illus.png', 'uploads/module-1.jpg', 'Streamlined Hospital Management', 'Empower your practice with our comprehensive hospital SaaS solution—where technology meets  dental expertise.', 'Empower Hospital Practice', 'Automate with Excellence', 'Unmatched Support', 'Maximize clinic efficiency with our customizable hospital               management SaaS. Streamline operations, enhance care, and propel               growth.', 'Elevate your hospital services with our comprehensive automation               tools. Tailored for clinics big and small.', 'Immediate assistance and extensive resources at your fingertips,               ensuring your clinic', 'If you have an active software license, then you will have access to software support. This really is totally open-source software.', 'Accumulative solutions', 'Organize your hospital', 'Flawless Functionality for Hospital Excellence', 'We are providing all the essential professional services of a firm. For example, inventory management system, purchase order management system, supplier report, and cash-flow management system.', 'Customization Facilities', 'Experience unparalleled reliability with our hospital SaaS. We ensure seamless operation, allowing you to focus on patient care without technical distractions.', 'Streamline Your Practice Management', 'This software is 100% customizable. We are prepared to customize predicates on your own business requirements.', 'uploads/module-2.jpg', 'uploads/module-3.jpg', 'uploads/RD-solicita-facilidad-para-adquisicion.jpg', NULL, NULL, NULL, 'uploads/RD-solicita-facilidad-para-adquisicion1.jpg', NULL, NULL, NULL, 'uploads/photo-1503023345310-bd7c1de61c7d1.jpg', 'uploads/astana.jpg', 'uploads/innnn.jpg', 'uploads/unbounce.jpg', 'Why Choose Our Product?', 'We are providing the most perfect service for you, and our priority is the customer', 'How long do I get support?', 'Engineered for performance', 'Our platform', NULL, NULL, 'uploads/15548217993981.jpg', 'uploads/png-transparent-junior-chamber-international-jci-malaysia-secretariat-organization-united-states-junior-chamber-business-business-blue-text-trademark.png', NULL, 'Contact With Us', NULL, 'Tawk Chat Embed Link', 'yes', NULL, 'Responsive Website', 'Android Apps', 'Admin Panel', 'Administrative Module', 'https://codearistos.net/dev/hmz/frontend', 'Doctor Module', 'https://codearistos.net/dev/hmz/frontend', 'Accountants Module', 'https://codearistos.net/dev/hmz/frontend', 'We have arranged a fully responsive SEO optimized dynamic website. This website ensures your online presence & people will be able to make an online appointment through the website.', 'In today', 'With this software, you can get a superpower administrative module that can provide you an ultimate system of management. In this software, you can create 8 kinds of accounts like doctors, nurses, pharmacists, accountant, laboratorian, receptionist, representative, case managers by using the admin panel, and also can specify their responsibilities separately. As well as, this software has a separate dashboard for each account.', 'We have designed the administrative module for a hospital owner or the person who is accountable to operate the entire hospital smoothly. Using this module, you can manage the entire system easily and efficiently. Because this module includes every important feature like doctors portal, patient portal, appointment scheduling, prescription management, human resource management, bed management, employee, accounts, software settings, role assigning, etc.', 'https://codearistos.net/dev/hmz/frontend', 'A doctor is the most important person to ensure the health condition of any patient. For this purpose, this software has a doctor module. Using this module, doctors can access all important functions that belong to them. As a result, they can maintain patient portals, appointment scheduling & maintaining, prescription making, and any other things that are related to hospital activities.', 'https://codearistos.net/dev/hmz/frontend', 'Accountants are responsible to control monetary flow, profit-and- loss calculation. Patients are considered the main factor of this software. Moreover, they are the key earning source of this system. So this module allows access to the patient portal. Besides, the Accountant module also has the access account creation option, like debit or credit account based on expense and earning, employee name, and billing. With this software, you can get a complete clinic management system that helps to understand both technical or non-technical people.', 'https://codearistos.net/dev/hmz/frontend', 'no');
 
+
+--
+-- Chamber / practice SaaS (migrations 20260419000007, 20260420000008, weekly hours 20260421000009)
+--
+
+--
+-- Table structure for table `bd_payment_intent`
+--
+
+CREATE TABLE `bd_payment_intent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `queue_id` int(11) NOT NULL,
+  `gateway` enum('sslcommerz','bkash') NOT NULL,
+  `amount` decimal(12,2) NOT NULL,
+  `currency` varchar(8) NOT NULL DEFAULT 'BDT',
+  `status` enum('created','success','failed') NOT NULL DEFAULT 'created',
+  `gateway_session_id` varchar(255) DEFAULT NULL,
+  `meta_json` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_queue` (`queue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking_otp_session`
+--
+
+CREATE TABLE `booking_otp_session` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `mobile` varchar(32) NOT NULL,
+  `otp_hash` varchar(128) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `attempts` int(11) NOT NULL DEFAULT 0,
+  `verified_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_mobile_hospital` (`hospital_id`, `mobile`, `expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chamber_queue_ticker`
+--
+
+CREATE TABLE `chamber_queue_ticker` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `chamber_id` int(11) NOT NULL,
+  `queue_date` date NOT NULL,
+  `current_queue_id` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_chamber_day` (`doctor_id`, `chamber_id`, `queue_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chamber_serial_queue`
+--
+
+CREATE TABLE `chamber_serial_queue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `chamber_id` int(11) NOT NULL,
+  `queue_date` date NOT NULL,
+  `serial_number` int(11) NOT NULL,
+  `sort_position` decimal(12,4) NOT NULL DEFAULT 0.0000,
+  `status` enum('pending','arrived','serving','done','cancelled') NOT NULL DEFAULT 'pending',
+  `patient_id` int(11) DEFAULT NULL,
+  `guest_name` varchar(255) DEFAULT NULL,
+  `guest_phone` varchar(50) DEFAULT NULL,
+  `appointment_id` int(11) DEFAULT NULL,
+  `triage_json` longtext DEFAULT NULL,
+  `advance_fee_amount` decimal(12,2) DEFAULT NULL,
+  `advance_payment_status` enum('none','pending','paid') NOT NULL DEFAULT 'none',
+  `remarks` varchar(1000) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_queue_day` (`doctor_id`, `chamber_id`, `queue_date`, `status`),
+  KEY `idx_hospital` (`hospital_id`),
+  KEY `idx_sort` (`doctor_id`, `chamber_id`, `queue_date`, `sort_position`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_chamber`
+--
+
+CREATE TABLE `doctor_chamber` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` text DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `weekly_hours_json` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_doctor` (`doctor_id`, `hospital_id`, `is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_portal_profile`
+--
+
+CREATE TABLE `doctor_portal_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `public_slug` varchar(191) NOT NULL,
+  `specialty_label` varchar(255) DEFAULT NULL,
+  `hero_image` varchar(500) DEFAULT NULL,
+  `booking_enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `signature_image` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_doctor` (`doctor_id`),
+  UNIQUE KEY `uniq_hospital_slug` (`hospital_id`, `public_slug`),
+  KEY `idx_hospital` (`hospital_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_schedule_exception`
+--
+
+CREATE TABLE `doctor_schedule_exception` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `chamber_id` int(11) DEFAULT NULL,
+  `exception_date` date NOT NULL,
+  `is_closed` tinyint(1) NOT NULL DEFAULT 1,
+  `open_time` varchar(20) DEFAULT NULL,
+  `close_time` varchar(20) DEFAULT NULL,
+  `reason` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_doctor_date` (`doctor_id`, `exception_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_subscription`
+--
+
+CREATE TABLE `doctor_subscription` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `status` enum('active','past_due','cancelled') NOT NULL DEFAULT 'active',
+  `starts_at` date NOT NULL,
+  `ends_at` date DEFAULT NULL,
+  `last_paid_at` date DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_doctor` (`doctor_id`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medicine_reminder`
+--
+
+CREATE TABLE `medicine_reminder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `medicine_label` varchar(255) NOT NULL,
+  `dose_times_json` text NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `last_sent_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_patient` (`patient_id`, `is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patient_practice_tag`
+--
+
+CREATE TABLE `patient_practice_tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `tag` enum('high_risk','follow_up','vip') NOT NULL,
+  `notes` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_tag` (`doctor_id`, `patient_id`, `tag`),
+  KEY `idx_patient` (`patient_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prescription_favorite`
+--
+
+CREATE TABLE `prescription_favorite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `medicine_lines_json` mediumtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_doctor` (`doctor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prescription_print_template`
+--
+
+CREATE TABLE `prescription_print_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `header_html` mediumtext DEFAULT NULL,
+  `footer_html` mediumtext DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_doctor_tpl` (`doctor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referral_lab_event`
+--
+
+CREATE TABLE `referral_lab_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `discount_code` varchar(64) NOT NULL,
+  `lab_name` varchar(255) DEFAULT NULL,
+  `status` enum('sent','report_ready') NOT NULL DEFAULT 'sent',
+  `patient_phone` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `report_ready_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_doctor` (`doctor_id`),
+  KEY `idx_code` (`discount_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_credit_ledger`
+--
+
+CREATE TABLE `sms_credit_ledger` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) DEFAULT NULL,
+  `delta` int(11) NOT NULL,
+  `balance_after` int(11) NOT NULL DEFAULT 0,
+  `reason` varchar(255) DEFAULT NULL,
+  `ref_type` varchar(64) DEFAULT NULL,
+  `ref_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_hospital_doctor` (`hospital_id`, `doctor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscription_plan`
+--
+
+CREATE TABLE `subscription_plan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(64) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `interval_unit` enum('monthly','yearly') NOT NULL DEFAULT 'monthly',
+  `price` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `features_json` text DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `subscription_plan`
+--
+
+INSERT INTO `subscription_plan` (`id`, `code`, `name`, `interval_unit`, `price`, `features_json`, `is_active`) VALUES
+(1, 'pro', 'Professional', 'monthly', 0.00, '["queue","otp","portal"]', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usage_analytics_event`
+--
+
+CREATE TABLE `usage_analytics_event` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `doctor_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `event_type` varchar(64) NOT NULL,
+  `meta_json` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_hospital_type` (`hospital_id`, `event_type`, `created_at`),
+  KEY `idx_doctor` (`doctor_id`, `created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visit_vital`
+--
+
+CREATE TABLE `visit_vital` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hospital_id` int(11) NOT NULL,
+  `queue_id` int(11) NOT NULL,
+  `bp_systolic` varchar(20) DEFAULT NULL,
+  `bp_diastolic` varchar(20) DEFAULT NULL,
+  `pulse` varchar(20) DEFAULT NULL,
+  `weight_kg` varchar(20) DEFAULT NULL,
+  `recorded_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_queue` (`queue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 --
 -- Indexes for dumped tables
 --
@@ -9032,7 +9391,8 @@ ALTER TABLE `ambulance_rates`
 -- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_chamber_appt_doctor_date` (`hospital_id`, `doctor`, `date`);
 
 --
 -- Indexes for table `attendance`
@@ -9543,7 +9903,8 @@ ALTER TABLE `package`
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_chamber_patient_phone` (`hospital_id`, `phone`(32));
 
 --
 -- Indexes for table `patient_deposit`
