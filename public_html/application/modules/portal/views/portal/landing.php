@@ -1,42 +1,54 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $img = !empty($profile->hero_image) ? base_url($profile->hero_image) : base_url('uploads/default-image.png');
+$fee = (isset($profile->advance_booking_fee) && (float) $profile->advance_booking_fee > 0) ? number_format((float) $profile->advance_booking_fee, 2) . ' BDT' : 'No advance fee';
 ?>
-<div class="container py-4">
-    <div class="hero row align-items-center">
-        <div class="col-md-4 text-center mb-3 mb-md-0">
-            <img src="<?php echo htmlspecialchars($img); ?>" alt="" class="img-fluid rounded shadow" style="max-height:220px;object-fit:cover;">
-        </div>
-        <div class="col-md-8">
-            <h1 class="h2 mb-2"><?php echo htmlspecialchars($doctor->name); ?></h1>
-            <p class="lead mb-3"><?php echo htmlspecialchars($profile->specialty_label ?: $doctor->department_name); ?></p>
-            <?php if (isset($profile->advance_booking_fee) && (float) $profile->advance_booking_fee > 0) : ?>
-                <p class="mb-3">Advance booking fee: <strong><?php echo htmlspecialchars(number_format((float) $profile->advance_booking_fee, 2)); ?> BDT</strong></p>
-            <?php endif; ?>
-            <a class="btn btn-warning btn-lg font-weight-bold" href="<?php echo site_url('portal/triage/' . rawurlencode($slug)); ?>">Book serial now</a>
+<div class="container chamber-public-container py-3">
+    <div class="chamber-public-hero" style="background-image:url('<?php echo htmlspecialchars($img, ENT_QUOTES, 'UTF-8'); ?>');">
+        <div class="chamber-public-hero-content">
+            <div class="chamber-kicker">Doctor serial booking</div>
+            <h1><?php echo htmlspecialchars($doctor->name); ?></h1>
+            <p class="lead mb-0"><?php echo htmlspecialchars($profile->specialty_label ?: $doctor->department_name); ?></p>
+            <div class="chamber-public-hero-meta">
+                <span class="chamber-public-pill"><i class="fas fa-stethoscope"></i> <?php echo htmlspecialchars($profile->specialty_label ?: $doctor->department_name); ?></span>
+                <span class="chamber-public-pill"><i class="fas fa-credit-card"></i> <?php echo htmlspecialchars($fee); ?></span>
+            </div>
+            <a class="btn btn-warning btn-lg font-weight-bold" href="<?php echo site_url('portal/triage/' . rawurlencode($slug)); ?>">
+                <i class="fas fa-calendar-check mr-1"></i> Book serial now
+            </a>
         </div>
     </div>
     <?php if (!empty($chambers)) : ?>
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">Chamber availability</h5>
-            <div class="form-inline mb-2">
-                <label class="mr-2">Chamber</label>
-                <select id="chamberSel" class="form-control mr-3">
-                    <?php foreach ($chambers as $c) : ?>
-                        <option value="<?php echo (int) $c->id; ?>"
-                                data-address="<?php echo htmlspecialchars((string) $c->address, ENT_QUOTES, 'UTF-8'); ?>"
-                                data-phone="<?php echo htmlspecialchars((string) $c->phone, ENT_QUOTES, 'UTF-8'); ?>"
-                                data-hours="<?php echo htmlspecialchars(json_encode(isset($c->weekly_hours) ? $c->weekly_hours : array()), ENT_QUOTES, 'UTF-8'); ?>">
-                            <?php echo htmlspecialchars($c->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <label class="mr-2">Date</label>
-                <input type="date" id="qdate" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+    <div class="chamber-public-grid">
+        <div class="chamber-public-panel">
+            <div class="chamber-panel-header px-0 pt-0">
+                <h2 class="chamber-panel-title"><i class="fas fa-map-marker-alt text-info mr-1"></i> Chamber availability</h2>
             </div>
-            <div id="chamberInfo" class="small text-muted mb-2"></div>
-            <div id="ticker" class="ticker">Current serial: -</div>
+            <div class="form-row mt-3">
+                <div class="col-md-7 mb-3">
+                    <label>Chamber</label>
+                    <select id="chamberSel" class="form-control">
+                        <?php foreach ($chambers as $c) : ?>
+                            <option value="<?php echo (int) $c->id; ?>"
+                                    data-address="<?php echo htmlspecialchars((string) $c->address, ENT_QUOTES, 'UTF-8'); ?>"
+                                    data-phone="<?php echo htmlspecialchars((string) $c->phone, ENT_QUOTES, 'UTF-8'); ?>"
+                                    data-hours="<?php echo htmlspecialchars(json_encode(isset($c->weekly_hours) ? $c->weekly_hours : array()), ENT_QUOTES, 'UTF-8'); ?>">
+                                <?php echo htmlspecialchars($c->name); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label>Date</label>
+                    <input type="date" id="qdate" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+            </div>
+            <div id="chamberInfo" class="chamber-muted small"></div>
+        </div>
+        <div class="chamber-public-panel">
+            <h2 class="chamber-panel-title mb-3"><i class="fas fa-broadcast-tower text-warning mr-1"></i> Live queue</h2>
+            <div id="ticker" class="chamber-ticker"><i class="fas fa-circle-notch fa-spin"></i> Current serial: -</div>
+            <p class="chamber-muted small mt-3 mb-0">Queue status refreshes automatically while the chamber desk updates the current serial.</p>
         </div>
     </div>
     <script>

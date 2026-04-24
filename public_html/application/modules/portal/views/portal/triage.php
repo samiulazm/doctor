@@ -1,9 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="container py-4">
-    <h3 class="mb-4">Book your serial</h3>
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5>Mobile verification (OTP)</h5>
+<div class="container chamber-public-container py-4">
+    <div class="chamber-public-head">
+        <div>
+            <div class="chamber-kicker">Secure booking</div>
+            <h1>Book your serial</h1>
+            <p class="chamber-subtitle mb-0">Verify your phone, add visit details, and choose a chamber date.</p>
+        </div>
+        <a class="btn btn-outline-secondary" href="<?php echo site_url('portal/d/' . rawurlencode($slug)); ?>">
+            <i class="fas fa-arrow-left mr-1"></i> Back
+        </a>
+    </div>
+    <div class="chamber-stepper">
+        <div class="chamber-step"><strong>1. Identity</strong><span>Name, age, gender</span></div>
+        <div class="chamber-step"><strong>2. Symptoms</strong><span>Problem and duration</span></div>
+        <div class="chamber-step"><strong>3. Attachments</strong><span>Reports or previous Rx</span></div>
+    </div>
+    <div class="chamber-public-panel">
+        <div class="chamber-panel-header px-0 pt-0">
+            <h2 class="chamber-panel-title"><i class="fas fa-mobile-alt text-info mr-1"></i> Mobile verification</h2>
+            <?php if (!empty($verified)) : ?>
+                <span class="chamber-status done">Verified</span>
+            <?php endif; ?>
+        </div>
+        <div class="pt-3">
             <?php if (!empty($verified)) : ?>
             <p>Verified number: <strong><?php echo htmlspecialchars($phone); ?></strong></p>
             <?php else : ?>
@@ -27,11 +46,11 @@
             <?php endif; ?>
         </div>
     </div>
-    <form id="bookingForm" method="post" action="<?php echo site_url('portal/complete_booking'); ?>" enctype="multipart/form-data" class="card" style="<?php echo (empty($verified) || empty($chambers)) ? 'display:none' : ''; ?>">
-        <div class="card-body">
+    <form id="bookingForm" method="post" action="<?php echo site_url('portal/complete_booking'); ?>" enctype="multipart/form-data" class="chamber-public-panel" style="<?php echo (empty($verified) || empty($chambers)) ? 'display:none' : ''; ?>">
+        <div>
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
             <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug); ?>">
-            <h5>Step 1 - Identity</h5>
+            <h2 class="chamber-panel-title mb-3">Step 1 - Identity</h2>
             <div class="form-row">
                 <div class="col-md-4 mb-2"><input class="form-control" name="name" required placeholder="Full name"></div>
                 <div class="col-md-2 mb-2"><input class="form-control" name="age" placeholder="Age"></div>
@@ -40,16 +59,16 @@
                 </div>
                 <div class="col-md-3 mb-2"><input class="form-control" readonly value="Advance fee: <?php echo (isset($profile->advance_booking_fee) && (float) $profile->advance_booking_fee > 0) ? htmlspecialchars(number_format((float) $profile->advance_booking_fee, 2) . ' BDT') : 'None'; ?>"></div>
             </div>
-            <h5 class="mt-3">Step 2 - Symptoms</h5>
+            <h2 class="chamber-panel-title mt-4 mb-3">Step 2 - Symptoms</h2>
             <div class="form-group">
                 <textarea class="form-control" name="symptom" rows="2" placeholder="Problem"></textarea>
             </div>
             <div class="form-group">
                 <input class="form-control" name="duration" placeholder="Duration">
             </div>
-            <h5 class="mt-3">Step 3 - Attachments (optional)</h5>
+            <h2 class="chamber-panel-title mt-4 mb-3">Step 3 - Attachments</h2>
             <input type="file" name="attachments[]" class="form-control-file" multiple accept="image/*,.pdf">
-            <h5 class="mt-3">Chamber &amp; date</h5>
+            <h2 class="chamber-panel-title mt-4 mb-3">Chamber and date</h2>
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                     <select class="form-control" name="chamber_id" required>
@@ -62,7 +81,7 @@
                     <input type="date" class="form-control" name="queue_date" required value="<?php echo date('Y-m-d'); ?>">
                 </div>
             </div>
-            <button type="submit" class="btn btn-success mt-3">Confirm booking</button>
+            <button type="submit" class="btn btn-success mt-3"><i class="fas fa-check-circle mr-1"></i> Confirm booking</button>
         </div>
     </form>
 </div>

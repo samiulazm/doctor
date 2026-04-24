@@ -56,3 +56,7 @@ INFO - 2026-04-24 19:56:09 --> CSRF cookie sent
 INFO - 2026-04-24 19:56:09 --> Input Class Initialized
 INFO - 2026-04-24 19:56:09 --> Language Class Initialized
 ERROR - 2026-04-24 19:56:09 --> 404 Page Not Found: /index
+ERROR - 2026-04-24 21:05:34 --> Severity: error --> Exception: No connection could be made because the target machine actively refused it C:\Users\Samiul\Pictures\doctor\public_html\system\database\drivers\mysqli\mysqli_driver.php 203
+ERROR - 2026-04-24 21:12:23 --> Severity: error --> Exception: No connection could be made because the target machine actively refused it C:\Users\Samiul\Pictures\doctor\public_html\system\database\drivers\mysqli\mysqli_driver.php 203
+ERROR - 2026-04-24 21:12:29 --> Severity: error --> Exception: No connection could be made because the target machine actively refused it C:\Users\Samiul\Pictures\doctor\public_html\system\database\drivers\mysqli\mysqli_driver.php 203
+ERROR - 2026-04-24 21:16:35 --> Severity: error --> Exception: No connection could be made because the target machine actively refused it C:\Users\Samiul\Pictures\doctor\public_html\system\database\drivers\mysqli\mysqli_driver.php 203

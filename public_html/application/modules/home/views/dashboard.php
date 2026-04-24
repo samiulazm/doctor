@@ -78,6 +78,7 @@
   <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap5.min.css">
 
   <link rel="stylesheet" href="adminlte/dist/css/changes.css">
+  <link rel="stylesheet" href="common/css/chamber-practice.css">
 
   <link rel="stylesheet" href="adminlte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
   <link rel="stylesheet" href="adminlte/plugins/select2/css/select2.min.css">

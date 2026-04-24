@@ -188,6 +188,33 @@ class Assistant_chamber extends MX_Controller
         redirect('assistant_chamber/bulk_sms');
     }
 
+    public function bulk_call_request()
+    {
+        if ($this->input->method() !== 'post') {
+            show_404();
+        }
+        $hid = $this->session->userdata('hospital_id');
+        $script = trim((string) $this->input->post('call_script'));
+        $phones = preg_split('/\s*,\s*|\s+/', trim((string) $this->input->post('phones')));
+        $clean = array();
+        foreach ($phones as $p) {
+            $p = preg_replace('/\D+/', '', $p);
+            if (strlen($p) >= 10) {
+                $clean[$p] = $p;
+            }
+        }
+        if (empty($clean) || $script === '') {
+            show_error('Phone numbers and call script are required', 400);
+        }
+        $this->chamber_platform_model->logUsage($hid, 'assistant_ai_call_request', null, $this->ion_auth->get_user_id(), array(
+            'phones' => array_values($clean),
+            'script' => $script,
+            'status' => 'queued_for_telephony_integration',
+        ));
+        $this->session->set_flashdata('chamber_bulk_msg', 'AI call request queued for ' . count($clean) . ' contacts. Connect a telephony worker to usage analytics event assistant_ai_call_request to place calls.');
+        redirect('assistant_chamber/bulk_sms');
+    }
+
     public function mark_queue_fee_paid()
     {
         if ($this->input->method() !== 'post') {
@@ -252,6 +279,30 @@ class Assistant_chamber extends MX_Controller
         }
         $this->queue_model->updateRow($id, array('status' => 'serving'));
         $this->queue_model->setTicker($hid, $row->doctor_id, $row->chamber_id, $row->queue_date, $id);
+        redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
+    }
+
+    public function mark_status()
+    {
+        if ($this->input->method() !== 'post') {
+            show_404();
+        }
+        $id = (int) $this->input->post('queue_id');
+        $status = (string) $this->input->post('status');
+        if (!in_array($status, array('done', 'cancelled'), true)) {
+            show_error('Invalid status', 400);
+        }
+        $hid = $this->session->userdata('hospital_id');
+        $row = $this->queue_model->getRow($id, $hid);
+        if (!$row) {
+            show_404();
+        }
+        $this->queue_model->updateRow($id, array('status' => $status));
+        $current = $this->queue_model->getTicker($row->doctor_id, $row->chamber_id, $row->queue_date);
+        if ($current && (int) $current->id === $id) {
+            $this->queue_model->setTicker($hid, $row->doctor_id, $row->chamber_id, $row->queue_date, null);
+        }
+        $this->chamber_platform_model->logUsage($hid, 'assistant_queue_' . $status, $row->doctor_id, $this->ion_auth->get_user_id(), array('queue_id' => $id));
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
 

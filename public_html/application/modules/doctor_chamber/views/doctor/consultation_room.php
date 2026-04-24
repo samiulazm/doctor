@@ -9,22 +9,36 @@ if (!empty($favorites)) {
     }
 }
 ?>
-<div class="content-wrapper">
-    <section class="content-header"><h1>Consultation room</h1></section>
+<div class="content-wrapper chamber-ui">
+    <section class="content-header">
+        <div class="chamber-head">
+            <div>
+                <div class="chamber-kicker">Doctor portal</div>
+                <h1>Consultation room</h1>
+                <p class="chamber-subtitle mb-0">Patient context on the left, active digital prescription on the right.</p>
+            </div>
+            <div class="chamber-actions">
+                <a class="btn btn-outline-primary" href="<?php echo site_url('ai_patient_overview'); ?>"><i class="fas fa-brain"></i> AI overview</a>
+                <a class="btn btn-outline-primary" href="<?php echo site_url('ai_image_analysis'); ?>"><i class="fas fa-x-ray"></i> Image analysis</a>
+                <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/dashboard'); ?>"><i class="fas fa-arrow-left"></i> Dashboard</a>
+            </div>
+        </div>
+    </section>
     <section class="content">
-        <form method="get" class="form-inline mb-3">
+        <form method="get" class="chamber-toolbar">
             <input type="number" name="patient" class="form-control mr-2" placeholder="Patient ID" value="<?php echo $patient ? (int) $patient->id : ''; ?>">
-            <button class="btn btn-primary" type="submit">Load</button>
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Load</button>
         </form>
         <div class="row">
             <div class="col-md-6">
-                <div class="card card-outline card-secondary">
-                    <div class="card-header"><h3 class="card-title">History &amp; context</h3></div>
-                    <div class="card-body">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header"><h3 class="chamber-panel-title">History &amp; context</h3></div>
+                    <div class="chamber-panel-body">
                         <?php if ($patient) : ?>
-                            <p><strong><?php echo htmlspecialchars($patient->name); ?></strong> — <?php echo htmlspecialchars($patient->phone); ?></p>
+                            <p><strong><?php echo htmlspecialchars($patient->name); ?></strong> - <?php echo htmlspecialchars($patient->phone); ?></p>
                             <a class="btn btn-sm btn-outline-primary" target="_blank" href="<?php echo site_url('patient/medicalHistory?id=' . (int) $patient->id); ?>">Medical history</a>
                             <a class="btn btn-sm btn-outline-primary" target="_blank" href="<?php echo site_url('patient/caseList'); ?>">Cases</a>
+                            <a class="btn btn-sm btn-outline-primary" href="<?php echo site_url('ai_patient_overview'); ?>"><i class="fas fa-brain"></i> AI brief</a>
                         <?php else : ?>
                             <p class="text-muted">Enter a patient ID to load history links.</p>
                         <?php endif; ?>
@@ -69,9 +83,9 @@ if (!empty($favorites)) {
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-outline card-primary">
-                    <div class="card-header"><h3 class="card-title">E-Pad (prescription)</h3></div>
-                    <div class="card-body">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header"><h3 class="chamber-panel-title">E-Pad (prescription)</h3></div>
+                    <div class="chamber-panel-body">
                         <?php if ($patient) : ?>
                             <p class="small text-muted mb-2">Full composer embedded below (same workflow as the main prescription screen).</p>
                             <div class="border rounded bg-white" style="min-height:52rem;">
@@ -94,7 +108,7 @@ if (!empty($favorites)) {
                             <?php endforeach; ?>
                         </ul>
                         <label class="small text-muted">Scratch pad</label>
-                        <textarea id="rxScratch" class="form-control small" rows="4" placeholder="Favorite lines appear here…"></textarea>
+                        <textarea id="rxScratch" class="form-control small" rows="4" placeholder="Favorite lines appear here..."></textarea>
                         <?php endif; ?>
                         <hr>
                         <h5>Drug search</h5>

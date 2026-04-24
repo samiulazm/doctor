@@ -182,7 +182,8 @@ class Portal extends MX_Controller
         if (!$chamber_id || !$queue_date) {
             redirect('portal/triage/' . rawurlencode($slug));
         }
-        if (!$this->portal_model->getChamberIfOwned($chamber_id, $doctor->id, $hid)) {
+        $chamber = $this->portal_model->getChamberIfOwned($chamber_id, $doctor->id, $hid);
+        if (!$chamber) {
             show_error('Invalid chamber', 400);
         }
         $qd_ts = strtotime((string) $queue_date);
@@ -191,6 +192,36 @@ class Portal extends MX_Controller
         }
         if ($qd_ts < strtotime('today')) {
             show_error('Queue date cannot be in the past', 400);
+        }
+        $s_time = '09:00';
+        $e_time = '09:30';
+        $this->db->where('hospital_id', $hid);
+        $this->db->where('doctor_id', $doctor->id);
+        $this->db->where('exception_date', date('Y-m-d', $qd_ts));
+        $this->db->group_start();
+        $this->db->where('chamber_id', $chamber_id);
+        $this->db->or_where('chamber_id IS NULL', null, false);
+        $this->db->group_end();
+        $this->db->order_by('chamber_id', 'desc');
+        $this->db->limit(1);
+        $exception = $this->db->get('doctor_schedule_exception')->row();
+        if ($exception && (int) $exception->is_closed === 1) {
+            show_error('This chamber is closed on the selected date. Please choose another date.', 400);
+        }
+        if ($exception && !empty($exception->open_time) && !empty($exception->close_time)) {
+            $s_time = $exception->open_time;
+            $e_time = $exception->close_time;
+        } elseif (!empty($chamber->weekly_hours_json)) {
+            $weekly = @json_decode($chamber->weekly_hours_json, true);
+            if (is_array($weekly) && !empty($weekly)) {
+                $day_key = strtolower(date('D', $qd_ts));
+                $day_key = array('mon' => 'mon', 'tue' => 'tue', 'wed' => 'wed', 'thu' => 'thu', 'fri' => 'fri', 'sat' => 'sat', 'sun' => 'sun')[$day_key];
+                if (empty($weekly[$day_key]) || empty($weekly[$day_key]['open']) || empty($weekly[$day_key]['close'])) {
+                    show_error('This chamber has no regular hours on the selected date.', 400);
+                }
+                $s_time = $weekly[$day_key]['open'];
+                $e_time = $weekly[$day_key]['close'];
+            }
         }
         $maxBookingsPer10Min = 5;
         $recentBookings = $this->portal_model->countRecentPortalQueueBookings($hid, $phone, time() - 600);
@@ -237,8 +268,6 @@ class Portal extends MX_Controller
         $add_date = date('m/d/Y');
         $registration_time = time();
         $date_ts = strtotime($queue_date);
-        $s_time = '09:00';
-        $e_time = '09:30';
         $time_slot = $s_time . ' To ' . $e_time;
         $patientname = $name;
         $doctorname = $doctor->name;

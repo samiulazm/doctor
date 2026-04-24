@@ -267,7 +267,10 @@ class Prescription extends MX_Controller
                 $data['chamber_rx_header'] = '';
                 $data['chamber_rx_footer'] = '';
                 $data['chamber_signature_url'] = '';
-                if (!empty($data['prescription']->doctor)) {
+                if (!function_exists('chamber_practice_enabled_for_hospital')) {
+                    $this->load->helper('chamber_practice');
+                }
+                if (!empty($data['prescription']->doctor) && chamber_practice_enabled_for_hospital($this, (int) $data['prescription']->hospital_id)) {
                     $this->db->where('doctor_id', $data['prescription']->doctor);
                     $tpl = $this->db->get('prescription_print_template')->row();
                     if ($tpl) {

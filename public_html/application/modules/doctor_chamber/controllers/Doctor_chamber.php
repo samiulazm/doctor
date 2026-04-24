@@ -331,10 +331,15 @@ class Doctor_chamber extends MX_Controller
     public function schedule_exceptions()
     {
         $doc = $this->currentDoctor();
+        $this->portal_model->ensureDefaultChamber($doc->id, $doc->hospital_id);
         $this->db->where('doctor_id', $doc->id);
         $this->db->order_by('exception_date', 'desc');
         $rows = $this->db->get('doctor_schedule_exception')->result();
-        $data = array('settings' => $this->settings_model->getSettings(), 'rows' => $rows, 'doctor' => $doc);
+        $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->order_by('sort_order', 'asc');
+        $chambers = $this->db->get('doctor_chamber')->result();
+        $data = array('settings' => $this->settings_model->getSettings(), 'rows' => $rows, 'doctor' => $doc, 'chambers' => $chambers);
         $this->load->view('home/dashboard', $data);
         $this->load->view('doctor/schedule_exceptions', $data);
         $this->load->view('home/footer');
@@ -346,12 +351,18 @@ class Doctor_chamber extends MX_Controller
             show_404();
         }
         $doc = $this->currentDoctor();
+        $chamber_id = (int) $this->input->post('chamber_id');
+        if ($chamber_id > 0 && !$this->portal_model->getChamberIfOwned($chamber_id, $doc->id, $doc->hospital_id)) {
+            show_error('Invalid chamber', 400);
+        }
         $this->db->insert('doctor_schedule_exception', array(
             'hospital_id' => $doc->hospital_id,
             'doctor_id' => $doc->id,
-            'chamber_id' => $this->input->post('chamber_id') ?: null,
+            'chamber_id' => $chamber_id > 0 ? $chamber_id : null,
             'exception_date' => $this->input->post('exception_date'),
             'is_closed' => $this->input->post('is_closed') ? 1 : 0,
+            'open_time' => $this->input->post('open_time') ?: null,
+            'close_time' => $this->input->post('close_time') ?: null,
             'reason' => $this->input->post('reason'),
         ));
         redirect('doctor_chamber/schedule_exceptions');
