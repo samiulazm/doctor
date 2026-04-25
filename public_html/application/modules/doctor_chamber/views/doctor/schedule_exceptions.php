@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
@@ -32,6 +32,9 @@
                     <td><?php echo htmlspecialchars($r->reason); ?></td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (empty($rows)) : ?>
+                <tr><td colspan="6" class="text-muted text-center py-4">No schedule exceptions have been added.</td></tr>
+            <?php endif; ?>
         </tbody></table>
         </div></div>
         <form method="post" action="<?php echo site_url('doctor_chamber/schedule_save'); ?>" class="chamber-panel">

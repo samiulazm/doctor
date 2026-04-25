@@ -1,8 +1,11 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <link href="common/extranal/css/finance/daily.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
 <?php
 $currently_processing_month = date('m', $first_minute);
@@ -23,53 +26,48 @@ if ($currently_processing_month > 1) {
     $previous_year = $currently_processing_year - 1;
 }
 ?>
+<?php
+$daily_expense_title = date('F, Y', $first_minute) . ' ' . lang('hospital') . ' ' . lang('expense_report');
+?>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $daily_expense_title,
+        'icon' => 'fas fa-receipt text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => $daily_expense_title, 'url' => null),
+        ),
+    ));
+    ?>
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
+    <section class="content py-4">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-money-bill-wave text-primary mr-3"></i>
-                        <?php echo date('F, Y', $first_minute) . ' ' . lang('hospital') . ' ' . lang('expense_report'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo date('F, Y', $first_minute) . ' ' . lang('hospital') . ' ' . lang('expense_report'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="finance/dailyExpense?year=<?php echo $previous_year; ?>&month=<?php echo $previous_month; ?>" class="btn btn-warning btn-sm px-4 py-3 mr-2">
-                        <i class="fa fa-arrow-left"></i> <?php echo lang('previous'); ?>
-                    </a>
-                    <a href="finance/dailyExpense?year=<?php echo $next_year; ?>&month=<?php echo $next_month; ?>" class="btn btn-success btn-sm px-4 py-3 mr-2">
-                        <i class="fa fa-arrow-right"></i> <?php echo lang('next'); ?>
-                    </a>
-                    <a class="btn btn-secondary btn-sm px-4 py-3" onclick="javascript:window.print();">
-                        <i class="fa fa-print"></i> <?php echo lang('print'); ?>
-                    </a>
-                </div>
+            <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
+                <a href="finance/dailyExpense?year=<?php echo $previous_year; ?>&month=<?php echo $previous_month; ?>" class="btn btn-sm btn-warning">
+                    <i class="fas fa-arrow-left"></i> <?php echo lang('previous'); ?>
+                </a>
+                <a href="finance/dailyExpense?year=<?php echo $next_year; ?>&month=<?php echo $next_month; ?>" class="btn btn-sm btn-success">
+                    <i class="fas fa-arrow-right"></i> <?php echo lang('next'); ?>
+                </a>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="window.print();">
+                    <i class="fas fa-print"></i> <?php echo lang('print'); ?>
+                </button>
             </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
-        <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <h3 class="card-title text-black font-weight-800"><?php echo date('F, Y', $first_minute) . ' ' . lang('hospital') . ' ' . lang('expense_report'); ?></h3>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo $daily_expense_title; ?></h3>
                         </div>
 
-                        <div class="card-body bg-light">
-                            <table class="table table-hover" id="editable-sample">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('date'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('amount'); ?></th>
+                        <div class="card-body p-4">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-uppercase"><?php echo lang('date'); ?></th>
+                                        <th><?php echo lang('amount'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,6 +113,7 @@ if ($currently_processing_month > 1) {
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,18 +126,4 @@ if ($currently_processing_month > 1) {
 
 
 
-<!--main content end-->
-<!--footer start-->
-<!--footer end-->
-
-</section>
-
-<!-- js placed at the end of the document so the pages load faster -->
-
 <script src="common/js/codearistos.min.js"></script>
-
-
-
-</body>
-
-</html>

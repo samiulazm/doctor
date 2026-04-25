@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
 ?>
+<script type="text/javascript">
+    var language = <?php echo json_encode(isset($CI->language) ? $CI->language : 'english'); ?>;
+</script>
 <script>
 var poInventoryItems = [];
 (function() {
@@ -37,7 +41,7 @@ $(document).ready(function() {
         return;
     }
 
-    $('#purchaseOrdersTable').DataTable({
+    var purchaseOrdersTable = $('#purchaseOrdersTable').DataTable({
         "responsive": true,
         "processing": true,
         "serverSide": true,
@@ -48,7 +52,7 @@ $(document).ready(function() {
                 console.error('DataTables AJAX Error:', err, xhr.responseText);
             }
         },
-        "dom": "<'row mb-3'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
+        "dom": "<'row'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
                "<'row'<'col-sm-12'tr>>" +
                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "buttons": [
@@ -67,9 +71,11 @@ $(document).ready(function() {
         "language": {
             "lengthMenu": "_MENU_",
             "search": "_INPUT_",
-            "searchPlaceholder": "Search purchase orders..."
+            "searchPlaceholder": "Search...",
+            "url": "common/assets/DataTables/languages/" + language + ".json"
         }
     });
+    purchaseOrdersTable.buttons().container().appendTo('.custom_buttons');
 
     $('#supplier_id').select2({
         placeholder: "Select Supplier",

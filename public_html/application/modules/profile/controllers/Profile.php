@@ -21,6 +21,11 @@ class Profile extends MX_Controller
         $data = array();
         $id = $this->ion_auth->get_user_id();
         $data['profile'] = $this->profile_model->getProfileById($id);
+        if (empty($data['profile'])) {
+            show_swal(lang('error'), 'error', lang('error'));
+            redirect('home');
+            return;
+        }
         $this->load->view('home/dashboard');
         $this->load->view('profile', $data);
         $this->load->view('home/footer');
@@ -36,6 +41,11 @@ class Profile extends MX_Controller
 
 
         $data['profile'] = $this->profile_model->getProfileById($id);
+        if (empty($data['profile'])) {
+            show_swal(lang('error'), 'error', lang('error'));
+            redirect('profile');
+            return;
+        }
         if ($data['profile']->email != $email) {
             if ($this->ion_auth->email_check($email)) {
                 show_swal(lang('this_email_address_is_already_registered'), 'error', lang('error'));
@@ -61,8 +71,8 @@ class Profile extends MX_Controller
             $this->load->view('profile', $data);
             $this->load->view('home/footer');
         } else {
-            // if ($this->ion_auth->in_group(array('Patient', 'Doctor', 'superadmin', 'admin'))) {
-            $file_name = $_FILES['img_url']['name'];
+            $img_url = null;
+            $file_name = !empty($_FILES['img_url']['name']) ? $_FILES['img_url']['name'] : '';
             if (!empty($file_name)) {
                 $file_name_pieces = explode('_', $file_name);
                 $new_file_name = '';
@@ -162,7 +172,7 @@ class Profile extends MX_Controller
             }
 
 
-            if ($this->ion_auth->in_group(array('Pharmacist', 'Nurse', 'Accountant', 'Receptionist', 'Laboratorist'))) {
+            if (!empty($img_url) && $this->ion_auth->in_group(array('Pharmacist', 'Nurse', 'Accountant', 'Receptionist', 'Laboratorist'))) {
                 $this->profile_model->updateProfile($ion_user_id, array('img_url' => $img_url), $group_name);
             }
 

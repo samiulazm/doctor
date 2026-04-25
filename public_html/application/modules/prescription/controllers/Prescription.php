@@ -646,7 +646,7 @@ class Prescription extends MX_Controller
             $option3 = '<a class="btn btn-outline-primary btn-sm btn_width mt-1" href="prescription/editPrescription?id=' . $prescription->id . '" data-id="' . $prescription->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . ' ' . lang('prescription') . '</a>';
             $option2 = '<a class="btn btn-outline-danger btn-sm btn_width delete_button mt-1" href="prescription/delete?id=' . $prescription->id . '&admin=' . $prescription->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $options4 = '<a class="btn btn-outline-secondary btn-sm invoicebutton mt-1" title="' . lang('print') . '" href="prescription/viewPrescriptionPrint?id=' . $prescription->id . '" target="_blank"> <i class="fa fa-print"></i> ' . lang('print') . '</a>';
-            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="' . lang('quick_view') . '" data-id="' . $prescription->id . '" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fa fa-search-plus"></i> ' . lang('quick_view') . '</button>';
+            $quickView = '<button class="btn btn-outline-info btn-sm btn_width mt-1 quick-view-btn" title="' . lang('quick_view') . '" data-id="' . $prescription->id . '" data-toggle="modal" data-target="#quickViewModal" type="button"><i class="fa fa-search-plus"></i> ' . lang('quick_view') . '</button>';
 
             if (!empty($prescription->medicine)) {
                 $medicine = explode('###', $prescription->medicine);
@@ -684,7 +684,7 @@ class Prescription extends MX_Controller
             $dropdownOptions = '';
             $dropdownOptions = '
             <div class="btn-group">
-            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
+            <button type="button" class="btn btn-info btn-sm label-primary dropdown-toggle action_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">
             <i class="fas fa-bars"></i> ' . lang('actions') . ' <span class="caret"></span>
         </button>
                 <ul class="dropdown-menu">

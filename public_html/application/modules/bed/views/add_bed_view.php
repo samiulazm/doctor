@@ -1,40 +1,35 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($bed)) {
+    $bed = (object) array();
+}
+$is_edit = !empty($bed->id);
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-bed mr-3 text-primary"></i>
-                        <?php
-                        if (!empty($bed->id)) {
-                            echo lang('edit_bed');
-                        } else {
-                            echo lang('add_bed');
-                        }
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home" class="text-primary"><?php echo lang('home') ?></a></li>
-                            <li class="breadcrumb-item active font-weight-bold"><?php echo lang('department') ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $is_edit ? lang('edit_bed') : lang('add_bed'),
+        'icon' => 'fas fa-bed text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('bed'), 'url' => 'bed'),
+            array('label' => $is_edit ? lang('edit_bed') : lang('add_bed'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body bg-light p-5">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-body p-4 p-md-5">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="bed/addBed" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <div class="form-group mb-4">
                                     <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('bed_category'); ?> <span class="text-danger">*</span></label>
@@ -98,6 +93,3 @@
         </div>
     </section>
 </div>
-
-<!--main content end-->
-<!--footer start-->

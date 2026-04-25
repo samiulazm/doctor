@@ -1,41 +1,36 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+$CI = get_instance();
+if (!isset($groups) || !is_array($groups)) {
+    $groups = array();
+}
+?>
 <link href="common/extranal/css/patient/add_new.css" rel="stylesheet">
 
 <div class="content-wrapper bg-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-user-plus mr-3 text-primary"></i>
-                        <?php echo lang('new_patient_registration'); ?>
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb float-sm-right bg-transparent">
-                            <li class="breadcrumb-item"><a href="home" class="text-primary"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="patient" class="text-primary"><?php echo lang('patients'); ?></a></li>
-                            <li class="breadcrumb-item active font-weight-bold"><?php echo lang('new_registration'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('new_patient_registration'),
+        'icon' => 'fas fa-user-plus text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('patients'), 'url' => 'patient'),
+            array('label' => lang('new_registration'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('patient_enrollment_form'); ?></h2>
+                <div class="col-md-10 col-lg-9">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('patient_enrollment_form'); ?></h3>
                         </div>
-                        <div class="card-body bg-light p-4">
+                        <div class="card-body p-4">
                             <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                             <form role="form" action="patient/addNew" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <!-- Personal Information -->
                                 <div class="row mb-5">
@@ -95,7 +90,7 @@
                                             <select class="form-control form-control-lg shadow-sm" name="bloodgroup">
                                                 <option value=""><?php echo lang('select_blood_group'); ?></option>
                                                 <?php foreach ($groups as $group) { ?>
-                                                    <option value="<?php echo $group->group; ?>"><?php echo $group->group; ?></option>
+                                                    <option value="<?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -117,7 +112,7 @@
 
                                     <div class="col-md-3 mb-4">
                                         <div class="form-group">
-                                            <label class="text-uppercase font-weight-bold text-muted">Gender</label>
+                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('gender'); ?></label>
                                             <select class="form-control form-control-lg shadow-sm" name="sex">
                                                 <option value="Male"><?php echo lang('male'); ?></option>
                                                 <option value="Female"><?php echo lang('female'); ?></option>
@@ -188,7 +183,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block shadow-lg py-3">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block shadow-sm py-3">
                                             <i class="fas fa-user-plus mr-3"></i><?php echo lang('register_patient'); ?>
                                         </button>
                                     </div>

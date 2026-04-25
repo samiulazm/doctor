@@ -1,81 +1,78 @@
-  <link href="common/extranal/css/finance/payment_category.css" rel="stylesheet">
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link href="common/extranal/css/finance/payment_category.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('invoice_items_lab_tests'),
+        'icon' => 'fas fa-procedures text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('payment_procedures'), 'url' => null),
+        ),
+    ));
+    ?>
 
+    <section class="content py-4">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                                <h3 class="card-title h6 mb-0 text-muted text-uppercase flex-grow-1"><?php echo lang('All the invoice items / lab tests name and related informations'); ?></h3>
+                                <a href="finance/addPaymentCategoryView" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-plus mr-1"></i> <?php echo lang('create_invoice_items_lab_tests'); ?>
+                                </a>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <label class="small text-muted mb-1 d-block"><?php echo lang('category'); ?></label>
+                                    <select class="form-control form-control-sm category js-example-basic-single">
+                                        <option value="all"><?php echo lang('select'); ?> <?php echo lang('category'); ?></option>
+                                        <option value="all"><?php echo lang('all'); ?></option>
+                                        <?php foreach ($paycategories as $paycategory) { ?>
+                                            <option value="<?php echo $paycategory->id; ?>">
+                                                <?php echo $paycategory->category; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-  <div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-      <section class="content-header py-4 bg-white shadow-sm">
-          <div class="container-fluid">
-              <div class="row align-items-center">
-                  <div class="col-sm-6">
-                      <h1 class="display-4 font-weight-black mb-0">
-                          <i class="fas fa-procedures text-primary mr-3"></i>
-                          <?php echo lang('invoice_items_lab_tests') ?>
-                      </h1>
-                      <nav aria-label="breadcrumb">
-                          <ol class="breadcrumb bg-transparent mb-0">
-                              <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                              <li class="breadcrumb-item active"><?php echo lang('payment_procedures'); ?></li>
-                          </ol>
-                      </nav>
-                  </div>
-                  <div class="col-sm-6 text-right">
-                      <a href="finance/addPaymentCategoryView" class="btn btn-primary btn-sm px-4 py-3">
-                          <i class="fa fa-plus"></i> <?php echo lang('create_invoice_items_lab_tests'); ?>
-                      </a>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-      <section class="content py-5">
-          <div class="container-fluid">
-              <div class="row justify-content-center">
-                  <div class="col-md-12">
-                      <div class="card shadow-lg border-0">
-                          <div class="card-header bg-white py-3">
-                              <div class="row align-items-center">
-                                  <div class="col-md-8">
-                                      <h3 class="card-title font-weight-bold mb-0"><?php echo lang('All the invoice items / lab tests name and related informations'); ?></h3>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <select class="form-control category js-example-basic-single">
-                                          <option value="all"><?php echo lang('select'); ?> <?php echo lang('category'); ?></option>
-                                          <option value="all"><?php echo lang('all'); ?></option>
-                                          <?php foreach ($paycategories as $paycategory) { ?>
-                                              <option value="<?php echo $paycategory->id; ?>">
-                                                  <?php echo $paycategory->category; ?>
-                                              </option>
-                                          <?php } ?>
-                                      </select>
-                                  </div>
-                              </div>
-                          </div>
-
-                          <div class="card-body bg-light p-4">
-                              <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                  <thead>
-                                      <tr class="bg-light">
-                                          <th class="font-weight-bold text-uppercase"><?php echo lang('name'); ?></th>
-                                          <th class="font-weight-bold"><?php echo lang('code'); ?></th>
-                                          <th class="font-weight-bold"><?php echo lang('service_point'); ?></th>
-                                          <th class="font-weight-bold"><?php echo lang('default'); ?> <?php echo lang('price'); ?> ( <?php echo $settings->currency; ?> )</th>
-                                          <th class="font-weight-bold"><?php echo lang('doctors_commission'); ?></th>
-                                          <th class="font-weight-bold"><?php echo lang('type'); ?></th>
-                                          <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>
-                                              <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                          <?php } ?>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
-  </div>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-uppercase"><?php echo lang('name'); ?></th>
+                                            <th><?php echo lang('code'); ?></th>
+                                            <th><?php echo lang('service_point'); ?></th>
+                                            <th><?php echo lang('default'); ?> <?php echo lang('price'); ?> ( <?php echo $settings->currency; ?> )</th>
+                                            <th><?php echo lang('doctors_commission'); ?></th>
+                                            <th><?php echo lang('type'); ?></th>
+                                            <?php if ($this->ion_auth->in_group(array('admin', 'Accountant'))) { ?>
+                                                <th class="no-print"><?php echo lang('options'); ?></th>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 
 
@@ -104,10 +101,11 @@
           <div class="modal-content">
               <div class="modal-header">
                   <h4 class="modal-title font-weight-bold"> <?php echo lang('add_template'); ?></h4>
-                  <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">&times;</button>
               </div>
               <div class="modal-body row">
                   <form role="form" id="addTemplate" action="finance/addPaymentProccedureTemplate" class="clearfix" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                       <div class="form-group">
                           <label class="control-label"><?php echo lang('template'); ?></label>
@@ -129,7 +127,7 @@
 
   <script src="common/js/codearistos.min.js"></script>
   <script type="text/javascript">
-      var language = "<?php echo $this->language; ?>";
+      var language = <?php echo json_encode($this->language); ?>;
   </script>
   <script src="common/assets/tinymce/tinymce.min.js"></script>
   <script src="common/extranal/js/finance/payment_category.js"></script>

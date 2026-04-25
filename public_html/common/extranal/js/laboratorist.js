@@ -145,6 +145,7 @@ $(document).ready(function () {
     language: {
       lengthMenu: "_MENU_",
       search: "_INPUT_",
+      searchPlaceholder: "Search...",
       url: "common/assets/DataTables/languages/" + language + ".json",
     },
   });

@@ -159,7 +159,19 @@
 <!-- <script defer type="text/javascript" src="common/assets/DataTables/datatables.min.js"></script> -->
 <script src="common/extranal/js/lab/lab.js"></script>
 <script src="common/extranal/js/description.js"></script>
+<?php
+$__ci = get_instance();
+$__lab_csrf_n = $__ci->security->get_csrf_token_name();
+$__lab_csrf_h = $__ci->security->get_csrf_hash();
+?>
 <script>
+    (function() {
+        var LTS_CSRF = { n: <?php echo json_encode($__lab_csrf_n); ?>, h: <?php echo json_encode($__lab_csrf_h); ?> };
+        window.labTestStatusMergeCsrf = function(d) {
+            d[LTS_CSRF.n] = LTS_CSRF.h;
+            return d;
+        };
+    })();
     $(document).ready(function() {
         let status = $('.status').val();
         let category = $('.category').val();
@@ -177,6 +189,7 @@
                 url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                 type: 'POST',
                 cache: true,
+                data: function(d) { return window.labTestStatusMergeCsrf(d); },
                 dataSrc: function(json) {
                     return json.data;
                 }
@@ -260,6 +273,7 @@
             "ajax": {
                 url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                 type: 'POST',
+                data: function(d) { return window.labTestStatusMergeCsrf(d); }
             },
             scroller: {
                 loadingIndicator: true
@@ -334,6 +348,7 @@
             "ajax": {
                 url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                 type: 'POST',
+                data: function(d) { return window.labTestStatusMergeCsrf(d); }
             },
             scroller: {
                 loadingIndicator: true
@@ -417,6 +432,7 @@
                         "ajax": {
                             url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                             type: 'POST',
+                            data: function(d) { return window.labTestStatusMergeCsrf(d); }
                         },
                         scroller: {
                             loadingIndicator: true
@@ -509,6 +525,7 @@
                     "ajax": {
                         url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                         type: 'POST',
+                        data: function(d) { return window.labTestStatusMergeCsrf(d); }
                     },
                     scroller: {
                         loadingIndicator: true
@@ -586,6 +603,7 @@
             "ajax": {
                 url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                 type: 'POST',
+                data: function(d) { return window.labTestStatusMergeCsrf(d); }
             },
             scroller: {
                 loadingIndicator: true

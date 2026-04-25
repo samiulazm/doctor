@@ -1,50 +1,56 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+$CI = get_instance();
+if (!isset($groups) || !is_array($groups)) {
+    $groups = array();
+}
+if (!isset($doctors) || $doctors === null) {
+    $doctors = array();
+}
+if (!isset($patient)) {
+    $patient = null;
+}
+$can_due = $this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist'));
+?>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('patient') . ' ' . lang('payments'),
+        'icon' => 'fas fa-dollar-sign text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('patients'), 'url' => 'patient'),
+            array('label' => lang('patient') . ' ' . lang('payments'), 'url' => null),
+        ),
+    ));
+    ?>
 
-
-
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-dollar-sign text-primary mr-3"></i>
-                        <?php echo lang('patient'); ?> <?php echo lang('payments'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="patient"><?php echo lang('patient'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('patient'); ?> <?php echo lang('payments'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang('patient_id'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('name'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('phone'); ?></th>
-                                        <?php if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist', 'Laboratorist'))) { ?>
-                                            <th class="font-weight-bold"><?php echo lang('due_balance'); ?></th>
-                                        <?php } ?>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('patient'); ?> <?php echo lang('payments'); ?></h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="editable-sample" style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><?php echo lang('patient_id'); ?></th>
+                                            <th><?php echo lang('name'); ?></th>
+                                            <th><?php echo lang('phone'); ?></th>
+                                            <?php if ($can_due) { ?>
+                                                <th><?php echo lang('due_balance'); ?></th>
+                                            <?php } ?>
+                                            <th class="no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,11 +79,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title font-weight-bold"> <?php echo lang('register_new_patient'); ?></h4>
+                <h4 class="modal-title font-weight-bold"><?php echo lang('register_new_patient'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addNew" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="form-group col-md-5">
                         <label for="exampleInputEmail1"> <?php echo lang('name'); ?></label>
@@ -108,20 +115,8 @@
                         <label for="exampleInputEmail1"> <?php echo lang('sex'); ?></label>
                         <select class="form-control form-control-lg m-bot15" name="sex" value=''>
 
-                            <option value="Male" <?php
-                                                    if (!empty($patient->sex)) {
-                                                        if ($patient->sex == 'Male') {
-                                                            echo 'selected';
-                                                        }
-                                                    }
-                                                    ?>> Male </option>
-                            <option value="Female" <?php
-                                                    if (!empty($patient->sex)) {
-                                                        if ($patient->sex == 'Female') {
-                                                            echo 'selected';
-                                                        }
-                                                    }
-                                                    ?>> Female </option>
+                            <option value="Male"<?php if ($patient && !empty($patient->sex) && $patient->sex == 'Male') { echo ' selected'; } ?>><?php echo lang('male'); ?></option>
+                            <option value="Female"<?php if ($patient && !empty($patient->sex) && $patient->sex == 'Female') { echo ' selected'; } ?>><?php echo lang('female'); ?></option>
                         </select>
                     </div>
 
@@ -135,13 +130,11 @@
                         <label for="exampleInputEmail1"> <?php echo lang('blood_group'); ?></label>
                         <select class="form-control form-control-lg m-bot15" name="bloodgroup" value=''>
                             <?php foreach ($groups as $group) { ?>
-                                <option value="<?php echo $group->group; ?>" <?php
-                                                                                if (!empty($patient->bloodgroup)) {
-                                                                                    if ($group->group == $patient->bloodgroup) {
-                                                                                        echo 'selected';
-                                                                                    }
-                                                                                }
-                                                                                ?>> <?php echo $group->group; ?> </option>
+                                <option value="<?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?>"<?php
+                                if ($patient && !empty($patient->bloodgroup) && $group->group == $patient->bloodgroup) {
+                                    echo ' selected';
+                                }
+                                ?>> <?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?> </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -151,7 +144,7 @@
                         <select class="form-control js-example-basic-single" name="doctor" value=''>
                             <option value=""> </option>
                             <?php foreach ($doctors as $doctor) { ?>
-                                <option value="<?php echo $doctor->id; ?>"><?php echo $doctor->name; ?> </option>
+                                <option value="<?php echo (int) $doctor->id; ?>"><?php echo htmlspecialchars($doctor->name, ENT_QUOTES, 'UTF-8'); ?> </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -173,7 +166,7 @@
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
-                                    <a href="#" class="btn btn-danger fileupload-exists" data-bs-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
                                 </div>
                             </div>
 
@@ -219,11 +212,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_patient'); ?></h4>
+                <h4 class="modal-title font-weight-bold"><?php echo lang('edit_patient'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
                 <form role="form" id="editPatientForm" action="patient/addNew" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="form-group col-md-5">
                         <label for="exampleInputEmail1"> <?php echo lang('name'); ?></label>
@@ -254,20 +248,8 @@
                         <label for="exampleInputEmail1"> <?php echo lang('sex'); ?></label>
                         <select class="form-control form-control-lg m-bot15" name="sex" value=''>
 
-                            <option value="Male" <?php
-                                                    if (!empty($patient->sex)) {
-                                                        if ($patient->sex == 'Male') {
-                                                            echo 'selected';
-                                                        }
-                                                    }
-                                                    ?>> Male </option>
-                            <option value="Female" <?php
-                                                    if (!empty($patient->sex)) {
-                                                        if ($patient->sex == 'Female') {
-                                                            echo 'selected';
-                                                        }
-                                                    }
-                                                    ?>> Female </option>
+                            <option value="Male"<?php if ($patient && !empty($patient->sex) && $patient->sex == 'Male') { echo ' selected'; } ?>><?php echo lang('male'); ?></option>
+                            <option value="Female"<?php if ($patient && !empty($patient->sex) && $patient->sex == 'Female') { echo ' selected'; } ?>><?php echo lang('female'); ?></option>
                         </select>
                     </div>
 
@@ -281,23 +263,21 @@
                         <label for="exampleInputEmail1"> <?php echo lang('blood_group'); ?></label>
                         <select class="form-control form-control-lg m-bot15" name="bloodgroup" value=''>
                             <?php foreach ($groups as $group) { ?>
-                                <option value="<?php echo $group->group; ?>" <?php
-                                                                                if (!empty($patient->bloodgroup)) {
-                                                                                    if ($group->group == $patient->bloodgroup) {
-                                                                                        echo 'selected';
-                                                                                    }
-                                                                                }
-                                                                                ?>> <?php echo $group->group; ?> </option>
+                                <option value="<?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?>"<?php
+                                if ($patient && !empty($patient->bloodgroup) && $group->group == $patient->bloodgroup) {
+                                    echo ' selected';
+                                }
+                                ?>> <?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?> </option>
                             <?php } ?>
                         </select>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?></label>
-                        <select class="form-control js-example-basic-single" name="doctor" value=''>
+                        <select class="form-control js-example-basic-single doctor" name="doctor" value=''>
                             <option value=""> </option>
                             <?php foreach ($doctors as $doctor) { ?>
-                                <option value="<?php echo $doctor->id; ?>"><?php echo $doctor->name; ?> </option>
+                                <option value="<?php echo (int) $doctor->id; ?>"><?php echo htmlspecialchars($doctor->name, ENT_QUOTES, 'UTF-8'); ?> </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -319,7 +299,7 @@
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
-                                    <a href="#" class="btn btn-danger fileupload-exists" data-bs-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> Remove</a>
                                 </div>
                             </div>
 
@@ -348,11 +328,7 @@
                     </div>
 
                     <input type="hidden" name="id" value=''>
-                    <input type="hidden" name="p_id" value='<?php
-                                                            if (!empty($patient->patient_id)) {
-                                                                echo $patient->patient_id;
-                                                            }
-                                                            ?>'>
+                    <input type="hidden" name="p_id" value="<?php echo ($patient && !empty($patient->patient_id)) ? htmlspecialchars($patient->patient_id, ENT_QUOTES, 'UTF-8') : ''; ?>">
 
 
 
@@ -373,7 +349,7 @@
 <script src="common/js/codearistos.min.js"></script>
 
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 
 <script src="common/extranal/js/patient/patient_payments.js"></script>

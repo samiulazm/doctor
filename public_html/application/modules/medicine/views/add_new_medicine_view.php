@@ -1,51 +1,38 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($medicine)) {
+    $medicine = (object) array();
+}
+$medicine_page_title = !empty($medicine->id) ? (lang('edit') . ' ' . lang('medicine')) : (lang('add') . ' ' . lang('new') . ' ' . lang('medicine'));
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<!-- <link href="common/extranal/css/medicine/add_new_medicine_view.css" rel="stylesheet"> -->
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $medicine_page_title,
+        'icon' => 'fas fa-pills text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('medicine'), 'url' => 'medicine'),
+            array('label' => $medicine_page_title, 'url' => null),
+        ),
+    ));
+    ?>
 
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-pills text-primary mr-3"></i>
-                        <?php
-                        if (!empty($medicine->id)) {
-                            echo lang('edit') . ' ' . lang('medicine');
-                        } else {
-                            echo lang('add') . ' ' . lang('new') . ' ' . lang('medicine');
-                        }
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="medicine"><?php echo lang('medicine'); ?></a></li>
-                            <li class="breadcrumb-item active">
-                                <?php
-                                if (!empty($medicine->id)) {
-                                    echo lang('edit') . ' ' . lang('medicine');
-                                } else {
-                                    echo lang('add') . ' ' . lang('medicine');
-                                }
-                                ?>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body p-5">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo $medicine_page_title; ?></h3>
+                        </div>
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="medicine/addNewMedicine" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
@@ -179,11 +166,3 @@
         </div>
     </section>
 </div>
-
-
-
-
-
-
-<!--main content end-->
-<!--footer start-->

@@ -1,35 +1,30 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('expiring') . ' ' . lang('medicines'),
+        'icon' => 'fas fa-exclamation-triangle text-warning mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('medicine'), 'url' => 'medicine'),
+            array('label' => lang('batches'), 'url' => 'medicine/batches'),
+            array('label' => lang('expiring') . ' ' . lang('medicines'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-exclamation-triangle text-warning mr-3"></i>
-                        <?php echo lang('expiring'); ?> <?php echo lang('medicines'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="medicine"><?php echo lang('medicine'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="medicine/batches"><?php echo lang('batches'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('expiring'); ?> <?php echo lang('medicines'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="medicine/batches" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-boxes mr-2"></i><?php echo lang('all'); ?> <?php echo lang('batches'); ?>
-                    </a>
-                </div>
+            <div class="d-flex flex-wrap justify-content-end mb-3">
+                <a href="medicine/batches" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-boxes mr-1"></i> <?php echo lang('all'); ?> <?php echo lang('batches'); ?>
+                </a>
             </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
-        <div class="container-fluid">
             <!-- Summary Cards -->
             <div class="row mb-4">
                 <div class="col-lg-3 col-md-6">
@@ -139,20 +134,19 @@
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <h3 class="card-title text-black font-weight-800"><?php echo lang('medicines'); ?> <?php echo lang('expiring'); ?> <?php echo lang('within'); ?> 90 <?php echo lang('days'); ?></h3>
-                            <div class="card-tools">
-                                <span class="badge badge-info">
-                                    <?php echo lang('total'); ?>: <?php echo count($expiring_medicines); ?> <?php echo lang('batches'); ?>
-                                </span>
-                            </div>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('medicines'); ?> <?php echo lang('expiring'); ?> <?php echo lang('within'); ?> 90 <?php echo lang('days'); ?></h3>
+                            <span class="badge badge-info">
+                                <?php echo lang('total'); ?>: <?php echo count($expiring_medicines); ?> <?php echo lang('batches'); ?>
+                            </span>
                         </div>
-
-                        <div class="card-body bg-light">
-                            <table class="table table-hover" id="expiringMedicinesTable">
-                                <thead>
-                                    <tr class="bg-light">
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle text-sm mb-0" id="expiringMedicinesTable" width="100%">
+                                <thead class="thead-light">
+                                    <tr>
                                         <th class="font-weight-bold text-uppercase"><?php echo lang('medicine'); ?> <?php echo lang('name'); ?></th>
                                         <th class="font-weight-bold text-uppercase"><?php echo lang('generic'); ?></th>
                                         <th class="font-weight-bold text-uppercase"><?php echo lang('batch'); ?> <?php echo lang('number'); ?></th>
@@ -239,6 +233,7 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -247,19 +242,37 @@
     </section>
 </div>
 
+<script src="common/js/codearistos.min.js"></script>
+<script type="text/javascript">
+    var language = <?php echo json_encode($this->language); ?>;
+</script>
 <script>
 $(document).ready(function() {
-    $('#expiringMedicinesTable').DataTable({
-        "order": [[ 8, "asc" ]], // Sort by days to expiry (ascending)
-        "pageLength": 25,
-        "responsive": true,
-        "columnDefs": [
-            {
-                "targets": [8], // Days to expiry column
-                "type": "num"
-            }
-        ]
+    var table = $('#expiringMedicinesTable').DataTable({
+        order: [[8, 'asc']],
+        pageLength: 25,
+        responsive: true,
+        dom: "<'row'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [
+            { extend: 'copyHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] } },
+            { extend: 'excelHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] } },
+            { extend: 'csvHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] } },
+            { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] } },
+            { extend: 'print', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] } },
+        ],
+        columnDefs: [
+            { targets: [8], type: 'num' }
+        ],
+        language: {
+            lengthMenu: '_MENU_',
+            search: '_INPUT_',
+            searchPlaceholder: 'Search...',
+            url: 'common/assets/DataTables/languages/' + language + '.json'
+        }
     });
+    table.buttons().container().appendTo('.custom_buttons');
 });
 </script>
 

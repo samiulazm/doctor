@@ -1,54 +1,53 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-dollar-sign text-primary mr-3"></i>
-                        <?php echo lang('ambulance_rates'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"> <?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="ambulance"> <?php echo lang('ambulance'); ?></a></li>
-                            <li class="breadcrumb-item active"> <?php echo lang('rates'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="<?php echo base_url(); ?>ambulance" class="btn btn-secondary btn-sm px-3 py-2">
-                        <i class="fas fa-arrow-left"></i> <?php echo lang('back'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('ambulance_rates'),
+        'icon' => 'fas fa-dollar-sign text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('ambulance'), 'url' => 'ambulance'),
+            array('label' => lang('rates'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-end mb-3">
+                <a href="ambulance" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-arrow-left mr-1"></i> <?php echo lang('back'); ?>
+                </a>
+            </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white">
-                            <h3 class="card-title mb-0">
-                                <i class="fas fa-dollar-sign mr-2"></i>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <i class="fas fa-dollar-sign mr-2 text-primary"></i>
                                 <?php echo lang('ambulance_rates'); ?>
                             </h3>
                         </div>
                         <div class="card-body p-4">
                             <?php if ($this->session->flashdata('feedback')): ?>
-                                <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                                     <?php echo $this->session->flashdata('feedback'); ?>
                                 </div>
                             <?php endif; ?>
                             <?php if ($this->session->flashdata('feedback_error')): ?>
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                                     <?php echo $this->session->flashdata('feedback_error'); ?>
                                 </div>
                             <?php endif; ?>
-                            <form role="form" action="<?php echo base_url(); ?>ambulance/updateRates" method="post">
+                            <form role="form" action="ambulance/updateRates" method="post">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="card">
@@ -251,7 +250,7 @@
                                         <i class="fa fa-save mr-2"></i>
                                         <?php echo lang('update_rates'); ?>
                                     </button>
-                                    <a href="<?php echo base_url(); ?>ambulance" class="btn btn-secondary btn-lg px-5 ml-3">
+                                    <a href="ambulance" class="btn btn-secondary btn-lg px-5 ml-3">
                                         <i class="fa fa-arrow-left mr-2"></i>
                                         <?php echo lang('back_to_ambulance'); ?>
                                     </a>
@@ -333,8 +332,8 @@
         // Multiple protection layers for the calculation formula section
         
         // 1. Prevent any Bootstrap alert dismissal events
-        $('[data-permanent="true"]').off('closed.bs.alert close.bs.alert');
-        $('[data-permanent="true"]').on('closed.bs.alert close.bs.alert', function(e) {
+        $('[data-permanent="true"]').off('close.bs.alert closed.bs.alert');
+        $('[data-permanent="true"]').on('close.bs.alert closed.bs.alert', function(e) {
             e.preventDefault();
             e.stopPropagation();
             return false;

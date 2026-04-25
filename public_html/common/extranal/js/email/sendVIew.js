@@ -144,14 +144,22 @@ $(document).ready(function () {
 function addtext(ele) {
     "use strict";
     var fired_button = ele.value;
-    document.myform.message.value += fired_button;
+    if (typeof tinymce !== 'undefined' && tinymce.get('editor1')) {
+        tinymce.get('editor1').insertContent(fired_button);
+    } else if (document.myform && document.myform.message) {
+        document.myform.message.value += fired_button;
+    }
 }
 
 
 function addtext1(ele) {
     "use strict";
     var fired_button = ele.value;
-    document.myform1.message.value += fired_button;
+    if (typeof tinymce !== 'undefined' && tinymce.get('editor2')) {
+        tinymce.get('editor2').insertContent(fired_button);
+    } else if (document.myform1 && document.myform1.message) {
+        document.myform1.message.value += fired_button;
+    }
 }
 
 // function addtext(ele) {

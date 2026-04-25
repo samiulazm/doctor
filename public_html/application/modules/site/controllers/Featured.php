@@ -44,7 +44,8 @@ class Featured extends MX_Controller {
         // Validating Profile Field
         $this->form_validation->set_rules('profile', 'Profile', 'trim|required|min_length[1]|max_length[100]|xss_clean');
         // Validating Description Field   
-        $this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[1]|max_length[500]|xss_clean');
+        // WYSIWYG HTML can exceed 500 characters; allow length appropriate for safe HTML
+        $this->form_validation->set_rules('description', 'Description', 'trim|required|min_length[1]|max_length[50000]|xss_clean');
 
 
         if ($this->form_validation->run() == FALSE) {

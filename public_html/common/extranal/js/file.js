@@ -8,16 +8,11 @@ $(document).ready(function () {
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: [0, 1],
-                }
-            },
+            { extend: 'copyHtml5', exportOptions: { columns: [0, 1] } },
+            { extend: 'excelHtml5', exportOptions: { columns: [0, 1] } },
+            { extend: 'csvHtml5', exportOptions: { columns: [0, 1] } },
+            { extend: 'pdfHtml5', exportOptions: { columns: [0, 1] } },
+            { extend: 'print', exportOptions: { columns: [0, 1] } }
         ],
 
         aLengthMenu: [
@@ -25,12 +20,15 @@ $(document).ready(function () {
             [10, 25, 50, 100, "All"]
         ],
         iDisplayLength: -1,
-        "order": [[0, "desc"]],
-
-        "language": {
-            "lengthMenu": "_MENU_",
+        order: [[0, "asc"]],
+        columnDefs: [
+            { orderable: false, targets: [2] }
+        ],
+        language: {
+            lengthMenu: "_MENU_",
             search: "_INPUT_",
-            "url": "common/assets/DataTables/languages/" + language + ".json"
+            searchPlaceholder: "Search...",
+            url: "common/assets/DataTables/languages/" + language + ".json"
         }
     });
     table.buttons().container().appendTo('.custom_buttons');

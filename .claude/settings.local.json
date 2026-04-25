@@ -42,7 +42,9 @@
       "Bash(php:*)",
       "Bash(python3 -c \"import json; data = json.load\\(open\\('deploy_progress.json'\\)\\); print\\(f'Total completed files: {len\\(data[\\\\\"completed\\\\\"]\\)}'\\); print\\('Sample entries:'\\); [print\\(f'  {x}'\\) for x in data['completed'][:5]]\")",
       "Bash(ls -1 \"C:\\\\Users\\\\Samiul\\\\Pictures\\\\doctor/Multi-Hospital/common/assets/fontawesome5pro/webfonts\"/*.svg)",
-      "Bash(xargs -I {} ls {})"
+      "Bash(xargs -I {} ls {})",
+      "Bash(grep -E \"\\\\.\\(php|html\\)$\")",
+      "Bash(xargs wc *)"
     ]
   }
 }

@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
@@ -24,6 +24,9 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (empty($prescriptions)) : ?>
+                <tr><td colspan="3" class="text-muted text-center py-4">No prescriptions are available yet.</td></tr>
+            <?php endif; ?>
             </tbody>
         </table>
             </div>

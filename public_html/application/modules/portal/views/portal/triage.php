@@ -11,9 +11,9 @@
         </a>
     </div>
     <div class="chamber-stepper">
-        <div class="chamber-step"><strong>1. Identity</strong><span>Name, age, gender</span></div>
-        <div class="chamber-step"><strong>2. Symptoms</strong><span>Problem and duration</span></div>
-        <div class="chamber-step"><strong>3. Attachments</strong><span>Reports or previous Rx</span></div>
+        <div class="chamber-step active"><strong>1. Identity</strong><span>Name, age, gender</span></div>
+        <div class="chamber-step active"><strong>2. Symptoms</strong><span>Problem and duration</span></div>
+        <div class="chamber-step active"><strong>3. Attachments</strong><span>Reports or previous Rx</span></div>
     </div>
     <div class="chamber-public-panel">
         <div class="chamber-panel-header px-0 pt-0">
@@ -55,7 +55,11 @@
                 <div class="col-md-4 mb-2"><input class="form-control" name="name" required placeholder="Full name"></div>
                 <div class="col-md-2 mb-2"><input class="form-control" name="age" placeholder="Age"></div>
                 <div class="col-md-3 mb-2">
-                    <select class="form-control" name="gender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
+                    <div class="chamber-radio-group" role="group" aria-label="Gender">
+                        <label class="chamber-radio-pill"><input type="radio" name="gender" value="Male" checked><span>Male</span></label>
+                        <label class="chamber-radio-pill"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+                        <label class="chamber-radio-pill"><input type="radio" name="gender" value="Other"><span>Other</span></label>
+                    </div>
                 </div>
                 <div class="col-md-3 mb-2"><input class="form-control" readonly value="Advance fee: <?php echo (isset($profile->advance_booking_fee) && (float) $profile->advance_booking_fee > 0) ? htmlspecialchars(number_format((float) $profile->advance_booking_fee, 2) . ' BDT') : 'None'; ?>"></div>
             </div>
@@ -67,7 +71,11 @@
                 <input class="form-control" name="duration" placeholder="Duration">
             </div>
             <h2 class="chamber-panel-title mt-4 mb-3">Step 3 - Attachments</h2>
-            <input type="file" name="attachments[]" class="form-control-file" multiple accept="image/*,.pdf">
+            <label class="chamber-upload-zone w-100">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span><strong>Upload reports or previous prescriptions</strong><br><small>Images and PDF files are accepted.</small></span>
+                <input type="file" name="attachments[]" class="form-control-file" multiple accept="image/*,.pdf">
+            </label>
             <h2 class="chamber-panel-title mt-4 mb-3">Chamber and date</h2>
             <div class="form-row">
                 <div class="col-md-6 mb-2">

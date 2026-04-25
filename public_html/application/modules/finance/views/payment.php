@@ -1,39 +1,34 @@
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-money-bill-wave text-primary mr-3"></i>
-                        <?php echo lang('invoices'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('invoices'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="finance/addPaymentView" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('invoice'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('invoices'),
+        'icon' => 'fas fa-money-bill-wave text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('invoices'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <!-- <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('list_of_invoices_from_opd_ipd_and_appointments'); ?></h2>
-                        </div> -->
-
-                        <div class="card-body bg-light p-4">
-                            <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('invoices'); ?></h3>
+                            <a href="finance/addPaymentView" class="btn btn-sm btn-primary">
+                                <i class="fas fa-plus mr-1"></i> <?php echo lang('add_new'); ?> <?php echo lang('invoice'); ?>
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="col-md-4 mb-4 pl-0">
                                 <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
                                     <input type="text" class="form-control form-control-lg shadow-sm default-date-picker" name="date_from" id="date_from" value="" placeholder="<?php echo lang('date_from'); ?>" readonly="">
                                     <span class="input-group-addon mx-2"></span>
@@ -41,27 +36,28 @@
                                 </div>
                             </div>
 
-                            <table class="table table-hover datatables text-sm" id="editable-sample3" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang('invoice'); ?> #</th>
-                                        <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                        <!-- <th class="font-weight-bold"><?php echo lang('doctor'); ?></th> -->
-                                        <th class="font-weight-bold"><?php echo lang('date'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('total'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('vat'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('discount'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('grand_total'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('paid'); ?> <?php echo lang('amount'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('due'); ?></th>
-                                        <!-- <th class="font-weight-bold"><?php echo lang('remarks'); ?></th> -->
-                                        <th class="font-weight-bold"><?php echo lang('from'); ?></th>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample3" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><?php echo lang('invoice'); ?> #</th>
+                                            <th><?php echo lang('patient'); ?></th>
+                                            <th><?php echo lang('date'); ?></th>
+                                            <th><?php echo lang('total'); ?></th>
+                                            <th><?php echo lang('vat'); ?></th>
+                                            <th><?php echo lang('discount'); ?></th>
+                                            <th><?php echo lang('grand_total'); ?></th>
+                                            <th><?php echo lang('paid'); ?> <?php echo lang('amount'); ?></th>
+                                            <th><?php echo lang('due'); ?></th>
+                                            <th><?php echo lang('from'); ?></th>
+                                            <th class="no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +89,7 @@
                     <i class="fas fa-edit mr-2"></i>
                     Edit Payment
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -101,7 +97,7 @@
                 <!-- The edit payment form will be loaded here via AJAX -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
@@ -114,7 +110,7 @@
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <!-- <script defer type="text/javascript" src="common/assets/DataTables/datatables.min.js"></script> -->
 <script src="common/extranal/js/finance/payments.js"></script>

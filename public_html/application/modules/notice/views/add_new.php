@@ -1,97 +1,80 @@
-<!--sidebar end-->
-<!--main content start-->
-
-
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+if (!isset($notice) || !is_object($notice)) {
+    $notice = new stdClass();
+}
+$CI = get_instance();
+$is_edit = !empty($notice->id);
+$t = $is_edit ? lang('edit_notice') : lang('add_notice');
+?>
 <link href="common/extranal/css/notice/add_new.css" rel="stylesheet">
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-clipboard-list text-primary mr-3"></i>
-                        <?php
-                        if (!empty($notice->id))
-                            echo lang('edit_notice');
-                        else
-                            echo lang('add_notice');
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="notice"><?php echo lang('notice'); ?></a></li>
-                            <li class="breadcrumb-item active">
-                                <?php
-                                if (!empty($notice->id))
-                                    echo lang('edit_notice');
-                                else
-                                    echo lang('add_notice');
-                                ?>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $t,
+        'icon' => 'fas fa-clipboard-list text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('notice'), 'url' => 'notice'),
+            array('label' => $t, 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body p-5">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('notice'); ?> — <?php echo lang('details'); ?></h3>
+                        </div>
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
                             <?php echo $this->session->flashdata('feedback'); ?>
 
                             <form role="form" action="notice/addNew" method="post" enctype="multipart/form-data">
-                                <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('title'); ?> <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" name="title" value='<?php
-                                                                                                                if (!empty($notice->name)) {
-                                                                                                                    echo $notice->name;
-                                                                                                                }
-                                                                                                                ?>' required="">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="notice_title"><?php echo lang('title'); ?> <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="notice_title" name="title" value="<?php echo !empty($notice->title) ? html_escape($notice->title) : ''; ?>" required>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('notice'); ?> <?php echo lang('for'); ?></label>
-                                    <select class="form-control form-control-lg select2" name="type">
-                                        <option value="patient" <?php
-                                                                if (!empty($notice->type)) {
-                                                                    if ($notice->type == 'patient') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                }
-                                                                ?>><?php echo lang('patient'); ?></option>
-                                        <option value="staff" <?php
-                                                                if (!empty($notice->type)) {
-                                                                    if ($notice->type == 'staff') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                }
-                                                                ?>><?php echo lang('staff'); ?></option>
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="notice_type"><?php echo lang('notice'); ?> <?php echo lang('for'); ?></label>
+                                    <select class="form-control form-control-lg js-example-basic-single" id="notice_type" name="type">
+                                        <option value="patient" <?php echo (!empty($notice->type) && $notice->type == 'patient') ? 'selected' : ''; ?>><?php echo lang('patient'); ?></option>
+                                        <option value="staff" <?php echo (!empty($notice->type) && $notice->type == 'staff') ? 'selected' : ''; ?>><?php echo lang('staff'); ?></option>
                                     </select>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('description'); ?> <span class="text-danger">*</span></label>
-                                    <textarea class="ckeditor form-control editor" id="editor" name="description" rows="5" required=""></textarea>
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="editor"><?php echo lang('description'); ?> <span class="text-danger">*</span></label>
+                                    <textarea class="ckeditor form-control editor" id="editor" name="description" rows="8" required><?php
+                                    if (!empty($notice->description)) {
+                                        echo $notice->description;
+                                    }
+                                    ?></textarea>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('date'); ?> <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg default-date-picker" name="date" onkeypress="return false;" required="">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="notice_date"><?php echo lang('date'); ?> <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg default-date-picker" id="notice_date" name="date" readonly onkeypress="return false;" value="<?php
+                                    if (!empty($notice->date)) {
+                                        echo html_escape(date('m-d-Y', (int) $notice->date));
+                                    }
+                                    ?>" placeholder="mm-dd-yyyy" required>
                                 </div>
 
-                                <input type="hidden" name="id" value='<?php
-                                                                        if (!empty($notice->id)) {
-                                                                            echo $notice->id;
-                                                                        }
-                                                                        ?>'>
+                                <input type="hidden" name="id" value="<?php echo !empty($notice->id) ? (int) $notice->id : ''; ?>">
 
-                                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block"><?php echo lang('submit'); ?></button>
+                                <div class="d-flex justify-content-end">
+                                    <a href="notice" class="btn btn-outline-secondary"><?php echo lang('cancel'); ?></a>
+                                    <button type="submit" name="submit" class="btn btn-primary ml-2 px-4"><?php echo lang('submit'); ?></button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -101,103 +84,9 @@
     </section>
 </div>
 
-
-
-<section id="main-content">
-    <section class="wrapper site-min-height">
-        <link href="common/extranal/css/notice/add_new.css" rel="stylesheet">
-        <section class="col-md-6">
-            <header class="panel-heading">
-                <?php
-                if (!empty($notice->id))
-                    echo lang('edit_notice');
-                else
-                    echo lang('add_notice');
-                ?>
-            </header>
-            <div class="panel-body">
-                <div class="adv-table editable-table ">
-                    <div class="clearfix">
-                        <div class="col-lg-12">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-6">
-                                <?php echo validation_errors(); ?>
-                                <?php echo $this->session->flashdata('feedback'); ?>
-                            </div>
-                            <div class="col-lg-3"></div>
-                        </div>
-                        <form role="form" action="notice/addNew" class="clearfix" method="post" enctype="multipart/form-data">
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1"> <?php echo lang('title'); ?> &ast;</label>
-                                <input type="text" class="form-control form-control-lg" name="title" value='<?php
-                                                                                                            if (!empty($notice->name)) {
-                                                                                                                echo $notice->name;
-                                                                                                            }
-                                                                                                            ?>' placeholder="" required="">
-                            </div>
-
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1"> Notice For</label>
-                                <select class="form-control form-control-lg m-bot15" name="type" value=''>
-                                    <option value="patient" <?php
-                                                            if (!empty($notice->type)) {
-                                                                if ($notice->type == 'patient') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>><?php echo lang('patient'); ?></option>
-                                    <option value="staff" <?php
-                                                            if (!empty($notice->type)) {
-                                                                if ($notice->type == 'staff') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>><?php echo lang('staff'); ?></option>
-
-                                </select>
-                            </div>
-
-
-                            <div class="form-group col-md-12 des">
-                                <label class="control-label col-md-3"><?php echo lang('description'); ?> &ast;</label>
-                                <div class="col-md-12 des">
-                                    <textarea class="ckeditor form-control editor" id="editor" name="description" value="" rows="10" required=""> </textarea>
-                                </div>
-                            </div>
-
-
-
-                            <div class="form-group col-md-12">
-                                <label for="exampleInputEmail1"> <?php echo lang('date'); ?> &ast;</label>
-                                <input type="text" class="form-control form-control-lg default-date-picker" name="date" onkeypress="return false;" value='' placeholder="" required="">
-                            </div>
-
-
-
-
-                            <input type="hidden" name="id" value='<?php
-                                                                    if (!empty($notice->id)) {
-                                                                        echo $notice->id;
-                                                                    }
-                                                                    ?>'>
-
-
-                            <button type="submit" name="submit" class="btn btn-info"> <?php echo lang('submit'); ?></button>
-                        </form>
-
-                    </div>
-                </div>
-
-            </div>
-        </section>
-    </section>
-    <!-- page end-->
-</section>
 <script src="common/js/codearistos.min.js"></script>
 <script src="common/assets/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script src="common/extranal/js/notice.js"></script>

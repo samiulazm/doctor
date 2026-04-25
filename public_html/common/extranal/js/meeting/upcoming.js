@@ -11,6 +11,12 @@ $(document).ready(function () {
         "ajax": {
             url: "meeting/getUpcomingMeetingList",
             type: 'POST',
+            data: function (d) {
+                if (typeof window.meetingUpcomingTableCsrf === 'function') {
+                    return window.meetingUpcomingTableCsrf(d);
+                }
+                return d;
+            }
         },
         scroller: {
             loadingIndicator: true

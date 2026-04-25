@@ -2,7 +2,7 @@
 <!--main content start-->
 
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-gradient-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -21,7 +21,7 @@
                 </div>
                 <!-- <div class="col-sm-6 text-right">
                     <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('lab_report'); ?>
+                        <i class="fas fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('lab_report'); ?>
                     </a>
                 </div> -->
             </div>
@@ -71,25 +71,27 @@
                         </div>
 
                         <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample1" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('patient_id'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('phone'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('invoice_no'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('invoice_date_time'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('test_name'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('bill'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('report'); ?></th>
-                                        <th class="font-weight-bold"><?php echo "Updated On"; ?></th>
-                                        <th class="font-weight-bold"><?php echo "Reported By"; ?></th>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-hover datatables" id="editable-sample1" width="100%">
+                                    <thead>
+                                        <tr class="bg-light">
+                                            <th class="font-weight-bold text-uppercase"><?php echo lang('patient_id'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('phone'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('invoice_no'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('invoice_date_time'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('test_name'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('bill'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('report'); ?></th>
+                                            <th class="font-weight-bold"><?php echo "Updated On"; ?></th>
+                                            <th class="font-weight-bold"><?php echo "Reported By"; ?></th>
+                                            <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

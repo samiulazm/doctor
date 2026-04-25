@@ -158,7 +158,7 @@ class Advice extends MX_Controller
 
             if ($this->ion_auth->in_group(array('admin'))) {
                 // The 'btn btn-primary' classes make the button blue, indicating a primary action.
-                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $advice->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
+                $options1 = '<a type="button" class="btn btn-primary btn-sm editbutton" title="' . lang('edit') . '" href="javascript:;" data-id="' . $advice->id . '"><i class="fa fa-edit"></i> ' . lang('edit') . '</a>';
             }
 
             if ($this->ion_auth->in_group(array('admin'))) {

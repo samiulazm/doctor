@@ -1,56 +1,43 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+$CI = get_instance();
+if (!isset($departments) || !is_array($departments)) {
+    $departments = array();
+}
+$edit_mode = !empty($doctor) && is_object($doctor) && !empty($doctor->id);
+$page_title = $edit_mode ? lang('edit_doctor') : lang('add_doctor');
+$page_icon = $edit_mode ? 'fas fa-user-edit text-primary mr-2' : 'fas fa-user-plus text-primary mr-2';
+$dept_value = (string) set_value('department', $edit_mode && !empty($doctor->department) ? (string) $doctor->department : '');
+?>
 <link href="common/extranal/css/doctor/add_new.css" rel="stylesheet">
 
 <div class="content-wrapper bg-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-calendar-plus text-primary mr-3"></i>
-                        <?php
-                        if (!empty($doctor->id))
-                            echo lang('edit_doctor');
-                        else
-                            echo lang('add_doctor');
-                        ?>
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb float-sm-right bg-transparent">
-                            <li class="breadcrumb-item"><a href="home" class="text-primary"><?php echo lang('home') ?></a></li>
-                            <li class="breadcrumb-item active font-weight-bold">
-                                <?php
-                                if (!empty($doctor->id))
-                                    echo lang('edit_doctor');
-                                else
-                                    echo lang('add_doctor');
-                                ?>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $page_title,
+        'icon' => $page_icon,
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('doctor'), 'url' => 'doctor'),
+            array('label' => $page_title, 'url' => null),
+        ),
+    ));
+    ?>
 
     <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('doctor_registration_form'); ?></h2>
+                <div class="col-md-10 col-lg-9">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('doctor_registration_form'); ?></h3>
                         </div>
-                        <div class="card-body bg-light p-4">
-                            <?php echo validation_errors(); ?>
+                        <div class="card-body p-4">
+                            <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                             <?php echo $this->session->flashdata('feedback'); ?>
 
                             <form role="form" action="doctor/addNew" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
-                                <!-- Personal Information -->
                                 <div class="row mb-5">
                                     <div class="col-12 mb-4">
                                         <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -61,63 +48,51 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('name'); ?> <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-lg shadow-sm" name="name" value='<?php
-                                                                                                                                    if (!empty($setval)) {
-                                                                                                                                        echo set_value('name');
-                                                                                                                                    }
-                                                                                                                                    if (!empty($doctor->name)) {
-                                                                                                                                        echo $doctor->name;
-                                                                                                                                    }
-                                                                                                                                    ?>' required="">
+                                            <input type="text" class="form-control form-control-lg shadow-sm" name="name" value="<?php echo htmlspecialchars(
+                                                (string) set_value('name', $edit_mode && isset($doctor->name) ? $doctor->name : ''),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ); ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('email'); ?> <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control form-control-lg shadow-sm" name="email" value='<?php
-                                                                                                                                    if (!empty($setval)) {
-                                                                                                                                        echo set_value('email');
-                                                                                                                                    }
-                                                                                                                                    if (!empty($doctor->email)) {
-                                                                                                                                        echo $doctor->email;
-                                                                                                                                    }
-                                                                                                                                    ?>' required="">
+                                            <input type="email" class="form-control form-control-lg shadow-sm" name="email" value="<?php echo htmlspecialchars(
+                                                (string) set_value('email', $edit_mode && isset($doctor->email) ? $doctor->email : ''),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ); ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('password'); ?></label>
-                                            <input type="password" class="form-control form-control-lg shadow-sm" name="password" placeholder="********">
+                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('password'); ?><?php if (!$edit_mode) { ?> <span class="text-danger">*</span><?php } ?></label>
+                                            <input type="password" class="form-control form-control-lg shadow-sm" name="password" placeholder="********"<?php echo $edit_mode ? '' : ' required'; ?>>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('phone'); ?> <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-lg shadow-sm" name="phone" value='<?php
-                                                                                                                                    if (!empty($setval)) {
-                                                                                                                                        echo set_value('phone');
-                                                                                                                                    }
-                                                                                                                                    if (!empty($doctor->phone)) {
-                                                                                                                                        echo $doctor->phone;
-                                                                                                                                    }
-                                                                                                                                    ?>' required>
+                                            <input type="text" class="form-control form-control-lg shadow-sm" name="phone" value="<?php echo htmlspecialchars(
+                                                (string) set_value('phone', $edit_mode && isset($doctor->phone) ? $doctor->phone : ''),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ); ?>" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-12 mb-4">
                                         <div class="form-group">
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('address'); ?> <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-lg shadow-sm" name="address" value='<?php
-                                                                                                                                    if (!empty($setval)) {
-                                                                                                                                        echo set_value('address');
-                                                                                                                                    }
-                                                                                                                                    if (!empty($doctor->address)) {
-                                                                                                                                        echo $doctor->address;
-                                                                                                                                    }
-                                                                                                                                    ?>' required>
+                                            <input type="text" class="form-control form-control-lg shadow-sm" name="address" value="<?php echo htmlspecialchars(
+                                                (string) set_value('address', $edit_mode && isset($doctor->address) ? $doctor->address : ''),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ); ?>" required>
                                         </div>
                                     </div>
 
@@ -126,18 +101,15 @@
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('department'); ?></label>
                                             <select class="form-control form-control-lg shadow-sm" name="department">
                                                 <?php foreach ($departments as $department) { ?>
-                                                    <option value="<?php echo $department->id; ?>" <?php
-                                                                                                    if (!empty($setval)) {
-                                                                                                        if ($department->id == set_value('department')) {
-                                                                                                            echo 'selected';
-                                                                                                        }
-                                                                                                    }
-                                                                                                    if (!empty($doctor->department)) {
-                                                                                                        if ($department->id == $doctor->department) {
-                                                                                                            echo 'selected';
-                                                                                                        }
-                                                                                                    }
-                                                                                                    ?>> <?php echo $department->name; ?> </option>
+                                                    <option value="<?php echo (int) $department->id; ?>"<?php
+                                                    $sel = false;
+                                                    if (set_value('department', '') !== '') {
+                                                        $sel = ((int) $department->id === (int) set_value('department'));
+                                                    } elseif ($edit_mode && !empty($doctor->department)) {
+                                                        $sel = ((int) $department->id === (int) $doctor->department);
+                                                    }
+                                                    echo $sel ? ' selected' : '';
+                                                    ?>><?php echo htmlspecialchars($department->name, ENT_QUOTES, 'UTF-8'); ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -146,23 +118,15 @@
                                     <div class="col-md-12 mb-4">
                                         <div class="form-group">
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('profile'); ?> <span class="text-danger">*</span></label>
-                                            <textarea class="form-control ckeditor" id="editor1" name="profile" rows="6"><?php
-                                                                                                                            if (!empty($setval)) {
-                                                                                                                                echo set_value('profile');
-                                                                                                                            }
-                                                                                                                            if (!empty($doctor->profile)) {
-                                                                                                                                echo $doctor->profile;
-                                                                                                                            }
-                                                                                                                            ?></textarea>
+                                            <textarea class="form-control ckeditor" id="editor1" name="profile" rows="6"><?php echo set_value('profile', $edit_mode && !empty($doctor->profile) ? $doctor->profile : ''); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Images -->
                                 <div class="row mb-5">
                                     <div class="col-12 mb-4">
                                         <h3 class="border-bottom border-info pb-3 text-uppercase font-weight-900">
-                                            <i class="fas fa-images mr-3 text-info"></i>Images
+                                            <i class="fas fa-images mr-3 text-info"></i><?php echo lang('images'); ?>
                                         </h3>
                                     </div>
 
@@ -171,11 +135,11 @@
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('image'); ?></label>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" name="img_url" id="customFile1">
-                                                <label class="custom-file-label" for="customFile1">Choose profile image</label>
+                                                <label class="custom-file-label" for="customFile1"><?php echo lang('choose_profile_picture'); ?></label>
                                             </div>
-                                            <?php if (!empty($doctor->img_url)) { ?>
+                                            <?php if ($edit_mode && !empty($doctor->img_url)) { ?>
                                                 <div class="mt-3">
-                                                    <img src="<?php echo $doctor->img_url; ?>" class="img-thumbnail" height="100px">
+                                                    <img src="<?php echo htmlspecialchars($doctor->img_url, ENT_QUOTES, 'UTF-8'); ?>" class="img-thumbnail" height="100" alt="">
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -183,29 +147,25 @@
 
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('signature'); ?> <span class="text-danger">*</span></label>
+                                            <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('signature'); ?><?php if (!$edit_mode) { ?> <span class="text-danger">*</span><?php } ?></label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="signature" id="customFile2">
+                                                <input type="file" class="custom-file-input" name="signature" id="customFile2"<?php echo $edit_mode ? '' : ' required'; ?>>
                                                 <label class="custom-file-label" for="customFile2"><?php echo lang('choose_signature_image'); ?></label>
                                             </div>
-                                            <?php if (!empty($doctor->signature)) { ?>
+                                            <?php if ($edit_mode && !empty($doctor->signature)) { ?>
                                                 <div class="mt-3">
-                                                    <img src="<?php echo $doctor->signature; ?>" class="img-thumbnail" height="100px">
+                                                    <img src="<?php echo htmlspecialchars($doctor->signature, ENT_QUOTES, 'UTF-8'); ?>" class="img-thumbnail" height="100" alt="">
                                                 </div>
                                             <?php } ?>
                                         </div>
                                     </div>
                                 </div>
 
-                                <input type="hidden" name="id" value='<?php
-                                                                        if (!empty($doctor->id)) {
-                                                                            echo $doctor->id;
-                                                                        }
-                                                                        ?>'>
+                                <input type="hidden" name="id" value="<?php echo $edit_mode ? (int) $doctor->id : ''; ?>">
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block shadow-lg py-3">
+                                        <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block shadow-sm py-3">
                                             <i class="fas fa-save mr-3"></i><?php echo lang('submit'); ?>
                                         </button>
                                     </div>
@@ -220,11 +180,9 @@
     </section>
 </div>
 
-<!--main content end-->
-<!--footer start-->
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script src="common/assets/tinymce/tinymce.min.js"></script>
 <script src="common/extranal/js/doctor/doctor.js"></script>

@@ -3,7 +3,7 @@
 
 
 
-<div class="content-wrapper bg-light">
+<div class="content-wrapper bg-gradient-light">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -32,42 +32,44 @@
                             <div class="float-right">
                                 <a href="finance/addCategoryView">
                                     <button id="" class="btn btn-success btn-sm">
-                                        <i class="fa fa-plus-circle"></i> <?php echo lang('add_payment_category'); ?>
+                                        <i class="fas fa-plus-circle"></i> <?php echo lang('add_payment_category'); ?>
                                     </button>
                                 </a>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-hover" id="editable-sample">
-                                <thead>
-                                    <tr>
-                                        <th><?php echo lang('category'); ?></th>
-                                        <th><?php echo lang('description'); ?></th>
-                                        <?php if ($this->ion_auth->in_group('admin')) { ?>
-                                            <th class="no-print"><?php echo lang('options'); ?></th>
-                                        <?php } ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-                                    <?php foreach ($categories as $category) { ?>
-                                        <tr class="">
-                                            <td><?php echo $category->category; ?></td>
-                                            <td> <?php echo $category->description; ?></td>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="editable-sample">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo lang('category'); ?></th>
+                                            <th><?php echo lang('description'); ?></th>
                                             <?php if ($this->ion_auth->in_group('admin')) { ?>
-                                                <td class="no-print d-flex gap-1">
-                                                    <a class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" href="finance/editCategory?id=<?php echo $category->id; ?>"><i class="fa fa-edit"></i> </a>
-                                                    <a class="btn btn-danger btn-sm delete_button" title="<?php echo lang('delete'); ?>" href="finance/deleteCategory?id=<?php echo $category->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash"></i> </a>
-                                                </td>
+                                                <th class="no-print"><?php echo lang('options'); ?></th>
                                             <?php } ?>
                                         </tr>
-                                    <?php } ?>
+                                    </thead>
+                                    <tbody>
 
 
-                                </tbody>
-                            </table>
+                                        <?php foreach ($categories as $category) { ?>
+                                            <tr class="">
+                                                <td><?php echo $category->category; ?></td>
+                                                <td> <?php echo $category->description; ?></td>
+                                                <?php if ($this->ion_auth->in_group('admin')) { ?>
+                                                    <td class="no-print d-flex gap-1">
+                                                        <a class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" href="finance/editCategory?id=<?php echo $category->id; ?>"><i class="fas fa-edit"></i> </a>
+                                                        <a class="btn btn-danger btn-sm delete_button" title="<?php echo lang('delete'); ?>" href="finance/deleteCategory?id=<?php echo $category->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i> </a>
+                                                    </td>
+                                                <?php } ?>
+                                            </tr>
+                                        <?php } ?>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

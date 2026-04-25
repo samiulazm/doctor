@@ -1,20 +1,22 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
 $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
 ?>
 <?php if ($ap_settings_saas_ui) : ?>
 <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php else : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 <?php endif; ?>
 <!-- <link href="common/extranal/css/settings/settings.css" rel="stylesheet"> -->
 
-<div class="content-wrapper bg-gradient-light<?php echo $ap_settings_saas_ui ? ' ap-settings-saas' : ''; ?>">
-    <!-- Content Header -->
-    <section class="content-header py-4 <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0' : 'bg-white shadow-sm'; ?>">
+<?php if ($ap_settings_saas_ui) : ?>
+<div class="content-wrapper bg-gradient-light ap-settings-saas">
+    <section class="content-header py-4 ap-settings-saas-hero shadow-none border-0">
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-sm-8 col-lg-7">
-                    <?php if ($ap_settings_saas_ui) : ?>
                     <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · SaaS</span>
-                    <?php endif; ?>
                     <h1 class="display-4 font-weight-black mb-0">
                         <i class="fas fa-cog fa-lg mr-3"></i>
                         <?php echo lang('settings'); ?>
@@ -29,6 +31,19 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
             </div>
         </div>
     </section>
+<?php else : ?>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('settings'),
+        'icon' => 'fas fa-cog text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('settings'), 'url' => null),
+        ),
+    ));
+    ?>
+<?php endif; ?>
 
     <!-- Main content -->
     <section class="content py-5">
@@ -39,6 +54,7 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                         <div class="card-body bg-white p-5">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="settings/update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <!-- General Settings Card -->
                                 <div class="card shadow-sm border-0 mb-5">

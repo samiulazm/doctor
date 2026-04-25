@@ -1,3 +1,4 @@
+<?php $CI = get_instance(); ?>
 <!--sidebar end-->
 <!--main content start-->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
@@ -103,7 +104,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('case'); ?> <?php echo lang('details'); ?></h4>
-                <button type="button" class="close no-print" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close no-print" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
                     <div class="card mb-3 shadow-sm">
@@ -175,42 +176,30 @@
 <!-- <link href="common/extranal/css/patient/case_list.css" rel="stylesheet"> -->
 
 
-<div class="content-wrapper bg-gradient-light no-print" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-file-medical text-primary mr-3"></i>
-                        <?php echo lang('cases'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="patient"><?php echo lang('patient'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('cases'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <!-- <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('case'); ?>
-                    </a>
-                </div> -->
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light no-print">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('cases'),
+        'icon' => 'fas fa-file-medical text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('patients'), 'url' => 'patient'),
+            array('label' => lang('cases'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-5">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary">
-                            <h3 class="card-title text-white font-weight-bold"><?php echo lang('add_new'); ?> <?php echo lang('case'); ?></h3>
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('add_new'); ?> <?php echo lang('case'); ?></h3>
                         </div>
-                        <div class="card-body bg-light p-4">
+                        <div class="card-body p-4">
                             <form role="form" action="patient/addMedicalHistory" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="form-group">
                                     <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('date'); ?> <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-lg shadow-sm default-date-picker" name="date" required="">
@@ -221,11 +210,14 @@
                                     <select class="form-control form-control-lg shadow-sm" id="patientchoose" name="patient_id" required="">
                                     </select>
                                 </div>
-                                <?php if ($this->ion_auth->in_group(array('Doctor'))) { 
+                                <?php
+                                if ($this->ion_auth->in_group(array('Doctor'))) {
                                     $current_user = $this->ion_auth->get_user_id();
-                                    $doctor_id = $this->db->get_where('doctor', array('ion_user_id' => $current_user))->row()->id; ?>
-                                    <input type="hidden" name="doctor_id" value="<?php echo $doctor_id; ?>" >
-                                <?php }else{ ?>
+                                    $doc_row = $this->db->get_where('doctor', array('ion_user_id' => $current_user))->row();
+                                    $doctor_id = $doc_row ? (int) $doc_row->id : '';
+                                ?>
+                                    <input type="hidden" name="doctor_id" value="<?php echo $doctor_id; ?>">
+                                <?php } else { ?>
                                     <div class="form-group">
                                     <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('doctor'); ?> <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-lg shadow-sm" id="doctorchoose" name="doctor_id" required="">
@@ -245,7 +237,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="symptomchoose" name="symptom_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-bs-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-toggle="modal" href="#mySymptomModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +254,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="diagnosischoose" name="diagnosis_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-bs-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
+                                            <a data-toggle="modal" href="#myDiagnosisModal" class="btn btn-warning"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +265,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="treatmentchoose" name="treatment_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-bs-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-toggle="modal" href="#myTreatmentModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +276,7 @@
                                         <select class="form-control form-control-lg shadow-sm" multiple id="advicechoose" name="advice_id[]">
                                         </select>
                                         <div class="input-group-append">
-                                            <a data-bs-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                                            <a data-toggle="modal" href="#myAdviceModal" class="btn btn-success"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -296,7 +288,7 @@
 
                                 <input type="hidden" name="redirect" value='patient/caseList'>
 
-                                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block shadow-lg py-3">
+                                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block shadow-sm py-3">
                                     <i class="fas fa-save mr-3"></i><?php echo lang('submit'); ?>
                                 </button>
                             </form>
@@ -304,24 +296,27 @@
                     </div>
                 </div>
 
-                <div class="col-md-7">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary">
-                            <h3 class="card-title text-white font-weight-bold"><?php echo lang('cases'); ?></h3>
+                <div class="col-lg-7">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('cases'); ?></h3>
                         </div>
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang('date'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('case'); ?> <?php echo lang('title'); ?></th>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="editable-sample" style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><?php echo lang('date'); ?></th>
+                                            <th><?php echo lang('patient'); ?></th>
+                                            <th><?php echo lang('case'); ?> <?php echo lang('title'); ?></th>
+                                            <th class="no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -356,10 +351,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_medical_history'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1" class="col-sm-4"><?php echo lang('date'); ?> &ast;</label>
@@ -369,7 +365,7 @@
                             <label for="exampleInputEmail1" class="col-sm-4"><?php echo lang('patient'); ?> &ast;</label>
                             <select class="form-control m-bot15 js-example-basic-single" name="patient_id" value='' required="">
                                 <?php foreach ($patients as $patient) { ?>
-                                    <option value="<?php echo $patient->id; ?>"> <?php echo $patient->name; ?> </option>
+                                    <option value="<?php echo (int) $patient->id; ?>"> <?php echo htmlspecialchars($patient->name, ENT_QUOTES, 'UTF-8'); ?> </option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -400,10 +396,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('edit_medical_history'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form role="form" id="medical_historyEditForm" class="clearfix" action="patient/addMedicalHistory" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?php echo lang('date'); ?> &ast;</label>
                         <input type="text" class="form-control form-control-inline input-medium default-date-picker" name="date" value='' placeholder="" required="">
@@ -466,10 +463,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('gpt_button'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addMedicalHistory" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="form-row">
 
 
@@ -501,7 +499,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_symptom'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
 
@@ -530,7 +528,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_test'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
 
@@ -560,7 +558,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_diagnosis'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
 
@@ -607,7 +605,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_treatment'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
 
@@ -636,7 +634,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> <?php echo lang('add_new_advice'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body row">
 
@@ -662,27 +660,17 @@
 
 
 
-<?php
-$current_user = $this->ion_auth->get_user_id();
-if ($this->ion_auth->in_group('Doctor')) {
-    $doctor_id = $this->db->get_where('doctor', array('ion_user_id' => $current_user))->row()->id;
-}
-?>
-
 <script src="common/js/codearistos.min.js"></script>
 <script src="common/assets/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
- var select_doctor = "<?php echo lang('select_doctor'); ?>";
-    var select_patient = "<?php echo lang('select_patient'); ?>";
-    var select_diagnosis = "<?php echo lang('select_diagnosis'); ?>";
-    var select_treatment = "<?php echo lang('select_treatment'); ?>";
-
-    var select_advice = "<?php echo lang('select_advice'); ?>";
-    var select_symptom = "<?php echo lang('select_symptom'); ?>";
-    var select_test = "<?php echo lang('select_test'); ?>";
-</script>
-<script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var select_doctor = <?php echo json_encode(lang('select_doctor')); ?>;
+    var select_patient = <?php echo json_encode(lang('select_patient')); ?>;
+    var select_diagnosis = <?php echo json_encode(lang('select_diagnosis')); ?>;
+    var select_treatment = <?php echo json_encode(lang('select_treatment')); ?>;
+    var select_advice = <?php echo json_encode(lang('select_advice')); ?>;
+    var select_symptom = <?php echo json_encode(lang('select_symptom')); ?>;
+    var select_test = <?php echo json_encode(lang('select_test')); ?>;
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script src="common/extranal/js/patient/case_list.js"></script>
 

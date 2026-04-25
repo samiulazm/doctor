@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
@@ -14,8 +14,27 @@
             <div class="table-responsive">
         <table class="table chamber-table"><thead><tr><th>Medicine</th><th>Times</th></tr></thead><tbody>
             <?php foreach ($rows as $r) : ?>
-                <tr><td><?php echo htmlspecialchars($r->medicine_label); ?></td><td><code><?php echo htmlspecialchars($r->dose_times_json); ?></code></td></tr>
+                <?php
+                $dose_times = json_decode((string) $r->dose_times_json, true);
+                if (!is_array($dose_times)) {
+                    $dose_times = array();
+                }
+                ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($r->medicine_label); ?></td>
+                    <td>
+                        <?php foreach ($dose_times as $dose_time) : ?>
+                            <span class="chamber-status done"><?php echo htmlspecialchars((string) $dose_time); ?></span>
+                        <?php endforeach; ?>
+                        <?php if (empty($dose_times)) : ?>
+                            <span class="text-muted">No times set</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
             <?php endforeach; ?>
+            <?php if (empty($rows)) : ?>
+                <tr><td colspan="2" class="text-muted text-center py-4">No medicine reminders yet.</td></tr>
+            <?php endif; ?>
         </tbody></table>
             </div>
         </div>

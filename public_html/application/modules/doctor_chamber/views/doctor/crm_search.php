@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
@@ -29,11 +29,11 @@
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="hidden" name="patient_id" value="<?php echo (int) $p->id; ?>">
                             <input type="hidden" name="redirect_q" value="<?php echo htmlspecialchars($q); ?>">
-                            <select name="tag" class="form-control form-control-sm d-inline w-auto">
-                                <option value="high_risk">High risk</option>
-                                <option value="follow_up">Follow-up</option>
-                                <option value="vip">VIP</option>
-                            </select>
+                            <span class="chamber-radio-group d-inline-flex mr-1">
+                                <label class="chamber-radio-pill"><input type="radio" name="tag" value="high_risk" checked><span>High risk</span></label>
+                                <label class="chamber-radio-pill"><input type="radio" name="tag" value="follow_up"><span>Follow-up</span></label>
+                                <label class="chamber-radio-pill"><input type="radio" name="tag" value="vip"><span>VIP</span></label>
+                            </span>
                             <input name="notes" class="form-control form-control-sm d-inline w-auto" placeholder="note">
                             <button class="btn btn-xs btn-warning" type="submit"><i class="fas fa-tag"></i> Tag</button>
                         </form>
@@ -46,6 +46,9 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (empty($patients)) : ?>
+                <tr><td colspan="4" class="text-muted text-center py-4">Search by name or phone to find chamber patients.</td></tr>
+            <?php endif; ?>
             </tbody>
         </table>
         </div></div>

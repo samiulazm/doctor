@@ -1,110 +1,113 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <link href="common/extranal/css/notice/notice.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('notice'),
+        'icon' => 'fas fa-clipboard-list text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('notice'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-clipboard-list text-primary mr-3"></i>
-                        <?php echo lang('notice'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('notice'); ?></li>
-                        </ol>
-                    </nav>
+            <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
+                <div class="d-flex flex-wrap justify-content-end mb-3">
+                    <a data-toggle="modal" data-target="#myModal" href="#myModal" class="btn btn-sm btn-success">
+                        <i class="fa fa-plus mr-1"></i> <?php echo lang('add_new'); ?>
+                    </a>
                 </div>
-                <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
-                    <div class="col-sm-6 text-right">
-                        <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                            <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
-        <div class="container-fluid">
+            <?php } ?>
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-white py-3">
-                            <h3 class="card-title font-weight-bold"><?php echo lang('All the notices'); ?></h3>
+                <div class="col-12">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('All the notices'); ?></h3>
                         </div>
-
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang('title'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('description'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('notice'); ?> <?php echo lang('for'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('date'); ?></th>
-                                        <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
-                                            <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                        <?php } ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($notices as $notice) { ?>
-                                        <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
-                                            <tr>
-                                                <td><?php echo $notice->title; ?></td>
-                                                <td><?php echo $notice->description; ?></td>
-                                                <td class="center"><?php echo $notice->type; ?></td>
-                                                <td><?php
-                                                    if (!empty($notice->date)) {
-                                                        echo date('d-m-Y', $notice->date);
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-uppercase"><?php echo lang('title'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('description'); ?></th>
+                                            <th class="text-uppercase text-center"><?php echo lang('notice'); ?> <?php echo lang('for'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('date'); ?></th>
+                                            <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
+                                                <th class="text-uppercase no-print"><?php echo lang('options'); ?></th>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($notices as $notice) { ?>
+                                            <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
+                                                <tr>
+                                                    <td><?php echo html_escape($notice->title); ?></td>
+                                                    <td><?php
+                                                        $plain = preg_replace('/\s+/', ' ', trim(strip_tags((string) $notice->description)));
+                                                        echo html_escape(strlen($plain) > 160 ? substr($plain, 0, 160) . '…' : $plain);
+                                                    ?></td>
+                                                    <td class="text-center"><?php echo html_escape($notice->type); ?></td>
+                                                    <td><?php
+                                                        if (!empty($notice->date)) {
+                                                            echo html_escape(date('d-m-Y', (int) $notice->date));
+                                                        }
+                                                    ?></td>
                                                     <td class="no-print">
-                                                        <a class="btn btn-info btn-sm editbutton" data-bs-toggle="modal" data-id="<?php echo $notice->id; ?>">
+                                                        <a type="button" class="btn btn-info btn-sm editbutton" title="<?php echo lang('edit'); ?>" data-id="<?php echo (int) $notice->id; ?>">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
-                                                        <a class="btn btn-danger btn-sm" href="notice/delete?id=<?php echo $notice->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');">
+                                                        <a class="btn btn-danger btn-sm" href="notice/delete?id=<?php echo (int) $notice->id; ?>" title="<?php echo lang('delete'); ?>" onclick="return confirm('<?php echo lang('are_you_sure_you_want_to_delete_this_item'); ?>');">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
                                                     </td>
+                                                </tr>
+                                            <?php } elseif ($this->ion_auth->in_group(array('Patient'))) { ?>
+                                                <?php if ($notice->type == 'patient') { ?>
+                                                    <tr>
+                                                        <td><?php echo html_escape($notice->title); ?></td>
+                                                        <td><?php
+                                                            $plain = preg_replace('/\s+/', ' ', trim(strip_tags((string) $notice->description)));
+                                                            echo html_escape(strlen($plain) > 160 ? substr($plain, 0, 160) . '…' : $plain);
+                                                        ?></td>
+                                                        <td class="text-center"><?php echo html_escape($notice->type); ?></td>
+                                                        <td><?php
+                                                            if (!empty($notice->date)) {
+                                                                echo html_escape(date('d-m-Y', (int) $notice->date));
+                                                            }
+                                                        ?></td>
+                                                    </tr>
                                                 <?php } ?>
-                                            </tr>
-                                            <?php } elseif ($this->ion_auth->in_group(array('Patient'))) {
-                                            if ($notice->type == 'patient') { ?>
-                                                <tr>
-                                                    <td><?php echo $notice->title; ?></td>
-                                                    <td><?php echo $notice->description; ?></td>
-                                                    <td class="center"><?php echo $notice->type; ?></td>
-                                                    <td><?php
-                                                        if (!empty($notice->date)) {
-                                                            echo date('d-m-Y', $notice->date);
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                            <?php }
-                                        } else {
-                                            if ($notice->type == 'staff') { ?>
-                                                <tr>
-                                                    <td><?php echo $notice->title; ?></td>
-                                                    <td><?php echo $notice->description; ?></td>
-                                                    <td class="center"><?php echo $notice->type; ?></td>
-                                                    <td><?php
-                                                        if (!empty($notice->date)) {
-                                                            echo date('d-m-Y', $notice->date);
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                        <?php }
-                                        } ?>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                            <?php } else { ?>
+                                                <?php if ($notice->type == 'staff') { ?>
+                                                    <tr>
+                                                        <td><?php echo html_escape($notice->title); ?></td>
+                                                        <td><?php
+                                                            $plain = preg_replace('/\s+/', ' ', trim(strip_tags((string) $notice->description)));
+                                                            echo html_escape(strlen($plain) > 160 ? substr($plain, 0, 160) . '…' : $plain);
+                                                        ?></td>
+                                                        <td class="text-center"><?php echo html_escape($notice->type); ?></td>
+                                                        <td><?php
+                                                            if (!empty($notice->date)) {
+                                                                echo html_escape(date('d-m-Y', (int) $notice->date));
+                                                            }
+                                                        ?></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,165 +116,90 @@
     </section>
 </div>
 
-
-
-
-
-
-
-
-<!--sidebar end-->
-<!--main content start-->
-
-
-
-
-
-
-<!--main content end-->
-<!--footer start-->
-
-
-
-
-<!-- Add Notice Modal-->
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="addNoticeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title font-weight-bold"> <?php echo lang('add_notice'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+            <div class="modal-header bg-gradient-primary">
+                <h4 class="modal-title text-white font-weight-bold" id="addNoticeModalLabel"><?php echo lang('add_notice'); ?></h4>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">&times;</button>
             </div>
             <div class="modal-body">
-                <form role="form" action="notice/addNew" class="clearfix row" method="post" enctype="multipart/form-data">
+                <form role="form" action="notice/addNew" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('title'); ?> &ast;</label>
-                            <input type="text" class="form-control form-control-lg" name="title" value='<?php
-                                                                                                        if (!empty($notice->name)) {
-                                                                                                            echo $notice->name;
-                                                                                                        }
-                                                                                                        ?>' placeholder="" required="">
+                            <label><?php echo lang('title'); ?> &ast;</label>
+                            <input type="text" class="form-control form-control-lg" name="title" value="" required>
                         </div>
-
                         <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('notice_for'); ?></label>
-                            <select class="form-control form-control-lg m-bot15" name="type" value=''>
-                                <option value="patient" <?php
-                                                        if (!empty($notice->type)) {
-                                                            if ($notice->type == 'patient') {
-                                                                echo 'selected';
-                                                            }
-                                                        }
-                                                        ?>><?php echo lang('patient'); ?></option>
-                                <option value="staff" <?php
-                                                        if (!empty($notice->type)) {
-                                                            if ($notice->type == 'staff') {
-                                                                echo 'selected';
-                                                            }
-                                                        }
-                                                        ?>><?php echo lang('staff'); ?></option>
-
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-12 des">
-                            <label class=""><?php echo lang('description'); ?> &ast;</label>
-                            <div class="">
-                                <textarea class="ckeditor form-control editor" id="editor" name="description" value="" rows="10" required=""> </textarea>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1"> <?php echo lang('date'); ?> &ast;</label>
-                            <input type="text" class="form-control form-control-lg default-date-picker readonly" name="date" value='' placeholder="" required="">
-                        </div>
-
-
-
-
-                        <div class="form-group col-md-12">
-                            <button type="submit" name="submit" class="btn btn-info float-right"> <?php echo lang('submit'); ?></button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
-<div class="modal fade" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_notice'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <form role="form" id="editNoticeForm" class="clearfix row" action="notice/addNew" method="post" enctype="multipart/form-data">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('title'); ?> &ast;</label>
-                            <input type="text" class="form-control form-control-lg" name="title" value='<?php
-                                                                                                        if (!empty($notice->name)) {
-                                                                                                            echo $notice->name;
-                                                                                                        }
-                                                                                                        ?>' placeholder="" required="">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('notice_for'); ?></label>
-                            <select class="form-control form-control-lg m-bot15" name="type" value=''>
-                                <option value="patient" <?php
-                                                        if (!empty($notice->type)) {
-                                                            if ($notice->type == 'patient') {
-                                                                echo 'selected';
-                                                            }
-                                                        }
-                                                        ?>><?php echo lang('patient'); ?></option>
-                                <option value="staff" <?php
-                                                        if (!empty($notice->type)) {
-                                                            if ($notice->type == 'staff') {
-                                                                echo 'selected';
-                                                            }
-                                                        }
-                                                        ?>><?php echo lang('staff'); ?></option>
-
+                            <label><?php echo lang('notice_for'); ?></label>
+                            <select class="form-control form-control-lg" name="type">
+                                <option value="patient"><?php echo lang('patient'); ?></option>
+                                <option value="staff"><?php echo lang('staff'); ?></option>
                             </select>
                         </div>
                         <div class="form-group col-md-12 des">
-                            <label class=""><?php echo lang('description'); ?> &ast;</label>
-                            <div class="">
-                                <textarea class="ckeditor form-control editor" id="editor1" name="description" value="" rows="10" required=""> </textarea>
-                            </div>
+                            <label><?php echo lang('description'); ?> &ast;</label>
+                            <textarea class="ckeditor form-control editor" id="editor" name="description" rows="10" required></textarea>
                         </div>
-
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1"> <?php echo lang('date'); ?> &ast;</label>
-                            <input type="text" class="form-control form-control-lg default-date-picker" onkeypress="return false;" name="date" value='' placeholder="" required="">
+                            <label><?php echo lang('date'); ?> &ast;</label>
+                            <input type="text" class="form-control form-control-lg default-date-picker readonly" name="date" value="" required>
                         </div>
-                        <input type="hidden" name="id" value='<?php
-                                                                if (!empty($notice->id)) {
-                                                                    echo $notice->id;
-                                                                }
-                                                                ?>'>
                         <div class="form-group col-md-12">
-                            <button type="submit" name="submit" class="btn btn-info float-right"> <?php echo lang('submit'); ?></button>
+                            <button type="submit" name="submit" class="btn btn-primary float-right"><?php echo lang('submit'); ?></button>
                         </div>
                     </div>
                 </form>
-
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+        </div>
+    </div>
 </div>
 
+<div class="modal fade" id="myModal2" role="dialog" aria-labelledby="editNoticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+                <h4 class="modal-title text-white font-weight-bold" id="editNoticeModalLabel"><?php echo lang('edit_notice'); ?></h4>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="editNoticeForm" class="clearfix" action="notice/addNew" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label><?php echo lang('title'); ?> &ast;</label>
+                            <input type="text" class="form-control form-control-lg" name="title" value="" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><?php echo lang('notice_for'); ?></label>
+                            <select class="form-control form-control-lg" name="type" id="edit_notice_type">
+                                <option value="patient"><?php echo lang('patient'); ?></option>
+                                <option value="staff"><?php echo lang('staff'); ?></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12 des">
+                            <label><?php echo lang('description'); ?> &ast;</label>
+                            <textarea class="ckeditor form-control editor" id="editor1" name="description" rows="10" required></textarea>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label><?php echo lang('date'); ?> &ast;</label>
+                            <input type="text" class="form-control form-control-lg default-date-picker" onkeypress="return false;" name="date" value="" required>
+                        </div>
+                        <input type="hidden" name="id" id="edit_notice_id" value="">
+                        <div class="form-group col-md-12">
+                            <button type="submit" name="submit" class="btn btn-primary float-right"><?php echo lang('submit'); ?></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="common/js/codearistos.min.js"></script>
 <script src="common/assets/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script src="common/extranal/js/notice.js"></script>

@@ -366,14 +366,14 @@ class Payroll extends MX_Controller
 
         $count = 0;
 
-        $table = '<table class="table table-striped table-hover table-bordered w-100" id="salary-sample">
-                        <thead>
+        $table = '<table class="table table-hover table-bordered align-middle text-sm w-100 mb-0 datatables" id="salary-sample" width="100%">
+                        <thead class="thead-light">
                             <tr>
-                                <th>' . lang('staff') . '</th>
-                                <th>' . lang('salary') . '</th>
-                                <th>' . lang('paid_on') . '</th>
-                                <th>' . lang('status') . '</th>
-                                <th class="no-print">' . lang('options') . '</th>
+                                <th class="text-uppercase">' . lang('staff') . '</th>
+                                <th class="text-uppercase">' . lang('salary') . '</th>
+                                <th class="text-uppercase">' . lang('paid_on') . '</th>
+                                <th class="text-uppercase">' . lang('status') . '</th>
+                                <th class="no-print text-uppercase">' . lang('options') . '</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -450,14 +450,14 @@ class Payroll extends MX_Controller
 
         $allEmployees = array_merge($array1, $array2, $array3, $array4, $array5, $array6);
 
-        $table = '<table class="table table-striped table-hover table-bordered w-100" id="salary-sample">
-                        <thead>
+        $table = '<table class="table table-hover table-bordered align-middle text-sm w-100 mb-0 datatables" id="salary-sample" width="100%">
+                        <thead class="thead-light">
                             <tr>
-                                <th>' . lang('staff') . '</th>
-                                <th>' . lang('salary') . '</th>
-                                <th>' . lang('paid_on') . '</th>
-                                <th>' . lang('status') . '</th>
-                                <th class="no-print">' . lang('options') . '</th>
+                                <th class="text-uppercase">' . lang('staff') . '</th>
+                                <th class="text-uppercase">' . lang('salary') . '</th>
+                                <th class="text-uppercase">' . lang('paid_on') . '</th>
+                                <th class="text-uppercase">' . lang('status') . '</th>
+                                <th class="no-print text-uppercase">' . lang('options') . '</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -683,14 +683,14 @@ $total = $exp + $earning - $deduction;
         $year = $this->input->get('year');
         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-        $table = '<table class="table table-striped table-hover table-bordered w-100" id="salary-sample">
-                        <thead>
+        $table = '<table class="table table-hover table-bordered align-middle text-sm w-100 mb-0 datatables" id="salary-sample" width="100%">
+                        <thead class="thead-light">
                             <tr>
-                                <th>' . lang('month') . '</th>
-                                <th>' . lang('salary') . '</th>
-                                <th>' . lang('paid_on') . '</th>
-                                <th>' . lang('status') . '</th>
-                                <th class="no-print">' . lang('options') . '</th>
+                                <th class="text-uppercase">' . lang('month') . '</th>
+                                <th class="text-uppercase">' . lang('salary') . '</th>
+                                <th class="text-uppercase">' . lang('paid_on') . '</th>
+                                <th class="text-uppercase">' . lang('status') . '</th>
+                                <th class="no-print text-uppercase">' . lang('options') . '</th>
                             </tr>
                         </thead>
                         <tbody>';

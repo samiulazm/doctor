@@ -1,41 +1,35 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('doctors_commission'),
+        'icon' => 'fas fa-user-md text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('doctors_commission'), 'url' => null),
+        ),
+    ));
+    ?>
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-user-md text-primary mr-3"></i>
-                        <?php echo lang('doctors_commission') ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><?php echo lang('report'); ?></li>
-                            <li class="breadcrumb-item active"><?php echo lang('doctors_commission'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary">
-                            <h3 class="card-title text-white font-weight-800"><?php echo lang('Doctor commisions generated from finance payment'); ?></h3>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('Doctor commisions generated from finance payment'); ?></h3>
                         </div>
 
-                        <div class="card-body bg-light p-4">
+                        <div class="card-body p-4">
                             <div class="row mb-4">
                                 <div class="col-md-7">
                                     <form role="form" action="finance/doctorsCommission" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                         <div class="form-row">
                                             <div class="col-md-8">
                                                 <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
@@ -66,14 +60,16 @@
                                 </div>
                             <?php endif; ?>
 
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('doctor_id'); ?></th>
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('doctor'); ?></th>
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('commission'); ?></th>
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('total'); ?></th>
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('options'); ?></th>
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample" width="100%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-uppercase"><?php echo lang('doctor_id'); ?></th>
+                                        <th class="text-uppercase"><?php echo lang('doctor'); ?></th>
+                                        <th class="text-uppercase"><?php echo lang('commission'); ?></th>
+                                        <th class="text-uppercase"><?php echo lang('total'); ?></th>
+                                        <th class="text-uppercase"><?php echo lang('options'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -113,7 +109,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-primary btn-sm" href="finance/docComDetails?id=<?php echo $doctor->id; ?>">
-                                                    <i class="fa fa-file-text"></i> <?php echo lang('details'); ?>
+                                                    <i class="fas fa-file-alt"></i> <?php echo lang('details'); ?>
                                                 </a>
                                             </td>
                                         </tr>
@@ -128,6 +124,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,7 +138,7 @@
 <!--footer start-->
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <!-- <script defer type="text/javascript" src="common/assets/DataTables/datatables.min.js"></script> -->
 <script src="common/extranal/js/finance/doctor_commission.js"></script>

@@ -25,8 +25,9 @@ class File extends MX_Controller {
     public function addNewView() {
         $data['files'] = $this->file_model->getFile();
         $data['settings'] = $this->settings_model->getSettings();
+        $data['file'] = (object) array();
         $this->load->view('home/dashboard', $data); 
-        $this->load->view('add_new');
+        $this->load->view('add_new', $data);
         $this->load->view('home/footer'); 
     }
 
@@ -51,8 +52,10 @@ class File extends MX_Controller {
             if (!empty($id)) {
                 redirect("file/editFile?id=$id");
             } else {
-                $this->load->view('home/dashboard'); 
-                $this->load->view('add_new');
+                $data = array();
+                $data['file'] = (object) array();
+                $this->load->view('home/dashboard', $data); 
+                $this->load->view('add_new', $data);
                 $this->load->view('home/footer'); 
             }
         } else {

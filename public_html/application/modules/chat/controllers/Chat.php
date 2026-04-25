@@ -40,6 +40,10 @@ Class Chat extends MX_Controller {
             $this->db->select('*');
             $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
             $array6 = $this->db->get('doctor')->result_array();
+
+            $id = $this->ion_auth->user()->row()->id;
+            $data['current_user'] = $id;
+            $data['employees'] = array_merge( $array1, $array2, $array3, $array4, $array5, $array6);
             
             $alreadyDone = array();
             for($i = 0; $i < count($data['admins']); $i++) {
@@ -49,18 +53,15 @@ Class Chat extends MX_Controller {
                     $this->db->where('sender_id', $data['admins'][$i]['id']);
                     $this->db->where('receiver_id', $id);
                     $latestChat = $this->db->get('chat')->row(); 
-                    if($latestChat->status == 'unread') {
-                        $data['admins'][$i]['newChat'] .=  'unread';
+                    if (!empty($latestChat) && $latestChat->status == 'unread') {
+                        $data['admins'][$i]['newChat'] = 'unread';
                     } else {
-                        $data['admins'][$i]['newChat'] .=  'read';
+                        $data['admins'][$i]['newChat'] = 'read';
                     }
                     array_push($alreadyDone, $data['admins'][$i]['id']);
             }
         }
         
-        $data['employees'] = array_merge( $array1, $array2, $array3, $array4, $array5, $array6);
-        $id = $this->ion_auth->user()->row()->id;
-        $data['current_user'] = $id;
         $this->db->limit(1);
         $this->db->order_by('date_time', 'desc');
         $this->db->where('sender_id', $id);
@@ -76,14 +77,14 @@ Class Chat extends MX_Controller {
                     $this->db->where('sender_id', $data['employees'][$i]['ion_user_id']);
                     $this->db->where('receiver_id', $id);
                     $latestChat = $this->db->get('chat')->row();
-                    if(!empty($latestChat)){
-                    if($latestChat->status == 'unread') {
-                        $data['employees'][$i]['newChat'] .=  'unread';
+                    if (!empty($latestChat)) {
+                        if ($latestChat->status == 'unread') {
+                            $data['employees'][$i]['newChat'] = 'unread';
+                        } else {
+                            $data['employees'][$i]['newChat'] = 'read';
+                        }
                     } else {
-                        $data['employees'][$i]['newChat'] .=  'read';
-                    }
-                    }else{
-                          $data['employees'][$i]['newChat']='';
+                        $data['employees'][$i]['newChat'] = '';
                     }
             }
         }
@@ -488,6 +489,7 @@ Class Chat extends MX_Controller {
     public function changeChat() {
         $id2 = $this->input->get('id');
         $id = $this->ion_auth->user()->row()->id;
+        $data['chats'] = '';
         
         $data['user'] = $this->db->get_where('users', array('id' => $id2))->row()->username;
         
@@ -535,10 +537,13 @@ Class Chat extends MX_Controller {
     public function findChatPerson() {
         $id = $this->ion_auth->user()->row()->id;
         $search = $this->input->get('search');
+        $hospital = $this->db->get_where('hospital', array('id' => $this->session->userdata('hospital_id')))->row();
+        if (!$hospital) {
+            echo json_encode(array('admin' => '', 'employee' => ''));
+            return;
+        }
         
         if($search == '') {
-            $hospital = $this->db->get_where('hospital', array('id' => $this->session->userdata('hospital_id')))->row();
-        
         $this->db->where('id', $hospital->ion_user_id);
         $admins = $this->db->get('users')->result_array();
         //$data['admins'] = $this->db->get_where('users', array('id' => $hospital->ion_user_id))->result_array();
@@ -563,7 +568,6 @@ Class Chat extends MX_Controller {
             $array6 = $this->db->get('doctor')->result_array();
             $employees = array_merge( $array1, $array2, $array3, $array4, $array5, $array6);
     } else {
-        $hospital = $this->db->get_where('hospital', array('id' => $this->session->userdata('hospital_id')))->row();
         $this->db->group_start();
         $this->db->like('username', $search);
         $this->db->or_like('email', $search);
@@ -627,13 +631,8 @@ Class Chat extends MX_Controller {
                 $this->db->where('receiver_id', $id);
                 $this->db->where('status', 'unread');
                 $unreadChat = $this->db->get('chat')->row();
-                if(empty($unreadChat)) {
-                    $unreadChat = '';
-                } else {
-                    $unreadChat = 'newChat';
-                }
-                
-                $data['employee'] .=     '<button class="ca-btn ca-chat-btn d-block '.$unreadChat.'" data-id="'.$employees[$i]['ion_user_id'].'">'.$employees[$i]['name'].'</button>';
+                $is_unread = !empty($unreadChat);
+                $data['employee'] .= $this->_chat_user_sidebar_html($employees[$i]['ion_user_id'], $employees[$i]['name'], false, $is_unread);
             }
         }
         
@@ -645,20 +644,31 @@ Class Chat extends MX_Controller {
                 $this->db->where('receiver_id', $id);
                 $this->db->where('status', 'unread');
                 $unreadChat = $this->db->get('chat')->row();
-                if(empty($unreadChat)) {
-                    $unreadChat = '';
-                } else {
-                    $unreadChat = 'newChat';
-                }
-                
-                  $data['admin'] .=     '<button class="ca-btn ca-chat-btn d-block '.$unreadChat.'" data-id="'.$admins[$i]['id'].'">'.$admins[$i]['username'].'</button>';
+                $is_unread = !empty($unreadChat);
+                $data['admin'] .= $this->_chat_user_sidebar_html($admins[$i]['id'], $admins[$i]['username'], true, $is_unread);
             }
         }
         
             echo json_encode($data);
     }
     
+    /**
+     * Renders a chat sidebar row matching views/chat.php (.chat-user).
+     */
+    private function _chat_user_sidebar_html($user_id, $display_name, $is_admin = false, $is_unread = false) {
+        $user_id = (int) $user_id;
+        $name = htmlspecialchars((string) $display_name, ENT_QUOTES, 'UTF-8');
+        $unread = $is_unread ? ' unread' : '';
+        $icon = $is_admin ? 'fa-user-shield' : 'fa-user';
+        $role = $is_admin ? 'Administrator' : 'Staff Member';
+        $badge = $is_unread ? '<div class="unread-badge"><span class="badge badge-primary">•</span></div>' : '';
+        return '<div class="chat-user' . $unread . '" data-id="' . $user_id . '">'
+            . '<div class="user-avatar"><i class="fas ' . $icon . '"></i><span class="status-indicator online"></span></div>'
+            . '<div class="user-info"><div class="user-name">' . $name . '</div>'
+            . '<div class="user-status">' . $role . '</div></div>'
+            . $badge
+            . '</div>';
+    }
 
-    
 }
 

@@ -47,7 +47,7 @@ $fee = (isset($profile->advance_booking_fee) && (float) $profile->advance_bookin
         </div>
         <div class="chamber-public-panel">
             <h2 class="chamber-panel-title mb-3"><i class="fas fa-broadcast-tower text-warning mr-1"></i> Live queue</h2>
-            <div id="ticker" class="chamber-ticker"><i class="fas fa-circle-notch fa-spin"></i> Current serial: -</div>
+            <div id="ticker" class="chamber-ticker"><span class="dot-pulse"></span><span>Current serial: -</span></div>
             <p class="chamber-muted small mt-3 mb-0">Queue status refreshes automatically while the chamber desk updates the current serial.</p>
         </div>
     </div>
@@ -85,8 +85,11 @@ $fee = (isset($profile->advance_booking_fee) && (float) $profile->advance_bookin
                 chamber_id: cid,
                 date: d
             }, function(r){
-                if (r.serial) { $('#ticker').text('Now serving serial: ' + r.serial + ' (' + (r.status||'') + ')'); }
-                else { $('#ticker').text('Current serial: - (queue not started)'); }
+                if (r.serial) {
+                    $('#ticker').html('<span class="dot-pulse"></span><span>Now serving serial: ' + escapeHtml(r.serial) + ' (' + escapeHtml(r.status || '') + ')</span>');
+                } else {
+                    $('#ticker').html('<span class="dot-pulse"></span><span>Current serial: - (queue not started)</span>');
+                }
             });
         }
         $('#chamberSel').on('change', function(){ renderChamberInfo(); loadTicker(); });

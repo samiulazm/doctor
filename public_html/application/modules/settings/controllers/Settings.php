@@ -59,14 +59,50 @@ class Settings extends MX_Controller
     {
         $data['settings'] = $this->settings_model->getSettings();
         $data['subscription'] = $this->settings_model->getSubscription();
+        if (empty($data['subscription'])) {
+            show_swal(lang('error'), 'error', lang('error'));
+            redirect('home');
+            return;
+        }
         $user = $this->ion_auth->get_user_id();
-        $ion_user_id = $this->db->get_where('users', array('id' => $user))->row();
-        $data['hospital'] = $this->db->get_where('hospital', array('ion_user_id' => $ion_user_id->id))->row();
+        $ion_user = $this->db->get_where('users', array('id' => $user))->row();
+        if (empty($ion_user)) {
+            show_swal(lang('error'), 'error', lang('error'));
+            redirect('home');
+            return;
+        }
+        $data['hospital'] = $this->db->get_where('hospital', array('ion_user_id' => $ion_user->id))->row();
+        if (empty($data['hospital'])) {
+            $data['hospital'] = $data['subscription'];
+        }
         $data['package'] = $this->package_model->getPackageById($data['subscription']->package);
+        if (empty($data['package'])) {
+            $data['package'] = (object) array(
+                'name' => '—',
+                'yearly_price' => '',
+                'monthly_price' => '',
+            );
+        }
         $data['hospital_payments'] = $this->settings_model->getHospitalPaymentsById($data['subscription']->id);
+        if (empty($data['hospital_payments'])) {
+            $data['hospital_payments'] = (object) array(
+                'package_duration' => 'monthly',
+                'next_due_date' => '—',
+                'next_due_date_stamp' => 0,
+                'add_date_stamp' => 0,
+                'id' => 0,
+            );
+        }
         $data['settings1'] = $this->db->get_where('settings', array('hospital_id' => 'superadmin'))->row();
-        $data['deposits'] = $this->db->get_where('hospital_deposit', array('hospital_user_id' => $data['hospital_payments']->hospital_user_id))->result();
-        $data['gateway'] = $this->db->get_where('paymentGateway', array('name' => $data['settings1']->payment_gateway, 'hospital_id' => 'superadmin'))->row();
+        if (!empty($data['hospital_payments']) && !empty($data['hospital_payments']->hospital_user_id)) {
+            $data['deposits'] = $this->db->get_where('hospital_deposit', array('hospital_user_id' => $data['hospital_payments']->hospital_user_id))->result();
+        } else {
+            $data['deposits'] = array();
+        }
+        $data['gateway'] = null;
+        if (!empty($data['settings1']) && !empty($data['settings1']->payment_gateway)) {
+            $data['gateway'] = $this->db->get_where('paymentGateway', array('name' => $data['settings1']->payment_gateway, 'hospital_id' => 'superadmin'))->row();
+        }
         $this->load->view('home/dashboard', $data);
         $this->load->view('subscription', $data);
         $this->load->view('home/footer');

@@ -1,42 +1,36 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($payment)) {
+    $payment = (object) array();
+}
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-8">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-cash-register text-primary mr-3"></i>
-                        <?php
-                        if (!empty($payment->id)) {
-                            echo 'Edit Sale (' . 'Invoice ID: ' . $payment->id . ')';
-                        } else {
-                            echo 'Pharmacy Point of Sale';
-                        }
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home">Home</a></li>
-                            <li class="breadcrumb-item"><a href="finance/pharmacy/payment">Pharmacy</a></li>
-                            <li class="breadcrumb-item active">New Sale</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-4 text-right">
-                    <div class="alert alert-info mb-0 py-2">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        <small><strong>FIFO System:</strong> Older batches sold first</small>
-                    </div>
-                </div>
-            </div>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $sale_title = !empty($payment->id) ? lang('edit') . ' ' . lang('invoice') . ' #' . (int) $payment->id : lang('pharmacy') . ' ' . lang('sales');
+    $CI->load->view('partials/page_header', array(
+        'title' => $sale_title,
+        'icon' => 'fas fa-cash-register text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('pharmacy') . ' ' . lang('sales'), 'url' => 'finance/pharmacy/payment'),
+            array('label' => !empty($payment->id) ? lang('edit') : lang('add_new'), 'url' => null),
+        ),
+    ));
+    ?>
+    <div class="container-fluid py-2">
+        <div class="alert alert-info mb-0 py-2 small">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>FIFO:</strong> <?php echo lang('pharmacy'); ?> — older batches first.
         </div>
-    </section>
+    </div>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <form role="form" id="pharmacySaleForm" action="finance/pharmacy/addPayment" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                 <div class="row">
                     <!-- Left Column - Medicine Selection -->
                     <div class="col-lg-8">
@@ -243,7 +237,7 @@
                 <h5 class="modal-title">
                     <i class="fas fa-info-circle mr-2"></i>Medicine Details
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">&times;</button>
             </div>
             <div class="modal-body" id="medicineDetailsBody">
                 <!-- Details will be loaded here -->

@@ -1,30 +1,24 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <script type="text/javascript" src="common/js/google-loader.js"></script>
 <link href="common/extranal/css/pharmacy/home.css" rel="stylesheet">
-<div class="content-wrapper bg-light">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6">
-                    <h1 class="font-weight-bold">
-                        <i class="fas fa-pills mr-2"></i>
-                        <?php echo lang('pharmacy'); ?> <?php echo lang('dashboard'); ?>
-                    </h1>
-                </div>
-                <!-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('department') ?></li>
-                    </ol>
-                </div> -->
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <!-- Main content -->
-    <section class="content">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('pharmacy') . ' ' . lang('dashboard'),
+        'icon' => 'fas fa-pills text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('pharmacy'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

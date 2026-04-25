@@ -476,7 +476,7 @@ function dateChanged1() {
 
 $(document).ready(function () {
   "use strict";
-  $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function (e) {
+  $('a[data-toggle="tab"]').on("shown.bs.tab", function (e) {
     "use strict";
     $.fn.dataTable
       .tables({ visible: true, api: true })
@@ -508,21 +508,21 @@ $(document).ready(function () {
     buttons: [
       {
         extend: "copyHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "excelHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "csvHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "pdfHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],
@@ -560,11 +560,11 @@ $(document).ready(function () {
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     buttons: [
-      { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
-      { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
-      { extend: "csvHtml5", exportOptions: { columns: [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
-      { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3, 4] } },
+      { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3, 4] } },
+      { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3, 4] } },
+      { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3, 4] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],
@@ -605,21 +605,21 @@ $(document).ready(function () {
     buttons: [
       {
         extend: "copyHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "excelHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "csvHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "pdfHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],
@@ -662,21 +662,21 @@ $(document).ready(function () {
     buttons: [
       {
         extend: "copyHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "excelHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "csvHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "pdfHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],
@@ -717,21 +717,21 @@ $(document).ready(function () {
     buttons: [
       {
         extend: "copyHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "excelHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "csvHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "pdfHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],
@@ -772,21 +772,21 @@ $(document).ready(function () {
     buttons: [
       {
         extend: "copyHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "excelHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "csvHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
       {
         extend: "pdfHtml5",
-        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        exportOptions: { columns: [0, 1, 2, 3, 4] },
       },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],

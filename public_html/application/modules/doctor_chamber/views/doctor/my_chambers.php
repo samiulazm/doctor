@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>

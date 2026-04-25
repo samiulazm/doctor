@@ -109,9 +109,9 @@ $(document).ready(function () {
         ) {
           $("#signature").attr("src", response.accountant.signature);
         }
-        $("#myModal2").modal("show");
       },
       complete: function () {
+        $("#myModal2").modal("show");
         $("#loader").hide();
       }
     });
@@ -131,7 +131,7 @@ $(document).ready(function () {
     buttons: [
       { extend: "copyHtml5", exportOptions: { columns: [1, 2, 3, 4] } },
       { extend: "excelHtml5", exportOptions: { columns: [1, 2, 3, 4] } },
-      { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3, 4] } },
+      { extend: "csvHtml5", exportOptions: { columns: [1, 2, 3, 4] } },
       { extend: "pdfHtml5", exportOptions: { columns: [1, 2, 3, 4] } },
       { extend: "print", exportOptions: { columns: [1, 2, 3, 4] } },
     ],
@@ -146,6 +146,7 @@ $(document).ready(function () {
     language: {
       lengthMenu: "_MENU_",
       search: "_INPUT_",
+      searchPlaceholder: "Search...",
       url: "common/assets/DataTables/languages/" + language + ".json",
     },
   });

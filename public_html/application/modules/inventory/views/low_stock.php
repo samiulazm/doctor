@@ -1,35 +1,33 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-exclamation-triangle text-warning mr-3"></i>
-                        <?php echo lang('low_stock_items') ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="inventory"><?php echo lang('inventory'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('low_stock_items'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="inventory/purchase" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-list"></i> <?php echo lang('purchase_orders'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('low_stock_items'),
+        'icon' => 'fas fa-exclamation-triangle text-warning mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('inventory'), 'url' => 'inventory'),
+            array('label' => lang('low_stock_items'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-end mb-3">
+                <a href="inventory/purchase" class="btn btn-sm btn-primary">
+                    <i class="fa fa-list mr-1"></i> <?php echo lang('purchase_orders'); ?>
+                </a>
+            </div>
             <?php if (!empty($items)) { ?>
                 <!-- Alert -->
                 <div class="alert alert-warning alert-dismissible">
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
                     You have <?php echo count($items); ?> items with low stock levels that require immediate attention.
                 </div>
@@ -37,30 +35,25 @@
             
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <h3 class="card-title text-black font-weight-800"><?php echo lang('low_stock_items'); ?></h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('low_stock_items'); ?></h3>
                         </div>
-
-                        <div class="card-body bg-light">
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover" id="lowStockTable">
-                                    <thead>
-                                        <tr class="bg-light">
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('item_code'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('name'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('category'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('current_stock'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('reorder_level'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('shortage'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('unit_cost'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('suggested_order'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('options'); ?></th>
+                                <table class="table table-hover table-bordered align-middle text-sm mb-0" id="lowStockTable" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-uppercase"><?php echo lang('item_code'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('name'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('category'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('current_stock'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('reorder_level'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('shortage'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('unit_cost'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('suggested_order'); ?></th>
+                                            <th class="text-uppercase no-print"><?php echo lang('options'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -162,16 +155,37 @@
     </section>
 </div>
 
-<!-- JavaScript -->
+<script type="text/javascript">
+    var language = <?php echo json_encode(isset($CI->language) ? $CI->language : 'english'); ?>;
+</script>
 <script>
 $(document).ready(function() {
-    $('#lowStockTable').DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print"],
-        "order": [[ 3, "asc" ]]  // Order by current stock (lowest first)
-    }).buttons().container().appendTo('#lowStockTable_wrapper .col-md-6:eq(0)');
+    if ($('#lowStockTable tbody tr').first().find('td[colspan]').length) {
+        return;
+    }
+    var lowTable = $('#lowStockTable').DataTable({
+        responsive: true,
+        dom: "<'row'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        lengthChange: true,
+        autoWidth: false,
+        buttons: [
+            { extend: 'copyHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'csvHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'excelHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'pdfHtml5', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } },
+            { extend: 'print', exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] } }
+        ],
+        order: [[3, 'asc']],
+        language: {
+            lengthMenu: '_MENU_',
+            search: '_INPUT_',
+            searchPlaceholder: 'Search...',
+            url: 'common/assets/DataTables/languages/' + language + '.json'
+        }
+    });
+    lowTable.buttons().container().appendTo('.custom_buttons');
 });
 
 function createBulkPurchaseOrder() {

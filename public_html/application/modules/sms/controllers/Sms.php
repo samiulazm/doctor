@@ -525,11 +525,12 @@ class Sms extends MX_Controller
 
         $i = 0;
         $count = 0;
+        $info = array();
         foreach ($data['cases'] as $case) {
             $i = $i + 1;
+            $options1 = '';
             if ($this->ion_auth->in_group(array('admin'))) {
-
-                $options1 = ' <a type="button" class="btn btn-success btn-sm btn_width editbutton1" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $case->id . '"><i class="fa fa-edit"> </i></a>';
+                $options1 = ' <a type="button" class="btn btn-success btn-sm btn_width editbutton1" title="' . lang('edit') . '" data-toggle="modal" data-id="' . (int) $case->id . '"><i class="fa fa-edit"> </i></a>';
             }
             $info[] = array(
                 $i,

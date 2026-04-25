@@ -131,7 +131,18 @@ function cardValidation() {
     return valid;
 }
 
-Stripe.setPublishableKey(gateway);
+if (typeof gateway === 'string' && gateway.length > 0 && typeof Stripe !== 'undefined') {
+    Stripe.setPublishableKey(gateway);
+}
+
+$(document).ready(function () {
+    'use strict';
+    if (typeof useStripe !== 'undefined' && useStripe) {
+        $(document).on('click', '#submit-btn', function (e) {
+            stripePay(e);
+        });
+    }
+});
 
 
 function stripeResponseHandler(status, response) {

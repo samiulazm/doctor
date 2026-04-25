@@ -1,47 +1,36 @@
-<!--sidebar end-->
-<!--main content start-->
-
-
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <link href="common/extranal/css/appointment/appointment.css" rel="stylesheet">
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-calendar-alt text-primary mr-3"></i>
-                        <?php echo lang('appointment'); ?> <?php echo lang('calendar'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="appointment"><?php echo lang('appointment'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('appointment'); ?> <?php echo lang('calendar'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_appointment'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('appointment') . ' ' . lang('calendar'),
+        'icon' => 'fas fa-calendar-alt text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('appointment'), 'url' => 'appointment'),
+            array('label' => lang('calendar'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body bg-light p-4">
-                            <aside>
-                                <section class="panel">
-                                    <div class="panel-body">
-                                        <div id="calendar" class="has-toolbar calendar_view"></div>
-                                    </div>
-                                </section>
-                            </aside>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('calendar'); ?></h3>
+                            <a class="btn btn-sm btn-primary" href="<?php echo site_url('appointment/addNewView'); ?>">
+                                <i class="fas fa-plus mr-1"></i> <?php echo lang('add_appointment'); ?>
+                            </a>
+                        </div>
+                        <div class="card-body p-3 p-md-4">
+                            <div id="calendar" class="has-toolbar calendar_view"></div>
                         </div>
                     </div>
                 </div>
@@ -50,32 +39,42 @@
     </section>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-<!--main content end-->
-<!--footer start-->
-<div class="modal fade" role="dialog" id="cmodal">
-    <div class="modal-dialog modal-xl med_his" role="document">
+<!-- Medical history (FullCalendar `eventClick` in home/footer) -->
+<div class="modal fade" id="cmodal" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-xl med_his modal-dialog-scrollable" role="document">
         <div class="modal-content">
-
-            <div id='medical_history' class="row">
-                <div class="col-md-12">
-
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-file-medical mr-2"></i>
+                    <?php echo lang('medical_history'); ?>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="medical_history" class="row">
+                    <div class="col-md-12"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times mr-1"></i> <?php echo lang('close'); ?>
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+  if (typeof jQuery === 'undefined') {
+    return;
+  }
+  jQuery(function ($) {
+    $(document).on('shown.bs.modal', '#cmodal', function () {
+      $('#loader').hide();
+    });
+  });
+})();
+</script>

@@ -1,3 +1,7 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <!--sidebar end-->
 <!--main content start-->
 
@@ -249,74 +253,65 @@
 
 
 
-<div class="content-wrapper bg-gradient-light appointment-page">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-calendar-check text-primary mr-3"></i>
-                        <?php echo lang('appointment'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('appointment'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_appointment'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('appointment'),
+        'icon' => 'fas fa-calendar-check text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('appointment'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0 appointment-list-card">
-                        <div class="card-header bg-white py-4">
-                            <h3 class="card-title font-weight-bold"><?php echo lang('List of All Appointments'); ?></h3>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('List of All Appointments'); ?></h3>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">
+                                <i class="fas fa-plus mr-1"></i> <?php echo lang('add_appointment'); ?>
+                            </button>
                         </div>
 
-                        <div class="card-body bg-light p-4">
-                            <ul class="nav nav-tabs mb-4 appointment-status-tabs">
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <ul class="nav nav-tabs mb-3 appointment-status-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#all"><?php echo lang('all'); ?></a>
+                                    <a class="nav-link active" data-toggle="tab" href="#all" role="tab"><?php echo lang('all'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#pending"><?php echo lang('pending_confirmation'); ?></a>
+                                    <a class="nav-link" data-toggle="tab" href="#pending" role="tab"><?php echo lang('pending_confirmation'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#confirmed"><?php echo lang('confirmed'); ?></a>
+                                    <a class="nav-link" data-toggle="tab" href="#confirmed" role="tab"><?php echo lang('confirmed'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#treated"><?php echo lang('treated'); ?></a>
+                                    <a class="nav-link" data-toggle="tab" href="#treated" role="tab"><?php echo lang('treated'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#cancelled"><?php echo lang('cancelled'); ?></a>
+                                    <a class="nav-link" data-toggle="tab" href="#cancelled" role="tab"><?php echo lang('cancelled'); ?></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#requested"><?php echo lang('requested'); ?></a>
+                                    <a class="nav-link" data-toggle="tab" href="#requested" role="tab"><?php echo lang('requested'); ?></a>
                                 </li>
                             </ul>
 
                             <div class="tab-content">
                                 <div id="all" class="tab-pane active">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample5" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample5" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -326,15 +321,15 @@
 
                                 <div id="pending" class="tab-pane">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample1" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample1" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -344,15 +339,15 @@
 
                                 <div id="confirmed" class="tab-pane">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample2" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample2" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -362,15 +357,15 @@
 
                                 <div id="treated" class="tab-pane">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample3" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample3" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -380,15 +375,15 @@
 
                                 <div id="cancelled" class="tab-pane">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample4" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample4" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -398,15 +393,15 @@
 
                                 <div id="requested" class="tab-pane">
                                     <div class="table-responsive appointment-table-wrap">
-                                    <table class="table table-hover align-middle mb-0" id="editable-sample6" width="100%">
-                                        <thead>
-                                            <tr class="bg-light">
-                                                <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('date-time'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('status'); ?></th>
-                                                <th class="font-weight-bold"><?php echo lang('actions'); ?></th>
+                                    <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample6" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th><?php echo lang('id'); ?></th>
+                                                <th><?php echo lang('patient'); ?></th>
+                                                <th><?php echo lang('doctor'); ?></th>
+                                                <th><?php echo lang('date-time'); ?></th>
+                                                <th><?php echo lang('status'); ?></th>
+                                                <th class="no-print"><?php echo lang('actions'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -441,18 +436,19 @@
 <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/global-modal-styles.css'); ?>">
 
 <!-- Add Appointment Modal-->
-<div class="modal fade modal-enhanced appointment-add-modal" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal" role="dialog" aria-labelledby="myModalAddApptLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h5 class="modal-title" id="myModalAddApptLabel">
                     <i class="fas fa-calendar-plus mr-2"></i>
                     <?php echo lang('add_appointment'); ?>
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" class="clearfix" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="row g-3">
                         <div class="col-md-6 patient_div mb-3">
@@ -635,7 +631,7 @@
                 </form>
             </div>
             <div class="modal-footer border-top bg-light flex-wrap gap-2">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary px-4" id="addAppointmentFooterSubmit"><?php echo lang('submit'); ?></button>
             </div>
         </div><!-- /.modal-content -->
@@ -644,18 +640,19 @@
 <!-- Add Appointment Modal-->
 
 <!-- Edit Event Modal-->
-<div class="modal fade modal-enhanced appointment-add-modal" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+<div class="modal fade modal-enhanced appointment-add-modal" id="myModal2" role="dialog" aria-labelledby="myModalEditApptLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h5 class="modal-title" id="myModalEditApptLabel">
                     <i class="fas fa-calendar-edit mr-2"></i>
                     <?php echo lang('edit_appointment'); ?>
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="row g-3">
                         <div class="col-md-6 patient_div mb-3">
                             <label for="pos_select1"> <?php echo lang('patient'); ?> &#42;</label>
@@ -836,7 +833,7 @@
                 </form>
             </div>
             <div class="modal-footer border-top bg-light flex-wrap gap-2">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary px-4" id="editAppointmentFooterSubmit"><?php echo lang('submit'); ?></button>
             </div>
         </div><!-- /.modal-content -->
@@ -868,7 +865,7 @@
                     <i class="fas fa-file-medical mr-2"></i>
                     Medical History
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -881,7 +878,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
                 </div>
             </div>
         </div>
@@ -897,7 +894,7 @@
                     <i class="fas fa-eye mr-2"></i>
                     <?php echo lang('appointment'); ?> <?php echo lang('details'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -907,7 +904,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-1"></i> <?php echo lang('close'); ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="printAppointmentBtn">
@@ -938,20 +935,20 @@
     var publish = "<?php echo $gateway_stripe; ?>";
 </script>
 <script type="text/javascript">
-    var payment_gateway = "<?php echo $settings->payment_gateway; ?>";
+    var payment_gateway = <?php echo json_encode($settings->payment_gateway); ?>;
 </script>
 
 <script type="text/javascript">
-    var select_doctor = "<?php echo lang('select_doctor'); ?>";
+    var select_doctor = <?php echo json_encode(lang('select_doctor')); ?>;
 </script>
 <script type="text/javascript">
-    var select_patient = "<?php echo lang('select_patient'); ?>";
+    var select_patient = <?php echo json_encode(lang('select_patient')); ?>;
 </script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script type="text/javascript">
-    var no_available_timeslots = "<?php echo lang('no_available_timeslots'); ?>";
+    var no_available_timeslots = <?php echo json_encode(lang('no_available_timeslots')); ?>;
 </script>
 
 <script type="text/javascript">
@@ -987,7 +984,10 @@
         $.ajax({
             url: 'appointment/getAppointmentDetails',
             type: 'POST',
-            data: { appointment_id: appointmentId },
+            data: {
+                appointment_id: appointmentId,
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.success) {

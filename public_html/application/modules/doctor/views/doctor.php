@@ -1,40 +1,39 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+$CI = get_instance();
+if (!isset($departments) || !is_array($departments)) {
+    $departments = array();
+}
+?>
 <link href="common/extranal/css/doctor/doctor.css" rel="stylesheet">
 
 <div class="content-wrapper bg-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-user text-primary mr-3"></i>
-                        <?php echo lang('doctor'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"> <?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"> <?php echo lang('doctor'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('doctor'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('doctor'),
+        'icon' => 'fas fa-user-md text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('doctor'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-bordered table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('doctor'); ?></h3>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">
+                                <i class="fa fa-plus mr-1"></i> <?php echo lang('add_new'); ?> <?php echo lang('doctor'); ?>
+                            </button>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="editable-sample" style="width:100%">
+                                <thead class="thead-light">
                                     <tr>
                                         <th><?php echo lang('id'); ?></th>
                                         <th><?php echo lang('name'); ?></th>
@@ -46,9 +45,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,12 +68,13 @@
                     <i class="fas fa-user-md mr-2"></i>
                     <?php echo lang('add_new_doctor'); ?>
                 </h5>
-                <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <a type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
 </a>
             </div>
             <div class="modal-body">
                 <form action="doctor/addNew" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
                             <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -122,7 +122,7 @@
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('department'); ?></label>
                                 <select class="form-control form-control-lg shadow-sm" name="department">
                                     <?php foreach ($departments as $department) { ?>
-                                        <option value="<?php echo $department->id; ?>"> <?php echo $department->name; ?> </option>
+                                        <option value="<?php echo (int) $department->id; ?>"><?php echo htmlspecialchars($department->name, ENT_QUOTES, 'UTF-8'); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -178,12 +178,13 @@
                     <i class="fas fa-user-edit mr-2"></i>
                     <?php echo lang('edit_doctor'); ?>
                 </h5>
-                <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <a type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                                     </a>
             </div>
             <div class="modal-body">
                 <form id="editDoctorForm" action="doctor/addNew" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
                             <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -231,13 +232,7 @@
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('department'); ?></label>
                                 <select class="form-control form-control-lg shadow-sm department" name="department">
                                     <?php foreach ($departments as $department) { ?>
-                                        <option value="<?php echo $department->id; ?>" <?php
-                                                                                        if (!empty($doctor->department)) {
-                                                                                            if ($department->id == $doctor->department) {
-                                                                                                echo 'selected';
-                                                                                            }
-                                                                                        }
-                                                                                        ?>> <?php echo $department->name; ?> </option>
+                                        <option value="<?php echo (int) $department->id; ?>"><?php echo htmlspecialchars($department->name, ENT_QUOTES, 'UTF-8'); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -300,7 +295,7 @@
                     <i class="fas fa-user-md mr-2"></i>
                     <?php echo lang('doctor'); ?> <?php echo lang('info'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -353,7 +348,7 @@
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 
 <script src="common/assets/tinymce/tinymce.min.js"></script>

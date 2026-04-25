@@ -66,9 +66,9 @@
   <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <link rel="stylesheet" href="adminlte/plugins/jqvmap/jqvmap.min.css">
   <link rel="stylesheet" href="adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/app-design-tokens.css'); ?>">
   <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/enhanced-sidebar-styles.css'); ?>">
   <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/enhanced-components-styles.css'); ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/app-design-tokens.css'); ?>">
   <link rel="stylesheet" href="adminlte/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.min.css">
 
@@ -132,27 +132,10 @@
 
 
   <div id="loader" class="loader" style="display:none;"></div>
-  <style>
-    .loader {
-      width: 44px;
-      height: 44px;
-      border: 3px solid rgba(13, 148, 136, 0.15);
-      border-top: 3px solid #0d9488;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-    }
-    @keyframes spin {
-      0%   { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-  </style>
 
 
+
+  <a class="ap-skip-link" href="#app-main-content"><?php echo lang('skip_to_main_content') ?: 'Skip to main content'; ?></a>
 
   <div class="app-wrapper">
 
@@ -315,7 +298,7 @@
                       <div class="media-body">
                         <h3 class="dropdown-item-title">
                           <?php echo lang('lab'); ?> <?php echo lang('reports'); ?>
-                          <span class="float-right text-sm text-danger"><i class="fa fa-flask"></i></span>
+                          <span class="float-right text-sm text-danger"><i class="fas fa-flask"></i></span>
                         </h3>
                       </div>
                     </div>
@@ -567,242 +550,8 @@
     </aside>
 
     <!-- Main Content Wrapper -->
-    <main class="app-main">
-
-
-
-  <style>
-    label {
-      display: inline-block;
-      margin-bottom: 0px;
-      font-weight: 500 !important;
-      padding-top: 5px;
-    }
-  </style>
-
-
-
-
-
-
+    <main class="app-main" id="app-main-content" tabindex="-1">
   <!-- loader styles defined in <head> -->
-
-
-  <style>
-    .sidebar-menu .nav-item .nav-link {
-      padding: 0.75rem 1rem;
-      font-size: 1.1em;
-      font-weight: 500;
-    }
-
-    label {
-      display: inline-block;
-      margin-bottom: 0.5rem;
-      font-weight: 600 !important;
-    }
-
-    <?php if ($this->session->userdata('mode') != 'dark'): ?>label {
-      font-weight: 400 !important;
-    }
-
-    <?php endif; ?>.content-wrapper {
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    }
-
-    .card {
-      backdrop-filter: blur(10px);
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .btn-primary {
-      border: none;
-    }
-
-
-
-    .table-striped tbody tr:nth-of-type(odd) {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .navbar-nav .nav-link {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .navbar-nav .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: var(--accent-color);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .navbar-nav .nav-link:hover::after {
-      transform: scaleX(1);
-    }
-
-    /* Add more extreme styles as needed */
-  </style>
-
-  <style>
-    :root {
-      --primary-color: #3498db;
-      --secondary-color: #2ecc71;
-      --accent-color: #e74c3c;
-      --text-color: #34495e;
-      --background-color: #ecf0f1;
-    }
-
-    body {
-      background: var(--background-color);
-      color: var(--text-color);
-      font-family: 'Source Sans Pro', sans-serif;
-      transition: all 0.3s ease;
-    }
-
-
-
-    .app-sidebar {
-      background: #2c3e50;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar-menu .nav-item .nav-link {
-      color: #ecf0f1;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-menu .nav-item .nav-link:hover {
-      background: var(--accent-color);
-      transform: translateX(5px);
-    }
-
-    .content-wrapper {
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-
-    .card {
-      border: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn {
-      border-radius: 5px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      padding: 10px 20px;
-      font-size: 12px;
-    }
-
-    table .btn {
-      font-size: 12px;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-    }
-
-    .table {
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .table thead th {
-      background: var(--primary-color);
-      color: #fff;
-    }
-
-    .buttons-html5 {
-      background: transparent !important;
-      border: 1px solid #a1a1a1 !important;
-      color: #ccc !important;
-    }
-
-    @media print {
-      .table thead th {
-        color: #333;
-      }
-    }
-
-
-
-    /* Excel-like styling */
-    .table {
-      border-collapse: collapse;
-      width: 100%;
-      background: white;
-    }
-
-    .table th {
-      background-color: #f3f3f3;
-      border: 1px solid #ddd;
-      font-weight: bold;
-      padding: 8px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      vertical-align: middle;
-    }
-
-    .table td {
-      border: 1px solid #ddd;
-      padding: 6px 8px;
-      vertical-align: middle;
-    }
-
-    .table tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .table tbody tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    /* Excel-like grid lines */
-    .table-bordered {
-      border: 1px solid #ddd;
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-      border: 1px solid #ddd;
-      vertical-align: middle;
-    }
-
-    /* Excel-like header */
-    .card-header {
-      background-color: #f3f3f3;
-      border-bottom: 1px solid #ddd;
-    }
-
-    /* Excel-like cell focus */
-    .table td:focus {
-      outline: 2px solid #1a73e8;
-      outline-offset: -2px;
-    }
-
-
-
-    /* Keep header visible while scrolling */
-    thead {
-      position: sticky;
-      top: 0;
-      background: #f3f3f3;
-    }
-  </style>
 
   <!-- Enhanced Timezone Selector Styles -->
   <style>

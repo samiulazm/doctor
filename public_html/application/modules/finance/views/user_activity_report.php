@@ -1,6 +1,6 @@
 <link href="common/extranal/css/finance/user_activity_report.css" rel="stylesheet">
 
-<div class="content-wrapper bg-light">
+<div class="content-wrapper bg-gradient-light">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -54,7 +54,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> <?php echo lang('today'); ?>
+                                                        <i class="fas fa-search"></i> <?php echo lang('today'); ?>
                                                     </button>
                                                 </div>
                                             </a>
@@ -69,7 +69,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> <?php echo lang('yesterday'); ?>
+                                                        <i class="fas fa-search"></i> <?php echo lang('yesterday'); ?>
                                                     </button>
                                                 </div>
                                             </a>
@@ -84,7 +84,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> <?php echo lang('all'); ?>
+                                                        <i class="fas fa-search"></i> <?php echo lang('all'); ?>
                                                     </button>
                                                 </div>
                                             </a>
@@ -111,7 +111,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> <?php echo lang('today'); ?>
+                                                        <i class="fas fa-search"></i> <?php echo lang('today'); ?>
                                                     </button>
                                                 </div>
                                             </a>
@@ -126,7 +126,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> Yesterday
+                                                        <i class="fas fa-search"></i> Yesterday
                                                     </button>
                                                 </div>
                                             </a>
@@ -142,7 +142,7 @@
                                                                                         }
                                                                                     }
                                                                                     ?>">
-                                                        <i class="fa fa-search"></i> <?php echo lang('all'); ?>
+                                                        <i class="fas fa-search"></i> <?php echo lang('all'); ?>
                                                     </button>
                                                 </div>
                                             </a>
@@ -244,6 +244,7 @@
                                             <h4> <?php echo lang('all_bills'); ?> </h4>
                                         </header>
                                         <div class="space15"></div>
+                                        <div class="table-responsive">
                                         <table class="table table-striped table-hover table-bordered" id="editable-samples">
                                             <thead>
                                                 <tr>
@@ -341,6 +342,7 @@
 
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -391,7 +393,7 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <i class="fa fa-money"></i>
+                                                        <i class="fas fa-money-bill-wave"></i>
                                                         <?php echo lang('total_bill_amount'); ?>
 
                                                     </div>
@@ -411,7 +413,7 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <i class="fa fa-money"></i>
+                                                        <i class="fas fa-money-bill-wave"></i>
                                                         <?php echo lang('total_deposit_amount'); ?>
                                                     </div>
                                                     <div class="col-xs-8">
@@ -436,7 +438,7 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <i class="fa fa-money"></i>
+                                                        <i class="fas fa-money-bill-wave"></i>
                                                         <?php echo lang('due_amount'); ?>
                                                     </div>
                                                     <div class="col-xs-8">

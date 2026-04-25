@@ -1,64 +1,60 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
 ?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo lang('ai_image_analysis'); ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('ai_image_analysis'); ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('ai_image_analysis'),
+        'icon' => 'fas fa-x-ray text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('ai_image_analysis'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content">
+    <section class="content py-4">
         <div class="container-fluid">
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-brain mr-2"></i>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <i class="fas fa-brain text-primary mr-2"></i>
                                 <?php echo lang('ai_medical_image_analysis'); ?>
-                            </h5>
+                            </h3>
                         </div>
                         <div class="card-body">
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="analysisTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="upload-tab" data-bs-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
+                                    <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
                                         <i class="fas fa-upload mr-1"></i> <?php echo lang('upload_analyze'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
+                                    <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
                                         <i class="fas fa-file-medical mr-1"></i> <?php echo lang('analysis_report'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
+                                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                         <i class="fas fa-history mr-1"></i> <?php echo lang('analytics_history'); ?>
                                     </a>
                                 </li>
@@ -183,10 +179,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row mt-4">
                                         <div class="col-md-12">
                                             <div class="card">
-                        <div class="card-header bg-info text-white">
-                            <h5 class="card-title mb-0">
-                                                        <i class="fas fa-chart-line mr-2"></i>
-                                                        Analytics History
+                        <div class="card-header bg-white border-bottom">
+                            <h5 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <i class="fas fa-chart-line text-info mr-2"></i>
+                                <?php echo lang('analytics_history'); ?>
                             </h5>
                         </div>
                         <div class="card-body">
@@ -251,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <i class="fas fa-file-medical mr-2"></i>
                     Medical Image Analysis Report
                 </h5>
-                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -259,7 +255,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!-- Report content will be loaded here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary" id="printReportBtn">
                     <i class="fas fa-print mr-2"></i>
                     <?php echo lang('print_report'); ?>
@@ -416,7 +412,7 @@ $(document).ready(function() {
     });
     
     // Handle tab clicks using Bootstrap's built-in functionality
-    $('#analysisTabs a[data-bs-toggle="tab"]').on('click', function (e) {
+    $('#analysisTabs a[data-toggle="tab"]').on('click', function (e) {
         e.preventDefault();
         var target = $(this).attr('href');
         console.log('Tab clicked:', target);
@@ -633,7 +629,10 @@ function viewAnalysis(analysisId) {
     $.ajax({
         url: '<?php echo base_url(); ?>ai_image_analysis/getImageAnalysisById',
         type: 'POST',
-        data: { analysis_id: analysisId },
+        data: {
+            analysis_id: analysisId,
+            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
+        },
         dataType: 'json',
         success: function(response) {
             if (response.success && response.analysis) {
@@ -654,7 +653,10 @@ function deleteAnalysis(analysisId) {
         $.ajax({
             url: '<?php echo base_url(); ?>ai_image_analysis/deleteImageAnalysis',
             type: 'POST',
-            data: { analysis_id: analysisId },
+            data: {
+                analysis_id: analysisId,
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
@@ -685,7 +687,8 @@ function analyzeImage(analysisId) {
         url: '<?php echo base_url(); ?>ai_image_analysis/analyzeImage',
         type: 'POST',
         data: {
-            analysis_id: analysisId
+            analysis_id: analysisId,
+            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
@@ -910,7 +913,8 @@ function loadAnalysisHistory(patientId) {
         url: '<?php echo base_url(); ?>ai_image_analysis/getAnalysisHistory',
         type: 'POST',
         data: {
-            patient_id: patientId
+            patient_id: patientId,
+            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
@@ -1065,6 +1069,7 @@ function submitForm() {
     formData.append('doctor_id', doctorId);
     formData.append('image', imageFile);
     formData.append('description', description);
+    formData.append(<?php echo json_encode($this->security->get_csrf_token_name()); ?>, <?php echo json_encode($this->security->get_csrf_hash()); ?>);
 
     $('#loadingModal').modal('show');
     

@@ -1,75 +1,72 @@
 <link href="common/extranal/css/patient/medical_history.css" rel="stylesheet">
 
 <?php
-    // Define dynamic keywords for use in JS and titles
-    $emergency_keywords = array(
-        'module' => lang('emergency'),
-        'module_plural' => lang('emergencies'),
-        'add_new' => lang('add_new'),
-        'id' => lang('id'),
-        'patient' => lang('patient'),
-        'doctor' => lang('doctor'),
-        'emergency_type' => lang('emergency_type'),
-        'description' => lang('description'),
-        'status' => lang('status'),
-        'priority' => lang('priority'),
-        'options' => lang('options'),
-        'all' => lang('all'),
-        'home' => lang('home'),
-    );
+$CI = get_instance();
+$emergency_keywords = array(
+    'module' => lang('emergency'),
+    'module_plural' => lang('emergencies'),
+    'add_new' => lang('add_new'),
+    'id' => lang('id'),
+    'patient' => lang('patient'),
+    'doctor' => lang('doctor'),
+    'emergency_type' => lang('emergency_type'),
+    'description' => lang('description'),
+    'status' => lang('status'),
+    'priority' => lang('priority'),
+    'options' => lang('options'),
+    'all' => lang('all'),
+    'home' => lang('home'),
+);
+$page_title = $emergency_keywords['all'] . ' ' . $emergency_keywords['module_plural'];
 ?>
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-exclamation-triangle text-danger mr-3"></i>
-                        <?php echo $emergency_keywords['all']; ?> <?php echo $emergency_keywords['module_plural']; ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"> <?php echo $emergency_keywords['home']; ?></a></li>
-                            <li class="breadcrumb-item active"> <?php echo $emergency_keywords['module']; ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="emergency/addNewView" class="btn btn-danger btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo $emergency_keywords['add_new']; ?> <?php echo $emergency_keywords['module']; ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $page_title,
+        'icon' => 'fas fa-exclamation-triangle text-danger mr-2',
+        'breadcrumbs' => array(
+            array('label' => $emergency_keywords['home'], 'url' => 'home'),
+            array('label' => $emergency_keywords['module'], 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body bg-light p-4">
-                            <!-- Custom buttons container -->
-                            <div class="custom_buttons"></div>
-                            
-                            <table class="table table-hover datatables" id="emergency-table" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo $emergency_keywords['id']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['patient']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['doctor']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['emergency_type']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['description']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['status']; ?></th>
-                                        <th class="font-weight-bold"><?php echo $emergency_keywords['priority']; ?></th>
-                                        <th class="font-weight-bold no-print"><?php echo $emergency_keywords['options']; ?></th>
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <?php echo $emergency_keywords['module']; ?>
+                            </h3>
+                            <a href="emergency/addNewView" class="btn btn-sm btn-danger">
+                                <i class="fa fa-plus mr-1"></i>
+                                <?php echo $emergency_keywords['add_new'] . ' ' . $emergency_keywords['module']; ?>
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="emergency-table" style="width:100%">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-uppercase small"><?php echo $emergency_keywords['id']; ?></th>
+                                        <th><?php echo $emergency_keywords['patient']; ?></th>
+                                        <th><?php echo $emergency_keywords['doctor']; ?></th>
+                                        <th><?php echo $emergency_keywords['emergency_type']; ?></th>
+                                        <th><?php echo $emergency_keywords['description']; ?></th>
+                                        <th><?php echo $emergency_keywords['status']; ?></th>
+                                        <th><?php echo $emergency_keywords['priority']; ?></th>
+                                        <th class="no-print"><?php echo $emergency_keywords['options']; ?></th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Data will be loaded via AJAX -->
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +79,6 @@
     $(document).ready(function() {
         "use strict";
 
-        // Dynamic keywords for JS
         var emergencyKeywords = {
             module: <?php echo json_encode($emergency_keywords['module']); ?>,
             modulePlural: <?php echo json_encode($emergency_keywords['module_plural']); ?>,
@@ -122,33 +118,33 @@
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             buttons: [
-                { 
-                    extend: "copyHtml5", 
+                {
+                    extend: "copyHtml5",
                     exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
                     className: 'btn btn-sm btn-outline-secondary'
                 },
-                { 
-                    extend: "excelHtml5", 
+                {
+                    extend: "excelHtml5",
                     exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
                     className: 'btn btn-sm btn-outline-success',
                     title: emergencyKeywords.modulePlural + '_Data_' + new Date().toISOString().split('T')[0]
                 },
-                { 
-                    extend: "csvHtml5", 
+                {
+                    extend: "csvHtml5",
                     exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
                     className: 'btn btn-sm btn-outline-info',
                     title: emergencyKeywords.modulePlural + '_Data_' + new Date().toISOString().split('T')[0]
                 },
-                { 
-                    extend: "pdfHtml5", 
+                {
+                    extend: "pdfHtml5",
                     exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
                     className: 'btn btn-sm btn-outline-danger',
                     title: emergencyKeywords.modulePlural + '_Data_' + new Date().toISOString().split('T')[0],
                     orientation: 'landscape',
                     pageSize: 'A4'
                 },
-                { 
-                    extend: "print", 
+                {
+                    extend: "print",
                     exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] },
                     className: 'btn btn-sm btn-outline-dark',
                     title: emergencyKeywords.modulePlural + ' ' + emergencyKeywords.records + ' - ' + new Date().toLocaleDateString()
@@ -178,62 +174,12 @@
                 }
             },
             drawCallback: function(settings) {
-                // Add loading indicator
                 if (settings.json && settings.json.data) {
                     console.log('Loaded ' + settings.json.data.length + ' ' + emergencyKeywords.modulePlural.toLowerCase() + ' ' + emergencyKeywords.records.toLowerCase());
                 }
             }
         });
-        
-        // Append buttons to custom container
+
         table.buttons().container().appendTo(".custom_buttons");
-        
-        // Add custom CSS for better styling
-        $('<style>')
-            .prop('type', 'text/css')
-            .html(`
-                .dataTables_wrapper .dataTables_length,
-                .dataTables_wrapper .dataTables_filter,
-                .dataTables_wrapper .dataTables_info,
-                .dataTables_wrapper .dataTables_processing,
-                .dataTables_wrapper .dataTables_paginate {
-                    margin: 0.5rem 0;
-                }
-                
-                .dataTables_wrapper .dataTables_paginate .paginate_button {
-                    padding: 0.25rem 0.5rem;
-                    margin: 0 0.125rem;
-                    border: 1px solid #dee2e6;
-                    border-radius: 0.25rem;
-                }
-                
-                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-                    background: #007bff;
-                    color: white;
-                    border-color: #007bff;
-                }
-                
-                .dataTables_wrapper .dataTables_processing {
-                    background: rgba(255, 255, 255, 0.9);
-                    border: 1px solid #ddd;
-                    border-radius: 0.25rem;
-                    color: #333;
-                    font-weight: 500;
-                }
-                
-                .btn-group .btn {
-                    margin-right: 2px;
-                }
-                
-                .badge {
-                    font-size: 0.75rem;
-                    padding: 0.25rem 0.5rem;
-                }
-                
-                .custom_buttons {
-                    margin-bottom: 1rem;
-                }
-            `)
-            .appendTo('head');
     });
 </script>

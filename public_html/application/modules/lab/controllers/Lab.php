@@ -449,14 +449,15 @@ class Lab extends MX_Controller
     function getTestStatusLab()
     {
         $requestData = $_REQUEST;
-        $start = $requestData['start'];
-        $limit = $requestData['length'];
-        $search = $this->input->post('search')['value'];
+        $start = isset($requestData['start']) ? (int) $requestData['start'] : 0;
+        $limit = isset($requestData['length']) ? (int) $requestData['length'] : 10;
+        $search_post = $this->input->post('search');
+        $search = (is_array($search_post) && isset($search_post['value'])) ? $search_post['value'] : '';
 
-        $status = $_GET['status'];
-        $category = $_GET['category'];
-        $from = $_GET['from'];
-        $to = $_GET['to'];
+        $status = isset($_GET['status']) ? $_GET['status'] : 'all';
+        $category = isset($_GET['category']) ? $_GET['category'] : 'all';
+        $from = isset($_GET['from']) ? $_GET['from'] : '';
+        $to = isset($_GET['to']) ? $_GET['to'] : '';
 
         $order = $this->input->post("order");
         $columns_valid = array(
@@ -466,6 +467,13 @@ class Lab extends MX_Controller
         $values = $this->settings_model->getColumnOrder($order, $columns_valid);
         $dir = $values[0];
         $order = $values[1];
+
+        $recordsTotal = count($this->lab_model->getTestStatusLab($status, $category, $from, $to));
+        if (!empty($search)) {
+            $recordsFiltered = count($this->lab_model->getTestStatusLabBySearch($search, $order, $dir, $status, $category, $from, $to));
+        } else {
+            $recordsFiltered = $recordsTotal;
+        }
 
         if ($limit == -1) {
             if (!empty($search)) {
@@ -481,11 +489,14 @@ class Lab extends MX_Controller
             }
         }
 
+        if (!isset($data['labs'])) {
+            $data['labs'] = array();
+        }
 
-        $i = 0;
+        $info = array();
         foreach ($data['labs'] as $lab) {
-            $i = $i + 1;
             $date = date('d-m-y', $lab->date);
+            $deposit = array();
             if ($this->ion_auth->in_group(array('admin', 'Laboratorist', 'Doctor'))) {
                 $options1 = ' <a class="btn btn-success btn-sm editbutton mb-1 mr-1" title="' . lang('edit') . '" href="lab?id=' . $lab->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             } else {
@@ -517,8 +528,9 @@ class Lab extends MX_Controller
 
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
-                $age = explode('-', $patient_info->age);
-                $patient_details = $patient_info->name . '</br>' . $patient_info->address . '</br>' . $patient_info->phone . '</br>' . $age[0] . '</br>';
+                $age = explode('-', (string) $patient_info->age);
+                $age_str = isset($age[0]) ? $age[0] : '';
+                $patient_details = $patient_info->name . '</br>' . $patient_info->address . '</br>' . $patient_info->phone . '</br>' . $age_str . '</br>';
             } else {
                 $patient_details = ' ';
             }
@@ -559,8 +571,8 @@ class Lab extends MX_Controller
 
 
             if ($lab->category_id != null) {
-                $test_name = $this->finance_model->getPaymentCategoryById($lab->category_id);
-                $test_name = $test_name->category;
+                $test_cat = $this->finance_model->getPaymentCategoryById($lab->category_id);
+                $test_name = (!empty($test_cat) && isset($test_cat->category)) ? $test_cat->category : '';
             } else {
                 $test_name = "";
             }
@@ -571,17 +583,22 @@ class Lab extends MX_Controller
             } else {
                 $status .= "<option value='done'>" . lang('done') . "</option><option value='not_done' selected>" . lang('not_done') . "</option>";
             }
-            $status .= "<select>";
+            $status .= "</select>";
 
-            $payment = $this->finance_model->getPaymentById($lab->invoice_id);
-            if ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
-                $from = '<span class="badge badge-primary">' . lang('opd') . '</span>';
-            } elseif ($payment->payment_from == 'admitted_patient_bed_medicine') {
-                $from = '<span class="badge badge-warning">' . lang('ipd_medicine') . '</span>';
-            } elseif ($payment->payment_from == 'admitted_patient_bed_service') {
-                $from = '<span class="badge badge-success">' . lang('ipd_service') . '</span>';
-            } elseif ($payment->payment_from == 'admitted_patient_bed_diagnostic') {
-                $from = '<span class="badge badge-info">' . lang('ipd_diagnostic') . '</span>';
+            $payment_from_badge = '';
+            if (!empty($lab->invoice_id)) {
+                $payment = $this->finance_model->getPaymentById($lab->invoice_id);
+                if (!empty($payment)) {
+                    if ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
+                        $payment_from_badge = '<span class="badge badge-primary">' . lang('opd') . '</span>';
+                    } elseif ($payment->payment_from == 'admitted_patient_bed_medicine') {
+                        $payment_from_badge = '<span class="badge badge-warning">' . lang('ipd_medicine') . '</span>';
+                    } elseif ($payment->payment_from == 'admitted_patient_bed_service') {
+                        $payment_from_badge = '<span class="badge badge-success">' . lang('ipd_service') . '</span>';
+                    } elseif ($payment->payment_from == 'admitted_patient_bed_diagnostic') {
+                        $payment_from_badge = '<span class="badge badge-info">' . lang('ipd_diagnostic') . '</span>';
+                    }
+                }
             }
 
             $dropdownOptions = '';
@@ -612,7 +629,7 @@ class Lab extends MX_Controller
                 $patient_details,
                 $lab->invoice_id,
                 $invoice_date_time,
-                $from,
+                $payment_from_badge,
                 $test_name,
                 $status,
                 $test_status_date,
@@ -624,27 +641,16 @@ class Lab extends MX_Controller
             );
         }
 
+        $output = array(
+            "draw" => isset($requestData['draw']) ? intval($requestData['draw']) : 0,
+            "recordsTotal" => $recordsTotal,
+            "recordsFiltered" => $recordsFiltered,
+            "data" => $info
+        );
 
-        if (!empty($data['labs'])) {
-            $output = array(
-                "draw" => intval($requestData['draw']),
-                "recordsTotal" => count($this->lab_model->getLab()),
-                "recordsFiltered" => count($this->lab_model->getLab()),
-                "data" => $info
-            );
-        } else {
-            $output = array(
-                // "draw" => 1,
-                "recordsTotal" => 0,
-                "recordsFiltered" => 0,
-                "data" => []
-            );
-        }
-
-
-
-
-        echo json_encode($output);
+        $this->output
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($output, JSON_UNESCAPED_UNICODE));
     }
 
     function getLab()

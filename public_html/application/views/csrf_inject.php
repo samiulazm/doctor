@@ -33,7 +33,7 @@ $hash = $this->security->get_csrf_hash();
     }
   }, true);
   if (typeof jQuery !== 'undefined') {
-    jQuery(function ($) {
+    (function ($) {
       $.ajaxPrefilter(function (options) {
         if (!options.type || options.type.toUpperCase() !== 'POST') {
           return;
@@ -42,6 +42,17 @@ $hash = $this->security->get_csrf_hash();
           if (!options.data.has(n)) {
             options.data.append(n, h);
           }
+          return;
+        }
+        if (typeof options.data === 'function') {
+          var origDataFn = options.data;
+          options.data = function () {
+            var d = origDataFn.apply(this, arguments);
+            if (d != null && typeof d === 'object' && !Array.isArray(d)) {
+              d[n] = h;
+            }
+            return d;
+          };
           return;
         }
         var ct = (options.contentType || '').toString().toLowerCase();
@@ -76,7 +87,7 @@ $hash = $this->security->get_csrf_hash();
           options.data[n] = h;
         }
       });
-    });
+    }(jQuery));
   }
 })();
 </script>

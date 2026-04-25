@@ -1,15 +1,18 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
 $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
 ?>
 <?php if ($ap_settings_saas_ui) : ?>
 <link rel="stylesheet" href="<?php echo asset_url('application/assets/css/settings-saas-styles.css'); ?>">
+<?php else : ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 <?php endif; ?>
 
-<div class="content-wrapper <?php echo $ap_settings_saas_ui ? 'ap-settings-saas bg-light' : 'bg-light'; ?>">
-    <!-- Content Header (Page header) -->
-    <section class="content-header <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-hero shadow-none border-0 py-4' : ''; ?>">
+<?php if ($ap_settings_saas_ui) : ?>
+<div class="content-wrapper ap-settings-saas bg-light">
+    <section class="content-header ap-settings-saas-hero shadow-none border-0 py-4">
         <div class="container-fluid">
-            <?php if ($ap_settings_saas_ui) : ?>
             <div class="row align-items-center pl-1">
                 <div class="col-12 col-lg-8">
                     <span class="ap-settings-saas-badge"><?php echo lang('superadmin'); ?> · SaaS</span>
@@ -26,25 +29,25 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                     </nav>
                 </div>
             </div>
-            <?php else : ?>
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6">
-                    <h1 class="fw-bold"><i class="fas fa-language mr-2"></i><strong><?php echo lang('select'); ?> <?php echo lang('default'); ?> <?php echo lang('language'); ?></strong></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                        <li class="breadcrumb-item"><a href="settings"><?php echo lang('settings'); ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('language'); ?></li>
-                    </ol>
-                </div>
-            </div>
-            <?php endif; ?>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
+<?php else : ?>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('select') . ' ' . lang('default') . ' ' . lang('language'),
+        'icon' => 'fas fa-language text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('settings'), 'url' => 'settings'),
+            array('label' => lang('language'), 'url' => null),
+        ),
+    ));
+    ?>
+<?php endif; ?>
 
     <!-- Main content -->
-    <section class="content <?php echo $ap_settings_saas_ui ? 'py-4' : ''; ?>">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row g-4">
 
@@ -54,6 +57,7 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                         <!-- /.card-header -->
                         <div class="card-body">
                             <form role="form" class="clearfix" id="editSaleForm" action="settings/changeLanguage" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="form-group">
                                     <div class="row">
                                         <?php
@@ -63,16 +67,16 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                                         ?>
                                             <div class="col-md-6 mb-3">
                                                 <div class="language-card border rounded position-relative"
-                                                    onclick="selectLanguage(this, <?php echo $d_language->id; ?>)">
-                                                    <input type="radio" name="language" id="lang_<?php echo $d_language->id; ?>"
-                                                        value="<?php echo $d_language->language; ?>"
+                                                    onclick="selectLanguage(this, <?php echo (int) $d_language->id; ?>)">
+                                                    <input type="radio" name="language" id="lang_<?php echo (int) $d_language->id; ?>"
+                                                        value="<?php echo htmlspecialchars($d_language->language, ENT_QUOTES, 'UTF-8'); ?>"
                                                         <?php echo $isSelected ? 'checked' : ''; ?> class="language-input d-none">
-                                                    <label for="lang_<?php echo $d_language->id; ?>" class="d-flex align-items-center p-3 mb-0 cursor-pointer">
+                                                    <label for="lang_<?php echo (int) $d_language->id; ?>" class="d-flex align-items-center p-3 mb-0 cursor-pointer">
                                                         <div class="language-icon">
                                                             <i class="flag-icon flag-icon-<?php echo $d_language->flag_icon ?? 'us'; ?> h2 mb-0"></i>
                                                         </div>
                                                         <div class="language-details ml-3">
-                                                            <h5 class="mb-1"><?php echo $d_language->language; ?></h5>
+                                                            <h5 class="mb-1"><?php echo htmlspecialchars($d_language->language, ENT_QUOTES, 'UTF-8'); ?></h5>
                                                             <small class="text-muted status-text"><?php echo $isSelected ? 'Currently Active' : 'Click to Select'; ?></small>
                                                         </div>
                                                         <div class="position-absolute check-icon" style="top:10px; right:10px; <?php echo !$isSelected ? 'display:none;' : ''; ?>">
@@ -85,7 +89,7 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                                     </div>
 
                                     <input type="hidden" name="language_settings" value='language_settings'>
-                                    <input type="hidden" name="id" value='<?php echo !empty($settings->id) ? $settings->id : ''; ?>'>
+                                    <input type="hidden" name="id" value="<?php echo !empty($settings->id) ? (int) $settings->id : ''; ?>">
                                 </div>
 
                                 <div class="form-group mt-4">
@@ -122,14 +126,15 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                         <div class="card shadow-sm <?php echo $ap_settings_saas_ui ? 'ap-settings-saas-lang-admin border-0' : ''; ?>">
                             <div class="card-header bg-info text-white d-flex flex-wrap align-items-center justify-content-between gap-2">
                                 <h3 class="card-title mb-0"> <?php echo lang('edit'); ?> <?php echo lang('language'); ?> </h3>
-                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
                                     <i class="fas fa-plus mr-2"></i><?php echo lang('add_new'); ?>
                                 </button>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                <div class="custom_buttons mb-3"></div>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-hover" id="editable-sample">
+                                    <table class="table table-striped table-hover" id="language-admin-table">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -138,18 +143,22 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($languages as $language) { ?>
+                                            <?php
+                                            $lang_row = 0;
+                                            foreach ($languages as $language) {
+                                                $lang_row++;
+                                                ?>
                                                 <tr>
-                                                    <td><?php echo '1'; ?></td>
+                                                    <td><?php echo (int) $lang_row; ?></td>
                                                     <td>
                                                         <i class="flag-icon flag-icon-<?php echo $language->flag_icon ?? 'us'; ?> mr-2"></i>
-                                                        <?php echo $language->language; ?>
+                                                        <?php echo htmlspecialchars($language->language, ENT_QUOTES, 'UTF-8'); ?>
                                                     </td>
                                                     <td>
-                                                        <a class="btn btn-sm btn-primary editbutton" data-id="<?php echo $language->id; ?>">
+                                                        <a class="btn btn-sm btn-primary editbutton" data-id="<?php echo (int) $language->id; ?>">
                                                             <i class="fas fa-edit mr-1"></i> <?php echo lang('edit'); ?>
                                                         </a>
-                                                        <a class="btn btn-sm btn-info" href="settings/languageEdit?id=<?php echo $language->language; ?>">
+                                                        <a class="btn btn-sm btn-info" href="settings/languageEdit?id=<?php echo rawurlencode($language->language); ?>">
                                                             <i class="fas fa-cog mr-1"></i> <?php echo lang('manage'); ?>
                                                         </a>
                                                     </td>
@@ -183,10 +192,11 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('language'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="settings/addLanguage" class="clearfix form-row" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="col-md-12">
                         <div class="form-group">
@@ -268,10 +278,11 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold"> <?php echo lang('add'); ?> <?php echo lang('language'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <form role="form" action="settings/addLanguage" id="editLanguageForm" class="clearfix form-row" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="col-md-12">
                         <div class="form-group">
@@ -355,52 +366,8 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
 
 
 
+<script>
+    var language = <?php echo json_encode($this->language); ?>;
+</script>
 <script src="common/js/codearistos.min.js"></script>
 <script src="common/extranal/js/settings/language.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $(".table").on("click", ".editbutton", function() {
-            $("#loader").show();
-            "use strict";
-            var iid = $(this).attr("data-id");
-            $("#editLanguageForm").trigger("reset");
-
-            $.ajax({
-                url: "settings/editLanguageJason?id=" + iid,
-                method: "GET",
-                data: "",
-                dataType: "json",
-                success: function(response) {
-                    "use strict";
-                    $("#editLanguageForm")
-                        .find('[name="id"]')
-                        .val(response.language.id)
-                        .end();
-                    $("#editLanguageForm")
-                        .find('[name="language"]')
-                        .val(response.language.language)
-                        .end();
-                    $("#editLanguageForm")
-                        .find('[name="flag_icon"]')
-                        .val(response.language.flag_icon)
-                        .end();
-                    $("#editLanguageForm")
-                        .find('[name="description"]')
-                        .val(response.language.description)
-                        .end();
-                    $("#editLanguageForm")
-                        .find('[name="status"]')
-                        .val(response.language.status)
-                        .end();
-
-                    $("#loader").hide();
-
-                    $("#myModal2").modal("show");
-
-
-                },
-            });
-        });
-    });
-</script>

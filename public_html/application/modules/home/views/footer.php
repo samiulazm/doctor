@@ -285,8 +285,12 @@ if ($this->router->fetch_class() === 'appointment') {
                 }
 
                 var cmodalEl = document.getElementById('cmodal');
-                if (cmodalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                    bootstrap.Modal.getOrCreateInstance(cmodalEl).show();
+                if (cmodalEl) {
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        bootstrap.Modal.getOrCreateInstance(cmodalEl).show();
+                    } else if (typeof jQuery !== 'undefined' && jQuery(cmodalEl).modal) {
+                        jQuery(cmodalEl).modal('show');
+                    }
                 }
             },
             slotDuration: "00:05:00",

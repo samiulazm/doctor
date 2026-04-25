@@ -1,52 +1,39 @@
-<!--sidebar end-->
-<!--main content start-->
-
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($allotment)) {
+    $allotment = (object) array();
+}
+$is_edit = !empty($allotment->id);
+?>
 <link href="common/extranal/css/bed/edit_alloted_bed.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-hospital-user mr-3 text-primary"></i>
-                        <?php
-                        if (!empty($allotment->id))
-                            echo lang('edit_admission');
-                        else
-                            echo lang('new_admission');
-                        ?>
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb float-sm-right bg-transparent">
-                            <li class="breadcrumb-item"><a href="home" class="text-primary"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="bed" class="text-primary"><?php echo lang('beds'); ?></a></li>
-                            <li class="breadcrumb-item active font-weight-bold"><?php
-                                                                                if (!empty($allotment->id))
-                                                                                    echo lang('edit_admission');
-                                                                                else
-                                                                                    echo lang('new_admission');
-                                                                                ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $is_edit ? lang('edit_admission') : lang('new_admission'),
+        'icon' => 'fas fa-hospital-user text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('beds'), 'url' => 'bed'),
+            array('label' => $is_edit ? lang('edit_admission') : lang('new_admission'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-10">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('patient_admission_form'); ?></h2>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-primary text-white border-0 py-3">
+                            <h2 class="card-title h6 mb-0 font-weight-bold"><?php echo lang('patient_admission_form'); ?></h2>
                         </div>
-                        <div class="card-body bg-light p-4">
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="bed/addAllotment" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <!-- Admission Details -->
                                 <div class="row mb-5">
@@ -307,13 +294,13 @@
 <!--footer start-->
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var select_doctor = "<?php echo lang('select_doctor'); ?>";
+    var select_doctor = <?php echo json_encode(lang('select_doctor')); ?>;
 </script>
 <script type="text/javascript">
-    var select_patient = "<?php echo lang('select_patient'); ?>";
+    var select_patient = <?php echo json_encode(lang('select_patient')); ?>;
 </script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 
 <script src="common/extranal/js/bed/add_allotment.js"></script>

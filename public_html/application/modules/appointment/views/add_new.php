@@ -1,41 +1,42 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($visits)) {
+    $visits = array();
+}
+if (!isset($payment_gateway) && isset($settings)) {
+    $payment_gateway = $settings->payment_gateway;
+}
+?>
 <link href="common/extranal/css/appointment/add_new.css" rel="stylesheet">
 
 <div class="content-wrapper bg-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-calendar-plus text-primary mr-3"></i>
-                        <?php echo lang('new_appointment'); ?>
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb float-sm-right bg-transparent">
-                            <li class="breadcrumb-item"><a href="home" class="text-primary"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="appointment" class="text-primary"><?php echo lang('appointments'); ?></a></li>
-                            <li class="breadcrumb-item active font-weight-bold"><?php echo lang('new_appointment'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('new_appointment'),
+        'icon' => 'fas fa-calendar-plus text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('appointment'), 'url' => 'appointment'),
+            array('label' => lang('new_appointment'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-10">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white display-6 font-weight-800"><?php echo lang('appointment_booking_form'); ?></h2>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('appointment_booking_form'); ?></h3>
                         </div>
-                        <div class="card-body bg-light p-4">
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
                             <?php echo $this->session->flashdata('feedback'); ?>
 
                             <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <!-- Patient Information -->
                                 <div class="row mb-5">
@@ -147,9 +148,12 @@
                                             <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('visit_type'); ?> <span class="text-danger">*</span></label>
                                             <select class="form-control form-control-lg shadow-sm" name="visit_description" id="visit_description" required>
                                                 <option value=""><?php echo lang('select_visit_type'); ?></option>
-                                                <?php foreach ($visits as $visit) { ?>
+                                                <?php
+                                                if (!empty($visits)) {
+                                                    foreach ($visits as $visit) { ?>
                                                     <option value="<?php echo $visit->id; ?>"><?php echo $visit->visit_description ?></option>
-                                                <?php } ?>
+                                                <?php }
+                                                } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -311,12 +315,12 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 <script type="text/javascript">
-    var publish = "<?php echo $gateway->publish; ?>";
-    var payment_gateway = "<?php echo $settings->payment_gateway; ?>";
-    var no_available_timeslots = "No time slots available";
-    var currency = "<?php echo $settings->currency; ?>";
-    var select_doctor = "<?php echo lang('select_doctor'); ?>";
-    var select_patient = "<?php echo lang('select_patient'); ?>";
+    var publish = <?php echo json_encode($gateway && isset($gateway->publish) ? $gateway->publish : ''); ?>;
+    var payment_gateway = <?php echo json_encode($settings->payment_gateway); ?>;
+    var no_available_timeslots = <?php echo json_encode(lang('no_available_timeslots')); ?>;
+    var currency = <?php echo json_encode($settings->currency); ?>;
+    var select_doctor = <?php echo json_encode(lang('select_doctor')); ?>;
+    var select_patient = <?php echo json_encode(lang('select_patient')); ?>;
 </script>
 
 <?php if (!empty($appointment->id)) { ?>

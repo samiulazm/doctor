@@ -1,3 +1,7 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <link href="common/css/bootstrap-reset.css" rel="stylesheet">
 <link href="common/extranal/css/finance/add_payment_view.css" rel="stylesheet">
 
@@ -46,6 +50,7 @@
     <section class="content py-4">
         <div class="container-fluid px-2 px-md-3">
             <form role="form" id="editPaymentForm" class="add-payment-form row g-3 g-lg-4 w-100 mx-0" action="finance/addPayment" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                 <!-- ═══════════════════════════════════════════
                      COLUMN 1 — Patient · Doctor · Items

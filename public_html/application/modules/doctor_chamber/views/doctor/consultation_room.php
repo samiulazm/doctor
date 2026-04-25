@@ -9,7 +9,7 @@ if (!empty($favorites)) {
     }
 }
 ?>
-<div class="content-wrapper chamber-ui">
+<div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
@@ -45,7 +45,23 @@ if (!empty($favorites)) {
                         <h5 class="mt-3">Live vitals</h5>
                         <div id="vitalsBox">
                             <?php if ($vitals) : ?>
-                                <pre class="small"><?php echo htmlspecialchars(print_r($vitals, true)); ?></pre>
+                                <?php
+                                $vitals_arr = is_object($vitals) ? get_object_vars($vitals) : (array) $vitals;
+                                $vital_cards = array(
+                                    'bp_sys' => 'SYS',
+                                    'bp_dia' => 'DIA',
+                                    'pulse' => 'Pulse',
+                                    'weight_kg' => 'Weight',
+                                );
+                                ?>
+                                <div class="chamber-vitals-grid">
+                                    <?php foreach ($vital_cards as $vk => $vl) : ?>
+                                        <div class="chamber-vital">
+                                            <div class="chamber-vital-label"><?php echo htmlspecialchars($vl); ?></div>
+                                            <div class="chamber-vital-value"><?php echo isset($vitals_arr[$vk]) && $vitals_arr[$vk] !== '' ? htmlspecialchars((string) $vitals_arr[$vk]) : '-'; ?></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             <?php else : ?>
                                 <span class="text-muted">No vitals yet.</span>
                             <?php endif; ?>
@@ -65,7 +81,7 @@ if (!empty($favorites)) {
                         <?php if (!empty($patient_tags)) : ?>
                             <h5 class="mt-3">Tags</h5>
                             <?php foreach ($patient_tags as $tag) : ?>
-                                <span class="badge badge-warning"><?php echo htmlspecialchars(str_replace('_', ' ', $tag->tag)); ?></span>
+                                <span class="chamber-status <?php echo htmlspecialchars((string) $tag->tag); ?>"><?php echo htmlspecialchars(str_replace('_', ' ', $tag->tag)); ?></span>
                             <?php endforeach; ?>
                         <?php endif; ?>
                         <?php if (!empty($past_prescriptions)) : ?>
@@ -127,7 +143,22 @@ if (!empty($favorites)) {
     var favMap = <?php echo !empty($favorites) ? json_encode($fav_map) : '{}'; ?>;
     function poll(){
         $.getJSON('<?php echo site_url('doctor_chamber/vitals_json'); ?>', { patient: pid }, function(r){
-            if (r.vitals) { $('#vitalsBox').html('<pre class="small">'+JSON.stringify(r.vitals, null, 2)+'</pre>'); }
+            if (r.vitals) {
+                var fields = [
+                    ['bp_sys', 'SYS'],
+                    ['bp_dia', 'DIA'],
+                    ['pulse', 'Pulse'],
+                    ['weight_kg', 'Weight']
+                ];
+                var h = '<div class="chamber-vitals-grid">';
+                fields.forEach(function(f){
+                    var val = r.vitals[f[0]];
+                    val = (val === undefined || val === null || val === '') ? '-' : $('<div>').text(String(val)).html();
+                    h += '<div class="chamber-vital"><div class="chamber-vital-label">' + f[1] + '</div><div class="chamber-vital-value">' + val + '</div></div>';
+                });
+                h += '</div>';
+                $('#vitalsBox').html(h);
+            }
         });
     }
     setInterval(poll, 8000);

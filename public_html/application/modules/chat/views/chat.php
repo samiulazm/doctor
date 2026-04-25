@@ -1,21 +1,20 @@
 <link href="common/extranal/css/chat.css" rel="stylesheet">
 
 <div class="content-wrapper bg-light">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header py-3 border-bottom bg-white">
         <div class="container-fluid">
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6">
-                    <h1 class="font-weight-bold">
-                        <i class="fas fa-comments mr-2 text-primary"></i>
+            <div class="row align-items-center">
+                <div class="col-sm-8">
+                    <h1 class="h3 mb-1 font-weight-bold">
+                        <i class="fas fa-comments text-primary mr-2"></i>
                         <?php echo lang('chat'); ?>
                     </h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('chat') ?></li>
-                    </ol>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent mb-0 py-0 small">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><?php echo lang('chat'); ?></li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>

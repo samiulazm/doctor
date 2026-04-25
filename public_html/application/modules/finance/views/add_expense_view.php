@@ -1,48 +1,35 @@
-<!--sidebar end-->
-<!--main content start-->
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-money-bill-wave text-primary mr-3"></i>
-                        <?php
-                        if (!empty($expense->id)) {
-                            echo lang('edit_expense');
-                        } else {
-                            echo lang('add_expense');
-                        }
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="finance/expense"><?php echo lang('expense'); ?></a></li>
-                            <li class="breadcrumb-item active">
-                                <?php
-                                if (!empty($expense->id)) {
-                                    echo lang('edit_expense');
-                                } else {
-                                    echo lang('add_expense');
-                                }
-                                ?>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($expense)) {
+    $expense = (object) array();
+}
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $is_edit = !empty($expense) && !empty($expense->id);
+    $CI->load->view('partials/page_header', array(
+        'title' => $is_edit ? lang('edit_expense') : lang('add_expense'),
+        'icon' => 'fas fa-receipt text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('expense'), 'url' => 'finance/expense'),
+            array('label' => $is_edit ? lang('edit_expense') : lang('add_expense'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body p-5">
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-body p-4 p-md-5">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="finance/addExpense" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="form-group mb-4">
                                     <label class="text-uppercase text-sm"><?php echo lang('category'); ?> <span class="text-danger">*</span></label>
                                     <select class="form-control form-control-lg select2" name="category" required="">
@@ -107,9 +94,3 @@
         </div>
     </section>
 </div>
-
-
-
-
-<!--main content end-->
-<!--footer start-->

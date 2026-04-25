@@ -88,11 +88,11 @@ $(document).ready(function () {
       "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
     buttons: [
-      { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-      { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-      { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-      { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3, 4, 5] } },
+      { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+      { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+      { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+      { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+      { extend: "print", exportOptions: { columns: [0, 1, 2, 3] } },
     ],
     aLengthMenu: [
       [10, 25, 50, 100, -1],

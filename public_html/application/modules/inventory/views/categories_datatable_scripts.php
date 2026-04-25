@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
 ?>
+<script type="text/javascript">
+    var language = <?php echo json_encode(isset($CI->language) ? $CI->language : 'english'); ?>;
+</script>
 <script>
 $(document).ready(function() {
     if ($('#categoriesTable').length === 0) {
@@ -20,7 +24,7 @@ $(document).ready(function() {
                 alert('Error loading categories. Please check the console for details and refresh the page.');
             }
         },
-        "dom": "<'row mb-3'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
+        "dom": "<'row'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4 text-right'f>>" +
                "<'row'<'col-sm-12'tr>>" +
                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         "buttons": [
@@ -37,16 +41,13 @@ $(document).ready(function() {
         "pageLength": 25,
         "order": [[ 0, "desc" ]],
         "language": {
-            "processing": "Loading categories...",
-            "search": "Search categories:",
-            "lengthMenu": "Show _MENU_ categories per page",
-            "info": "Showing _START_ to _END_ of _TOTAL_ categories",
-            "infoEmpty": "No categories found",
-            "infoFiltered": "(filtered from _MAX_ total categories)",
-            "emptyTable": "No categories available",
-            "zeroRecords": "No matching categories found"
+            "lengthMenu": "_MENU_",
+            "search": "_INPUT_",
+            "searchPlaceholder": "Search...",
+            "url": "common/assets/DataTables/languages/" + language + ".json"
         }
     });
+    table.buttons().container().appendTo('.custom_buttons');
 
     $('#parent_id').select2({
         placeholder: "Select Parent Category",
@@ -133,7 +134,7 @@ function showNotification(message, type) {
         <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
             <i class="${icon} mr-2"></i>
             ${message}
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>

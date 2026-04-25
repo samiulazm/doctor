@@ -1,55 +1,53 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-prescription text-primary mr-3"></i>
-                        <?php echo lang('prescription'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('prescription'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <?php if ($this->ion_auth->in_group(array('admin', 'Doctor'))) { ?>
-                    <div class="col-sm-6 text-right">
-                        <a href="prescription/addPrescriptionView" class="btn btn-primary btn-sm px-4 py-3">
-                            <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('prescription'); ?>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div>
-        </div>
-    </section>
+<?php
+$CI = get_instance();
+if (!isset($prescription)) {
+    $prescription = null;
+}
+?>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('prescription'),
+        'icon' => 'fas fa-prescription text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('prescription'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-light">
-                            <h3 class="card-title font-weight-bold"><?php echo lang('All the prescriptions names and related informations'); ?></h3>
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('All the prescriptions names and related informations'); ?></h3>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'Doctor'))) { ?>
+                                <a href="prescription/addPrescriptionView" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-plus mr-1"></i> <?php echo lang('add_new'); ?> <?php echo lang('prescription'); ?>
+                                </a>
+                            <?php } ?>
                         </div>
 
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample1" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold"><?php echo lang('id'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('date'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('doctor'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('medicine'); ?></th>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="editable-sample1" style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><?php echo lang('id'); ?></th>
+                                            <th><?php echo lang('date'); ?></th>
+                                            <th><?php echo lang('doctor'); ?></th>
+                                            <th><?php echo lang('patient'); ?></th>
+                                            <th><?php echo lang('medicine'); ?></th>
+                                            <th class="no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,20 +78,21 @@ if ($this->ion_auth->in_group('Doctor')) {
 ?>
 
 <!-- Add Prescription Modal-->
-<div class="modal fade" id="myModa3" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="myModa3" role="dialog" aria-labelledby="myModalAddPrescriptionLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold">
+                <h5 class="modal-title font-weight-bold" id="myModalAddPrescriptionLabel">
                     <i class="fas fa-prescription-bottle mr-2"></i>
                     <?php echo lang('add_prescription'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form role="form" action="prescription/addNewPrescription" class="clearfix" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                     <div class="form-group col-md-4">
                         <label for="exampleInputEmail1"> <?php echo lang('date'); ?></label>
@@ -142,7 +141,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                     <input type="hidden" name="admin" value='admin'>
                     <input type="hidden" name="id" value=''>
                     <section class="">
-                        <button type="submit" name="submit" class="btn btn-info submit_button">Submit</button>
+                        <button type="submit" name="submit" class="btn btn-primary submit_button float-right"><?php echo lang('submit'); ?></button>
                     </section>
                 </form>
             </div>
@@ -150,15 +149,16 @@ if ($this->ion_auth->in_group('Doctor')) {
     </div><!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="myModal5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="myModal5" role="dialog" aria-labelledby="myModalEditPrescriptionLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title font-weight-bold"> <?php echo lang('edit_prescription'); ?></h4>
+                <h4 class="modal-title font-weight-bold" id="myModalEditPrescriptionLabel"><?php echo lang('edit_prescription'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form role="form" id="prescriptionEditForm" class="clearfix" action="prescription/addNewPrescription" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="form-group col-md-4">
                         <label for="exampleInputEmail1"> <?php echo lang('date'); ?></label>
                         <input type="text" class="form-control form-control-inline input-medium default-date-picker" name="date" value='' placeholder="">
@@ -169,10 +169,8 @@ if ($this->ion_auth->in_group('Doctor')) {
                             <option value="">Select .....</option>
                             <?php foreach ($doctors as $doctor) { ?>
                                 <option value="<?php echo $doctor->id; ?>" <?php
-                                                                            if (!empty($prescription->doctor)) {
-                                                                                if ($prescription->doctor == $doctor->id) {
-                                                                                    echo 'selected';
-                                                                                }
+                                                                            if ($prescription && !empty($prescription->doctor) && (string) $prescription->doctor === (string) $doctor->id) {
+                                                                                echo 'selected';
                                                                             }
                                                                             ?>><?php echo $doctor->name; ?> </option>
                             <?php } ?>
@@ -184,10 +182,8 @@ if ($this->ion_auth->in_group('Doctor')) {
                             <option value="">Select .....</option>
                             <?php foreach ($patients as $patientss) { ?>
                                 <option value="<?php echo $patientss->id; ?>" <?php
-                                                                                if (!empty($prescription->patient)) {
-                                                                                    if ($prescription->patient == $patientss->id) {
-                                                                                        echo 'selected';
-                                                                                    }
+                                                                                if ($prescription && !empty($prescription->patient) && (string) $prescription->patient === (string) $patientss->id) {
+                                                                                    echo 'selected';
                                                                                 }
                                                                                 ?>><?php echo $patientss->name; ?> </option>
                             <?php } ?>
@@ -217,7 +213,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                     <input type="hidden" name="admin" value='admin'>
                     <input type="hidden" name="id" value=''>
                     <section class="">
-                        <button type="submit" name="submit" class="btn btn-info submit_button"><?php echo lang('submit'); ?></button>
+                        <button type="submit" name="submit" class="btn btn-primary submit_button float-right"><?php echo lang('submit'); ?></button>
                     </section>
                 </form>
             </div>
@@ -289,7 +285,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                     <i class="fas fa-search-plus mr-2"></i>
                     <?php echo lang('quick_view_prescription'); ?>
                 </h5>
-                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -300,7 +296,7 @@ if ($this->ion_auth->in_group('Doctor')) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-1"></i><?php echo lang('close'); ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="printQuickView">
@@ -316,7 +312,7 @@ if ($this->ion_auth->in_group('Doctor')) {
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
     var prescriptionQuickViewLang = <?php echo json_encode(array(
         'loading_prescription_details' => lang('loading_prescription_details'),
         'medicine' => lang('medicine'),

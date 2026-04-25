@@ -1,59 +1,55 @@
-<!--sidebar end-->
-<!--main content start-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <link href="common/extranal/css/pharmacy/daily.css" rel="stylesheet">
 <?php
 $currently_processing_year = date('Y', $first_minute);
 $next_year = $currently_processing_year + 1;
 $previous_year = $currently_processing_year - 1;
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
 ?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-chart-line text-primary mr-3"></i>
-                        <?php echo date('Y', $first_minute) . ' ' . lang('pharmacy') . ' ' . lang('expense_report'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo date('Y', $first_minute) . ' ' . lang('pharmacy') . ' ' . lang('expense_report'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="finance/pharmacy/monthlyExpense?year=<?php echo $previous_year; ?>" class="btn btn-warning btn-sm px-4 py-3 mr-2">
-                        <i class="fa fa-arrow-left"></i> <?php echo lang('previous_year'); ?>
-                    </a>
-                    <a href="finance/pharmacy/monthlyExpense?year=<?php echo $next_year; ?>" class="btn btn-success btn-sm px-4 py-3 mr-2">
-                        <i class="fa fa-arrow-right"></i> <?php echo lang('next_year'); ?>
-                    </a>
-                    <a class="btn btn-secondary btn-sm px-4 py-3" onclick="javascript:window.print();">
-                        <i class="fa fa-print"></i> <?php echo lang('print'); ?>
-                    </a>
-                </div>
-            </div>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => (int) date('Y', $first_minute) . ' — ' . lang('pharmacy') . ' ' . lang('expense_report'),
+        'icon' => 'fas fa-chart-line text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('expense_report'), 'url' => null),
+        ),
+    ));
+    ?>
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap justify-content-end mb-2">
+            <a href="finance/pharmacy/monthlyExpense?year=<?php echo (int) $previous_year; ?>" class="btn btn-sm btn-warning mr-2">
+                <i class="fa fa-arrow-left mr-1"></i> <?php echo lang('previous_year'); ?>
+            </a>
+            <a href="finance/pharmacy/monthlyExpense?year=<?php echo (int) $next_year; ?>" class="btn btn-sm btn-success mr-2">
+                <i class="fa fa-arrow-right mr-1"></i> <?php echo lang('next_year'); ?>
+            </a>
+            <a class="btn btn-sm btn-secondary" href="javascript:window.print();" role="button">
+                <i class="fa fa-print mr-1"></i> <?php echo lang('print'); ?>
+            </a>
         </div>
-    </section>
+    </div>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <h3 class="card-title text-black font-weight-800"><?php echo date('Y', $first_minute) . ' ' . lang('pharmacy') . ' ' . lang('expense_report'); ?></h3>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo date('Y', $first_minute) . ' ' . lang('pharmacy') . ' ' . lang('expense_report'); ?></h3>
                         </div>
 
-                        <div class="card-body bg-light">
-                            <table class="table table-hover" id="editable-sample1">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('date'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('amount'); ?></th>
+                        <div class="card-body p-4">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-bordered" id="editable-sample1">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-uppercase"><?php echo lang('date'); ?></th>
+                                        <th><?php echo lang('amount'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,6 +91,7 @@ $previous_year = $currently_processing_year - 1;
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -103,42 +100,24 @@ $previous_year = $currently_processing_year - 1;
     </section>
 </div>
 
-
-<!--main content end-->
-<!--footer start-->
-<!--footer end-->
-<div id="myModal33" class="modal fade" role="dialog">
+<div id="myModal33" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h4 class="modal-title font-weight-bold"><?php echo lang('stock_alert'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">&times;</button>
             </div>
             <div class="modal-body">
-
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('close'); ?></button>
             </div>
         </div>
-
     </div>
 </div>
-</section>
-
-<!-- js placed at the end of the document so the pages load faster -->
 
 <script src="common/js/codearistos.min.js"></script>
 <script>
     $(window).on('load', function() {
-        //      $('#myModal33').modal('show');
     });
 </script>
-
-
-
-
-</body>
-
-</html>

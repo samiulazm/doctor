@@ -56,6 +56,11 @@ $(document).ready(function () {
         "ajax": {
             url: "medicine/getMedicineList",
             type: 'POST',
+            data: function (d) {
+                if (typeof window.medicineCsrfName !== "undefined" && typeof window.medicineCsrfHash !== "undefined") {
+                    d[window.medicineCsrfName] = window.medicineCsrfHash;
+                }
+            },
         },
         scroller: {
             loadingIndicator: true

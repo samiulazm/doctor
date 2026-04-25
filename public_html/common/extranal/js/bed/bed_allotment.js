@@ -51,44 +51,60 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   "use strict";
-  var table = $("#editable-sample").DataTable({
-    responsive: true,
+  function bedAllotmentAjaxUrl() {
+    var status = $(".status").val() || "";
+    if (status) {
+      return "bed/getBedAllotmentList?status=" + encodeURIComponent(status);
+    }
+    return "bed/getBedAllotmentList";
+  }
+  function initBedAllotmentTable() {
+    return $("#editable-sample").DataTable({
+      responsive: true,
 
-    processing: true,
-    serverSide: true,
-    searchable: true,
-    ajax: {
-      url: "bed/getBedAllotmentList",
-      type: "POST",
-    },
-    scroller: {
-      loadingIndicator: true,
-    },
-    dom:
-      "<'row'<'col-md-3'l><'col-sm-5 text-center'B><'col-sm-4'f>>" +
-      "<'row'<'col-sm-12'tr>>" +
-      "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+      processing: true,
+      serverSide: true,
+      searchable: true,
+      ajax: {
+        url: bedAllotmentAjaxUrl(),
+        type: "POST",
+      },
+      scroller: {
+        loadingIndicator: true,
+      },
+      dom:
+        "<'row'<'col-md-3'l><'col-sm-5 text-center'B><'col-sm-4'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
-    buttons: [
-      { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
-      { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
-      { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
-      { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
-      { extend: "print", exportOptions: { columns: [0, 1, 2, 3] } },
-    ],
-    aLengthMenu: [
-      [10, 25, 50, 100, -1],
-      [10, 25, 50, 100, "All"],
-    ],
-    iDisplayLength: 100,
-    order: [[0, "desc"]],
-    language: {
-      lengthMenu: "_MENU_",
-      search: "_INPUT_",
-      url: "common/assets/DataTables/languages/" + language + ".json",
-    },
-  });
+      buttons: [
+        { extend: "copyHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+        { extend: "excelHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+        { extend: "csvHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+        { extend: "pdfHtml5", exportOptions: { columns: [0, 1, 2, 3] } },
+        { extend: "print", exportOptions: { columns: [0, 1, 2, 3] } },
+      ],
+      aLengthMenu: [
+        [10, 25, 50, 100, -1],
+        [10, 25, 50, 100, "All"],
+      ],
+      iDisplayLength: 100,
+      order: [[0, "desc"]],
+      language: {
+        lengthMenu: "_MENU_",
+        search: "_INPUT_",
+        url: "common/assets/DataTables/languages/" + language + ".json",
+      },
+    });
+  }
+  var table = initBedAllotmentTable();
   table.buttons().container().appendTo(".custom_buttons");
+
+  $(".status").on("change", function () {
+    $("#editable-sample").DataTable().destroy();
+    var t = initBedAllotmentTable();
+    t.buttons().container().appendTo(".custom_buttons");
+  });
 });
 
 $(document).ready(function () {

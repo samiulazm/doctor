@@ -32,6 +32,7 @@ class Email_model extends CI_model {
 
     function updateEmailSettings($id,$data) {
         $this->db->where('id', $id);
+        $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         $this->db->update('email_settings', $data);
     }
 
@@ -274,6 +275,7 @@ class Email_model extends CI_model {
 
     function getHospitalEmailSettingsById($id) {
         $this->db->where('id', $id);
+        $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         $query = $this->db->get('email_settings');
         return $query->row();
     }

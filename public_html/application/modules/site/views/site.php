@@ -49,7 +49,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
           <?php
           if (!empty($settings->logo)) {
             if (file_exists($settings->logo)) {
-              echo '<img style="max-height: 48px; width: auto;" src=' . $settings->logo . '>';
+              echo '<img style="max-height: 48px; width: auto;" src="' . htmlspecialchars($settings->logo, ENT_QUOTES, 'UTF-8') . '" alt="">';
             } else {
               echo $title[0] . '<span> ' . $title[1] . '</span>';
             }

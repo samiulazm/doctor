@@ -1,53 +1,37 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
+$pg_title = !empty($settings->name) ? htmlspecialchars($settings->name, ENT_QUOTES, 'UTF-8') : lang('payment_gateway');
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => $pg_title . ' ' . lang('settings'),
+        'icon' => 'fas fa-money-bill-wave text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('payment_gateways'), 'url' => 'pgateway'),
+            array('label' => $pg_title . ' ' . lang('settings'), 'url' => null),
+        ),
+    ));
+    ?>
 
-<div class="content-wrapper bg-light">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6">
-                    <h1 class="text-primary fw-bold"><i class="fas fa-money-bill-wave mr-2"></i><strong>
-                            <?php
-                            if (!empty($settings->name)) {
-                                echo $settings->name;
-                            }
-                            ?> <?php echo lang('settings'); ?>
-                        </strong></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active"><?php
-                                                            if (!empty($settings->name)) {
-                                                                echo $settings->name;
-                                                            }
-                                                            ?> <?php echo lang('settings');
-                                                                ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Insert <?php
-                                                            if (!empty($settings->name)) {
-                                                                echo $settings->name;
-                                                            }
-                                                            ?> api credentials</h3>
+                <div class="col-lg-7">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-dark font-weight-bold">
+                                <?php echo lang('options'); ?> — <?php echo $pg_title; ?>
+                            </h3>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="pgateway/addNewSettings" class="clearfix" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"> <?php echo lang('payment_gateway'); ?> <?php echo lang('name'); ?> &ast;</label>
                                     <input type="text" class="form-control form-control-lg" name="name" value='<?php

@@ -1,75 +1,67 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-shopping-cart text-primary mr-3"></i>
-                        <?php echo lang('purchase_orders') ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="inventory"><?php echo lang('inventory'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('purchase_orders'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#addPurchaseOrderModal" class="btn btn-success btn-sm px-4 py-3">
-                        <i class="fa fa-plus-circle"></i> <?php echo lang('create_purchase_order'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('purchase_orders'),
+        'icon' => 'fas fa-shopping-cart text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('inventory'), 'url' => 'inventory'),
+            array('label' => lang('purchase_orders'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-end mb-3">
+                <a data-toggle="modal" data-target="#addPurchaseOrderModal" href="#addPurchaseOrderModal" class="btn btn-sm btn-success">
+                    <i class="fa fa-plus-circle mr-1"></i> <?php echo lang('create_purchase_order'); ?>
+                </a>
+            </div>
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
             
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <h3 class="card-title text-black font-weight-800"><?php echo lang('all') . ' ' . lang('purchase_orders'); ?></h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('all') . ' ' . lang('purchase_orders'); ?></h3>
                         </div>
-
-                        <div class="card-body bg-light">
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover" id="purchaseOrdersTable">
-                                    <thead>
-                                        <tr class="bg-light">
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('po_number'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('supplier_name'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('order_date'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('expected_delivery_date'); ?></th>
-                                            <th class="font-weight-bold text-uppercase">Total Quantity</th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('grand_total'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('status'); ?></th>
-                                            <th class="font-weight-bold text-uppercase"><?php echo lang('options'); ?></th>
+                                <table class="table table-hover table-bordered align-middle text-sm mb-0" id="purchaseOrdersTable" width="100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-uppercase"><?php echo lang('po_number'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('supplier_name'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('order_date'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('expected_delivery_date'); ?></th>
+                                            <th class="text-uppercase">Total Quantity</th>
+                                            <th class="text-uppercase"><?php echo lang('grand_total'); ?></th>
+                                            <th class="text-uppercase"><?php echo lang('status'); ?></th>
+                                            <th class="text-uppercase no-print"><?php echo lang('options'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Server-side DataTables will populate this -->
                                     </tbody>
                                 </table>
                             </div>
@@ -87,7 +79,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="addPurchaseOrderModalLabel"><?php echo lang('create_purchase_order'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -223,7 +215,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="addPurchaseOrderForm" name="submit" class="btn btn-success">
@@ -240,7 +232,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="editPurchaseOrderModalLabel"><?php echo lang('edit') . ' ' . lang('purchase_order'); ?></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="card shadow-lg border-0">
@@ -353,7 +345,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('cancel'); ?>
                 </button>
                 <button type="submit" form="editPurchaseOrderForm" name="submit" class="btn btn-primary">
@@ -372,7 +364,7 @@
                 <h4 class="modal-title font-weight-bold" id="viewPurchaseOrderModalLabel">
                     <i class="fas fa-eye mr-2"></i><?php echo lang('purchase_order_details'); ?>
                 </h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -520,7 +512,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times mr-2"></i><?php echo lang('close'); ?>
                 </button>
                 <a id="view_print_link" href="#" target="_blank" class="btn btn-info">

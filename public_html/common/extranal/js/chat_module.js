@@ -28,51 +28,6 @@ function initializeChat() {
     
     // Focus on input
     $('.chat-input').focus();
-    
-    // Protect modern structure from interference
-    protectModernStructure();
-}
-
-// Protect modern chat structure from being overridden
-function protectModernStructure() {
-    // Monitor for changes to the chatters block
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                // Check if legacy buttons were inserted
-                const $target = $(mutation.target);
-                if ($target.is('#chattersBlock') || $target.closest('#chattersBlock').length) {
-                    // If we detect old button structure, prevent it from showing
-                    $target.find('.ca-btn, .ca-chat-btn').hide();
-                    
-                    // Ensure modern structure is still intact
-                    if ($('.chat-user').length === 0) {
-                        console.warn('Modern chat structure was removed, restoring...');
-                        // You could reload the page or restore from backup here
-                        location.reload();
-                    }
-                }
-            }
-        });
-    });
-    
-    // Start observing
-    const chattersBlock = document.getElementById('chattersBlock');
-    if (chattersBlock) {
-        observer.observe(chattersBlock, {
-            childList: true,
-            subtree: true
-        });
-    }
-    
-    // Also add a periodic check to ensure structure integrity
-    setInterval(function() {
-        // Hide any legacy buttons that might appear
-        $('.ca-btn, .ca-chat-btn').hide();
-        
-        // Ensure modern users are visible
-        $('.chat-user').show();
-    }, 1000);
 }
 
 // Setup all event listeners

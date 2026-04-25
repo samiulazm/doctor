@@ -1,56 +1,55 @@
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo lang('ai_treatment_plan'); ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('ai_treatment_plan'); ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('ai_treatment_plan'),
+        'icon' => 'fas fa-robot text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('ai_treatment_plan'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content">
+    <section class="content py-4">
         <div class="container-fluid">
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-robot mr-2"></i>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <i class="fas fa-brain text-primary mr-2"></i>
                                 <?php echo lang('ai_powered_treatment_plan_generator'); ?>
-                            </h5>
+                            </h3>
                         </div>
                         <div class="card-body">
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="treatmentTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="symptoms-tab" data-bs-toggle="tab" href="#symptoms" role="tab" aria-controls="symptoms" aria-selected="true">
+                                    <a class="nav-link active" id="symptoms-tab" data-toggle="tab" href="#symptoms" role="tab" aria-controls="symptoms" aria-selected="true">
                                         <i class="fas fa-stethoscope mr-1"></i> <?php echo lang('symptoms_input'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="analysis-tab" data-bs-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">
+                                    <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">
                                         <i class="fas fa-brain mr-1"></i> <?php echo lang('ai_analysis'); ?>
                                     </a>
                                 </li>
@@ -60,7 +59,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="prescription-tab" data-bs-toggle="tab" href="#prescription" role="tab" aria-controls="prescription" aria-selected="false">
+                                    <a class="nav-link" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab" aria-controls="prescription" aria-selected="false">
                                         <i class="fas fa-file-prescription mr-1"></i> <?php echo lang('prescription'); ?>
                                     </a>
                                 </li>
@@ -507,7 +506,8 @@ $(document).ready(function() {
             data: {
                 patient_id: patientId,
                 doctor_id: doctorId,
-                symptoms: symptoms
+                symptoms: symptoms,
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -563,7 +563,8 @@ $(document).ready(function() {
             data: {
                 treatment_id: currentTreatmentId,
                 doctor_input: $('#doctorInput').val(),
-                test_results: $('#testResults').val()
+                test_results: $('#testResults').val(),
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -611,7 +612,8 @@ $(document).ready(function() {
             url: '<?php echo base_url(); ?>treatment_plan/generatePrescription',
             type: 'POST',
             data: {
-                treatment_id: currentTreatmentId
+                treatment_id: currentTreatmentId,
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -823,7 +825,7 @@ $(document).ready(function() {
 
 
     // Tab change handlers
-    $('#treatmentTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('#treatmentTabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         const target = $(e.target).attr("href");
         
         // Enable/disable buttons based on current state

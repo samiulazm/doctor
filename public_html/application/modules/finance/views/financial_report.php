@@ -1,6 +1,9 @@
-<!--main content start-->
-
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+?>
 <link href="common/extranal/css/finance/financial_report.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
 <style>
     .card .badge {
@@ -14,37 +17,28 @@
     }
 </style>
 
-<div class="content-wrapper bg-light">
-    <!-- Content Header (Page header) -->
-    <section class="content-header py-4 mb-5 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-money-bill-wave text-primary mr-3"></i>
-                        <?php echo lang('financial_report'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"><?php echo lang('financial_report'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('financial_report'),
+        'icon' => 'fas fa-chart-pie text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('financial_report'), 'url' => null),
+        ),
+    ));
+    ?>
 
     <!-- Main content -->
-    <section class="content mt-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card shadow-sm border-0 appointment-list-card">
                         <!-- <div class="card-header">
                             <h3 class="card-title">All the department names and related informations</h3>
                             <div class="float-right">
-                                <a data-bs-toggle="modal" href="#myModal">
+                                <a data-toggle="modal" href="#myModal">
                                     <button id="" class="btn btn-success btn-sm" onclick="javascript:window.print();">
                                         <i class="fa fa-print"></i> <?php echo lang('print'); ?>
                                     </button>
@@ -59,6 +53,7 @@
                                 <div class="mb-4">
                                     <section>
                                         <form role="form" class="f_report" action="finance/financialReport" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                                             <div class="form-group row">
 
                                                 <div class="col-md-6">
@@ -557,11 +552,11 @@
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 
 <script>
-    var dateFormat = "<?php echo $date_format; ?>";
+    var dateFormat = <?php echo json_encode(isset($date_format) ? $date_format : ''); ?>;
 
     // Initialize datepicker with dynamic format
     // $('.dpd1, .dpd2').datepicker({

@@ -1,48 +1,38 @@
-<!--sidebar end-->
-<!--main content start-->
-<div class="content-wrapper bg-gradient-light">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-money-bill-wave text-primary mr-3"></i>
-                        <?php
-                        if (!empty($category->id))
-                            echo lang('edit_invoice_items_lab_tests');
-                        else
-                            echo lang('create_invoice_items_lab_tests');
-                        ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active">
-                                <?php
-                                if (!empty($category->id))
-                                    echo lang('edit_invoice_items_lab_tests');
-                                else
-                                    echo lang('create_invoice_items_lab_tests');
-                                ?>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
+if (!isset($category)) {
+    $category = (object) array();
+}
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
-    <section class="content py-5">
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $is_edit = !empty($category->id);
+    $CI->load->view('partials/page_header', array(
+        'title' => $is_edit ? lang('edit_invoice_items_lab_tests') : lang('create_invoice_items_lab_tests'),
+        'icon' => 'fas fa-procedures text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('payment_procedures'), 'url' => 'finance/paymentCategory'),
+            array('label' => $is_edit ? lang('edit_invoice_items_lab_tests') : lang('create_invoice_items_lab_tests'), 'url' => null),
+        ),
+    ));
+    ?>
+
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-primary py-4">
-                            <h2 class="card-title mb-0 text-white"><?php echo lang('items_created_here_will_be_appeared_at_the_time_of_creating_invoice'); ?></h2>
+                    <div class="card shadow-sm border-0 appointment-list-card">
+                        <div class="card-header bg-primary text-white border-0 py-3">
+                            <h2 class="card-title h6 mb-0"><?php echo lang('items_created_here_will_be_appeared_at_the_time_of_creating_invoice'); ?></h2>
                         </div>
-                        <div class="card-body p-5">
+                        <div class="card-body p-4 p-md-5">
                             <?php echo validation_errors(); ?>
                             <form role="form" action="finance/addPaymentCategory" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
 
                                 <div class="form-group mb-4">
                                     <label class="text-uppercase text-sm"><?php echo lang('item_lab_test'); ?> <?php echo lang('name'); ?> <span class="text-danger">*</span></label>
@@ -105,7 +95,7 @@
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <label class="text-uppercase text-sm"><?php echo lang('type'); ?> <span title="For lab tests that require reporting, choose 'Lab Test'. For all others, select 'Other'" data-bs-toggle="tooltip"><i class="fa fa-question-circle"></i></span></label>
+                                    <label class="text-uppercase text-sm"><?php echo lang('type'); ?> <span title="For lab tests that require reporting, choose 'Lab Test'. For all others, select 'Other'" data-toggle="tooltip"><i class="fa fa-question-circle"></i></span></label>
                                     <select class="form-control form-control-lg" name="type">
                                         <option value="diagnostic" <?php
                                                                     if (!empty($setval)) {
@@ -153,7 +143,4 @@
     </section>
 </div>
 
-<!--main content end-->
-<!--footer start-->
 <script src="common/js/codearistos.min.js"></script>
-<script src="common/extranal/js/finance/payment_category.js"></script>

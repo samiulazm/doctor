@@ -1,54 +1,50 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$CI = get_instance();
 ?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo lang('ai_patient_overview'); ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                        <li class="breadcrumb-item active"><?php echo lang('ai_patient_overview'); ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('ai_patient_overview'),
+        'icon' => 'fas fa-user-md text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('ai_patient_overview'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content">
+    <section class="content py-4">
         <div class="container-fluid">
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?> 
             
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-user-md mr-2"></i>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase">
+                                <i class="fas fa-brain text-primary mr-2"></i>
                                 <?php echo lang('ai_patient_overview_generator'); ?>
-                            </h5>
+                            </h3>
                         </div>
                         <div class="card-body">
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="overviewTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="generate-tab" data-bs-toggle="tab" href="#generate" role="tab" aria-controls="generate" aria-selected="true">
+                                    <a class="nav-link active" id="generate-tab" data-toggle="tab" href="#generate" role="tab" aria-controls="generate" aria-selected="true">
                                         <i class="fas fa-plus mr-1"></i> <?php echo lang('generate_overview'); ?>
                                     </a>
                                 </li>
@@ -58,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
+                                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                         <i class="fas fa-history mr-1"></i> <?php echo lang('analysis_history'); ?>
                                     </a>
                                 </li>
@@ -324,7 +320,8 @@ function generateOverview() {
         type: 'POST',
         data: {
             patient_id: patientId,
-            doctor_id: doctorId
+            doctor_id: doctorId,
+            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
@@ -622,7 +619,10 @@ function viewAnalysis(analysisId) {
     $.ajax({
         url: '<?php echo base_url(); ?>ai_patient_overview/getAnalysisById',
         type: 'POST',
-        data: { analysis_id: analysisId },
+        data: {
+            analysis_id: analysisId,
+            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
+        },
         dataType: 'json',
         success: function(response) {
             if (response.success) {
@@ -668,7 +668,10 @@ function deleteAnalysis(analysisId) {
         $.ajax({
             url: '<?php echo base_url(); ?>ai_patient_overview/deleteAnalysis',
             type: 'POST',
-            data: { analysis_id: analysisId },
+            data: {
+                analysis_id: analysisId,
+                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
@@ -689,24 +692,6 @@ function deleteAnalysis(analysisId) {
             }
         });
     }
-}
-
-function printOverviewReport() {
-    const printContent = document.getElementById('printableOverview').innerHTML;
-    const originalContent = document.body.innerHTML;
-    
-    document.body.innerHTML = `
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    ${printContent}
-                </div>
-            </div>
-        </div>
-    `;
-    
-    window.print();
-    document.body.innerHTML = originalContent;
 }
 
 function downloadOverviewReport() {

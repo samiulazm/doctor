@@ -64,6 +64,7 @@ class Appointment extends MX_Controller
         $data['patients'] = $this->patient_model->getPatient();
         $data['doctors'] = $this->doctor_model->getDoctor();
         $data['settings'] = $this->settings_model->getSettings();
+        $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
         $this->load->view('home/dashboard', $data);
         $this->load->view('appointment_request', $data);
         $this->load->view('home/footer');
@@ -79,6 +80,7 @@ class Appointment extends MX_Controller
         $data['patients'] = $this->patient_model->getPatient();
         $data['doctors'] = $this->doctor_model->getDoctor();
         $data['settings'] = $this->settings_model->getSettings();
+        $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
         $this->load->view('home/dashboard', $data);
         $this->load->view('todays', $data);
         $this->load->view('home/footer');
@@ -94,6 +96,7 @@ class Appointment extends MX_Controller
         $data['patients'] = $this->patient_model->getPatient();
         $data['doctors'] = $this->doctor_model->getDoctor();
         $data['settings'] = $this->settings_model->getSettings();
+        $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
         $this->load->view('home/dashboard', $data);
         $this->load->view('upcoming', $data);
         $this->load->view('home/footer');
@@ -148,6 +151,8 @@ class Appointment extends MX_Controller
         $data['doctors'] = $this->doctor_model->getDoctor();
         $data['settings'] = $this->settings_model->getSettings();
         $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
+        $data['visits'] = $this->doctorvisit_model->getDoctorVisit();
+        $data['payment_gateway'] = $data['settings']->payment_gateway;
         $this->load->view('home/dashboard', $data);
         $this->load->view('add_new', $data);
         $this->load->view('home/footer');
@@ -164,6 +169,8 @@ class Appointment extends MX_Controller
         $data['doctors'] = $this->doctor_model->getDoctor();
         $data['settings'] = $this->settings_model->getSettings();
         $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
+        $data['visits'] = $this->doctorvisit_model->getDoctorVisit();
+        $data['payment_gateway'] = $data['settings']->payment_gateway;
         $this->load->view('home/dashboard', $data);
         $this->load->view('add_new', $data);
         $this->load->view('home/footer');
@@ -1497,6 +1504,8 @@ class Appointment extends MX_Controller
         $data['settings'] = $this->settings_model->getSettings();
         $data['appointment'] = $this->appointment_model->getAppointmentById($id);
         $data['visits'] = $this->doctorvisit_model->getDoctorVisit();
+        $data['payment_gateway'] = $data['settings']->payment_gateway;
+        $data['gateway'] = $this->finance_model->getGatewayByName($data['settings']->payment_gateway);
         $data['patients'] = $this->patient_model->getPatientById($data['appointment']->patient);
         $data['doctors'] = $this->doctor_model->getDoctorById($data['appointment']->doctor);
         $this->load->view('home/dashboard', $data);
@@ -1520,19 +1529,29 @@ class Appointment extends MX_Controller
     {
         $data['settings'] = $this->settings_model->getSettings();
         $data['doctors'] = $this->doctor_model->getDoctor();
-
-        $date_from = strtotime($this->input->post('date_from'));
-        $date_to = strtotime($this->input->post('date_to'));
-        if (!empty($date_to)) {
-            $date_to = $date_to + 24 * 60 * 60;
+        if (empty($data['doctors'])) {
+            $data['doctors'] = array();
         }
 
-        if (empty($date_from) || empty($date_to)) {
+        $date_from_post = $this->input->post('date_from');
+        $date_to_post = $this->input->post('date_to');
+        $date_from = (is_string($date_from_post) && $date_from_post !== '') ? strtotime($date_from_post) : false;
+        $date_to = (is_string($date_to_post) && $date_to_post !== '') ? strtotime($date_to_post) : false;
+        if ($date_to !== false) {
+            $date_to = $date_to + (24 * 60 * 60);
+        }
+
+        if ($date_from === false || $date_to === false) {
             $data['appointments'] = $this->appointment_model->getAppointment();
+            $data['from'] = is_string($date_from_post) ? $date_from_post : '';
+            $data['to'] = is_string($date_to_post) ? $date_to_post : '';
         } else {
             $data['appointments'] = $this->appointment_model->getAppointmentByDate($date_from, $date_to);
-            $data['from'] = $this->input->post('date_from');
-            $data['to'] = $this->input->post('date_to');
+            $data['from'] = $date_from_post;
+            $data['to'] = $date_to_post;
+        }
+        if (empty($data['appointments'])) {
+            $data['appointments'] = array();
         }
 
         $this->load->view('home/dashboard', $data);
@@ -1625,7 +1644,7 @@ class Appointment extends MX_Controller
             $i = $i + 1;
             if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) {
 
-                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
+                $options1 = ' <a type="button" class="btn editbutton" title="' . lang('edit') . '" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
             }
 
             $options2 = '<a class="btn detailsbutton buttoncolor" title="' . lang('info') . '"  href="appointment/appointmentDetails?id=' . $appointment->id . '"><i class="fa fa-info"></i> ' . lang('info') . '</a>';
@@ -1720,7 +1739,7 @@ class Appointment extends MX_Controller
         foreach ($data['appointments'] as $appointment) {
             $i = $i + 1;
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -1740,9 +1759,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -1777,7 +1796,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -1854,8 +1873,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $columns_valid = array(
             "0" => "id",
             "3" => "date",
-            "5" => "status",
-            "6" => "payment_id"
+            "4" => "status",
         );
         $values = $this->settings_model->getColumnOrder($order, $columns_valid);
         $dir = $values[0];
@@ -1896,33 +1914,34 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $this->db->where('hospital_id', $this->hospital_id);
         $this->settings = $this->db->get('settings')->row();
 
+        $info = array();
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
 
-
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
-$total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
-$total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amount;
-
-if ((float)($payment_details->gross_total ?? 0) == $total_due) {
-    if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
-    } else {
-        $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-    }
-} elseif ($total_due == 0) {
-    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-} else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
-}
+            $payment_id = (!empty($payment_details) && !empty($payment_details->id)) ? (int) $payment_details->id : 0;
+            $total_deposited_amount = (float) ($this->finance_model->getDepositAmountByPaymentId($payment_id) ?? 0);
+            $gross_total = (!empty($payment_details) && isset($payment_details->gross_total)) ? (float) $payment_details->gross_total : 0.0;
+            $total_due = $gross_total - $total_deposited_amount;
+            if ($gross_total == $total_due) {
+                if ($gross_total != 0) {
+                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                } else {
+                    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+                }
+            } elseif ($total_due == 0) {
+                $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+            } else {
+                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+            }
             $option2 = '<a class="btn btn-danger btn-sm delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -1943,7 +1962,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -1987,10 +2006,10 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             );
         } else {
             $output = array(
-                // "draw" => 1,
+                "draw" => intval($requestData['draw']),
                 "recordsTotal" => 0,
                 "recordsFiltered" => 0,
-                "data" => []
+                "data" => array()
             );
         }
 
@@ -2052,7 +2071,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
             $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2072,9 +2091,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2095,7 +2114,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -2207,7 +2226,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2227,9 +2246,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2264,7 +2283,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -2370,7 +2389,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2390,9 +2409,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2423,7 +2442,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -2534,7 +2553,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         foreach ($data['appointments'] as $appointment) {
 
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
 $total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
@@ -2554,9 +2573,9 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2577,7 +2596,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -2641,8 +2660,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $columns_valid = array(
             "0" => "id",
             "3" => "date",
-            "5" => "status",
-            "6" => "payment_id"
+            "4" => "status",
         );
         $values = $this->settings_model->getColumnOrder($order, $columns_valid);
         $dir = $values[0];
@@ -2680,33 +2698,34 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             }
         }
 
-
+        $info = array();
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
 
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
-           $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
-$total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
-$total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amount;
-
-if ((float)($payment_details->gross_total ?? 0) == $total_due) {
-    if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
-    } else {
-        $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-    }
-} elseif ($total_due == 0) {
-    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-} else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
-}
+            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
+            $payment_id = (!empty($payment_details) && !empty($payment_details->id)) ? (int) $payment_details->id : 0;
+            $total_deposited_amount = (float) ($this->finance_model->getDepositAmountByPaymentId($payment_id) ?? 0);
+            $gross_total = (!empty($payment_details) && isset($payment_details->gross_total)) ? (float) $payment_details->gross_total : 0.0;
+            $total_due = $gross_total - $total_deposited_amount;
+            if ($gross_total == $total_due) {
+                if ($gross_total != 0) {
+                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                } else {
+                    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+                }
+            } elseif ($total_due == 0) {
+                $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+            } else {
+                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+            }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
             if (!empty($patientdetails)) {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
             } else {
-                $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
             }
             $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
             if (!empty($doctordetails)) {
@@ -2741,7 +2760,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                 $visit_type_name = '';
             }
 
-            if (!empty($payment_details->id)) {
+            if (!empty($payment_details) && !empty($payment_details->id)) {
                 $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
             } else {
                 $invoice = '';
@@ -2788,15 +2807,6 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                     '<span class="d-flex gap-2">' .   $option1 . ' ' . $option_view . ' ' . $option2 . ' ' . $options7 . '</span>'
                 );
                 $i = $i + 1;
-            } else {
-                $info1[] = array(
-                    $appointment->id,
-                    $appointment->patientname,
-                    $appointment->doctorname,
-                    '<span class="text-xs">' .   date('d-m-Y', $appointment->date) . ' <br> ' . $time_string . '</span>',
-                    lang(strtolower($appointment->status)),
-                    '<span class="d-flex gap-2">' .    $option1 . ' ' . $option_view . ' ' . $option2 . ' ' . $options7 . '</span>'
-                );
             }
         }
 
@@ -2809,10 +2819,10 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             );
         } else {
             $output = array(
-                // "draw" => 1,
+                "draw" => intval($requestData['draw']),
                 "recordsTotal" => 0,
                 "recordsFiltered" => 0,
-                "data" => []
+                "data" => array()
             );
         }
 
@@ -2830,8 +2840,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
         $columns_valid = array(
             "0" => "id",
             "3" => "date",
-            "5" => "status",
-            "6" => "payment_id"
+            "4" => "status",
         );
         $values = $this->settings_model->getColumnOrder($order, $columns_valid);
         $dir = $values[0];
@@ -2869,35 +2878,36 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             }
         }
 
-
+        $info = array();
         $i = 0;
         foreach ($data['appointments'] as $appointment) {
-            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
+            $option1 = '<a type="button" class="btn btn-primary btn-sm btn_width editbutton" href="javascript:;" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></a>';
             $option_view = '<a type="button" class="btn btn-info btn-sm btn_width view-btn" onclick="viewAppointment(' . $appointment->id . ')" title="' . lang('view') . '"><i class="fa fa-eye"> ' . lang('view') . '</i></a>';
 
-           $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
-$total_deposited_amount = (float)($this->finance_model->getDepositAmountByPaymentId($payment_details->id ?? 0) ?? 0);
-$total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amount;
-
-if ((float)($payment_details->gross_total ?? 0) == $total_due) {
-    if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
-    } else {
-        $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-    }
-} elseif ($total_due == 0) {
-    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
-} else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
-}
+            $payment_details = $this->finance_model->getPaymentByAppointmentId($appointment->id);
+            $payment_id = (!empty($payment_details) && !empty($payment_details->id)) ? (int) $payment_details->id : 0;
+            $total_deposited_amount = (float) ($this->finance_model->getDepositAmountByPaymentId($payment_id) ?? 0);
+            $gross_total = (!empty($payment_details) && isset($payment_details->gross_total)) ? (float) $payment_details->gross_total : 0.0;
+            $total_due = $gross_total - $total_deposited_amount;
+            if ($gross_total == $total_due) {
+                if ($gross_total != 0) {
+                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                } else {
+                    $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+                }
+            } elseif ($total_due == 0) {
+                $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
+            } else {
+                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+            }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
 
             if ($appointment->date > strtotime(date('Y-m-d'))) {
                 $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="history" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
                 if (!empty($doctordetails)) {
@@ -2932,7 +2942,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                     $visit_type_name = '';
                 }
 
-                if (!empty($payment_details->id)) {
+                if (!empty($payment_details) && !empty($payment_details->id)) {
                     $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
                 } else {
                     $invoice = '';
@@ -2976,70 +2986,6 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
                     '<span class="d-flex gap-2">' .    $option1 . ' ' . $option_view . ' ' . $option2 . ' ' . $options7 . '</span>'
                 );
                 $i = $i + 1;
-            } else {
-                if ($this->ion_auth->in_group(array('Doctor'))) {
-                    if ($appointment->status == 'Confirmed') {
-                        $options7 = '<a class="btn btn-info btn-xs btn_width detailsbutton buttoncolor" title="' . lang('start_live') . '"  href="meeting/instantLive?id=' . $appointment->id . '" target="_blank" onclick="return confirm(\'Are you sure you want to start a live meeting with this patient? SMS and Email will be sent to the Patient.\');"><i class="fa fa-headphones"></i> ' . lang('live') . '</a>';
-                    } else {
-                        $options7 = '';
-                    }
-                } else {
-                    $options7 = '';
-                }
-
-
-                if (!empty($appointment->visit_description)) {
-                    $visit_type = $this->doctorvisit_model->GetDoctorVisitById($appointment->visit_description);
-                    if ($visit_type) {
-                        $visit_type_name = $visit_type->visit_description;
-                    } else {
-                        $visit_type_name = '';
-                    }
-                } else {
-                    $visit_type_name = '';
-                }
-
-                if (!empty($payment_details->id)) {
-                    $invoice = '<a href="finance/invoice?id=' . $payment_details->id . '">' . $payment_details->id . '</a>';
-                } else {
-                    $invoice = '';
-                }
-
-                if ($appointment->s_time == 'Not Selected') {
-                    $time_string = lang('not_selected');
-                } else {
-                    $this->db->where('hospital_id', $this->hospital_id);
-                    $this->settings = $this->db->get('settings')->row();
-                    if ($this->settings->time_format == '24') {
-                        $appointment->s_time = $this->settings_model->convert_to_24h($appointment->s_time);
-                        $appointment->e_time = $this->settings_model->convert_to_24h($appointment->e_time);
-                    }
-                    $time_string = $appointment->s_time . ' - ' . $appointment->e_time;
-                }
-
-
-
-                // if ($appointment->status == 'Pending Confirmation') {
-                //     $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
-                // } elseif ($appointment->status == 'Confirmed') {
-                //     $appointment_status = '<span class="badge badge-primary">' . lang(strtolower($appointment->status)) . '</span>';
-                // } elseif ($appointment->status == 'Treated') {
-                //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
-                // } elseif ($appointment->status == 'Cancelled') {
-                //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
-                // } elseif ($appointment->status == 'Requested') {
-                //     $appointment_status = '<span class="badge badge-secondary">' . lang(strtolower($appointment->status)) . '</span>';
-                // }
-
-
-                $info1[] = array(
-                    $appointment->id,
-                    $appointment->patientname,
-                    $appointment->doctorname,
-                    '<span class="text-xs">' .   date('d-m-Y', $appointment->date) . ' <br> ' . $time_string . '</span>',
-                    $appointment->status,
-                    '<span class="d-flex gap-2">' .    $option1 . ' ' . $option_view . ' ' . $option2 . ' ' . $options7 . '</span>'
-                );
             }
         }
 
@@ -3052,9 +2998,10 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             );
         } else {
             $output = array(
+                "draw" => intval($requestData['draw']),
                 "recordsTotal" => 0,
                 "recordsFiltered" => 0,
-                "data" => []
+                "data" => array()
             );
         }
 
@@ -3122,13 +3069,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $patient_details = $this->patient_model->getPatientByIonUserId($patient_ion_id);
             $patient_id = $patient_details->id;
             if ($patient_id == $appointment->patient) {
-                $option1 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-bs-toggle="modal" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></button>';
+                $option1 = '<button type="button" class="btn btn-info btn-xs btn_width editbutton" data-id="' . $appointment->id . '"><i class="fa fa-edit"> ' . lang('edit') . '</i></button>';
                 $option2 = '<a class="btn btn-info btn-xs btn_width delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
                 $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                 if (!empty($patientdetails)) {
-                    $patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
+                    $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $patientdetails->name . '</a>';
                 } else {
-                    $patientname = ' <a type="button" class="" data-bs-toggle="modal" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
+                    $patientname = ' <a type="button" class="history" href="javascript:;" data-id="' . $appointment->patient . '"> ' . $appointment->patientname . '</a>';
                 }
                 $doctordetails = $this->doctor_model->getDoctorById($appointment->doctor);
                 if (!empty($doctordetails)) {

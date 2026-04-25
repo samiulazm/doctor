@@ -1,82 +1,66 @@
-<!--sidebar end-->
-<!--main content start-->
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+$CI = get_instance();
+?>
+<link rel="stylesheet" href="<?php echo asset_url('application/assets/css/appointment-page.css'); ?>">
 
+<div class="content-wrapper bg-light appointment-page">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => 'AI ' . lang('settings'),
+        'icon' => 'fas fa-robot text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('settings'), 'url' => 'settings'),
+            array('label' => 'AI ' . lang('settings'), 'url' => null),
+        ),
+    ));
+    ?>
 
-<div class="content-wrapper bg-light">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content py-4">
         <div class="container-fluid">
-            <div class="row my-2 pl-1">
-                <div class="col-sm-6">
-                    <h1 class="font-weight-bold"><i class="fas fa-robot mr-2"></i>AI Settings</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="home"><?php echo lang('home') ?></a></li>
-                        <li class="breadcrumb-item active">AI Settings</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-7">
-                    <div class="card">
-                        <!-- /.card-header -->
-                        <div class="card-body">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-7">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h3 class="card-title h6 mb-0 text-dark font-weight-bold">
+                                <i class="fas fa-key mr-2 text-info"></i>
+                                OpenAI
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
                             <?php echo validation_errors(); ?>
-                            <form role="form" action="settings/chatgptSettings" class="clearfix" method="post" enctype="multipart/form-data">
+                            <?php echo $this->session->flashdata('feedback'); ?>
+                            <form role="form" action="settings/chatgptSettings" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
+
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1"> OpenAI API Key </label>
-
-                                    <input type="text" class="form-control form-control-lg" name="api_key" id="exampleInputEmail1" value='<?php
-                                                                                                                                            if (!empty($settings->chatgpt_api_key)) {
-                                                                                                                                                echo $settings->chatgpt_api_key;
-                                                                                                                                            }
-                                                                                                                                            ?>' placeholder="">
-
+                                    <label for="openaiApiKey">OpenAI API Key <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" name="api_key" id="openaiApiKey"
+                                        value="<?php echo !empty($settings->chatgpt_api_key) ? htmlspecialchars($settings->chatgpt_api_key, ENT_QUOTES, 'UTF-8') : ''; ?>"
+                                        placeholder=""
+                                        autocomplete="off">
                                 </div>
 
+                                <input type="hidden" name="id" value="<?php echo !empty($settings->id) ? (int) $settings->id : ''; ?>">
 
-                                <input type="hidden" name="id" value='<?php
-                                                                        if (!empty($settings->id)) {
-                                                                            echo $settings->id;
-                                                                        }
-                                                                        ?>'>
-
-
-                                <div class="form-group mb-5">
-                                    <button type="submit" name="submit" class="btn btn-info float-right"><?php echo lang('submit'); ?></button>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                    <p class="small text-muted mb-0">
+                                        <?php echo lang('login_to_openai_com_and_then_go_to_this_page'); ?>
+                                        <a target="_blank" rel="noopener noreferrer" href="https://platform.openai.com/api-keys">https://platform.openai.com/api-keys</a>
+                                    </p>
+                                    <button type="submit" name="submit" class="btn btn-info mt-3 mt-sm-0">
+                                        <i class="fas fa-save mr-1"></i> <?php echo lang('submit'); ?>
+                                    </button>
                                 </div>
-                                <code class="mt-5">
-                                    <?php echo lang('login_to_openai_com_and_then_go_to_this_page'); ?>
-                                    <a target="_blank" href="https://platform.openai.com/api-keys">https://platform.openai.com/api-keys</a>
-                                </code>
-
                             </form>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-
-    <!-- /.content -->
 </div>
 
-
-
-<!--main content end-->
-<!--footer start-->
-
 <script src="common/js/codearistos.min.js"></script>
-<script src="common/extranal/js/email/settings.js"></script>
+<script src="common/extranal/js/settings/chatgpt.js"></script>

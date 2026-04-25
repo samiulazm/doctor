@@ -1,53 +1,54 @@
 <link href="common/extranal/css/patient/medical_history.css" rel="stylesheet">
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
-    <section class="content-header py-4 bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <h1 class="display-4 font-weight-black mb-0">
-                        <i class="fas fa-user text-primary mr-3"></i>
-                        <?php echo lang('all'); ?> <?php echo lang('patients'); ?>
-                    </h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0">
-                            <li class="breadcrumb-item"><a href="home"> <?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item active"> <?php echo lang('patient'); ?></li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a data-bs-toggle="modal" href="#myModal" class="btn btn-primary btn-sm px-4 py-3">
-                        <i class="fa fa-plus"></i> <?php echo lang('add_new'); ?> <?php echo lang('patient'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<?php
+$CI = get_instance();
+if (!isset($groups) || !is_array($groups)) {
+    $groups = array();
+}
+?>
+<div class="content-wrapper bg-light">
+    <?php
+    $CI->load->view('partials/page_header', array(
+        'title' => lang('all') . ' ' . lang('patients'),
+        'icon' => 'fas fa-user text-primary mr-2',
+        'breadcrumbs' => array(
+            array('label' => lang('home'), 'url' => 'home'),
+            array('label' => lang('patient'), 'url' => null),
+        ),
+    ));
+    ?>
 
-    <section class="content py-5">
+    <section class="content py-4">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    <div class="card shadow-lg border-0">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                            <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('all'); ?> <?php echo lang('patients'); ?></h3>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">
+                                <i class="fas fa-plus mr-1"></i> <?php echo lang('add_new'); ?> <?php echo lang('patient'); ?>
+                            </button>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="custom_buttons mb-3"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="editable-sample" style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="font-weight-bold text-uppercase"><?php echo lang('id'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('name'); ?></th>
+                                            <th class="font-weight-bold"><?php echo lang('phone'); ?></th>
+                                            <?php if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) { ?>
+                                                <th class="font-weight-bold"><?php echo lang('due_balance'); ?></th>
+                                            <?php } ?>
+                                            <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                        <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
-                                <thead>
-                                    <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('id'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('name'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('phone'); ?></th>
-                                        <?php if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) { ?>
-                                            <th class="font-weight-bold"><?php echo lang('due_balance'); ?></th>
-                                        <?php } ?>
-                                        <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,12 +73,13 @@
                     <i class="fas fa-user-plus mr-2"></i>
                     <?php echo lang('register_new_patient'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-4">
                 <form action="patient/addNew" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <!-- Personal Information -->
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
@@ -168,7 +170,7 @@
                                 <select class="form-control form-control-lg shadow-sm" name="bloodgroup">
                                     <option value=""><?php echo lang('select_blood_group'); ?></option>
                                     <?php foreach ($groups as $group) { ?>
-                                        <option value="<?php echo $group->group; ?>"><?php echo $group->group; ?></option>
+                                        <option value="<?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -214,7 +216,7 @@
                             <div class="form-group">
                                 <label
                                     class="text-uppercase font-weight-bold text-muted"><?php echo lang('doctor'); ?></label>
-                                <select class="form-control form-control-lg shadow-sm" id="doctorchoose1" name="doctor">
+                                <select class="form-control form-control-lg shadow-sm" id="doctorchoose" name="doctor">
                                 </select>
                             </div>
                         </div>
@@ -274,7 +276,7 @@
                                 <div class="mt-2">
                                     <span class="btn btn-white btn-file">
                                         <span class="btn fileupload-new badge badge-secondary"><i
-                                                class="fa fa-paper-clip"></i> <?php echo lang('select_image'); ?></span>
+                                                class="fas fa-paper-clip"></i> <?php echo lang('select_image'); ?></span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
                                 </div>
@@ -314,13 +316,14 @@
                     <i class="fas fa-user-edit mr-2"></i>
                     <?php echo lang('edit_patient'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-4">
                 <form role="form" id="editPatientForm" action="patient/addNew" method="post"
                     enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <!-- Personal Information -->
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
@@ -410,7 +413,7 @@
                                 <select class="form-control form-control-lg shadow-sm" name="bloodgroup">
                                     <option value=""><?php echo lang('select_blood_group'); ?></option>
                                     <?php foreach ($groups as $group) { ?>
-                                        <option value="<?php echo $group->group; ?>"><?php echo $group->group; ?></option>
+                                        <option value="<?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($group->group, ENT_QUOTES, 'UTF-8'); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -456,7 +459,7 @@
                             <div class="form-group">
                                 <label
                                     class="text-uppercase font-weight-bold text-muted"><?php echo lang('doctor'); ?></label>
-                                <select class="form-control form-control-lg shadow-sm" id="doctorchoose1" name="doctor">
+                                <select class="form-control form-control-lg shadow-sm js-example-basic-single doctor" id="doctorchoose1" name="doctor">
                                 </select>
                             </div>
                         </div>
@@ -516,7 +519,7 @@
                                 <div class="mt-2">
                                     <span class="btn btn-white btn-file">
                                         <span class="btn fileupload-new badge badge-secondary"><i
-                                                class="fa fa-paper-clip"></i> <?php echo lang('select_image'); ?></span>
+                                                class="fas fa-paper-clip"></i> <?php echo lang('select_image'); ?></span>
                                         <input type="file" class="default" name="img_url" />
                                     </span>
                                 </div>
@@ -535,11 +538,7 @@
                     </div>
 
                     <input type="hidden" name="id" value=''>
-                    <input type="hidden" name="p_id" value='<?php
-                                                            if (!empty($patient->patient_id)) {
-                                                                echo $patient->patient_id;
-                                                            }
-                                                            ?>'>
+                    <input type="hidden" name="p_id" value="<?php echo (isset($patient) && !empty($patient->patient_id)) ? htmlspecialchars($patient->patient_id, ENT_QUOTES, 'UTF-8') : ''; ?>">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -573,13 +572,14 @@
                     <i class="fas fa-user mr-2"></i>
                     <?php echo lang('patient'); ?> <?php echo lang('info'); ?>
                 </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body row">
                 <form role="form" action="patient/addNew" class="form-horizontal" method="post"
                     enctype="multipart/form-data">
+                    <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="container-fluid">
                         <div class="justify-content-center" style="display:flex">
                             <div class="col-md-6">
@@ -713,10 +713,8 @@
 
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
-    var select_doctor = "<?php echo lang('select_doctor'); ?>";
-</script>
-<script type="text/javascript">
-    var language = "<?php echo $this->language; ?>";
+    var select_doctor = <?php echo json_encode(lang('select_doctor')); ?>;
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 
 <script src="common/extranal/js/patient/patient.js"></script>

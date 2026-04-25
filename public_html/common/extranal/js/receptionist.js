@@ -113,10 +113,9 @@ $(document).ready(function () {
         ) {
           $("#signature").attr("src", response.receptionist.signature);
         }
-        $("#myModal2").modal("show");
-
       },
       complete: function () {
+        $("#myModal2").modal("show");
         $("#loader").hide();
       },
     });
@@ -150,6 +149,7 @@ $(document).ready(function () {
     language: {
       lengthMenu: "_MENU_",
       search: "_INPUT_",
+      searchPlaceholder: "Search...",
       url: "common/assets/DataTables/languages/" + language + ".json",
     },
   });
