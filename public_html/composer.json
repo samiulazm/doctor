@@ -37,8 +37,10 @@
 		"create-superadmin": "@php scripts/create_superadmin.php",
 		"test": "@php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml.dist",
 		"lint-php": "@php scripts/lint-php.php",
+		"config-sanity": "@php scripts/config-sanity.php",
 		"ci": [
 			"@composer validate --no-check-publish",
+			"@config-sanity",
 			"@test",
 			"@lint-php"
 		]
