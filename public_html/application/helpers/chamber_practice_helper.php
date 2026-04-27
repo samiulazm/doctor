@@ -136,3 +136,31 @@ if (!function_exists('chamber_practice_require_enabled')) {
         redirect('home/permission');
     }
 }
+
+if (!function_exists('chamber_practice_weekday_key_from_timestamp')) {
+    /**
+     * English mon..sun key for weekly_hours_json, derived from numeric weekday (not locale-dependent).
+     *
+     * @param int $timestamp Unix timestamp for the queue date (midday recommended to avoid DST edge cases).
+     * @return string|false One of mon,tue,wed,thu,fri,sat,sun or false if timestamp is invalid.
+     */
+    function chamber_practice_weekday_key_from_timestamp($timestamp)
+    {
+        $timestamp = (int) $timestamp;
+        if ($timestamp < 1) {
+            return false;
+        }
+        $w = (int) date('w', $timestamp);
+        $map = array(
+            0 => 'sun',
+            1 => 'mon',
+            2 => 'tue',
+            3 => 'wed',
+            4 => 'thu',
+            5 => 'fri',
+            6 => 'sat',
+        );
+
+        return isset($map[$w]) ? $map[$w] : false;
+    }
+}
