@@ -74,7 +74,15 @@ Plans:
   2. Every AJAX POST request sends the CSRF token header and `csrf_regenerate = true` is set — submitting any admin form in DevTools shows the token in request headers
   3. Buttons, inputs, modals, and status tags use the defined design token classes — a new developer can add a page using only the design system components without introducing custom inline styles
   4. All module views use the standard AdminLTE 3 card/section structure — no legacy inline-styled layout sections exist
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [ ] 03-00-PLAN.md — Wave 0: Create DesignSystemTest.php scaffold (8 assertions, UI-01 through UI-04)
+- [ ] 03-01-PLAN.md — Wave 1: UI-03 — Patch csrf_inject.php (window.CI_CSRF_HASH + ajaxSuccess), remove 89 manual AJAX CSRF injections, enable csrf_regenerate = true
+- [ ] 03-02-PLAN.md — Wave 2: UI-04 — Replace 348 badge-* occurrences with .ap-status .ap-status-* across 52 files; remove inline color styles from 13 files
+- [ ] 03-03-PLAN.md — Wave 3: UI-01 priority modules — Standard card layout for appointment, doctor, patient, lab, prescription, finance, medicine, emergency (8 views + smoke test checkpoint)
+- [ ] 03-04-PLAN.md — Wave 3: UI-02 priority modules — Server-side DataTables for appointment, doctor, patient, prescription, lab (view + controller + model)
+- [ ] 03-05-PLAN.md — Wave 4: UI-02 bulk — Server-side DataTables for remaining ~66 modules (2 tiers)
+- [ ] 03-06-PLAN.md — Wave 4: UI-01 bulk — Standard card layout for remaining ~35 non-conforming views + final checkpoint
 **UI hint**: yes
 
 ### Phase 4: Patient Portal
@@ -121,7 +129,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 0/10 | Planned | - |
 | 2. Code Health | 0/5 | Planned | - |
-| 3. Admin Design System | 0/TBD | Not started | - |
+| 3. Admin Design System | 0/7 | Planned | - |
 | 4. Patient Portal | 0/TBD | Not started | - |
 | 5. Doctor Portal | 0/TBD | Not started | - |
 | 6. Assistant Portal + Real-Time | 0/TBD | Not started | - |
@@ -131,3 +139,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 *Coverage: 33/33 v1 requirements mapped*
 *Phase 1 planned: 2026-04-27 — 10 plans across 3 waves*
 *Phase 2 planned: 2026-04-27 — 5 plans across 2 waves*
+*Phase 3 planned: 2026-04-27 — 7 plans across 5 waves*
