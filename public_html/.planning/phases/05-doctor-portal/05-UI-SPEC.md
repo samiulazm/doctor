@@ -54,10 +54,10 @@ All values are multiples of 4px.
 | lg | `--ap-space-6` | 24px | Page section vertical breaks, card header padding |
 | xl | `--ap-space-8` | 32px | Dashboard section gaps (between stat grid and queue panel) |
 
-Existing chamber-specific spacings (do not override):
-- `.chamber-stat-grid` gap: 14px — retained from existing CSS (between grid step and 16px)
-- `.chamber-panel-header` padding: 14px 16px — retained from existing CSS
-- `.chamber-panel` margin-bottom: 18px — retained from existing CSS
+Existing chamber-specific spacings (updated to 4px grid):
+- `.chamber-stat-grid` gap: 12px — updated from 14px to nearest 4px multiple (12 = 3×4)
+- `.chamber-panel-header` padding: 12px 16px — updated from 14px vertical to 12px
+- `.chamber-panel` margin-bottom: 16px — updated from 18px to nearest 4px multiple (16 = 4×4)
 
 Exceptions:
 - Stat card icon container: 36x36px (`height: 36px; width: 36px`) — touch target floor for action affordance
@@ -75,10 +75,10 @@ Exactly 4 roles; exactly 2 weights for body content.
 | Body / table cell | `--ap-font-body` | 14px (0.875rem) | 400 (regular) | 1.5 | DM Sans |
 | Label / kicker / muted text | `.chamber-kicker`, `.chamber-stat-label`, `.chamber-vital-label` | 12–13px (0.75–0.8125rem) | 700 (bold) | 1.4 | DM Sans |
 | Panel title / section heading | `.chamber-panel-title`, `.chamber-head h1` | 16px (1rem) | 700 (bold) | 1.25 | DM Sans |
-| Stat value / prominent number | `.chamber-stat-value`, `.chamber-vital-value` | 28px (1.75rem) stat / 18px (1.125rem) vital | 800 (extrabold) | 1 | Outfit |
+| Stat value / prominent number | `.chamber-stat-value`, `.chamber-vital-value` | 28px (1.75rem) — vital value uses 16px/panel-title step | 700 (bold) | 1 | Outfit |
 
-Weight palette: 400 (body, table cells, descriptions), 700 (labels, headings, status pills), 800 (stat numbers only).
-The 800 weight exception is Outfit numerals only — DM Sans body content uses 400/700.
+Weight palette: 400 (body, table cells, descriptions) and 700 (labels, headings, status pills, stat/vital numerals). No other weights permitted.
+Outfit at 700 provides sufficient differentiation from DM Sans at 700 via letterform geometry — weight 800 is not needed.
 
 ---
 
@@ -123,6 +123,8 @@ These are the precise HTML/class patterns for each screen. Executor must match t
 ---
 
 ### Screen 1: Doctor Dashboard (UI-09 + UI-10)
+
+**Focal point:** `.chamber-stat-grid` stat values (28px Outfit, teal icon) — primary visual anchor. Live queue table is the secondary anchor.
 
 **Route:** `doctor_chamber/dashboard`
 **View:** `application/modules/doctor_chamber/views/doctor/dashboard.php`
@@ -325,6 +327,8 @@ Chart configuration contract (both charts):
 ---
 
 ### Screen 2: Consultation Room (UI-11)
+
+**Focal point:** `#epadBody` e-pad iframe (right 60% panel) — primary visual anchor where doctor enters prescriptions. Left panel is secondary (reference/history).
 
 **Route:** `doctor_chamber/consultation_room`
 **View:** `application/modules/doctor_chamber/views/doctor/consultation_room.php`
