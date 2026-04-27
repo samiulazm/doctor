@@ -31,7 +31,18 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Failed login attempts are tracked and the account is locked after the configured threshold — automated credential stuffing is blocked
   4. No unauthenticated HTTP request to `debugSession()` returns session data — the endpoint is removed or returns 401
   5. No `LIKE '%$var%'` string interpolation exists in any model or controller — all search inputs go through `$this->db->like()`
-**Plans**: TBD
+**Plans**: 10 plans
+Plans:
+- [ ] 01-00-PLAN.md — Wave 0: Create SecurityPatchTest.php scaffold (all 10 SEC assertions)
+- [ ] 01-01-PLAN.md — Wave 1: SEC-01 + SEC-02 — Api.php token and hospital_id fixes
+- [ ] 01-02-PLAN.md — Wave 1: SEC-04 + SEC-07 — Remove debug methods from Ai_image_analysis + Ambulance
+- [ ] 01-03-PLAN.md — Wave 1: SEC-07 + SEC-10 — Remove debug methods + add auth guard in Inventory
+- [ ] 01-04-PLAN.md — Wave 1: SEC-06 — Remove hardcoded '12345' from 4 controllers
+- [ ] 01-05-PLAN.md — Wave 2: SEC-03 — Login lockout pre-check in Auth.php + ion_auth.php config
+- [ ] 01-06-PLAN.md — Wave 2: SEC-09 — Move OpenAI key to env var across 5 files
+- [ ] 01-07-PLAN.md — Wave 2: SEC-08 — Add CSP header to security_headers.php
+- [ ] 01-08-PLAN.md — Wave 3: SEC-05 batch A — LIKE fix in 13 files (Appointment, Patient, Finance, Lab, Api, Ambulance, Bed, Doctor, Pharmacy, Site, Insurance, Inventory, Purchase)
+- [ ] 01-09-PLAN.md — Wave 3: SEC-05 batch B — LIKE fix in 13 remaining files (Supplier, Lab_bk, Leave, Logs, Macro, Medicine, Meeting, Nurse, Prescription, Pservice, Sms, Systems, Email)
 **UI hint**: no
 
 ### Phase 2: Code Health
@@ -100,7 +111,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Hardening | 0/TBD | Not started | - |
+| 1. Security Hardening | 0/10 | Planned | - |
 | 2. Code Health | 0/TBD | Not started | - |
 | 3. Admin Design System | 0/TBD | Not started | - |
 | 4. Patient Portal | 0/TBD | Not started | - |
@@ -110,3 +121,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 ---
 *Roadmap created: 2026-04-27*
 *Coverage: 33/33 v1 requirements mapped*
+*Phase 1 planned: 2026-04-27 — 10 plans across 3 waves*
