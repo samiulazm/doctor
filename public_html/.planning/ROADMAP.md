@@ -53,9 +53,17 @@ Plans:
   1. Doctor dashboard loads without executing a full patient table scan — page load time is not proportional to total patient count
   2. `testpkz` module directory and `home_backup.php` view file do not exist in the codebase
   3. Import module uses `phpoffice/phpspreadsheet` — no `PHPExcel` class is instantiated anywhere
-  4. `Api::getAppointmentById()` returns a valid JSON error response when the appointment is not found — no `die()` terminates the response body
+  4. `Api::addAppointment()` returns a valid JSON response — no `die()` terminates the response body
   5. Timezone changes are stored in the DB and applied via `date_default_timezone_set()` at boot — `index.php` is never written to at runtime
-**Plans**: TBD
+  6. `error_reporting(0)` does not appear in any of the 7 known locations across Bed, Finance, Patient, Payroll, Prescription, Settings controllers
+**Plans**: 5 plans
+Plans:
+- [ ] 02-00-PLAN.md — Wave 0: Create CodeHealthTest.php scaffold (all 6 BUG assertions, 15 test methods)
+- [ ] 02-01-PLAN.md — Wave 1: BUG-01 + BUG-02 — N+1 patient query fix + testpkz/home_backup.php removal
+- [ ] 02-02-PLAN.md — Wave 1: BUG-03 — PHPExcel → PhpSpreadsheet migration in Import.php
+- [ ] 02-03-PLAN.md — Wave 1: BUG-04 + BUG-05 — die() fix in Api.php + timezone file-write removal from Home.php + Settings.php
+- [ ] 02-04-PLAN.md — Wave 2: BUG-06 — Remove error_reporting(0) from all 7 sites across 6 controllers
+**UI hint**: no
 
 ### Phase 3: Admin Design System
 **Goal**: Every admin module view follows a consistent AdminLTE 3 layout with standardized DataTables, CSRF-safe AJAX, and a unified design token set — any admin page looks and behaves like it belongs to the same product
@@ -112,7 +120,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 0/10 | Planned | - |
-| 2. Code Health | 0/TBD | Not started | - |
+| 2. Code Health | 0/5 | Planned | - |
 | 3. Admin Design System | 0/TBD | Not started | - |
 | 4. Patient Portal | 0/TBD | Not started | - |
 | 5. Doctor Portal | 0/TBD | Not started | - |
@@ -122,3 +130,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 *Roadmap created: 2026-04-27*
 *Coverage: 33/33 v1 requirements mapped*
 *Phase 1 planned: 2026-04-27 — 10 plans across 3 waves*
+*Phase 2 planned: 2026-04-27 — 5 plans across 2 waves*
