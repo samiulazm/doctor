@@ -680,17 +680,13 @@ class Migration_Chamber_queue_is_emergency extends CI_Migration
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **bKash desk flow — initiate only or full execute?**
-   - What we know: The UI-SPEC says "initiates bKash API request, shows payment status inline". The success state shows `payment_id`. There is no callback URL shown for the desk.
-   - What's unclear: Does "payment status" mean the assistant manually executes the payment on their bKash merchant device and the system just records the payment_id? Or does the system expect the patient to scan/approve and the callback to auto-execute?
-   - Recommendation: Implement as "initiate only" (returns `payment_id` for the assistant to reference). The existing `bkash_callback()` / `bkash_try_finalize()` flow covers the full execute path if needed later. Flag to user if full automated execute is required.
+   - RESOLVED: Initiate only. PAY-01 requirement says "initiates bKash API request, shows payment status" — "initiates" is the operative word. Returns `payment_id` for assistant reference. Full execute + callback is covered by existing `bkash_callback()`/`bkash_try_finalize()` flow if needed in future. Plans proceed on initiate-only basis.
 
 2. **Doctor queue screen — QUEUE-01 scope**
-   - What we know: The doctor dashboard (`Doctor_chamber::dashboard()`) shows `$queue_today` from a static DB query — no long-poll or AJAX refresh endpoint exists in `Doctor_chamber`.
-   - What's unclear: QUEUE-01 says "doctor, assistant, and patient views" all update without reload. The doctor view currently only updates on page reload.
-   - Recommendation: Phase 6 satisfies QUEUE-01 for assistant (new `queue_ticker_json` endpoint) and patient (existing `portal/ticker_json`). For the doctor side, adding a `queue_json()` endpoint + polling in `dashboard.php` is a natural next step but may be out of Phase 6 scope unless explicitly required. Treat QUEUE-01 as satisfied for serial/serving sync — the doctor's queue _list_ order updates on next page load.
+   - RESOLVED: Phase 5 plans (05-01 + 05-02) add `queue_json()` endpoint + 12s long-poll JS to doctor dashboard — doctor queue IS covered. Phase 5 is not yet executed but the plan exists. Phase 6 adds `queue_ticker_json()` for the assistant desk view and confirms patient `ticker_json` (extended in Phase 4) completes the 3-portal sync. All 3 portals covered across Phases 4, 5, and 6. Plans proceed on this basis.
 
 ---
 
