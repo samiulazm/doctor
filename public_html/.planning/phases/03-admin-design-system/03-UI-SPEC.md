@@ -18,6 +18,10 @@ created: 2026-04-27
 > `application/assets/css/app-design-tokens.css`. The contract below codifies
 > what already exists so that (a) non-conforming modules can be identified and
 > (b) Phases 4–6 have an authoritative reference when building new portal pages.
+>
+> Primary visual anchor: the teal `btn-primary` CTA in the card header is the
+> intended focal point on every list view page. The Outfit card title is the
+> secondary anchor.
 
 ---
 
@@ -44,14 +48,13 @@ All values are multiples of 4px.
 | xs | `--ap-space-1` | 4px (0.25rem) | Icon gaps, dot separators, badge inner padding |
 | sm | `--ap-space-2` | 8px (0.5rem) | Compact row padding, button icon gap |
 | md | `--ap-space-4` | 16px (1rem) | Default form group spacing, table cell padding (horizontal) |
-| lg | `--ap-space-5` | 20px (1.25rem) | Card header vertical padding, page header padding |
-| xl | `--ap-space-6` | 24px (1.5rem) | Card body padding, modal header/footer padding |
+| lg | `--ap-space-6` | 24px (1.5rem) | Card header vertical padding, page header padding, card body padding, modal header/footer padding |
 | 2xl | `--ap-space-8` | 32px (2rem) | Section gaps between cards, empty-state padding |
 | 3xl | (no token) | 48px | Major page-level vertical breaks — use Bootstrap `py-4` (1.5rem × 2) or `py-5` |
 
 Exceptions:
 - Touch targets (action buttons in DataTable rows): minimum 36px height enforced by `.ap-icon-btn` (height: 2.25rem)
-- Table cell padding: 0.85rem vertical × 0.9rem horizontal (defined directly in `app-design-tokens.css` `.content-wrapper .table tbody td`)
+- Table cell padding: 0.85rem vertical × 0.9rem horizontal (defined directly in `app-design-tokens.css` `.content-wrapper .table tbody td`); retained from existing AdminLTE 3 vendor defaults — rounding to 12px/16px would alter table row density across 70+ existing module views, introducing unacceptable regression risk.
 
 ---
 
@@ -64,11 +67,10 @@ Declare exactly 4 roles; use exactly 2 weights for body content.
 |------|---------------------|------|--------|-------------|------|
 | Body | `--ap-font-body` | 14px (0.875rem) | 400 (regular) | 1.5 | DM Sans |
 | Label | `.content-wrapper label` | 13px (0.8125rem) | 700 (bold) | 1.4 | DM Sans |
-| Table header | `.content-wrapper .table thead th` | 12px (0.75rem) | 800 (extrabold) | 1.3 | DM Sans, uppercase, 0.035em letter-spacing |
+| Table header | `.content-wrapper .table thead th` | 12px (0.75rem) | 700 (bold) | 1.3 | DM Sans, uppercase, 0.035em letter-spacing |
 | Card title / Page heading | `.content-wrapper .card-title`, `h1` in `.content-header` | clamp(21.6px, 1.1vw + 16px, 30px) | 700 (bold) | 1.18 | Outfit |
 
-Weight palette: 400 (body text, table cell values) and 700/800 (labels, headings, table headers).
-No other weights are permitted on admin pages.
+Weight palette: 400 (body text, table cell values) and 700 (labels, headings, table headers). No other weights are permitted on admin pages.
 
 ---
 
@@ -102,7 +104,7 @@ Source: `--ap-*` custom properties in `app-design-tokens.css` (`:root` block, li
 | Emergency / Urgent | `.ap-status-danger` | `#fef2f2` | `#b91c1c` | Cancelled, Emergency, Overdue |
 | Primary Action / Info | `.ap-status-info` | `#eff6ff` | `#1d4ed8` | Draft, Requested, Info states |
 
-All status tags use the `.ap-status` base class (pill shape, 12px/0.75rem, weight 800, dot indicator via `::before`).
+All status tags use the `.ap-status` base class (pill shape, 12px/0.75rem, weight 700, dot indicator via `::before`).
 
 **Alert palette** (inline page alerts):
 - Success: background `#ecfdf5`, border `#bbf7d0`, text `#047857`
@@ -265,7 +267,7 @@ Three button classes are permitted. No custom inline styles on buttons.
 
 | Variant | Class | When to use |
 |---------|-------|------------|
-| Primary | `btn btn-sm btn-primary` | Single primary action per card header (Add New, Save) |
+| Primary | `btn btn-sm btn-primary` | Single primary action per card header (Add New, Save Changes) |
 | Secondary | `btn btn-sm btn-secondary` / `btn btn-sm btn-outline-secondary` | Cancel, Close, secondary actions in modal footers |
 | Danger | `btn btn-sm btn-danger` | Delete/remove — must always show a confirmation dialog before executing |
 
@@ -311,7 +313,7 @@ Standard Bootstrap modal structure. All modals must use this template.
                 <button type="button" class="btn btn-secondary"
                         data-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary px-4"
-                        id="addModalSubmit"><?php echo lang('save'); ?></button>
+                        id="addModalSubmit"><?php echo lang('save_changes'); ?></button>
             </div>
         </div>
     </div>
@@ -353,7 +355,7 @@ modal (e.g. patient name in appointment add modal). Standard forms use `form-con
 | Element | Copy |
 |---------|------|
 | Primary CTA (list view) | "Add New [Module Name]" — e.g. "Add New Doctor", "Add New Patient" |
-| Primary CTA (modal footer) | "Save" (not "Submit", not "OK") |
+| Primary CTA (modal footer) | "Save Changes" (not "Save", not "Submit", not "OK") |
 | Empty state heading | "No [records] found" — e.g. "No appointments found" |
 | Empty state body | "No [module name] records exist yet. Click 'Add New [Module Name]' to create the first one." |
 | DataTables no-results | "No matching records found" (DataTables default — do not override) |
@@ -453,3 +455,8 @@ For each admin module view, the following must be TRUE before Phase 3 is complet
 | Status tag semantic mapping | REQUIREMENTS.md — UI-04: Green=success, Yellow=pending, Red=emergency, Blue=primary action |
 | Button variants | REQUIREMENTS.md — UI-04: primary/secondary/danger |
 | Phase goal | ROADMAP.md — Phase 3 success criteria (all 4 criteria) |
+| Table header weight collapsed 800→700 | CHECKER revision — max 2 weights rule; extrabold removed |
+| `--ap-space-5` (20px) replaced by `--ap-space-6` (24px) | CHECKER revision — non-standard spacing value replaced with next grid step |
+| Table cell padding justification added | CHECKER revision — AdminLTE 3 vendor default retained to avoid regression across 70+ modules |
+| Modal CTA "Save" → "Save Changes" | CHECKER recommendation — adds noun, removes single-word ambiguity |
+| Primary visual anchor note | CHECKER recommendation — teal btn-primary focal point documented |
