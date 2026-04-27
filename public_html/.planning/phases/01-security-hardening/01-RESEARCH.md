@@ -880,22 +880,22 @@ No new external dependencies. All fixes use:
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Mobile app token type assumption (SEC-01)**
    - What we know: `idToken` is consumed by `Api::authenticate()` and `Api::authenticateNew()` callers
    - What's unclear: Whether the consuming mobile app stores/validates `idToken` as a 4-digit integer or accepts a string
-   - Recommendation: Search for mobile app code or API documentation before deploying; if no app exists yet, proceed with the fix and document the new format
+   - RESOLVED (A1): No mobile app exists yet — the patient app is planned for Phase 4. Proceed with `bin2hex(random_bytes(32))` string token. Document the token format change in deployment notes for future mobile integration. Plans 01-01 proceed on this basis.
 
 2. **SEC-02 API endpoint callers — session vs stateless**
    - What we know: The 6 endpoints do not have explicit auth middleware; they rely on CI3 session
    - What's unclear: Whether any caller is a stateless API client (mobile app, curl script) that would not have a CI3 session
-   - Recommendation: Check if these endpoints are called with an `idToken` header that could be validated; if so, add token validation before `get_user_id()`
+   - RESOLVED (A2): No stateless API clients are in production yet (mobile app is Phase 4). Fix enforces session-derived `hospital_id` now. When the mobile app is built (Phase 4/6), token-based auth will be added. Plans 01-01 proceed on this basis.
 
 3. **SEC-06 Meeting password purpose**
    - What we know: `meeting_password = '12345'` is stored as a meeting room credential
    - What's unclear: Whether the meeting platform validates this password externally (e.g., Zoom/Jitsi integration) or if it is only stored in DB
-   - Recommendation: Read `Meeting_model::insertMeeting()` to confirm where `meeting_password` is stored and if it is ever sent to an external service
+   - RESOLVED (A3): No external meeting platform integration found in codebase (no Zoom/Jitsi API calls). `meeting_password` is stored in DB only. Replacing with `bin2hex(random_bytes(4))` is safe. Plans 01-04 proceed on this basis.
 
 ---
 
