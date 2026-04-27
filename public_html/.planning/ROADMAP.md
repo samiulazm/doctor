@@ -112,7 +112,15 @@ Plans:
   1. Doctor dashboard top cards show correct live counts: total patients today, checked-in count, pending count, and today's revenue — all four cards are accurate when the page loads
   2. Doctor dashboard main panel shows the live queue list; right panel shows follow-up count and high-risk patients; bottom section shows monthly revenue and patient count graphs
   3. Doctor can open the consultation room, search a patient's history by date or unique ID, write a prescription using the e-pad with medicine search and templates, and save and print — the complete consultation workflow completes without leaving the screen
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [ ] 05-00-PLAN.md — Wave 0: Create DoctorPortalTest.php scaffold (8 static-analysis assertions, UI-09 through UI-11)
+- [ ] 05-01-PLAN.md — Wave 1: UI-09 + UI-10 controller — Add $today_revenue, $followup_count, $high_risk_patients to dashboard(); add queue_json() endpoint
+- [ ] 05-02-PLAN.md — Wave 1: UI-09 + UI-10 view — Rewrite dashboard.php (stat grid + two-column layout + queue long-poll JS); CSS spacing tweaks
+- [ ] 05-03-PLAN.md — Wave 2: UI-10 chart endpoint — Add chart_data_json() (6-month revenue + patient loop)
+- [ ] 05-04-PLAN.md — Wave 2: UI-10 chart wiring + vitals fix — Wire chart canvases to chart_data_json; fix vitals_json() BP column alias
+- [ ] 05-05-PLAN.md — Wave 3: UI-11 controller — Add search_json() endpoint; add rx_templates to consultation_room() $data
+- [ ] 05-06-PLAN.md — Wave 3: UI-11 view — Rewrite consultation_room.php (radio toolbar, 5/7 split, rxFrame, template dropdown, action bar, debounced search) + human-verify checkpoint
 **UI hint**: yes
 
 ### Phase 6: Assistant Portal + Real-Time
@@ -138,7 +146,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Code Health | 0/5 | Planned | - |
 | 3. Admin Design System | 0/7 | Planned | - |
 | 4. Patient Portal | 0/6 | Planned | - |
-| 5. Doctor Portal | 0/TBD | Not started | - |
+| 5. Doctor Portal | 0/7 | Planned | - |
 | 6. Assistant Portal + Real-Time | 0/TBD | Not started | - |
 
 ---
@@ -148,3 +156,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 *Phase 2 planned: 2026-04-27 — 5 plans across 2 waves*
 *Phase 3 planned: 2026-04-27 — 7 plans across 5 waves*
 *Phase 4 planned: 2026-04-27 — 6 plans across 3 waves*
+*Phase 5 planned: 2026-04-27 — 7 plans across 4 waves*
