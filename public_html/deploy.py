@@ -1,5 +1,5 @@
 """
-FTP Deployment Script for Multi-Hospital
+FTP Deployment Script for the CodeIgniter app (public_html/)
 Uploads the codebase to the remote FTP server with auto-reconnect.
 
 Usage:
@@ -9,6 +9,8 @@ Usage:
     python deploy.py --dry-run        # Preview what would be uploaded
     python deploy.py --skip-assets    # Skip large asset dirs (fontawesome, adminlte)
     python deploy.py --resume         # Resume from last failed upload
+    python deploy.py --preflight      # Validate deploy config without uploading
+    python deploy.py --project-root ..\\public_html  # Deploy a specific project root
 """
 
 import ftplib
@@ -52,6 +54,49 @@ def load_env(env_path):
                 key, value = line.split('=', 1)
                 config[key.strip()] = value.strip()
     return config
+
+
+def preflight_config(config, base_dir):
+    errors = []
+
+    def req_nonempty(key):
+        val = config.get(key, '').strip()
+        if not val:
+            errors.append(f"Missing required {key} in {base_dir / '.env'}")
+        return val
+
+    host = req_nonempty('FTP_HOST')
+    user = req_nonempty('FTP_USER')
+    password = req_nonempty('FTP_PASS')
+
+    port_raw = config.get('FTP_PORT', '21').strip() or '21'
+    try:
+        port = int(port_raw)
+        if port <= 0 or port > 65535:
+            errors.append("FTP_PORT must be between 1 and 65535")
+    except ValueError:
+        errors.append("FTP_PORT must be an integer")
+        port = 21
+
+    remote_dir = config.get('FTP_REMOTE_DIR', '/').strip() or '/'
+    if not remote_dir.startswith('/'):
+        errors.append("FTP_REMOTE_DIR must be an absolute POSIX path (start with '/'), e.g. /public_html")
+
+    # Make it harder to accidentally deploy from a wrong directory.
+    if not (base_dir / 'application').is_dir() or not (base_dir / 'index.php').is_file():
+        errors.append(f"Project root does not look like a CodeIgniter app: {base_dir}")
+
+    if errors:
+        for e in errors:
+            print(f"[ERROR] {e}")
+        return False
+
+    # Do not print password.
+    print("[*] Preflight OK")
+    print(f"[*] Project root: {base_dir}")
+    print(f"[*] FTP Target: {user}@{host}:{port}")
+    print(f"[*] Remote dir: {remote_dir}")
+    return True
 
 
 def get_changed_files(base_dir):
@@ -228,8 +273,7 @@ def clear_progress(base_dir):
         p.unlink()
 
 
-def deploy(dry_run=False, only_changed=False, skip_assets=False, resume=False, config_only=False):
-    base_dir = Path(__file__).parent.resolve()
+def deploy(base_dir, dry_run=False, only_changed=False, skip_assets=False, resume=False, config_only=False, preflight=False):
     env_path = base_dir / '.env'
 
     if not env_path.exists():
@@ -237,6 +281,11 @@ def deploy(dry_run=False, only_changed=False, skip_assets=False, resume=False, c
         sys.exit(1)
 
     config = load_env(env_path)
+    if not preflight_config(config, base_dir):
+        sys.exit(1)
+    if preflight:
+        return
+
     host = config.get('FTP_HOST', '')
     port = int(config.get('FTP_PORT', 21))
     user = config.get('FTP_USER', '')
@@ -343,7 +392,9 @@ def deploy(dry_run=False, only_changed=False, skip_assets=False, resume=False, c
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='FTP Deploy for Multi-Hospital')
+    parser = argparse.ArgumentParser(description='FTP Deploy for CodeIgniter app (public_html)')
+    parser.add_argument('--project-root', default='',
+                        help='Path to the project root to deploy (defaults to this script directory).')
     parser.add_argument('--dry-run', action='store_true', help='Preview without uploading')
     parser.add_argument('--only-changed', action='store_true', help='Upload only git-changed files')
     parser.add_argument('--skip-assets', action='store_true',
@@ -352,7 +403,11 @@ if __name__ == '__main__':
                         help='Resume from where last upload stopped')
     parser.add_argument('--config-only', action='store_true',
                         help='Upload only application/config/config.php and env_bootstrap.php')
+    parser.add_argument('--preflight', action='store_true',
+                        help='Validate .env/FTP settings and project root without uploading')
     args = parser.parse_args()
 
-    deploy(dry_run=args.dry_run, only_changed=args.only_changed,
-           skip_assets=args.skip_assets, resume=args.resume, config_only=args.config_only)
+    base_dir = Path(args.project_root).expanduser().resolve() if args.project_root else Path(__file__).parent.resolve()
+
+    deploy(base_dir=base_dir, dry_run=args.dry_run, only_changed=args.only_changed,
+           skip_assets=args.skip_assets, resume=args.resume, config_only=args.config_only, preflight=args.preflight)

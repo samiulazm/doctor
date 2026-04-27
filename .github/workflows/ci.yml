@@ -14,9 +14,16 @@ concurrency:
 jobs:
   php:
     runs-on: ubuntu-latest
+    env:
+      CI_ENV: testing
+      CI_ENCRYPTION_KEY: "00000000000000000000000000000000"
+      CI_DB_HOST: "127.0.0.1"
+      CI_DB_USER: "ci"
+      CI_DB_PASSWORD: "ci"
+      CI_DB_NAME: "ci"
     defaults:
       run:
-        working-directory: Multi-Hospital
+        working-directory: public_html
 
     steps:
       - uses: actions/checkout@v4
@@ -28,18 +35,30 @@ jobs:
           coverage: none
           extensions: gd, zip, mbstring
 
+      - name: Guard against committed .env files
+        shell: bash
+        run: |
+          if git ls-files -z | tr '\0' '\n' | grep -E '(^|/)\.env$' >/dev/null; then
+            echo "ERROR: A .env file is tracked by git. Remove it from the repo history and rely on .env.example/server env vars."
+            git ls-files | grep -E '(^|/)\.env$' || true
+            exit 1
+          fi
+
       - name: Cache Composer
         uses: actions/cache@v4
         with:
           path: |
             ~/.composer/cache
-            Multi-Hospital/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('Multi-Hospital/composer.lock') }}
+            public_html/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('public_html/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Composer audit (known vulnerabilities)
+        run: composer audit --no-interaction
 
       - name: Validate, PHPUnit, PHP syntax (lint-php)
         run: composer ci
