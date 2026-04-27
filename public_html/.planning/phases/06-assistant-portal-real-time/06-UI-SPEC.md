@@ -140,11 +140,11 @@ Existing classes are INHERITED from Phase 5. Phase 6 adds `.chamber-status.emerg
     border-radius: 4px;
     display: inline-flex;
     align-items: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     gap: 4px;
     line-height: 1;
-    padding: 3px 7px;
+    padding: 4px 8px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
