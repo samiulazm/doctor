@@ -539,22 +539,16 @@ startTicker();
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Prescription access after session cleared**
-   - What we know: `complete_booking()` clears `portal_verified_phone` immediately after booking
-   - What's unclear: Can a patient view their own prescription right after booking, before re-verifying their phone?
-   - Recommendation: Patient must re-verify their phone to access prescriptions. The session is by design a per-visit token. This is acceptable — no requirement states "stay logged in".
+   - RESOLVED: Patient must re-verify phone to access prescriptions. `portal_verified_phone` session is a per-visit token by design. No requirement states persistent login. Plans proceed on this basis.
 
 2. **Lab reports table and columns**
-   - What we know: `UI-05` requires a lab reports list on the patient home screen; `portal/landing.php` shows an empty state placeholder in the spec
-   - What's unclear: The `lab` module table structure was not inspected in this research session. The portal model needs a method to query lab results by `patient.id` (found via phone lookup) and `hospital_id`
-   - Recommendation: Before planning the `getLabReportsForPatient()` model method, inspect `application/modules/lab/models/Lab_model.php` to confirm table name and relevant columns. Most likely table is `lab_result` or `lab_test` with a `patient` FK.
+   - RESOLVED: `Lab_model.php` inspected. Lab reports use a `payment` table with category filtering — no direct `patient_unique_id` column in lab module. Portal model will query via `patient.id` (looked up from phone) joined to `lab_report` table. Plan will include an execution-time `DESCRIBE lab_report` step to confirm exact columns before writing the model method. Plans proceed on this basis.
 
 3. **Slot availability calculation**
-   - What we know: `triage.php` currently uses a simple date input + chamber dropdown. The spec requires a slot picker grid fetched via `portal/slots_json`. `doctor_chamber.weekly_hours_json` defines availability windows; `doctor_schedule_exception` defines overrides.
-   - What's unclear: Should slots be 30-minute intervals within the window, or should the system compute slots based on average consultation time? Is there a slot capacity limit?
-   - Recommendation: Default to 30-minute intervals within `[open, close)`. No capacity limit per slot (queue-based system, not fixed-slot). This matches the existing system which uses `s_time` / `e_time` as a single window, not individual slots.
+   - RESOLVED: 30-minute intervals within `[s_time, e_time)` window from `doctor_chamber.weekly_hours_json`. No capacity limit per slot (queue-based system — `doctor_schedule_exception` handles overrides). `portal/slots_json` returns array of `{time, available: true/false}`. Plans proceed on this basis.
 
 ---
 
