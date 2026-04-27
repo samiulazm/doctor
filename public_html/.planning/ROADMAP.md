@@ -132,7 +132,14 @@ Plans:
   2. Assistant can check in a patient, mark one as emergency (moves to top), and print the serial token from the queue screen
   3. Assistant billing screen records fee, paid/due status, and payment method; selecting bKash initiates the bKash API payment flow and shows payment status inline
   4. Queue serial and "now serving" number update on doctor, assistant, and patient views in real-time (WebSocket or long-poll) without any manual page reload
-**Plans**: TBD
+**Plans**: 6 plans
+Plans:
+- [ ] 06-00-PLAN.md — Wave 0: Create AssistantPortalTest.php scaffold (20+ assertions, UI-12 through QUEUE-01)
+- [ ] 06-01-PLAN.md — Wave 1: is_emergency migration + 3 CSS classes (chamber-practice.css)
+- [ ] 06-02-PLAN.md — Wave 2: desk.php full rewrite + _billing_panel.php partial (UI-12, UI-13)
+- [ ] 06-03-PLAN.md — Wave 2: queue_ticker_json() in Assistant_chamber + bkash_initiate_desk() in Payment_bd (QUEUE-01, PAY-01)
+- [ ] 06-04-PLAN.md — Wave 3: print_token() + mark_queue_fee_paid_ajax() + emergency_bump update + token_print.php (UI-12, UI-13)
+- [ ] 06-05-PLAN.md — Wave 3: Full test suite smoke run + human verification checkpoint
 **UI hint**: yes
 
 ## Progress
@@ -147,7 +154,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Admin Design System | 0/7 | Planned | - |
 | 4. Patient Portal | 0/6 | Planned | - |
 | 5. Doctor Portal | 0/7 | Planned | - |
-| 6. Assistant Portal + Real-Time | 0/TBD | Not started | - |
+| 6. Assistant Portal + Real-Time | 0/6 | Planned | - |
 
 ---
 *Roadmap created: 2026-04-27*
@@ -157,3 +164,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 *Phase 3 planned: 2026-04-27 — 7 plans across 5 waves*
 *Phase 4 planned: 2026-04-27 — 6 plans across 3 waves*
 *Phase 5 planned: 2026-04-27 — 7 plans across 4 waves*
+*Phase 6 planned: 2026-04-27 — 6 plans across 4 waves*
