@@ -94,7 +94,14 @@ Plans:
   2. A patient can complete a 5-step booking flow (select doctor → select chamber → select time slot → OTP verify → confirm) and pay an advance booking fee via SSLCommerz — a confirmed booking appears in the appointment list
   3. A patient on the queue screen sees their serial number, the currently serving number, and an estimated wait time without reloading the page
   4. A patient can view a prescription showing doctor name, date, medicine list, and advice, and download it as a PDF
-**Plans**: TBD
+**Plans**: 6 plans
+Plans:
+- [ ] 04-00-PLAN.md — Wave 0: Create PatientPortalTest.php scaffold (9 requirement assertions across all 6 requirements)
+- [ ] 04-01-PLAN.md — Wave 1: UI-05 — Landing page patient panels (upcoming appointment + prescriptions + lab reports) + all Phase 4 CSS tokens
+- [ ] 04-02-PLAN.md — Wave 1: AUTH-01 — OTP login flow wired inline in landing.php; csrf rotation on request_otp + verify_otp
+- [ ] 04-03-PLAN.md — Wave 2: UI-06 + PAY-02 — 5-step triage restructure + slots_json endpoint + book_success queue link
+- [ ] 04-04-PLAN.md — Wave 3: UI-07 — Queue screen (portal/queue/{id}) + ticker_json extended with patient_serial + estimated_wait
+- [ ] 04-05-PLAN.md — Wave 3: UI-08 — Prescription view (rx_detail.php) + PDF download (mPDF) + getPrescriptionForPortal model method
 **UI hint**: yes
 
 ### Phase 5: Doctor Portal
@@ -130,7 +137,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Security Hardening | 0/10 | Planned | - |
 | 2. Code Health | 0/5 | Planned | - |
 | 3. Admin Design System | 0/7 | Planned | - |
-| 4. Patient Portal | 0/TBD | Not started | - |
+| 4. Patient Portal | 0/6 | Planned | - |
 | 5. Doctor Portal | 0/TBD | Not started | - |
 | 6. Assistant Portal + Real-Time | 0/TBD | Not started | - |
 
@@ -140,3 +147,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 *Phase 1 planned: 2026-04-27 — 10 plans across 3 waves*
 *Phase 2 planned: 2026-04-27 — 5 plans across 2 waves*
 *Phase 3 planned: 2026-04-27 — 7 plans across 5 waves*
+*Phase 4 planned: 2026-04-27 — 6 plans across 3 waves*
