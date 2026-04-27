@@ -217,7 +217,7 @@ Add to `chamber-practice.css`:
 - Step 1 — Identity: Full name (required), Age, Gender (radio pills), Photo (optional)
 - Step 2 — Chamber: Chamber select (`.form-control`), shows address/hours below
 - Step 3 — Date + slot: Date picker (`<input type="date">`), then slot availability rendered as a grid of time-slot pills (`.chamber-slot-pill`) fetched via AJAX from `portal/slots_json`
-- Step 4 — OTP verify: Mobile number input, "Send OTP" button, 6-digit OTP input, "Verify" button. On success: advance to step 5
+- Step 4 — OTP verify: Mobile number input, "Send OTP" button, 6-digit OTP input, "Verify OTP" button. On success: advance to step 5
 - Step 5 — Confirm: Summary card (name, doctor, chamber, date, fee), "Confirm Booking" submit button
 
 **Time slot pill component** (new, add to `chamber-practice.css`):
@@ -236,7 +236,7 @@ Add to `chamber-practice.css`:
     cursor: pointer;
     font-size: 13px;
     font-weight: 700;
-    padding: 10px 14px;
+    padding: 8px 12px;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -392,7 +392,7 @@ No auth required (shareable via serial token / SMS link). Queue ID is validated 
 @media (max-width: 575px) {
     .chamber-queue-board {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 8px;
     }
     .chamber-queue-number {
         font-size: 64px;
@@ -549,7 +549,7 @@ The pattern must satisfy these interaction rules:
 2. "Send OTP" button: disabled during AJAX in-flight (add `disabled` attribute, restore on complete)
 3. OTP field: only appears after successful `request_otp` response (`r.ok === true`)
 4. OTP input: `inputmode="numeric"` to trigger numeric keyboard; `autocomplete="one-time-code"` for SMS autofill on Android
-5. "Verify" button: disabled during AJAX in-flight
+5. "Verify OTP" button: disabled during AJAX in-flight
 6. Success state: show `.chamber-status.arrived` inline badge with text "Verified" next to mobile number
 7. Rate-limit message (from server `r.ok === false, r.msg = "Too many OTP requests..."`): shown in `#otpMsg` as `.text-danger` (not `.text-muted`)
 
@@ -568,7 +568,7 @@ requirements — English strings with Bangladesh-familiar patterns (BDT currency
 | Primary CTA — queue page | "View my queue status" (on book_success page) |
 | Primary CTA — prescription download | "Download PDF" |
 | OTP send button | "Send OTP" |
-| OTP verify button | "Verify" |
+| OTP verify button | "Verify OTP" |
 | OTP resend (after 60s) | "Resend OTP" |
 | OTP countdown | "Resend in {N}s" |
 | Step "Next" button | "Next" |
@@ -721,7 +721,7 @@ For each portal screen, the following must be TRUE before Phase 4 is complete:
 - [ ] Only the active step panel is visible; others are hidden via `display:none`
 - [ ] Step 3 shows time slot pills; slots fetched via AJAX after chamber + date selected
 - [ ] OTP input has `inputmode="numeric"` and `autocomplete="one-time-code"`
-- [ ] "Send OTP" and "Verify" buttons are disabled while AJAX is in-flight
+- [ ] "Send OTP" and "Verify OTP" buttons are disabled while AJAX is in-flight
 - [ ] 60-second resend countdown is shown; "Resend OTP" link appears after countdown
 - [ ] Step 5 confirm panel shows name, doctor, chamber, date, and advance fee (or "No advance fee")
 - [ ] On confirmed booking with advance fee: SSLCommerz payment button is shown on book_success
