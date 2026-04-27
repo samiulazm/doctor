@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -127,7 +127,7 @@
                                                         <?php } ?>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-info"><?php echo $purchase->total_items; ?> items</span>
+                                                        <span class="ap-status ap-status-info"><?php echo $purchase->total_items; ?> items</span>
                                                     </td>
                                                     <td class="font-weight-bold text-success">
                                                         <?php echo $settings->currency; ?> <?php echo number_format($purchase->grand_total, 2); ?>

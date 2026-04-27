@@ -231,7 +231,7 @@
                                     <div>
                                         <strong><?php echo ucfirst($expense->category); ?></strong>
                                     </div>
-                                    <div class="metric-value" style="font-size: 1.2rem;">
+                                    <div class="metric-value">
                                         $<?php echo number_format($expense->total_amount); ?>
                                     </div>
                                 </div>

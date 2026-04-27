@@ -1,7 +1,7 @@
 <!--sidebar end-->
 <!--main content start-->
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -93,16 +93,16 @@
                                                 $status_class = '';
                                                 switch($purchase->purchase_status) {
                                                     case 'pending':
-                                                        $status_class = 'badge-warning';
+                                                        $status_class = 'ap-status-warning';
                                                         break;
                                                     case 'ordered':
-                                                        $status_class = 'badge-info';
+                                                        $status_class = 'ap-status-info';
                                                         break;
                                                     case 'received':
-                                                        $status_class = 'badge-success';
+                                                        $status_class = 'ap-status-success';
                                                         break;
                                                     case 'cancelled':
-                                                        $status_class = 'badge-danger';
+                                                        $status_class = 'ap-status-danger';
                                                         break;
                                                     default:
                                                         $status_class = 'badge-secondary';
@@ -118,13 +118,13 @@
                                                 $payment_class = '';
                                                 switch($purchase->payment_status) {
                                                     case 'pending':
-                                                        $payment_class = 'badge-warning';
+                                                        $payment_class = 'ap-status-warning';
                                                         break;
                                                     case 'partial':
-                                                        $payment_class = 'badge-info';
+                                                        $payment_class = 'ap-status-info';
                                                         break;
                                                     case 'paid':
-                                                        $payment_class = 'badge-success';
+                                                        $payment_class = 'ap-status-success';
                                                         break;
                                                     default:
                                                         $payment_class = 'badge-secondary';
@@ -208,13 +208,13 @@
                                                 <td><?php echo $item->generic; ?></td>
                                                 <td><?php echo $item->category; ?></td>
                                                 <td>
-                                                    <span class="badge badge-info"><?php echo $item->quantity_ordered; ?></span>
+                                                    <span class="ap-status ap-status-info"><?php echo $item->quantity_ordered; ?></span>
                                                 </td>
                                                 <td>
                                                     <?php if ($item->quantity_received > 0) { ?>
-                                                        <span class="badge badge-success"><?php echo $item->quantity_received; ?></span>
+                                                        <span class="ap-status ap-status-success"><?php echo $item->quantity_received; ?></span>
                                                     <?php } else { ?>
-                                                        <span class="badge badge-warning">0</span>
+                                                        <span class="ap-status ap-status-warning">0</span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
@@ -236,13 +236,13 @@
                                                     $item_status_class = '';
                                                     switch($item->received_status) {
                                                         case 'pending':
-                                                            $item_status_class = 'badge-warning';
+                                                            $item_status_class = 'ap-status-warning';
                                                             break;
                                                         case 'received':
-                                                            $item_status_class = 'badge-success';
+                                                            $item_status_class = 'ap-status-success';
                                                             break;
                                                         case 'partial':
-                                                            $item_status_class = 'badge-info';
+                                                            $item_status_class = 'ap-status-info';
                                                             break;
                                                         default:
                                                             $item_status_class = 'badge-secondary';

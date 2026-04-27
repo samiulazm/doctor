@@ -392,7 +392,7 @@ class Prescription extends MX_Controller
         $id = $this->input->get('id');
         $prescriptions = $this->prescription_model->getPrescriptionByPatientId($id);
         foreach ($prescriptions as $prescription) {
-            $lists[] = ' <div class="float-left prescription_box" style = "padding: 10px; background: #fff;"><div class="prescription_box_title">Prescription Date</div> <div>' . date('d-m-Y', $prescription->date) . '</div> <div class="prescription_box_title">Medicine</div> <div>' . $prescription->medicine . '</div> </div> ';
+            $lists[] = ' <div class="float-left prescription_box p-2 bg-white"><div class="prescription_box_title">Prescription Date</div> <div>' . date('d-m-Y', $prescription->date) . '</div> <div class="prescription_box_title">Medicine</div> <div>' . $prescription->medicine . '</div> </div> ';
         }
         $data['prescription'] = $lists;
         $lists = NULL;
@@ -751,7 +751,7 @@ class Prescription extends MX_Controller
         //$this->autoMarginPadding = 300;
         $mpdf->setAutoBottomMargin = 'stretch';
         //         $mpdf->SetHTMLFooter('
-        //    <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+        //    <div>' .
         //             $settings1->footer_invoice_message . '</div>', 'O');
         $html = $this->load->view('prescription_view_1', $data, true);
 

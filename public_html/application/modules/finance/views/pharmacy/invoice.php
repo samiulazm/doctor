@@ -206,7 +206,7 @@
                 <div class="col-sm-8">
                     <div class="d-flex align-items-center">
                         <div class="mr-3">
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center">
                                 <i class="fas fa-file-invoice text-white"></i>
                             </div>
                         </div>
@@ -293,7 +293,7 @@
                                             </h6>
                                             <p class="card-text small mb-1"><strong>Method:</strong> Cash</p>
                                             <p class="card-text small mb-1"><strong>Status:</strong> 
-                                                <span class="badge badge-success">Paid</span>
+                                                <span class="ap-status ap-status-success">Paid</span>
                                             </p>
                                             <p class="card-text small mb-0"><strong>Reference:</strong> Invoice ID: <?php echo $payment->id; ?></p>
                                         </div>

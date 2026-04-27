@@ -629,7 +629,6 @@ if (!isset($gateway) || !is_object($gateway)) {
             type: 'POST',
             data: {
                 appointment_id: appointmentId,
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {

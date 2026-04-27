@@ -14,7 +14,7 @@
                 -webkit-print-color-adjust: exact;
             }
         </style>
-        <div style="display: flex; margin-top: 20px;">
+        <div>
             <div>
                 <table> 
                     <tr>

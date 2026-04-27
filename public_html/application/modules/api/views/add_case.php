@@ -726,7 +726,7 @@ if (!empty($selected_advice)) {
                             bgColor = "#4e73df"; // default color if no status matches. Adjust if needed.
                     }
                     return {
-                        html: `<div style="background: ${bgColor}; padding: 10px; border-radius: 5px;">
+                        html: `<div>
                     <span style="color: white;">${arg.timeText}</span><br/>
                     <span style="color: white;">${arg.event.title}</span>
                </div>`

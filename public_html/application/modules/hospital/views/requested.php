@@ -30,7 +30,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-hover" id="editable-sample">
+                            <table class="table table-bordered table-hover" id="dt-hospital" data-legacy-table="editable-sample">
                                 <thead>
                                     <tr>
                                         <th> <?php echo lang('title'); ?></th>

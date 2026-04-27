@@ -2454,15 +2454,15 @@ class Finance extends MX_Controller
                 $patient_details = ' ';
             }
             if ($payment->payment_from == 'appointment') {
-                $from = '<span class="badge badge-warning">' . lang('appointment') . '</span>';
+                $from = '<span class="ap-status ap-status-warning">' . lang('appointment') . '</span>';
             } elseif ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
                 $from = '<span class="badge badge-primary">' . lang('opd') . '</span>';
             } elseif ($payment->payment_from == 'admitted_patient_bed_medicine') {
-                $from = '<span class="badge badge-warning">' . lang('ipd_medicine') . '</span>';
+                $from = '<span class="ap-status ap-status-warning">' . lang('ipd_medicine') . '</span>';
             } elseif ($payment->payment_from == 'admitted_patient_bed_service') {
-                $from = '<span class="badge badge-success">' . lang('ipd_service') . '</span>';
+                $from = '<span class="ap-status ap-status-success">' . lang('ipd_service') . '</span>';
             } elseif ($payment->payment_from == 'admitted_patient_bed_diagnostic') {
-                $from = '<span class="badge badge-info">' . lang('ipd_diagnostic') . '</span>';
+                $from = '<span class="ap-status ap-status-info">' . lang('ipd_diagnostic') . '</span>';
             }
             $amount[] = $payment->amount;
             $vat_amount[] = $vat;
@@ -2478,7 +2478,7 @@ class Finance extends MX_Controller
                 <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
-                <div class="dropdown-menu" style="margin-top: -50px;">
+                <div class="dropdown-menu">
                     ' . ($options1 ? '<a class="dropdown-item" href="' . $href . '"><i class="fa fa-edit mr-2"></i>' . lang('edit') . '</a>' : '') . '
                     ' . ($options2 ? '<a class="dropdown-item" href="' . site_url("finance/invoice?id=" . $payment->id) . '"><i class="fa fa-file-invoice mr-2"></i>' . lang('invoice') . '</a>' : '') . '
                     ' . ($options4 ? '<a class="dropdown-item" href="' . site_url("finance/printInvoice?id=" . $payment->id) . '" target="_blank"><i class="fa fa-print mr-2"></i>' . lang('print') . '</a>' : '') . '
@@ -2940,7 +2940,7 @@ class Finance extends MX_Controller
 
 
         $data['redirect'] = 'download';
-        $header = '<div id="invoice_header" style="width:100%;">
+        $header = '<div id="invoice_header">
                         <table class="info_rer">
                             <tr class="tr_info">
 
@@ -2948,7 +2948,7 @@ class Finance extends MX_Controller
                                     <img class="img_class_logo" alt="" src="' . $this->settings_model->getSettings()->logo . '" width="120">
                                     <br>
                                     
-                                        <div style="">
+                                        <div>
                                         
                                         <strong id="invoice_word">' . lang('invoice') . '</strong><br>
                                        
@@ -2961,7 +2961,7 @@ class Finance extends MX_Controller
                                 </td>
                                 <td class="second_td">
                                    
-                                        <div class="paragraphprint col-md-12" style="padding-top:-20px;">
+                                        <div class="paragraphprint col-md-12">
                                             <p style="font-size:18px !important;margin-top: -20px; font-weight:800; ">
                                             <h4>
                                                 ' . $settings1->title . '
@@ -3110,7 +3110,7 @@ class Finance extends MX_Controller
             //$this->autoMarginPadding = 300;
             $mpdf->setAutoBottomMargin = 'stretch';
             $mpdf->SetHTMLFooter('
-        <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+        <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
             $html = $this->load->view('invoiceA4_download', $data, true);
         } else {
@@ -3121,7 +3121,7 @@ class Finance extends MX_Controller
             $mpdf->setAutoBottomMargin = 'stretch';
             $html = $this->load->view('invoice_test', $data, true);
             $mpdf->SetHTMLFooter('
-        <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+        <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
         }
 
@@ -3179,7 +3179,7 @@ class Finance extends MX_Controller
 
 
         $data['redirect'] = 'download';
-        $header = '<div id="invoice_header" style="width:100%;">
+        $header = '<div id="invoice_header">
                        <table class="info_rer">
                            <tr class="tr_info">
 
@@ -3187,7 +3187,7 @@ class Finance extends MX_Controller
                                    <img class="img_class_logo" alt="" src="' . $this->settings_model->getSettings()->logo . '" width="120">
                                    <br>
                                    
-                                       <div style="">
+                                       <div>
                                        
                                        <strong id="invoice_word">' . lang('invoice') . '</strong><br>
                                       
@@ -3200,7 +3200,7 @@ class Finance extends MX_Controller
                                </td>
                                <td class="second_td">
                                   
-                                       <div class="paragraphprint col-md-12" style="padding-top:-20px;">
+                                       <div class="paragraphprint col-md-12">
                                            <p style="font-size:18px !important;margin-top: -20px; font-weight:800; ">
                                            <h4>
                                                ' . $settings1->title . '
@@ -3349,7 +3349,7 @@ class Finance extends MX_Controller
             //$this->autoMarginPadding = 300;
             $mpdf->setAutoBottomMargin = 'stretch';
             $mpdf->SetHTMLFooter('
-       <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+       <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
             $html = $this->load->view('invoiceA4_download', $data, true);
         } else {
@@ -3360,7 +3360,7 @@ class Finance extends MX_Controller
             $mpdf->setAutoBottomMargin = 'stretch';
             $html = $this->load->view('invoice_test', $data, true);
             $mpdf->SetHTMLFooter('
-       <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+       <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
         }
         $mpdf->WriteHTML($html);

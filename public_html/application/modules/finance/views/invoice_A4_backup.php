@@ -277,7 +277,7 @@
                                                     <img class="img_class_logo" alt="" src="<?php echo $this->settings_model->getSettings()->logo; ?>" width="120">
                                                     <br>
                                                     <?php if ($redirect == 'download') { ?>
-                                                        <div style="">
+                                                        <div>
                                                         <?php } ?>
                                                         <strong id="invoice_word"><?php echo lang('invoice'); ?></strong><br>
                                                         <?php
@@ -312,7 +312,7 @@
                                                             </h4>
                                                         </div>
                                                     <?php } else { ?>
-                                                        <div class="paragraphprint col-md-12" style="padding-top:-20px;">
+                                                        <div class="paragraphprint col-md-12">
                                                             <p style="font-size:18px !important;margin-top: -20px; font-weight:800; ">
                                                             <h4>
                                                                 <?php echo $settings->title ?>
@@ -999,7 +999,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-7" style="margin-top: 20%;">
+                            <div class="col-md-7">
                                 <form role="form" action="finance/sendInvoice" method="post" enctype="multipart/form-data">
                                     <div class="radio radio_button">
                                         <label>

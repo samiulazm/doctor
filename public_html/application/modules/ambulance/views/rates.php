@@ -202,7 +202,7 @@ $CI = get_instance();
                                                 </h3>
                                             </div>
                                             <div class="card-body">
-                                                <div class="card bg-info text-white mb-3 permanent-element" id="calculation-formula-card" style="position: static !important; display: block !important; visibility: visible !important; opacity: 1 !important;" data-permanent="true">
+                                                <div class="card bg-info text-white mb-3 permanent-element" id="calculation-formula-card" data-permanent="true">
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-2"><i class="fas fa-info-circle mr-2"></i><?php echo lang('calculation_formula'); ?></h5>
                                                         <p class="card-text mb-0"><?php echo lang('total_fare_formula'); ?>: <strong><?php echo lang('base_rate'); ?> + (<?php echo lang('distance'); ?> × <?php echo lang('per_km_rate'); ?>) + (<?php echo lang('waiting_hours'); ?> × <?php echo lang('waiting_per_hour'); ?>) + <?php echo lang('additional_charges'); ?></strong></p>

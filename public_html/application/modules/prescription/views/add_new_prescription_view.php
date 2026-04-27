@@ -19,7 +19,7 @@ if (!isset($preselect_patient)) {
 
 
 
-<div class="content-wrapper bg-light" <?php echo !empty($embed) ? 'style="margin-left:0"' : ''; ?>>
+<div class="content-wrapper bg-light<?php echo !empty($embed) ? ' ml-0' : ''; ?>">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">

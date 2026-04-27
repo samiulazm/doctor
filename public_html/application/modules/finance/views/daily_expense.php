@@ -63,7 +63,7 @@ $daily_expense_title = date('F, Y', $first_minute) . ' ' . lang('hospital') . ' 
 
                         <div class="card-body p-4">
                             <div class="table-responsive">
-                            <table class="table table-hover table-bordered align-middle mb-0" id="editable-sample">
+                            <table class="table table-hover table-bordered align-middle mb-0" id="dt-finance" data-legacy-table="editable-sample">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-uppercase"><?php echo lang('date'); ?></th>

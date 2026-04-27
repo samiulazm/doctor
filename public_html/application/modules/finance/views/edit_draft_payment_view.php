@@ -500,13 +500,13 @@
                                                                                                                                                                                         }
                                                                                                                                                                                             ?>> <?php echo lang('save'); ?></button>
                                                 </div>
-                                                <div class="form-group   col-md-4" style="margin-left:13px !important;">
+                                                <div class="form-group   col-md-4">
                                                     <button type="submit" name="form_submit" value="save_as_draft" id="save_as_draft" class="btn btn-xs btn-warning row "> <?php echo lang('save_as_draft'); ?></button>
                                                 </div>
-                                                <div class="form-group cashsubmit2  col-md-4" style="margin-left:19px !important;">
+                                                <div class="form-group cashsubmit2  col-md-4">
                                                     <button type="submit" name="form_submit" value="saveandprint" id="submit2" class="btn btn-xs btn-info row "> <?php echo lang('save_and_print'); ?></button>
                                                 </div>
-                                                <div class="form-group cardsubmit3  col-md-4 hidden" style="margin-left:19px !important;">
+                                                <div class="form-group cardsubmit3  col-md-4 hidden">
                                                     <button type="submit" name="form_submit" value="saveandprint" id="submit-btn2" class="btn btn-xs btn-info row " <?php if ($settings->payment_gateway == 'Stripe') {
                                                                                                                                                                     ?>onClick="stripePay(event);" <?php
                                                                                                                                                                                                 }

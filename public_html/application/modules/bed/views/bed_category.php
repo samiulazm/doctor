@@ -29,7 +29,7 @@ $CI = get_instance();
                         <div class="card-body p-4">
                             <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample" width="100%">
+                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="dt-bed" data-legacy-table="editable-sample" width="100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th><?php echo lang('category'); ?></th>

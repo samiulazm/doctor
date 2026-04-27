@@ -507,7 +507,6 @@ $(document).ready(function() {
                 patient_id: patientId,
                 doctor_id: doctorId,
                 symptoms: symptoms,
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -564,7 +563,6 @@ $(document).ready(function() {
                 treatment_id: currentTreatmentId,
                 doctor_input: $('#doctorInput').val(),
                 test_results: $('#testResults').val(),
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -613,7 +611,6 @@ $(document).ready(function() {
             type: 'POST',
             data: {
                 treatment_id: currentTreatmentId,
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {

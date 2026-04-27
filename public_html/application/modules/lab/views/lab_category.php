@@ -19,7 +19,7 @@ Lab<!--sidebar end-->
             <div class="panel-body">
                 <div class="adv-table editable-table ">
                     <div class="space15"></div>
-                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <table class="table table-striped table-hover table-bordered" id="dt-lab" data-legacy-table="editable-sample">
                         <thead>
                             <tr>
                                 <th><?php echo lang('category'); ?> <?php echo lang('name'); ?></th>

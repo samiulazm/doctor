@@ -86,7 +86,7 @@ body {
         }
     </style>
     <body>
-        <div class="flex-wrapper" style="border: 1px solid #000;">
+        <div class="flex-wrapper">
             <?php $patient = $this->db->get_where('patient', array('id' => $lab->patient))->row(); ?>
             <table style="width: 100%">
                 <tr>
@@ -143,10 +143,10 @@ body {
                 </tr>
             </table>
             <hr class="table-qr-hr">
-            <div style="padding: 10px">
+            <div>
                 <?php echo $lab->report; ?>
             </div>
-            <div id="footer" style="padding: 10px;">
+            <div id="footer">
                 <img src="https://visme.co/blog/wp-content/uploads/2021/06/header-53.png" width="100%" height="100px">
                 <hr>
                 <div>

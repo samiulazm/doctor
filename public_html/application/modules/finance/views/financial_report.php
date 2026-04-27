@@ -57,7 +57,7 @@ $CI = get_instance();
                                             <div class="form-group row">
 
                                                 <div class="col-md-6">
-                                                    <div class="input-group input-large" data-date="13/07/2013" data-date-format="" style="z-index: 9999;">
+                                                    <div class="input-group input-large" data-date="13/07/2013" data-date-format="">
                                                         <input type="text" class="form-control form-control-lg text-md dpd1" name="date_from" value="<?php
                                                                                                                                                         if (!empty($from)) {
                                                                                                                                                             echo $from;

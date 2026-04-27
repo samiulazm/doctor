@@ -109,7 +109,7 @@ $stripe_key = (!empty($gateway) && !empty($gateway->publish)) ? $gateway->publis
                         <div class="card-body">
                             <div class="mb-3 custom_buttons"></div>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped" id="editable-sample">
+                                <table class="table table-bordered table-hover table-striped" id="dt-settings" data-legacy-table="editable-sample">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>#</th>

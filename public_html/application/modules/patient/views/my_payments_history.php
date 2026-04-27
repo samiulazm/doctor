@@ -67,7 +67,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="editable-sample">
+                            <table class="table table-bordered table-hover" id="dt-patient" data-legacy-table="editable-sample">
                                 <thead>
                                     <tr>
                                         <th class=""><?php echo lang('date'); ?></th>

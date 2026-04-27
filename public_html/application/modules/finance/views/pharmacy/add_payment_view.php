@@ -7,7 +7,7 @@
 
 <link href="common/extranal/css/pharmacy/add_payment_view.css" rel="stylesheet">
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">

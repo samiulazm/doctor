@@ -1,6 +1,6 @@
 <link href="common/extranal/css/finance/user_activity_report.css" rel="stylesheet">
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-light">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">

@@ -165,15 +165,15 @@ $CI = get_instance();
                                 </div>
                                 <div class="list-group-item">
                                     <strong>Low Stock Items:</strong>
-                                    <span class="float-right badge badge-warning"><?php echo number_format($low_stock_items); ?></span>
+                                    <span class="float-right ap-status ap-status-warning"><?php echo number_format($low_stock_items); ?></span>
                                 </div>
                                 <div class="list-group-item">
                                     <strong>Total Value:</strong>
-                                    <span class="float-right badge badge-success"><?php echo $settings->currency; ?> <?php echo number_format($total_value, 2); ?></span>
+                                    <span class="float-right ap-status ap-status-success"><?php echo $settings->currency; ?> <?php echo number_format($total_value, 2); ?></span>
                                 </div>
                                 <div class="list-group-item">
                                     <strong>Monthly Usage:</strong>
-                                    <span class="float-right badge badge-info"><?php echo $settings->currency; ?> <?php echo number_format($monthly_usage_value, 2); ?></span>
+                                    <span class="float-right ap-status ap-status-info"><?php echo $settings->currency; ?> <?php echo number_format($monthly_usage_value, 2); ?></span>
                                 </div>
                             </div>
                         </div>

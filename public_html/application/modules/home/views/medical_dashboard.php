@@ -612,7 +612,7 @@
         <!-- Quick Stats Grid -->
         <div class="quick-stats">
             <div class="stat-card emergency">
-                <div class="stat-icon" style="background: var(--emergency);">
+                <div class="stat-icon">
                     <i class="fas fa-ambulance"></i>
                 </div>
                 <div class="stat-number"><?php echo $totalPatients ?? '247'; ?></div>
@@ -624,7 +624,7 @@
             </div>
 
             <div class="stat-card cardiology">
-                <div class="stat-icon" style="background: var(--cardiology);">
+                <div class="stat-icon">
                     <i class="fas fa-heartbeat"></i>
                 </div>
                 <div class="stat-number"><?php echo $admittedToday ?? '18'; ?></div>
@@ -636,7 +636,7 @@
             </div>
 
             <div class="stat-card neurology">
-                <div class="stat-icon" style="background: var(--neurology);">
+                <div class="stat-icon">
                     <i class="fas fa-brain"></i>
                 </div>
                 <div class="stat-number"><?php echo $surgeriesToday ?? '6'; ?></div>
@@ -648,7 +648,7 @@
             </div>
 
             <div class="stat-card orthopedic">
-                <div class="stat-icon" style="background: var(--orthopedic);">
+                <div class="stat-icon">
                     <i class="fas fa-user-md"></i>
                 </div>
                 <div class="stat-number"><?php echo $staffOnDuty ?? '89'; ?></div>
@@ -660,7 +660,7 @@
             </div>
 
             <div class="stat-card laboratory">
-                <div class="stat-icon" style="background: var(--laboratory);">
+                <div class="stat-icon">
                     <i class="fas fa-flask"></i>
                 </div>
                 <div class="stat-number"><?php echo $labTests ?? '342'; ?></div>
@@ -672,7 +672,7 @@
             </div>
 
             <div class="stat-card pharmacy">
-                <div class="stat-icon" style="background: var(--pharmacy);">
+                <div class="stat-icon">
                     <i class="fas fa-pills"></i>
                 </div>
                 <div class="stat-number"><?php echo $prescriptions ?? '156'; ?></div>
@@ -749,11 +749,11 @@
                             <button>Month</button>
                         </div>
                     </div>
-                    <div id="patientFlowChart" style="height: 300px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 1.1rem;">
-                        <div style="text-align: center;">
+                    <div id="patientFlowChart">
+                        <div>
                             <i class="fas fa-chart-area" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
                             <div>Patient Flow Chart will be rendered here</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Integration with Chart.js or similar library</div>
+                            <div>Integration with Chart.js or similar library</div>
                         </div>
                     </div>
                 </div>
@@ -762,7 +762,7 @@
                 <div class="chart-card">
                     <div class="chart-header">
                         <h3 class="chart-title">Department Status</h3>
-                        <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div>
                             <span style="display: flex; align-items: center; gap: 0.5rem;">
                                 <span class="status-indicator status-active"></span>
                                 Active
@@ -777,34 +777,34 @@
                             </span>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--medical-success);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div>
+                            <div>
                                 <span style="font-weight: 600;">Emergency Department</span>
                                 <span class="status-indicator status-active"></span>
                             </div>
-                            <div style="color: #64748b; font-size: 0.875rem; margin-top: 0.25rem;">92% capacity • 8 patients waiting</div>
+                            <div>92% capacity • 8 patients waiting</div>
                         </div>
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--medical-warning);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div>
                                 <span style="font-weight: 600;">Intensive Care Unit</span>
                                 <span class="status-indicator status-warning"></span>
                             </div>
-                            <div style="color: #64748b; font-size: 0.875rem; margin-top: 0.25rem;">97% capacity • 2 beds available</div>
+                            <div>97% capacity • 2 beds available</div>
                         </div>
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--medical-success);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div>
                                 <span style="font-weight: 600;">Operating Theaters</span>
                                 <span class="status-indicator status-active"></span>
                             </div>
-                            <div style="color: #64748b; font-size: 0.875rem; margin-top: 0.25rem;">6 active surgeries • 2 available</div>
+                            <div>6 active surgeries • 2 available</div>
                         </div>
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--medical-success);">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div>
                                 <span style="font-weight: 600;">Laboratory</span>
                                 <span class="status-indicator status-active"></span>
                             </div>
-                            <div style="color: #64748b; font-size: 0.875rem; margin-top: 0.25rem;">Normal operations • 15 min avg wait</div>
+                            <div>Normal operations • 15 min avg wait</div>
                         </div>
                     </div>
                 </div>
@@ -820,7 +820,7 @@
                     </div>
                     <div>
                         <div class="activity-item">
-                            <div class="activity-icon" style="background: var(--medical-success);">
+                            <div class="activity-icon">
                                 <i class="fas fa-user-check"></i>
                             </div>
                             <div class="activity-content">
@@ -830,7 +830,7 @@
                             <div class="activity-time">2 min ago</div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon" style="background: var(--laboratory);">
+                            <div class="activity-icon">
                                 <i class="fas fa-flask"></i>
                             </div>
                             <div class="activity-content">
@@ -840,7 +840,7 @@
                             <div class="activity-time">5 min ago</div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon" style="background: var(--cardiology);">
+                            <div class="activity-icon">
                                 <i class="fas fa-heartbeat"></i>
                             </div>
                             <div class="activity-content">
@@ -850,7 +850,7 @@
                             <div class="activity-time">12 min ago</div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon" style="background: var(--pharmacy);">
+                            <div class="activity-icon">
                                 <i class="fas fa-pills"></i>
                             </div>
                             <div class="activity-content">
@@ -860,7 +860,7 @@
                             <div class="activity-time">18 min ago</div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon" style="background: var(--medical-info);">
+                            <div class="activity-icon">
                                 <i class="fas fa-ambulance"></i>
                             </div>
                             <div class="activity-content">
@@ -875,20 +875,20 @@
                 <!-- Quick Stats Summary -->
                 <div class="chart-card">
                     <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 1rem;">Today's Summary</h3>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f8fafc; border-radius: 8px;">
+                    <div>
+                        <div>
                             <span style="font-weight: 600; color: #374151;">Scheduled Appointments</span>
                             <span style="font-weight: 700; color: var(--medical-primary);"><?php echo $appointmentsToday ?? '47'; ?></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f8fafc; border-radius: 8px;">
+                        <div>
                             <span style="font-weight: 600; color: #374151;">Completed Consultations</span>
                             <span style="font-weight: 700; color: var(--medical-success);"><?php echo $consultationsCompleted ?? '34'; ?></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f8fafc; border-radius: 8px;">
+                        <div>
                             <span style="font-weight: 600; color: #374151;">Revenue Today</span>
                             <span style="font-weight: 700; color: var(--medical-success);">$<?php echo number_format($revenueToday ?? 25840, 0); ?></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f8fafc; border-radius: 8px;">
+                        <div>
                             <span style="font-weight: 600; color: #374151;">Insurance Claims</span>
                             <span style="font-weight: 700; color: var(--medical-warning);"><?php echo $insuranceClaims ?? '12'; ?> pending</span>
                         </div>
@@ -942,10 +942,10 @@
 
         function updateChart(period) {
             const chart = document.getElementById('patientFlowChart');
-            chart.innerHTML = '<div style="text-align: center; color: #64748b;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i><br>Loading ' + period + ' data...</div>';
+            chart.innerHTML = '<div><i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i><br>Loading ' + period + ' data...</div>';
             
             setTimeout(() => {
-                chart.innerHTML = '<div style="text-align: center;"><i class="fas fa-chart-area" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: #64748b;"></i><div style="color: #64748b;">Patient Flow Chart - ' + period.charAt(0).toUpperCase() + period.slice(1) + ' View</div></div>';
+                chart.innerHTML = '<div><i class="fas fa-chart-area" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: #64748b;"></i><div>Patient Flow Chart - ' + period.charAt(0).toUpperCase() + period.slice(1) + ' View</div></div>';
             }, 1000);
         }
 

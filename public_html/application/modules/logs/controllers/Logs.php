@@ -144,17 +144,17 @@ class Logs extends MX_Controller
         foreach ($data['logs'] as $log) {
             $i = $i + 1;
             if ($log->action == 'Added') {
-                $action = '<span class="badge badge-success">' . lang('added') . '</span>';
+                $action = '<span class="ap-status ap-status-success">' . lang('added') . '</span>';
             } elseif ($log->action == 'Added/Deposited') {
-                $action = '<span class="badge badge-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
+                $action = '<span class="ap-status ap-status-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
             } elseif ($log->action == 'Updated') {
-                $action = '<span class="badge badge-success">' . lang('updated') . '</span>';
+                $action = '<span class="ap-status ap-status-success">' . lang('updated') . '</span>';
             } elseif ($log->action == 'deleted_deposit') {
-                $action = '<span class="badge badge-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
+                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
             } elseif ($log->action == 'deleted') {
-                $action = '<span class="badge badge-danger">' . lang('deleted') . '</span>';
+                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . '</span>';
             } else {
-                $action = '<span class="badge badge-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
+                $action = '<span class="ap-status ap-status-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
             }
             $user_name = $this->db->get_where('users', array('id' => $log->user))->row()->username;
             $info[] = array(

@@ -82,16 +82,16 @@ class Emergency extends MX_Controller
                 $status_badge = '';
                 switch ($emergency->status) {
                     case 'Active':
-                        $status_badge = '<span class="badge badge-success">' . $emergency->status . '</span>';
+                        $status_badge = '<span class="ap-status ap-status-success">' . $emergency->status . '</span>';
                         break;
                     case 'Critical':
-                        $status_badge = '<span class="badge badge-danger">' . $emergency->status . '</span>';
+                        $status_badge = '<span class="ap-status ap-status-danger">' . $emergency->status . '</span>';
                         break;
                     case 'Resolved':
-                        $status_badge = '<span class="badge badge-info">' . $emergency->status . '</span>';
+                        $status_badge = '<span class="ap-status ap-status-info">' . $emergency->status . '</span>';
                         break;
                     case 'Pending':
-                        $status_badge = '<span class="badge badge-warning">' . $emergency->status . '</span>';
+                        $status_badge = '<span class="ap-status ap-status-warning">' . $emergency->status . '</span>';
                         break;
                     default:
                         $status_badge = '<span class="badge badge-secondary">' . $emergency->status . '</span>';
@@ -102,16 +102,16 @@ class Emergency extends MX_Controller
                 $priority_badge = '';
                 switch ($emergency->priority) {
                     case 'Critical':
-                        $priority_badge = '<span class="badge badge-danger">' . lang($emergency->priority) . '</span>';
+                        $priority_badge = '<span class="ap-status ap-status-danger">' . lang($emergency->priority) . '</span>';
                         break;
                     case 'High':
-                        $priority_badge = '<span class="badge badge-warning">' . lang($emergency->priority) . '</span>';
+                        $priority_badge = '<span class="ap-status ap-status-warning">' . lang($emergency->priority) . '</span>';
                         break;
                     case 'Medium':
-                        $priority_badge = '<span class="badge badge-info">' . lang($emergency->priority) . '</span>';
+                        $priority_badge = '<span class="ap-status ap-status-info">' . lang($emergency->priority) . '</span>';
                         break;
                     case 'Low':
-                        $priority_badge = '<span class="badge badge-success">' . lang($emergency->priority) . '</span>';
+                        $priority_badge = '<span class="ap-status ap-status-success">' . lang($emergency->priority) . '</span>';
                         break;
                     default:
                         $priority_badge = '<span class="badge badge-secondary">' . $emergency->priority . '</span>';

@@ -1,5 +1,5 @@
 <link href="common/extranal/css/hospital/hospital.css" rel="stylesheet">
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card shadow-lg border-0">
                         <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
+                            <table class="table table-hover datatables" id="dt-hospital" data-legacy-table="editable-sample" width="100%">
                                 <thead>
                                     <tr class="bg-light">
                                         <th class="font-weight-bold text-uppercase "><?php echo lang('title'); ?></th>
@@ -56,7 +56,7 @@
                                                 <?php
                                                 $hospital_payment_details = $this->db->get_where('hospital_payment', array('hospital_user_id' => $hospital->id))->row();
                                                 if (!empty($hospital_payment_details)) {
-                                                    echo '<span class="badge badge-info">' . $hospital_payment_details->next_due_date . '</span>';
+                                                    echo '<span class="ap-status ap-status-info">' . $hospital_payment_details->next_due_date . '</span>';
                                                 }
                                                 ?>
                                             </td>
@@ -81,9 +81,9 @@
                                                 <?php
                                                 $status = $this->db->get_where('users', array('id' => $hospital->ion_user_id))->row()->active;
                                                 if ($status == '1') { ?>
-                                                    <span class="badge badge-success"><i class="fa fa-check-circle mr-1"></i><?php echo lang('active'); ?></span>
+                                                    <span class="ap-status ap-status-success"><i class="fa fa-check-circle mr-1"></i><?php echo lang('active'); ?></span>
                                                 <?php } else { ?>
-                                                    <span class="badge badge-danger"><i class="fa fa-times-circle mr-1"></i><?php echo lang('disabled'); ?></span>
+                                                    <span class="ap-status ap-status-danger"><i class="fa fa-times-circle mr-1"></i><?php echo lang('disabled'); ?></span>
                                                 <?php } ?>
                                             </td>
                                             <td class="no-print">

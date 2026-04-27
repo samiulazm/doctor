@@ -1747,14 +1747,14 @@ $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amou
 
 if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
     } else {
         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
     }
 } elseif ($total_due == 0) {
     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
 } else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
 }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -1821,13 +1821,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
             // if ($appointment->status == 'Pending Confirmation') {
-            //     $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-warning">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Confirmed') {
             //     $appointment_status = '<span class="badge badge-primary">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Treated') {
-            //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-success">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Cancelled') {
-            //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-danger">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Requested') {
             //     $appointment_status = '<span class="badge badge-secondary">' . lang(strtolower($appointment->status)) . '</span>';
             // }
@@ -1927,14 +1927,14 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $total_due = $gross_total - $total_deposited_amount;
             if ($gross_total == $total_due) {
                 if ($gross_total != 0) {
-                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                 } else {
                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                 }
             } elseif ($total_due == 0) {
                 $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
             } else {
-                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
             }
             $option2 = '<a class="btn btn-danger btn-sm delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2079,14 +2079,14 @@ $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amou
 
 if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
     } else {
         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
     }
 } elseif ($total_due == 0) {
     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
 } else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
 }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2136,7 +2136,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
 
-            // $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
+            // $appointment_status = '<span class="ap-status ap-status-warning">' . lang(strtolower($appointment->status)) . '</span>';
 
 
 
@@ -2234,14 +2234,14 @@ $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amou
 
 if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
     } else {
         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
     }
 } elseif ($total_due == 0) {
     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
 } else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
 }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2397,14 +2397,14 @@ $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amou
 
 if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
     } else {
         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
     }
 } elseif ($total_due == 0) {
     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
 } else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
 }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2464,7 +2464,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
             // if ($appointment->status == 'Treated') {
-            //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-success">' . lang(strtolower($appointment->status)) . '</span>';
             // }
 
 
@@ -2561,14 +2561,14 @@ $total_due = (float)($payment_details->gross_total ?? 0) - $total_deposited_amou
 
 if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     if ((float)($payment_details->gross_total ?? 0) != 0) {
-        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
     } else {
         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
     }
 } elseif ($total_due == 0) {
     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
 } else {
-    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
 }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2616,7 +2616,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
             // if ($appointment->status == 'Cancelled') {
-            //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-danger">' . lang(strtolower($appointment->status)) . '</span>';
             // }
 
 
@@ -2711,14 +2711,14 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $total_due = $gross_total - $total_deposited_amount;
             if ($gross_total == $total_due) {
                 if ($gross_total != 0) {
-                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                 } else {
                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                 }
             } elseif ($total_due == 0) {
                 $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
             } else {
-                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
             }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
@@ -2785,13 +2785,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
             // if ($appointment->status == 'Pending Confirmation') {
-            //     $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-warning">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Confirmed') {
             //     $appointment_status = '<span class="badge badge-primary">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Treated') {
-            //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-success">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Cancelled') {
-            //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
+            //     $appointment_status = '<span class="ap-status ap-status-danger">' . lang(strtolower($appointment->status)) . '</span>';
             // } elseif ($appointment->status == 'Requested') {
             //     $appointment_status = '<span class="badge badge-secondary">' . lang(strtolower($appointment->status)) . '</span>';
             // }
@@ -2891,14 +2891,14 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             $total_due = $gross_total - $total_deposited_amount;
             if ($gross_total == $total_due) {
                 if ($gross_total != 0) {
-                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                 } else {
                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                 }
             } elseif ($total_due == 0) {
                 $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
             } else {
-                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
             }
             $option2 = '<a class="btn btn-sm btn-danger delete_button" href="appointment/delete?id=' . $appointment->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"> </i></a>';
 
@@ -2965,13 +2965,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
                 // if ($appointment->status == 'Pending Confirmation') {
-                //     $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-warning">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Confirmed') {
                 //     $appointment_status = '<span class="badge badge-primary">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Treated') {
-                //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-success">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Cancelled') {
-                //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-danger">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Requested') {
                 //     $appointment_status = '<span class="badge badge-secondary">' . lang(strtolower($appointment->status)) . '</span>';
                 // }
@@ -3114,13 +3114,13 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
 
                 // if ($appointment->status == 'Pending Confirmation') {
-                //     $appointment_status = '<span class="badge badge-warning">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-warning">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Confirmed') {
                 //     $appointment_status = '<span class="badge badge-primary">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Treated') {
-                //     $appointment_status = '<span class="badge badge-success">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-success">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Cancelled') {
-                //     $appointment_status = '<span class="badge badge-danger">' . lang(strtolower($appointment->status)) . '</span>';
+                //     $appointment_status = '<span class="ap-status ap-status-danger">' . lang(strtolower($appointment->status)) . '</span>';
                 // } elseif ($appointment->status == 'Requested') {
                 //     $appointment_status = '<span class="badge badge-secondary">' . lang(strtolower($appointment->status)) . '</span>';
                 // }

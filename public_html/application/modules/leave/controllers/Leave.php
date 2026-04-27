@@ -177,11 +177,11 @@ class Leave extends MX_Controller
 
                 $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
                 $options5 = '<a class="btn btn-sm btn-danger delete_button" title="' . lang('delete') . '" href="leave/deleteLeave?id=' . $leavetypes->id . '" onclick="return confirm(\'Are you sure you want to delete this item?\');"><i class="fa fa-trash"></i> ' . lang('delete') . '</a>';
-                $status = '<span class="badge badge-warning">' . $leavetypes->status . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . $leavetypes->status . '</span>';
             } else {
                 if ($leavetypes->status == 'pending') {
                     $options1 = ' <a type="button" class="btn btn-sm btn-primary editbutton" title="' . lang('edit') . '" data-bs-toggle="modal" data-id="' . $leavetypes->id . '"><i class="fa fa-edit"> </i> ' . lang('edit') . '</a>';
-                    $status = '<span class="badge badge-warning">' . $leavetypes->status . '</span>';
+                    $status = '<span class="ap-status ap-status-warning">' . $leavetypes->status . '</span>';
                 } else {
                     $options1 = '';
                     $status = '<span class="badge badge-primary">' . $leavetypes->status . '</span>';

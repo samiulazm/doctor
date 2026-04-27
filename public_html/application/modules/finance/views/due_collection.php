@@ -136,7 +136,7 @@ $CI = get_instance();
 
                             <div class="hidden insurance_div">
 
-                                <div class="form-group" style="margin-top:10px;">
+                                <div class="form-group">
                                     <label for="exampleInputEmail1"> <?php echo lang('insurance_company'); ?>
                                         <?php echo lang('name'); ?></label>
 
@@ -156,7 +156,7 @@ $CI = get_instance();
 
                                 </div>
                                 <div class="">
-                                    <div class="payment_label" style="margin-top:10px;">
+                                    <div class="payment_label">
                                         <label for="exampleInputEmail1"> <?php echo lang('insurance_details'); ?>
                                         </label>
                                     </div>

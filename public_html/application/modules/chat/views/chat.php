@@ -32,7 +32,7 @@
                                 <?php echo lang('Chat between all the staffs'); ?>
                             </h3>
                             <div class="chat-status">
-                                <span class="badge badge-success">
+                                <span class="ap-status ap-status-success">
                                     <i class="fas fa-circle pulse"></i> Online
                                 </span>
                             </div>
@@ -139,7 +139,7 @@
                                     </div>
                                     
                                     <!-- Typing Indicator -->
-                                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                                    <div class="typing-indicator" id="typingIndicator">
                                         <div class="typing-dots">
                                             <span></span>
                                             <span></span>

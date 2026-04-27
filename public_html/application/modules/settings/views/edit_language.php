@@ -66,7 +66,7 @@
                                                 <input type="hidden" name="language" value="<?php echo $languagename; ?>">
                                                 <input type="hidden" name="valueupdate" value="">
                                                 <input type="hidden" name="indexupdate" value="">
-                                                <table class="table table-bordered table-hover" id="editable-sample">
+                                                <table class="table table-bordered table-hover" id="dt-settings" data-legacy-table="editable-sample">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>

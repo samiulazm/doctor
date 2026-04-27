@@ -25,7 +25,7 @@
                         <div class="card-body p-4">
                             <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered" id="editable-sample" style="width:100%">
+                                <table class="table table-hover table-bordered" id="dt-symptom" data-legacy-table="editable-sample" style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>#</th>

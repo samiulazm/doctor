@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -9,7 +9,7 @@ class Inventory extends MX_Controller
     function __construct()
     {
         parent::__construct();
-        
+
         $this->load->model('inventory/inventory_model');
         $this->load->model('inventory/supplier_model');
         $this->load->model('inventory/purchase_model');
@@ -17,7 +17,7 @@ class Inventory extends MX_Controller
         $this->load->model('patient/patient_model');
         $this->load->model('doctor/doctor_model');
         $this->load->model('department/department_model');
-        
+
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login', 'refresh');
         }
@@ -28,22 +28,22 @@ class Inventory extends MX_Controller
         $data = array();
         $data['page'] = 'inventory_dashboard';
         $data['page_title'] = $this->lang->line('inventory_management');
-        
+
         // Dashboard statistics
         $data['total_items'] = count($this->inventory_model->getActiveInventoryItems());
         $data['low_stock_items'] = count($this->inventory_model->getLowStockItems());
         $data['pending_orders'] = count($this->purchase_model->getPurchaseOrdersByStatus('sent'));
         $data['overdue_deliveries'] = count($this->purchase_model->getOverdueDeliveries());
-        
+
         // Recent activities
         $data['recent_usage'] = $this->usage_model->getUsageLogs(5);
         $data['recent_transactions'] = $this->inventory_model->getStockTransactions(10);
         $data['expiring_items'] = $this->inventory_model->getExpiringItems(30);
-        
+
         // Charts data
         $data['inventory_valuation'] = $this->inventory_model->getInventoryValuation();
         $data['top_used_items'] = $this->inventory_model->getTopUsedItems(10);
-        
+
         $data['settings'] = $this->settings_model->getSettings();
         $this->load->view('home/dashboard');
         $this->load->view('inventory/index', $data);
@@ -69,17 +69,17 @@ class Inventory extends MX_Controller
     {
         // Check if this is a POST request with form data
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('name')) {
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Item Name', 'required|trim');
             $this->form_validation->set_rules('item_code', 'Item Code', 'required|trim');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Item name and code are required');
                 redirect('inventory/items');
                 return;
             }
-            
+
             $data = array(
                 'item_code' => $this->input->post('item_code'),
                 'name' => $this->input->post('name'),
@@ -107,7 +107,7 @@ class Inventory extends MX_Controller
             );
 
             $item_id = $this->inventory_model->insertInventoryItem($data);
-            
+
             if ($item_id) {
                 $this->session->set_flashdata('success', 'Inventory item added successfully with ID: ' . $item_id . '. Add stock through purchase orders.');
             } else {
@@ -125,17 +125,17 @@ class Inventory extends MX_Controller
         // Check if this is a POST request for updating item
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('item_id')) {
             $item_id = $this->input->post('item_id');
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Item Name', 'required|trim');
             $this->form_validation->set_rules('item_code', 'Item Code', 'required|trim');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Item name and code are required');
                 redirect('inventory/items');
                 return;
             }
-            
+
             $data = array(
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
@@ -160,7 +160,7 @@ class Inventory extends MX_Controller
             );
 
             $result = $this->inventory_model->updateInventoryItem($item_id, $data);
-            
+
             if ($result) {
                 $this->session->set_flashdata('success', 'Inventory item updated successfully');
             } else {
@@ -186,13 +186,13 @@ class Inventory extends MX_Controller
         $order = $this->input->post("order");
         $columns_valid = array(
             "0" => "item_code",
-            "1" => "name", 
+            "1" => "name",
             "2" => "category",
             "3" => "current_stock",
             "4" => "unit_cost",
             "5" => "status"
         );
-        
+
         $dir = "asc";
         $order_column = "name";
         if (!empty($order)) {
@@ -224,20 +224,20 @@ class Inventory extends MX_Controller
         foreach ($data['items'] as $item) {
             // Use calculated stock instead of database value
             $calculated_stock = isset($calculated_stocks[$item->id]) ? $calculated_stocks[$item->id] : 0;
-            $status_badge = $item->status == 'active' 
-                ? '<span class="badge badge-success">Active</span>' 
+            $status_badge = $item->status == 'active'
+                ? '<span class="ap-status ap-status-success">Active</span>'
                 : '<span class="badge badge-secondary">Inactive</span>';
-            
+
             $stock_badge = '';
             if ($calculated_stock <= $item->reorder_level) {
-                $stock_badge = '<span class="badge badge-danger ml-1">Low Stock</span>';
+                $stock_badge = '<span class="ap-status ap-status-danger ml-1">Low Stock</span>';
             }
             if ($calculated_stock == 0) {
-                $stock_badge = '<span class="badge badge-danger ml-1">Out of Stock</span>';
+                $stock_badge = '<span class="ap-status ap-status-danger ml-1">Out of Stock</span>';
             }
-            
+
             $category_name = $item->category_name ?: 'Uncategorized';
-            
+
             $actions = '
                 <div class="btn-group">
                     <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -253,7 +253,7 @@ class Inventory extends MX_Controller
                         </a>
                     </div>
                 </div>';
-            
+
             $info[] = array(
                 $item->item_code,
                 $item->name,
@@ -266,7 +266,7 @@ class Inventory extends MX_Controller
         }
 
         $totalRecords = $this->inventory_model->getInventoryItemsCount();
-        $filteredRecords = !empty($search) 
+        $filteredRecords = !empty($search)
             ? $this->inventory_model->getInventoryItemsSearchCount($search)
             : $totalRecords;
 
@@ -289,12 +289,12 @@ class Inventory extends MX_Controller
         }
 
         $items = $this->purchase_model->getPurchaseOrderItems($id);
-        
+
         $data = array(
             'po' => $purchase_order,
             'items' => $items
         );
-        
+
         echo json_encode($data);
     }
 
@@ -326,7 +326,7 @@ class Inventory extends MX_Controller
             $notes = $this->input->post('notes');
 
             $result = $this->inventory_model->adjustStock($id, $new_quantity, $reason, $notes);
-            
+
             if ($result) {
                 $this->session->set_flashdata('success', 'Stock adjusted successfully');
             } else {
@@ -387,21 +387,21 @@ class Inventory extends MX_Controller
     {
         // Debug: Log all POST data
         log_message('debug', 'POST data received: ' . print_r($this->input->post(), true));
-        
+
         // Check if this is a POST request with form data (instead of checking for submit field)
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('name')) {
             $this->session->set_flashdata('debug', 'Form submitted detected - Name: ' . $this->input->post('name'));
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Category Name', 'required|trim');
             $this->form_validation->set_rules('status', 'Status', 'required');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Validation failed: ' . validation_errors());
                 redirect('inventory/categories');
                 return;
             }
-            
+
             $parent_id = $this->input->post('parent_id');
             $data = array(
                 'name' => $this->input->post('name'),
@@ -430,7 +430,7 @@ class Inventory extends MX_Controller
             }
 
             $result = $this->inventory_model->insertInventoryCategory($data);
-            
+
             if ($result) {
                 $this->session->set_flashdata('success', 'Category added successfully with ID: ' . $result);
             } else {
@@ -449,7 +449,7 @@ class Inventory extends MX_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('category_id')) {
             $category_id = $this->input->post('category_id');
             $category = $this->inventory_model->getInventoryCategoryById($category_id);
-            
+
             if ($category) {
                 $response = array(
                     'success' => true,
@@ -473,7 +473,7 @@ class Inventory extends MX_Controller
                 'message' => 'Invalid request'
             );
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
     }
@@ -482,17 +482,17 @@ class Inventory extends MX_Controller
     {
         // Debug: Log all POST data
         log_message('debug', 'Edit Category POST data: ' . print_r($this->input->post(), true));
-        
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('category_id')) {
             $category_id = $this->input->post('category_id');
-            
+
             // Debug: Log category ID
             log_message('debug', 'Category ID: ' . $category_id);
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Category Name', 'required|trim');
             $this->form_validation->set_rules('status', 'Status', 'required');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $error_message = 'Validation failed: ' . validation_errors();
                 log_message('error', $error_message);
@@ -500,7 +500,7 @@ class Inventory extends MX_Controller
                 redirect('inventory/categories');
                 return;
             }
-            
+
             try {
                 $parent_id = $this->input->post('parent_id');
                 $data = array(
@@ -534,7 +534,7 @@ class Inventory extends MX_Controller
         // Check if category has any items or subcategories
         $items = $this->inventory_model->getInventoryItemsByCategory($id);
         $subcategories = $this->inventory_model->getSubcategories($id);
-        
+
         if (!empty($items) || !empty($subcategories)) {
             $this->session->set_flashdata('error', 'Cannot delete category with existing items or subcategories');
         } else {
@@ -598,8 +598,8 @@ class Inventory extends MX_Controller
 
             // Current balance column with badge
             $balance_class = ($supplier->current_balance > 0) ? 'warning' : 'success';
-            $balance = '<span class="badge badge-' . $balance_class . '">' . 
-                      $this->settings_model->getSettings()->currency . ' ' . 
+            $balance = '<span class="badge badge-' . $balance_class . '">' .
+                      $this->settings_model->getSettings()->currency . ' ' .
                       number_format($supplier->current_balance, 2) . '</span>';
 
             // Status column with badge
@@ -663,7 +663,7 @@ class Inventory extends MX_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('supplier_id')) {
             $supplier_id = $this->input->post('supplier_id');
             $supplier = $this->supplier_model->getSupplierById($supplier_id);
-            
+
             if ($supplier) {
                 $response = array(
                     'success' => true,
@@ -701,7 +701,7 @@ class Inventory extends MX_Controller
                 'message' => 'Invalid request'
             );
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
     }
@@ -719,7 +719,7 @@ class Inventory extends MX_Controller
         $columns_valid = array(
             "0" => "po.id", // Order by ID for newest first
             "1" => "s.name",
-            "2" => "po.order_date", 
+            "2" => "po.order_date",
             "3" => "po.expected_delivery_date",
             "4" => "total_quantity",
             "5" => "po.grand_total",
@@ -790,7 +790,7 @@ class Inventory extends MX_Controller
                                  <i class="fas fa-edit mr-2"></i>' . lang('edit') . '
                              </a>';
             }
-            
+
             // Add quick status change options
             if ($po->status == 'draft') {
                 $options .= '<a class="dropdown-item" href="inventory/purchase/send_to_supplier/' . $po->id . '" onclick="return confirm(\'Send this purchase order to supplier?\')">
@@ -820,7 +820,7 @@ class Inventory extends MX_Controller
             // Format total quantity with badge
             $quantity_badge = '';
             if ($po->total_items > 0) {
-                $quantity_badge = ' <small class="badge badge-info ml-1">' . $po->total_items . ' items</small>';
+                $quantity_badge = ' <small class="ap-status ap-status-info ml-1">' . $po->total_items . ' items</small>';
             }
             $total_quantity = number_format($po->total_quantity, 0) . $quantity_badge;
 
@@ -862,7 +862,7 @@ class Inventory extends MX_Controller
             $po_id = $this->input->post('purchase_order_id');
             $purchase_order = $this->purchase_model->getPurchaseOrderById($po_id);
             $items = $this->purchase_model->getPurchaseOrderItems($po_id);
-            
+
             if ($purchase_order) {
                 // Format status with color
                 $status_colors = array(
@@ -924,7 +924,7 @@ class Inventory extends MX_Controller
                 'message' => 'Invalid request'
             );
         }
-        
+
         header('Content-Type: application/json');
         echo json_encode($response);
     }
@@ -938,10 +938,10 @@ class Inventory extends MX_Controller
             $search_row = $this->input->post('search');
             $search = (is_array($search_row) && isset($search_row['value'])) ? $search_row['value'] : '';
 
-        $order = $this->input->post("order"); 
+        $order = $this->input->post("order");
         $columns_valid = array(
             "0" => "id", // Order by ID for newest first
-            "1" => "description", 
+            "1" => "description",
             "2" => "parent_id",
             "3" => "status"
         );
@@ -1011,7 +1011,7 @@ class Inventory extends MX_Controller
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         $this->db->where('status', 'active');
         $total_count = $this->db->count_all_results('inventory_categories');
-        
+
         $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
         if (!empty($data['categories'])) {
             $output = array(
@@ -1033,7 +1033,7 @@ class Inventory extends MX_Controller
         } catch (Exception $e) {
             // Log the error
             log_message('error', 'Error in getCategories: ' . $e->getMessage());
-            
+
             // Return error response
             $output = array(
                 "draw" => intval($_REQUEST['draw'] ?? 1),
@@ -1057,7 +1057,7 @@ class Inventory extends MX_Controller
 
         // Drop table if exists and recreate
         $this->db->query("DROP TABLE IF EXISTS `inventory_categories`");
-        
+
         // Create the table
         $this->db->query("
             CREATE TABLE `inventory_categories` (
@@ -1126,9 +1126,9 @@ class Inventory extends MX_Controller
                 'created_at' => date('Y-m-d H:i:s')
             )
         );
-        
+
         $result = $this->db->insert_batch('inventory_categories', $sample_categories);
-        
+
         if ($result) {
             log_message('info', 'inventory_categories sample data inserted');
             $this->session->set_flashdata('success', 'Categories initialized successfully.');
@@ -1180,16 +1180,16 @@ class Inventory extends MX_Controller
     {
         // Check if this is a POST request with form data
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('name')) {
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Supplier Name', 'required|trim');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Supplier name is required');
                 redirect('inventory/supplier');
                 return;
             }
-            
+
             $data = array(
                 'name' => $this->input->post('name'),
                 'company_name' => $this->input->post('company_name'),
@@ -1215,7 +1215,7 @@ class Inventory extends MX_Controller
             );
 
             $supplier_id = $this->supplier_model->insertSupplier($data);
-            
+
             if ($supplier_id) {
                 $this->session->set_flashdata('success', 'Supplier added successfully with ID: ' . $supplier_id);
             } else {
@@ -1233,16 +1233,16 @@ class Inventory extends MX_Controller
         // Check if this is a POST request for updating supplier
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('supplier_id')) {
             $supplier_id = $this->input->post('supplier_id');
-            
+
             // Validate required fields
             $this->form_validation->set_rules('name', 'Supplier Name', 'required|trim');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Supplier name is required');
                 redirect('inventory/supplier');
                 return;
             }
-            
+
             $data = array(
                 'name' => $this->input->post('name'),
                 'company_name' => $this->input->post('company_name'),
@@ -1267,7 +1267,7 @@ class Inventory extends MX_Controller
             );
 
             $result = $this->supplier_model->updateSupplier($supplier_id, $data);
-            
+
             if ($result) {
                 $this->session->set_flashdata('success', 'Supplier updated successfully');
             } else {
@@ -1302,7 +1302,7 @@ class Inventory extends MX_Controller
     public function delete_supplier($id)
     {
         $result = $this->supplier_model->deleteSupplier($id);
-        
+
         if ($result) {
             $this->session->set_flashdata('success', 'Supplier deleted successfully');
         } else {
@@ -1408,17 +1408,17 @@ class Inventory extends MX_Controller
     {
         // Check if this is a POST request with form data
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('supplier_id')) {
-            
+
             // Validate required fields
             $this->form_validation->set_rules('supplier_id', 'Supplier', 'required');
             $this->form_validation->set_rules('order_date', 'Order Date', 'required');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Supplier and order date are required');
                 redirect('inventory/purchase');
                 return;
             }
-            
+
             $po_data = array(
                 'po_number' => $this->purchase_model->generatePurchaseOrderNumber(),
                 'supplier_id' => $this->input->post('supplier_id'),
@@ -1434,12 +1434,12 @@ class Inventory extends MX_Controller
             );
 
             $po_id = $this->purchase_model->insertPurchaseOrder($po_data);
-            
+
             if ($po_id) {
                 // Add items to purchase order
                 $items = $this->input->post('items');
                 $items_added = 0;
-                
+
                 if (!empty($items)) {
                     foreach ($items as $item) {
                         if (!empty($item['inventory_item_id']) && !empty($item['quantity'])) {
@@ -1453,11 +1453,11 @@ class Inventory extends MX_Controller
                                 'received_at' => date('Y-m-d H:i:s'),
                                 'received_by' => $this->ion_auth->user()->row()->id
                             );
-                            
+
                             $item_id = $this->purchase_model->insertPurchaseOrderItem($item_data);
                             if ($item_id) {
                                 $items_added++;
-                                
+
                                 // Automatically increase stock since items are received
                                 $stock_updated = $this->inventory_model->increaseStock(
                                     $item['inventory_item_id'],
@@ -1466,7 +1466,7 @@ class Inventory extends MX_Controller
                                     $po_id,
                                     'Purchase received - PO#' . $po_data['po_number']
                                 );
-                                
+
                                 if (!$stock_updated) {
                                     log_message('error', 'Failed to update stock for item ID: ' . $item['inventory_item_id'] . ' in purchase order: ' . $po_id);
                                 }
@@ -1474,14 +1474,14 @@ class Inventory extends MX_Controller
                         }
                     }
                 }
-                
+
                 // Calculate and update the purchase order totals
                 $total_amount = $this->purchase_model->calculatePurchaseOrderTotal($po_id);
                 $tax_amount = $this->input->post('tax_amount') ?: 0;
                 $discount_amount = $this->input->post('discount_amount') ?: 0;
                 $shipping_amount = $this->input->post('shipping_amount') ?: 0;
                 $grand_total = $total_amount + $tax_amount + $shipping_amount - $discount_amount;
-                
+
                 $update_totals = array(
                     'total_amount' => $total_amount,
                     'tax_amount' => $tax_amount,
@@ -1489,9 +1489,9 @@ class Inventory extends MX_Controller
                     'shipping_amount' => $shipping_amount,
                     'grand_total' => $grand_total
                 );
-                
+
                 $this->purchase_model->updatePurchaseOrder($po_id, $update_totals);
-                
+
                 if ($items_added > 0) {
                     $this->session->set_flashdata('success', 'Purchase order created and completed successfully with ID: ' . $po_id . '. ' . $items_added . ' items received and stock updated.');
                 } else {
@@ -1511,20 +1511,20 @@ class Inventory extends MX_Controller
     {
         // Handle modal form submission (when purchase_order_id is posted)
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('purchase_order_id')) {
-            
+
             // Validate required fields
             $this->form_validation->set_rules('purchase_order_id', 'Purchase Order ID', 'required');
             $this->form_validation->set_rules('supplier_id', 'Supplier', 'required');
             $this->form_validation->set_rules('order_date', 'Order Date', 'required');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Please fill all required fields correctly');
                 redirect('inventory/purchase');
                 return;
             }
-            
+
             $po_id = $this->input->post('purchase_order_id');
-            
+
             // Check if PO exists
             $existing_po = $this->purchase_model->getPurchaseOrderById($po_id);
             if (!$existing_po) {
@@ -1532,10 +1532,10 @@ class Inventory extends MX_Controller
                 redirect('inventory/purchase');
                 return;
             }
-            
+
             // Check if items can be edited (only in draft or sent status)
             $items_editable = in_array($existing_po->status, array('draft', 'sent'));
-            
+
             $po_data = array(
                 'supplier_id' => $this->input->post('supplier_id'),
                 'order_date' => $this->input->post('order_date'),
@@ -1548,19 +1548,19 @@ class Inventory extends MX_Controller
             );
 
             $updated = $this->purchase_model->updatePurchaseOrder($po_id, $po_data);
-            
+
             if ($updated) {
                 $items_message = '';
-                
+
                 // Only update items if they are editable
                 if ($items_editable) {
                 // Delete existing items and add new ones
                 $this->purchase_model->deletePurchaseOrderItems($po_id);
-                
+
                 // Add new items
                 $items = $this->input->post('items');
                 $items_added = 0;
-                
+
                 if (!empty($items)) {
                     foreach ($items as $item) {
                         if (!empty($item['inventory_item_id']) && !empty($item['quantity'])) {
@@ -1571,7 +1571,7 @@ class Inventory extends MX_Controller
                                 'unit_price' => $item['unit_price'] ?: 0,
                                 'total_price' => $item['quantity'] * ($item['unit_price'] ?: 0)
                             );
-                            
+
                             $item_id = $this->purchase_model->insertPurchaseOrderItem($item_data);
                             if ($item_id) {
                                 $items_added++;
@@ -1579,14 +1579,14 @@ class Inventory extends MX_Controller
                         }
                     }
                     }
-                    
+
                     // Calculate and update the purchase order totals after items are updated
                     $total_amount = $this->purchase_model->calculatePurchaseOrderTotal($po_id);
                     $tax_amount = $this->input->post('tax_amount') ?: 0;
                     $discount_amount = $this->input->post('discount_amount') ?: 0;
                     $shipping_amount = $this->input->post('shipping_amount') ?: 0;
                     $grand_total = $total_amount + $tax_amount + $shipping_amount - $discount_amount;
-                    
+
                     $update_totals = array(
                         'total_amount' => $total_amount,
                         'tax_amount' => $tax_amount,
@@ -1594,14 +1594,14 @@ class Inventory extends MX_Controller
                         'shipping_amount' => $shipping_amount,
                         'grand_total' => $grand_total
                     );
-                    
+
                     $this->purchase_model->updatePurchaseOrder($po_id, $update_totals);
-                    
+
                     $items_message = ' ' . $items_added . ' items updated.';
                 } else {
                     $items_message = ' Items not modified (status does not allow item changes).';
                 }
-                
+
                 $this->session->set_flashdata('success', 'Purchase order updated successfully.' . $items_message);
             } else {
                 $this->session->set_flashdata('error', 'Failed to update purchase order. Database error: ' . $this->db->error()['message']);
@@ -1692,7 +1692,7 @@ class Inventory extends MX_Controller
             'status' => 'sent',
             'updated_by' => $this->ion_auth->user()->row()->id
         ));
-        
+
         $this->session->set_flashdata('success', 'Purchase order sent to supplier');
         redirect('inventory/purchase/view/' . $id);
     }
@@ -1706,12 +1706,12 @@ class Inventory extends MX_Controller
 
         if ($this->input->post('submit')) {
             $items = $this->input->post('items');
-            
+
             foreach ($items as $item_id => $item_data) {
                 if ($item_data['quantity_received'] > 0) {
                     // Get purchase order item details
                     $po_item = $this->purchase_model->getPurchaseOrderItemById($item_id);
-                    
+
                     if ($po_item) {
                         // Update purchase order item
                         $received = $this->purchase_model->receivePurchaseOrderItem(
@@ -1722,17 +1722,17 @@ class Inventory extends MX_Controller
                             $item_data['batch_number'],
                             $item_data['expiry_date']
                         );
-                        
+
                         if ($received) {
                             // Update inventory stock (increase)
                             $stock_updated = $this->inventory_model->increaseStock(
-                                $po_item->inventory_item_id, 
-                                $item_data['quantity_received'], 
-                                'purchase', 
-                                $id, 
+                                $po_item->inventory_item_id,
+                                $item_data['quantity_received'],
+                                'purchase',
+                                $id,
                                 'Purchase received - PO#' . $purchase_order->po_number
                             );
-                            
+
                             if (!$stock_updated) {
                                 log_message('error', 'Failed to update stock for item ID: ' . $po_item->inventory_item_id . ' after receiving purchase order item ID: ' . $item_id);
                             }
@@ -1740,7 +1740,7 @@ class Inventory extends MX_Controller
                     }
                 }
             }
-            
+
             $this->session->set_flashdata('success', 'Items received successfully');
             redirect('inventory/purchase/view/' . $id);
         }
@@ -1762,7 +1762,7 @@ class Inventory extends MX_Controller
         $inventory_item_id = $this->input->post('inventory_item_id');
         $quantity = $this->input->post('quantity');
         $unit_price = $this->input->post('unit_price');
-        
+
         $item_data = array(
             'purchase_order_id' => $po_id,
             'inventory_item_id' => $inventory_item_id,
@@ -1772,7 +1772,7 @@ class Inventory extends MX_Controller
         );
 
         $item_id = $this->purchase_model->insertPurchaseOrderItem($item_data);
-        
+
         if ($item_id) {
             echo json_encode(array('status' => 'success', 'message' => 'Item added successfully'));
         } else {
@@ -1785,7 +1785,7 @@ class Inventory extends MX_Controller
         $item_id = $this->input->post('item_id');
         $quantity = $this->input->post('quantity');
         $unit_price = $this->input->post('unit_price');
-        
+
         $item_data = array(
             'quantity_ordered' => $quantity,
             'unit_price' => $unit_price,
@@ -1830,7 +1830,7 @@ class Inventory extends MX_Controller
             );
 
             $quotation_id = $this->purchase_model->insertVendorQuotation($quotation_data);
-            
+
             if ($quotation_id) {
                 $this->session->set_flashdata('success', 'Quotation created successfully');
                 redirect('inventory/purchase/edit_quotation/' . $quotation_id);
@@ -1853,7 +1853,7 @@ class Inventory extends MX_Controller
     public function convert_quotation_to_po($quotation_id)
     {
         $po_id = $this->purchase_model->convertQuotationToPurchaseOrder($quotation_id);
-        
+
         if ($po_id) {
             $this->session->set_flashdata('success', 'Quotation converted to purchase order successfully');
             redirect('inventory/purchase/view/' . $po_id);
@@ -1917,7 +1917,7 @@ class Inventory extends MX_Controller
         $data['purchase_order'] = $this->purchase_model->getPurchaseOrderById($id);
         $data['items'] = $this->purchase_model->getPurchaseOrderItems($id);
         $data['settings'] = $this->settings_model->getSettings();
-        
+
         // Print view doesn't need header/footer
         $this->load->view('inventory/print_purchase_order', $data);
     }
@@ -1926,12 +1926,12 @@ class Inventory extends MX_Controller
     {
         // Load PDF library (you may need to install/configure a PDF library)
         $this->load->library('pdf');
-        
+
         $data = array();
         $data['purchase_order'] = $this->purchase_model->getPurchaseOrderById($id);
         $data['items'] = $this->purchase_model->getPurchaseOrderItems($id);
         $data['settings'] = $this->settings_model->getSettings();
-        
+
         $html = $this->load->view('inventory/pdf_purchase_order', $data, true);
         $this->pdf->generate($html, 'PO_' . $data['purchase_order']->po_number);
     }
@@ -1994,30 +1994,30 @@ class Inventory extends MX_Controller
     {
         // Check if this is a POST request with form data
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('inventory_item_id')) {
-            
+
             // Validate required fields
             $this->form_validation->set_rules('inventory_item_id', 'Inventory Item', 'required');
             $this->form_validation->set_rules('quantity_used', 'Quantity Used', 'required|numeric|greater_than[0]');
             $this->form_validation->set_rules('used_by_type', 'Used By Type', 'required');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('error', 'Please fill all required fields correctly');
                 redirect('inventory/usage');
                 return;
             }
-            
+
             $inventory_item_id = $this->input->post('inventory_item_id');
             $quantity_used = $this->input->post('quantity_used');
-            
+
             // Get item details for cost calculation
             $item = $this->inventory_model->getInventoryItemById($inventory_item_id);
-            
+
             if (!$item) {
                 $this->session->set_flashdata('error', 'Inventory item not found');
                 redirect('inventory/usage');
                 return;
             }
-            
+
             $calculated_stock = $this->inventory_model->calculateCurrentStock($inventory_item_id);
             if ($calculated_stock < $quantity_used) {
                 $this->session->set_flashdata('error', 'Insufficient stock. Available: ' . $calculated_stock . ', Requested: ' . $quantity_used);
@@ -2046,17 +2046,17 @@ class Inventory extends MX_Controller
             );
 
             $usage_id = $this->usage_model->insertUsage($data);
-            
+
             if ($usage_id) {
                 // Update stock quantity (decrease)
                 $stock_updated = $this->inventory_model->decreaseStock(
-                    $inventory_item_id, 
-                    $quantity_used, 
-                    'usage', 
-                    $usage_id, 
+                    $inventory_item_id,
+                    $quantity_used,
+                    'usage',
+                    $usage_id,
                     'Usage logged: ' . ($data['purpose'] ?: 'General usage')
                 );
-                
+
                 if ($stock_updated) {
                     $this->session->set_flashdata('success', 'Usage logged successfully with ID: ' . $usage_id . '. Stock updated.');
                 } else {
@@ -2233,10 +2233,10 @@ class Inventory extends MX_Controller
         if ($this->input->post('submit')) {
             $usage_data = $this->input->post('usage_data');
             $parsed_data = json_decode($usage_data, true);
-            
+
             if ($parsed_data && is_array($parsed_data)) {
                 $usage_array = array();
-                
+
                 foreach ($parsed_data as $row) {
                     $item = $this->inventory_model->getInventoryItemById($row['inventory_item_id']);
                     $calculated_stock = $this->inventory_model->calculateCurrentStock($row['inventory_item_id']);
@@ -2258,28 +2258,28 @@ class Inventory extends MX_Controller
                         );
                     }
                 }
-                
+
                 if (!empty($usage_array)) {
                     $inserted = $this->usage_model->bulkInsertUsage($usage_array);
-                    
+
                     if ($inserted > 0) {
                         // Update stock levels for each item used
                         $stock_update_failures = 0;
                         foreach ($usage_array as $usage_record) {
                             $stock_updated = $this->inventory_model->decreaseStock(
-                                $usage_record['inventory_item_id'], 
-                                $usage_record['quantity_used'], 
-                                'bulk_usage', 
-                                null, 
+                                $usage_record['inventory_item_id'],
+                                $usage_record['quantity_used'],
+                                'bulk_usage',
+                                null,
                                 'Bulk usage: ' . ($usage_record['purpose'] ?: 'General usage')
                             );
-                            
+
                             if (!$stock_updated) {
                                 $stock_update_failures++;
                                 log_message('error', 'Failed to update stock for item ID: ' . $usage_record['inventory_item_id'] . ' in bulk usage operation');
                             }
                         }
-                        
+
                         if ($stock_update_failures == 0) {
                             $this->session->set_flashdata('success', $inserted . ' usage records inserted successfully. All stock levels updated.');
                         } else {
@@ -2294,7 +2294,7 @@ class Inventory extends MX_Controller
             } else {
                 $this->session->set_flashdata('error', 'Invalid data format');
             }
-            
+
             redirect('inventory/usage');
         }
 
@@ -2376,7 +2376,7 @@ class Inventory extends MX_Controller
     public function usage_trend_analysis($item_id)
     {
         $months = $this->input->get('months') ?: 6;
-        
+
         $data = array();
         $data['page'] = 'usage_trend_analysis';
         $data['page_title'] = 'Usage Trend Analysis';
@@ -2403,27 +2403,27 @@ class Inventory extends MX_Controller
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         $query = $this->db->get();
         $purchase_orders = $query->result();
-        
+
         $updated_count = 0;
         foreach ($purchase_orders as $po) {
             $total_amount = $this->purchase_model->calculatePurchaseOrderTotal($po->id);
-            
+
             // Get existing PO data to preserve other fields
             $existing_po = $this->purchase_model->getPurchaseOrderById($po->id);
             $tax_amount = $existing_po->tax_amount ?: 0;
             $discount_amount = $existing_po->discount_amount ?: 0;
             $shipping_amount = $existing_po->shipping_amount ?: 0;
             $grand_total = $total_amount + $tax_amount + $shipping_amount - $discount_amount;
-            
+
             $update_data = array(
                 'total_amount' => $total_amount,
                 'grand_total' => $grand_total
             );
-            
+
             $this->purchase_model->updatePurchaseOrder($po->id, $update_data);
             $updated_count++;
         }
-        
+
         $this->session->set_flashdata('success', "Recalculated totals for {$updated_count} purchase orders.");
         redirect('inventory/purchase');
     }
@@ -2435,13 +2435,13 @@ class Inventory extends MX_Controller
         $data = array();
         $data['page'] = 'inventory_reports';
         $data['page_title'] = 'Inventory Reports';
-        
+
         // Get real analytics data for Quick Analysis
         $data['total_items'] = count($this->inventory_model->getActiveInventoryItems());
         $data['low_stock_items'] = count($this->inventory_model->getLowStockItems());
         $data['total_value'] = $this->inventory_model->getTotalInventoryValue();
         $data['monthly_usage_value'] = $this->usage_model->getMonthlyUsageValue();
-        
+
         $data['settings'] = $this->settings_model->getSettings();
         $this->load->view('home/dashboard');
         $this->load->view('inventory/reports', $data);
@@ -2484,7 +2484,7 @@ class Inventory extends MX_Controller
         try {
             $start_date = $this->input->get('start_date') ?: date('Y-m-01');
             $end_date = $this->input->get('end_date') ?: date('Y-m-d');
-            
+
             switch ($type) {
                 case 'inventory':
                     $this->export_inventory_items();
@@ -2511,18 +2511,18 @@ class Inventory extends MX_Controller
     {
         try {
             $items = $this->inventory_model->getActiveInventoryItems();
-            
+
             if (empty($items)) {
                 throw new Exception('No inventory items found');
             }
-            
+
             $filename = 'inventory_items_' . date('Y-m-d') . '.csv';
-            
+
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
-            
+
             $output = fopen('php://output', 'w');
-            
+
             // CSV Headers
             fputcsv($output, array(
                 'Item Code',
@@ -2534,7 +2534,7 @@ class Inventory extends MX_Controller
                 'Unit of Measure',
                 'Status'
             ));
-            
+
             // CSV Data
             foreach ($items as $item) {
                 fputcsv($output, array(
@@ -2548,7 +2548,7 @@ class Inventory extends MX_Controller
                     $item->status
                 ));
             }
-            
+
             fclose($output);
             exit;
         } catch (Exception $e) {
@@ -2561,14 +2561,14 @@ class Inventory extends MX_Controller
     {
         try {
             $usage_logs = $this->usage_model->getUsageLogsByDateRange($start_date, $end_date);
-            
+
             $filename = 'usage_data_' . $start_date . '_to_' . $end_date . '.csv';
-            
+
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
-            
+
             $output = fopen('php://output', 'w');
-            
+
             // CSV Headers
             fputcsv($output, array(
                 'Usage Date',
@@ -2581,7 +2581,7 @@ class Inventory extends MX_Controller
                 'Purpose',
                 'Notes'
             ));
-            
+
             // CSV Data
             foreach ($usage_logs as $usage) {
                 fputcsv($output, array(
@@ -2596,7 +2596,7 @@ class Inventory extends MX_Controller
                     $usage->notes
                 ));
             }
-            
+
             fclose($output);
             exit;
         } catch (Exception $e) {
@@ -2609,14 +2609,14 @@ class Inventory extends MX_Controller
     {
         try {
             $purchase_orders = $this->purchase_model->getPurchaseOrdersByDateRange($start_date, $end_date);
-            
+
             $filename = 'purchase_orders_' . $start_date . '_to_' . $end_date . '.csv';
-            
+
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
-            
+
             $output = fopen('php://output', 'w');
-            
+
             // CSV Headers
             fputcsv($output, array(
                 'Order Number',
@@ -2627,7 +2627,7 @@ class Inventory extends MX_Controller
                 'Total Amount',
                 'Grand Total'
             ));
-            
+
             // CSV Data
             foreach ($purchase_orders as $po) {
                 fputcsv($output, array(
@@ -2640,7 +2640,7 @@ class Inventory extends MX_Controller
                     $po->grand_total
                 ));
             }
-            
+
             fclose($output);
             exit;
         } catch (Exception $e) {
@@ -2653,18 +2653,18 @@ class Inventory extends MX_Controller
     {
         try {
             $suppliers = $this->supplier_model->getSuppliers();
-            
+
             if (empty($suppliers)) {
                 throw new Exception('No suppliers found');
             }
-            
+
             $filename = 'suppliers_' . date('Y-m-d') . '.csv';
-            
+
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
-            
+
             $output = fopen('php://output', 'w');
-            
+
             // CSV Headers
             fputcsv($output, array(
                 'Supplier Name',
@@ -2679,7 +2679,7 @@ class Inventory extends MX_Controller
                 'Country',
                 'Status'
             ));
-            
+
             // CSV Data
             foreach ($suppliers as $supplier) {
                 fputcsv($output, array(
@@ -2696,7 +2696,7 @@ class Inventory extends MX_Controller
                     $supplier->status
                 ));
             }
-            
+
             fclose($output);
             exit;
         } catch (Exception $e) {
@@ -2712,11 +2712,11 @@ class Inventory extends MX_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->input->post('usage_id')) {
             $usage_id = $this->input->post('usage_id');
             $usage = $this->usage_model->getUsageLogById($usage_id);
-            
+
             if ($usage) {
                 // Generate HTML content for the modal
                 $html = $this->generate_usage_view_html($usage);
-                
+
                 echo json_encode(array(
                     'success' => true,
                     'html' => $html
@@ -2738,7 +2738,7 @@ class Inventory extends MX_Controller
     private function generate_usage_view_html($usage)
     {
         $settings = $this->settings_model->getSettings();
-        
+
         // Generate detailed HTML for usage view
         $html = '
         <div class="container-fluid p-4">
@@ -2771,7 +2771,7 @@ class Inventory extends MX_Controller
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Usage Details -->
                 <div class="col-md-6">
                     <div class="card border-left-success h-100">
@@ -2784,7 +2784,7 @@ class Inventory extends MX_Controller
                             <div class="row">
                                 <div class="col-sm-5 font-weight-bold">Quantity Used:</div>
                                 <div class="col-sm-7">
-                                    <span class="badge badge-info badge-lg">' . $usage->quantity_used . ' ' . htmlspecialchars($usage->unit_of_measure) . '</span>
+                                    <span class="ap-status ap-status-info badge-lg">' . $usage->quantity_used . ' ' . htmlspecialchars($usage->unit_of_measure) . '</span>
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -2805,7 +2805,7 @@ class Inventory extends MX_Controller
                     </div>
                 </div>
             </div>
-            
+
             <div class="row mt-4">
                 <!-- Usage Context -->
                 <div class="col-md-6">
@@ -2822,7 +2822,7 @@ class Inventory extends MX_Controller
                                     <span class="badge badge-primary">' . ucfirst($usage->used_by_type) . '</span>
                                 </div>
                             </div>';
-                            
+
         if ($usage->patient_name) {
             $html .= '
                             <div class="row mt-2">
@@ -2830,7 +2830,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-8">' . htmlspecialchars($usage->patient_name) . '</div>
                             </div>';
         }
-        
+
         if ($usage->doctor_name) {
             $html .= '
                             <div class="row mt-2">
@@ -2838,7 +2838,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-8">' . htmlspecialchars($usage->doctor_name) . '</div>
                             </div>';
         }
-        
+
         if ($usage->department_name) {
             $html .= '
                             <div class="row mt-2">
@@ -2846,12 +2846,12 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-8">' . htmlspecialchars($usage->department_name) . '</div>
                             </div>';
         }
-        
+
         $html .= '
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Additional Information -->
                 <div class="col-md-6">
                     <div class="card border-left-info h-100">
@@ -2861,7 +2861,7 @@ class Inventory extends MX_Controller
                             </h6>
                         </div>
                         <div class="card-body">';
-                        
+
         if ($usage->purpose) {
             $html .= '
                             <div class="row">
@@ -2869,7 +2869,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-9">' . htmlspecialchars($usage->purpose) . '</div>
                             </div>';
         }
-        
+
         if ($usage->notes) {
             $html .= '
                             <div class="row mt-2">
@@ -2877,7 +2877,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-9">' . nl2br(htmlspecialchars($usage->notes)) . '</div>
                             </div>';
         }
-        
+
         if ($usage->batch_number) {
             $html .= '
                             <div class="row mt-2">
@@ -2885,7 +2885,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-9"><code>' . htmlspecialchars($usage->batch_number) . '</code></div>
                             </div>';
         }
-        
+
         if ($usage->expiry_date) {
             $html .= '
                             <div class="row mt-2">
@@ -2893,7 +2893,7 @@ class Inventory extends MX_Controller
                                 <div class="col-sm-9">' . date('Y-m-d', strtotime($usage->expiry_date)) . '</div>
                             </div>';
         }
-        
+
         $html .= '
                             <div class="row mt-3 pt-3 border-top">
                                 <div class="col-sm-3 font-weight-bold">Created By:</div>
@@ -2908,7 +2908,7 @@ class Inventory extends MX_Controller
                 </div>
             </div>
         </div>';
-        
+
         return $html;
     }
 
@@ -2916,7 +2916,7 @@ class Inventory extends MX_Controller
     {
         $id = $this->input->post('id');
         $item = $this->inventory_model->getInventoryItemById($id);
-        
+
         if ($item) {
             echo json_encode(array('status' => 'success', 'item' => $item));
         } else {
@@ -2942,7 +2942,7 @@ class Inventory extends MX_Controller
     {
         $supplier_id = $this->input->post('supplier_id');
         $supplier = $this->supplier_model->getSupplierById($supplier_id);
-        
+
         if ($supplier) {
             echo json_encode(array('status' => 'success', 'supplier' => $supplier));
         } else {
@@ -2954,10 +2954,10 @@ class Inventory extends MX_Controller
     {
         $item_id = $this->input->post('item_id');
         $item = $this->inventory_model->getInventoryItemById($item_id);
-        
+
         if ($item) {
             echo json_encode(array(
-                'status' => 'success', 
+                'status' => 'success',
                 'unit_cost' => $item->unit_cost,
                 'unit_of_measure' => $item->unit_of_measure
             ));
@@ -2970,7 +2970,7 @@ class Inventory extends MX_Controller
     {
         $id = $this->input->post('id');
         $supplier = $this->supplier_model->getSupplierById($id);
-        
+
         if ($supplier) {
             echo json_encode(array('status' => 'success', 'supplier' => $supplier));
         } else {
@@ -2990,9 +2990,9 @@ class Inventory extends MX_Controller
         $supplier_id = $this->input->post('supplier_id');
         $amount = $this->input->post('amount');
         $operation = $this->input->post('operation'); // 'add' or 'subtract'
-        
+
         $new_balance = $this->supplier_model->updateSupplierBalance($supplier_id, $amount, $operation);
-        
+
         if ($new_balance !== false) {
             echo json_encode(array('status' => 'success', 'new_balance' => $new_balance));
         } else {
@@ -3011,7 +3011,7 @@ class Inventory extends MX_Controller
     {
         $item_id = $this->input->post('item_id');
         $item = $this->inventory_model->getInventoryItemById($item_id);
-        
+
         if ($item) {
             echo json_encode(array(
                 'status' => 'success',
@@ -3028,7 +3028,7 @@ class Inventory extends MX_Controller
     {
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
-        
+
         $stats = $this->usage_model->getUsageStatistics($start_date, $end_date);
         echo json_encode(array('status' => 'success', 'data' => $stats));
     }
@@ -3037,7 +3037,7 @@ class Inventory extends MX_Controller
     {
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
-        
+
         $usage_logs = $this->usage_model->getUsageByDateRange($start_date, $end_date);
         echo json_encode($usage_logs);
     }
@@ -3049,7 +3049,7 @@ class Inventory extends MX_Controller
         try {
             // Set proper headers for AJAX response
             header('Content-Type: application/json');
-            
+
             $draw = intval($this->input->get("draw"));
             $start = intval($this->input->get("start"));
             $length = intval($this->input->get("length"));
@@ -3063,7 +3063,7 @@ class Inventory extends MX_Controller
             // Safe order handling
             $order_column = 'ul.usage_date'; // default
             $order_dir = 'DESC'; // default
-            
+
             if (isset($order[0]['column']) && isset($order[0]['dir'])) {
                 $col_index = intval($order[0]['column']);
                 if (isset($column_order[$col_index]) && $column_order[$col_index] !== null) {
@@ -3097,14 +3097,14 @@ class Inventory extends MX_Controller
                             </div>';
 
             // Quantity Used
-            $nestedData[] = '<span class="badge badge-info">' . $usage->quantity_used . ' ' . $usage->unit_of_measure . '</span>';
+            $nestedData[] = '<span class="ap-status ap-status-info">' . $usage->quantity_used . ' ' . $usage->unit_of_measure . '</span>';
 
             // Used By Type
             $badge_class = 'secondary';
             if ($usage->used_by_type == 'patient') $badge_class = 'primary';
             else if ($usage->used_by_type == 'doctor') $badge_class = 'success';
             else if ($usage->used_by_type == 'nurse') $badge_class = 'warning';
-            
+
             $nestedData[] = '<span class="badge badge-' . $badge_class . '">' . ucfirst($usage->used_by_type) . '</span>';
 
             // Purpose
@@ -3131,7 +3131,7 @@ class Inventory extends MX_Controller
                                 </a>
                             </div>
                         </div>';
-            
+
             $nestedData[] = $actions;
 
             $data[] = $nestedData;
@@ -3145,11 +3145,11 @@ class Inventory extends MX_Controller
             );
 
             echo json_encode($json_data);
-            
+
         } catch (Exception $e) {
             // Log the error
             log_message('error', 'getUsageLogsAjax AJAX Error: ' . $e->getMessage());
-            
+
             // Return error response
             $error_response = array(
                 "draw" => isset($draw) ? intval($draw) : 1,
@@ -3158,11 +3158,11 @@ class Inventory extends MX_Controller
                 "data" => array(),
                 "error" => "An error occurred while loading usage logs. Please refresh the page."
             );
-            
+
             echo json_encode($error_response);
         }
     }
-    
+
     /**
      * Helper function to clear all flash messages
      */

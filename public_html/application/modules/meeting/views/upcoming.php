@@ -1,10 +1,7 @@
 <?php
 if (!isset($patient) || !is_object($patient)) {
-    $patient = new stdClass();
+$patient = new stdClass();
 }
-$CI = get_instance();
-$__csrf_n = $CI->security->get_csrf_token_name();
-$__csrf_h = $CI->security->get_csrf_hash();
 ?>
 <!--sidebar end-->
 <!--main content start-->
@@ -88,7 +85,7 @@ $__csrf_h = $CI->security->get_csrf_hash();
                         <label class="form-label" for="exampleInputEmail1"><?php echo lang('patient'); ?></label>
                         <select class="form-control form-control-lg m-bot15 pos_select" id="pos_select" name="patient"></select>
                     </div>
-                    <div class="pos_client clearfix col-md-6" style="display: none;">
+                    <div class="pos_client clearfix col-md-6">
                         <div class="payment pad_bot">
                             <label class="form-label" for="p_name_m1"><?php echo lang('patient'); ?> <?php echo lang('name'); ?></label>
                             <input type="text" class="form-control pay_in" id="p_name_m1" name="p_name" value="" placeholder="">
@@ -162,7 +159,7 @@ $__csrf_h = $CI->security->get_csrf_hash();
                         <label class="form-label"><?php echo lang('patient'); ?></label>
                         <select class="form-control form-control-lg m-bot15 pos_select patient" id="pos_select_edit" name="patient"></select>
                     </div>
-                    <div class="pos_client clearfix col-md-6" style="display: none;">
+                    <div class="pos_client clearfix col-md-6">
                         <div class="payment pad_bot">
                             <label class="form-label"><?php echo lang('patient'); ?> <?php echo lang('name'); ?></label>
                             <input type="text" class="form-control pay_in" name="p_name" value="" placeholder="">
@@ -246,10 +243,7 @@ $__csrf_h = $CI->security->get_csrf_hash();
 
 <script>
 (function () {
-    var n = <?php echo json_encode($__csrf_n); ?>;
-    var h = <?php echo json_encode($__csrf_h); ?>;
     window.meetingUpcomingTableCsrf = function (d) {
-        d[n] = h;
         return d;
     };
 })();

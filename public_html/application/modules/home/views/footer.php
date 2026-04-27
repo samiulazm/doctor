@@ -259,7 +259,7 @@ if ($this->router->fetch_class() === 'appointment') {
                         bgColor = "#4e73df";
                 }
                 return {
-                    html: `<div style="background: ${bgColor}; padding: 10px; font-size: 10px; border-radius: 5px; overflow: hidden; word-wrap: break-word; text-overflow: ellipsis; max-width: 100%;">
+                    html: `<div>
     <span style="color: white;">${arg.timeText}</span><br/>
     <span style="color: white;">${arg.event.title}</span>
 </div>`

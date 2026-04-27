@@ -429,7 +429,7 @@
                                 </label>
                             </div>
                             <input type="hidden" name="id" value="<?php echo $payment->id; ?>">
-                            <div class="radio other" style="display:none;">
+                            <div class="radio other">
                                 <label>
                                     <?php echo lang('email'); ?> <?php echo lang('address'); ?>
                                     <input type="email" name="other_email" value="" class="form-control form-control-lg">
@@ -505,7 +505,7 @@
 
                             <div class="hidden insurance_div">
 
-                                <div class="form-group" style="margin-top:10px;">
+                                <div class="form-group">
                                     <label for="exampleInputEmail1"> <?php echo lang('insurance_company'); ?> <?php echo lang('name'); ?></label>
 
                                     <div class="company_div">
@@ -523,7 +523,7 @@
 
                                 </div>
                                 <div class="">
-                                    <div class="payment_label" style="margin-top:10px;">
+                                    <div class="payment_label">
                                         <label for="exampleInputEmail1"> <?php echo lang('insurance_details'); ?>
                                         </label>
                                     </div>

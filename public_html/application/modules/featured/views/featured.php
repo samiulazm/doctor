@@ -22,7 +22,7 @@
             <div class="panel-body">
                 <div class="adv-table editable-table ">
                     <div class="space15"></div>
-                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <table class="table table-striped table-hover table-bordered" id="dt-featured" data-legacy-table="editable-sample">
                         <thead>
                             <tr>
                                 <th><?php echo lang('image'); ?></th>
@@ -131,7 +131,7 @@
 
 
 <!-- Edit Event Modal-->
-<div class="modal fade" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="myModal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

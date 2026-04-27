@@ -1,7 +1,7 @@
 <!--sidebar end-->
 <!--main content start-->
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -107,7 +107,7 @@
                                                         <small class="text-muted"><?php echo $item->generic; ?></small>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-info"><?php echo $item->quantity_ordered; ?></span>
+                                                        <span class="ap-status ap-status-info"><?php echo $item->quantity_ordered; ?></span>
                                                     </td>
                                                     <td>
                                                         <input type="hidden" name="item_id[]" value="<?php echo $item->id; ?>">

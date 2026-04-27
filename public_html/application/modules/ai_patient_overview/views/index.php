@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $CI = get_instance();
 ?>
@@ -22,8 +22,8 @@ $CI = get_instance();
                     <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
-            <?php } ?> 
-            
+            <?php } ?>
+
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
                     <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
@@ -81,7 +81,7 @@ $CI = get_instance();
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label><?php echo lang('select_doctor'); ?> <span class="text-danger">*</span></label>
@@ -217,7 +217,7 @@ $(document).ready(function() {
         $(this).addClass('active');
         $('#generate').addClass('show active');
     });
-    
+
     $('#report-tab').on('click', function(e) {
         e.preventDefault();
         $('.nav-link').removeClass('active');
@@ -225,14 +225,14 @@ $(document).ready(function() {
         $(this).addClass('active');
         $('#report').addClass('show active');
     });
-    
+
     $('#history-tab').on('click', function(e) {
         e.preventDefault();
         $('.nav-link').removeClass('active');
         $('.tab-pane').removeClass('show active');
         $(this).addClass('active');
         $('#history').addClass('show active');
-        
+
         // Initialize DataTables if not already initialized
         if (!$.fn.DataTable.isDataTable('#historyTable')) {
             initializeHistoryDataTable();
@@ -246,7 +246,7 @@ $(document).ready(function() {
     $('#patientSelect, #doctorSelect').on('change', function() {
         updateGenerateButtonState();
     });
-    
+
     // Navigation function for going to generate tab
     window.goToGenerateTab = function() {
         console.log('Navigating to generate tab');
@@ -260,13 +260,13 @@ $(document).ready(function() {
             console.error('Error navigating to generate tab:', error);
         }
     };
-    
+
     // Event handler for the go to generate tab button
     $('#goToGenerateTabBtn').on('click', function() {
         console.log('Go to generate tab button clicked');
         goToGenerateTab();
     });
-    
+
     // Event handler for generate new overview button (delegated event for dynamically created buttons)
     $(document).on('click', '#generateNewOverviewBtn', function() {
         console.log('Generate new overview button clicked');
@@ -274,7 +274,7 @@ $(document).ready(function() {
         resetOverviewState();
         goToGenerateTab();
     });
-    
+
     // Function to reset overview state and show the button
     window.resetOverviewState = function() {
         $('#overviewResults').html(`
@@ -288,7 +288,7 @@ $(document).ready(function() {
                 </button>
             </div>
         `);
-        
+
         // Re-bind the event handler for the new button
         $('#goToGenerateTabBtn').on('click', function() {
             console.log('Go to generate tab button clicked (reset)');
@@ -300,45 +300,44 @@ $(document).ready(function() {
 function updateGenerateButtonState() {
     const patientSelected = $('#patientSelect').val();
     const doctorSelected = $('#doctorSelect').val();
-    
+
     $('#generateBtn').prop('disabled', !(patientSelected && doctorSelected));
 }
 
 function generateOverview() {
     const patientId = $('#patientSelect').val();
     const doctorId = $('#doctorSelect').val();
-    
+
     if (!patientId || !doctorId) {
         showNotification('Please select both patient and doctor.', 'error');
         return;
     }
 
     $('#loadingModal').modal('show');
-    
+
     $.ajax({
         url: '<?php echo base_url(); ?>ai_patient_overview/getPatientOverview',
         type: 'POST',
         data: {
             patient_id: patientId,
             doctor_id: doctorId,
-            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
             $('#loadingModal').modal('hide');
-            
+
             if (response.success) {
                 currentAnalysisId = response.analysis_id;
                 // Add doctor name to patient data
                 response.patient_data.doctor_name = $('#doctorSelect option:selected').text();
                 displayOverviewResult(response.patient_data, response.ai_analysis, null);
-                
+
                 // Switch to report tab
                 $('.nav-link').removeClass('active');
                 $('.tab-pane').removeClass('show active');
                 $('#report-tab').addClass('active');
                 $('#report').addClass('show active');
-                
+
                 loadAnalysisHistory();
             } else {
                 showNotification(response.message || 'Analysis failed', 'error');
@@ -355,13 +354,13 @@ function displayOverviewResult(patientData, analysisResult, analysisData = null)
     // Get the actual generation time from database or use current time as fallback
     let generatedTime = new Date();
     let analysisId = 'N/A';
-    
+
     if (analysisData) {
         // Use actual data from database
         generatedTime = new Date(analysisData.created_at);
         analysisId = analysisData.id;
     }
-    
+
     const resultHTML = `
         <div class="container-fluid" id="printableOverview">
             <!-- Report Header -->
@@ -388,7 +387,7 @@ function displayOverviewResult(patientData, analysisResult, analysisData = null)
                     </div>
                 </div>
             </div>
-            
+
             <!-- AI Analysis Result -->
             <div class="row mb-4">
                 <div class="col-12">
@@ -460,7 +459,7 @@ function displayOverviewResult(patientData, analysisResult, analysisData = null)
                 <div class="col-md-6">
                     <div class="text-center">
                         <p class="mb-1"><strong>Doctor's Signature:</strong></p>
-                        <div class="border-bottom mb-2" style="height: 2px;"></div>
+                        <div class="border-bottom mb-2"></div>
                         <p class="mb-0">${patientData.doctor_name || 'Dr. Name'}</p>
                         <small class="text-muted">Date: ${new Date().toLocaleDateString()}</small>
                     </div>
@@ -468,11 +467,11 @@ function displayOverviewResult(patientData, analysisResult, analysisData = null)
                 <div class="col-md-6">
                     <div class="text-center">
                         <p class="mb-1"><strong>Hospital Stamp:</strong></p>
-                        <div class="border border-dark" style="height: 60px; width: 120px; margin: 0 auto;"></div>
+                        <div class="border border-dark"></div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Action Buttons -->
             <div class="row mt-4">
                 <div class="col-12">
@@ -492,14 +491,14 @@ function displayOverviewResult(patientData, analysisResult, analysisData = null)
             </div>
         </div>
     `;
-    
+
     $('#overviewResults').html(resultHTML);
 }
 
 function printOverviewReport() {
     const printContent = document.getElementById('printableOverview').innerHTML;
     const originalContent = document.body.innerHTML;
-    
+
     document.body.innerHTML = `
         <div class="container-fluid">
             <div class="row">
@@ -509,14 +508,14 @@ function printOverviewReport() {
             </div>
         </div>
     `;
-    
+
     window.print();
     document.body.innerHTML = originalContent;
 }
 
 function initializeHistoryDataTable() {
     console.log('Initializing DataTables for analysis history...');
-    
+
     $('#historyTable').DataTable({
         processing: true,
         serverSide: true,
@@ -524,8 +523,7 @@ function initializeHistoryDataTable() {
             url: '<?php echo base_url(); ?>ai_patient_overview/getAnalysisHistoryDataTables',
             type: 'POST',
             data: function(d) {
-                // Add CSRF token if available
-                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+                return d;
             },
             error: function(xhr, error, thrown) {
                 console.error('DataTables AJAX error:', xhr.responseText);
@@ -566,10 +564,10 @@ function loadAnalysisHistory() {
             if (response && response.length > 0) {
                 let tableRows = '';
                 response.forEach(function(analysis) {
-                    const status = analysis.status === 'completed' ? 
-                        '<span class="badge badge-success">Completed</span>' : 
-                        '<span class="badge badge-warning">Pending</span>';
-                    
+                    const status = analysis.status === 'completed' ?
+                        '<span class="ap-status ap-status-success">Completed</span>' :
+                        '<span class="ap-status ap-status-warning">Pending</span>';
+
                     const actions = `
                         <a class="btn btn-sm btn-outline-primary" onclick="viewAnalysis(${analysis.id})">
                             <i class="fas fa-eye"></i>
@@ -578,7 +576,7 @@ function loadAnalysisHistory() {
                             <i class="fas fa-trash"></i>
                         </a>
                     `;
-                    
+
                     tableRows += `
                         <tr>
                             <td>${analysis.created_at}</td>
@@ -589,7 +587,7 @@ function loadAnalysisHistory() {
                         </tr>
                     `;
                 });
-                
+
                 $('#historyTable tbody').html(tableRows);
             } else {
                 $('#historyTable tbody').html(`
@@ -621,7 +619,6 @@ function viewAnalysis(analysisId) {
         type: 'POST',
         data: {
             analysis_id: analysisId,
-            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
@@ -645,9 +642,9 @@ function viewAnalysis(analysisId) {
                     payments: [],
                     diagnoses: []
                 };
-                
+
                 displayOverviewResult(patientData, response.analysis.analysis_result, response.analysis);
-                
+
                 // Switch to report tab
                 $('.nav-link').removeClass('active');
                 $('.tab-pane').removeClass('show active');
@@ -670,13 +667,12 @@ function deleteAnalysis(analysisId) {
             type: 'POST',
             data: {
                 analysis_id: analysisId,
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
                     showNotification('Analysis deleted successfully', 'success');
-                    
+
                     // Reload DataTable if it's initialized, otherwise use fallback
                     if ($.fn.DataTable.isDataTable('#historyTable')) {
                         $('#historyTable').DataTable().ajax.reload();
@@ -699,7 +695,7 @@ function downloadOverviewReport() {
     const patientName = $('#patientSelect option:selected').text().split(' (')[0];
     const timestamp = new Date().toISOString().split('T')[0];
     const filename = `AI_Patient_Overview_${patientName}_${timestamp}.html`;
-    
+
     const blob = new Blob([`
         <!DOCTYPE html>
         <html>
@@ -727,7 +723,7 @@ function downloadOverviewReport() {
         </body>
         </html>
     `], { type: 'text/html' });
-    
+
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -782,8 +778,8 @@ function showNotification(message, type) {
 #loadingModal .modal-content {
     border: none;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-} 
- 
+}
+
 </style>
 
 <!-- DataTables CSS -->
@@ -794,4 +790,4 @@ function showNotification(message, type) {
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.bootstrap4.min.js"></script> 
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.bootstrap4.min.js"></script>

@@ -131,7 +131,7 @@
 
 
 
-  <div id="loader" class="loader" style="display:none;"></div>
+  <div id="loader" class="loader"></div>
 
 
 
@@ -188,7 +188,7 @@
           <li class="nav-item dropdown d-none d-md-block">
             <a class="nav-link nav-link-enhanced quick-actions-link" data-bs-toggle="dropdown" href="#" title="<?php echo lang('quick_actions'); ?>">
               <i class="fas fa-bolt nav-icon"></i>
-              <span class="badge badge-info navbar-badge quick-actions-badge"></span>
+              <span class="ap-status ap-status-info navbar-badge quick-actions-badge"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
@@ -342,7 +342,7 @@
             <li class="nav-item dropdown d-none d-md-block">
               <a class="nav-link nav-link-enhanced chat-link" href="chat" title="<?php echo lang('chat'); ?>">
                 <i class="far fa-comments nav-icon"></i>
-                <span class="badge badge-info navbar-badge chat-badge" id="chatCount"></span>
+                <span class="ap-status ap-status-info navbar-badge chat-badge" id="chatCount"></span>
               </a>
             </li>
           <?php } ?>
@@ -370,7 +370,7 @@
                   }
                 }
                 ?>
-                <span class="badge badge-danger navbar-badge payment-badge"><?= $payment_number; ?></span>
+                <span class="ap-status ap-status-danger navbar-badge payment-badge"><?= $payment_number; ?></span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header"><?= $payment_number; ?>
@@ -403,7 +403,7 @@
                 $query = $query->result();
                 $patient_number = count($query);
                 ?>
-                <span class="badge badge-warning navbar-badge patient-badge"><?= $patient_number; ?></span>
+                <span class="ap-status ap-status-warning navbar-badge patient-badge"><?= $patient_number; ?></span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">

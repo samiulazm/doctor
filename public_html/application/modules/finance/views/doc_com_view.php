@@ -70,7 +70,7 @@
                         </section>
 
                         <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
+                            <table class="table table-hover datatables" id="dt-finance" data-legacy-table="editable-sample" width="100%">
                                 <thead>
                                     <tr class="bg-light">
                                         <th class="font-weight-bold text-uppercase"><?php echo lang('invoice_id'); ?></th>
@@ -229,7 +229,7 @@
             <div class="card-body col-md-7">
                 <div class="adv-table editable-table ">
                     <div class="space15"></div>
-                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <table class="table table-striped table-hover table-bordered" id="dt-finance" data-legacy-table="editable-sample">
                         <thead>
                             <tr>
                                 <th><?php echo lang('invoice_id'); ?></th>

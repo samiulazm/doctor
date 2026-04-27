@@ -12,7 +12,7 @@
 
 <body class="login-body">
     <div class="">
-        <div class="form-signin" style="text-align:center; padding:30px;">
+        <div class="form-signin">
             <h3 class="verifyTitle">Verified</h3>
             <a class="btn btn-lg btn-login btn-block" href="home">Home</a>
         </div>

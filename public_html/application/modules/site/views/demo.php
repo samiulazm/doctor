@@ -789,7 +789,7 @@ $site_name = $this->db->get('site_settings')->row()->title;
                 <div class="owl-carousel owl-carousel1 owl-theme" aria-label="Patient Testimonials">
                     <?php foreach ($reviews as $review) { ?>
                         <div class="px-4">
-                            <div class="card border-0 shadow-sm h-100 p-5 rounded-4 bg-white hover-shadow-xl transition" style="border-left: 4px solid #0d6efd !important;">
+                            <div class="card border-0 shadow-sm h-100 p-5 rounded-4 bg-white hover-shadow-xl transition">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <i class="fas fa-quote-left text-primary opacity-25" style="font-size: 2.5rem;"></i>
                                     <div class="rating">

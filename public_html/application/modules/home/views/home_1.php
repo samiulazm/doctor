@@ -328,7 +328,7 @@
                                                 <div class="stat-card h-100 shadow-lg custom-rounded mt-2">
                                                     <a href="patient">
                                                         <div class="stat-card-body">
-                                                            <p class="badge badge-success"><?php echo lang('total'); ?> <?php echo lang('deposit'); ?></p>
+                                                            <p class="ap-status ap-status-success"><?php echo lang('total'); ?> <?php echo lang('deposit'); ?></p>
                                                             <h2 class="dashboard-title text-success"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['deposit'], 2, '.', ','); ?></h2>
                                                             <p class="sub-text"><?php echo lang('this_month'); ?> </p>
 
@@ -343,7 +343,7 @@
                                                 <div class="stat-card h-100 shadow-lg custom-rounded mt-2">
                                                     <a href="appointment">
                                                         <div class="stat-card-body">
-                                                            <p class="badge badge-warning"><?php echo lang('pending'); ?></p>
+                                                            <p class="ap-status ap-status-warning"><?php echo lang('pending'); ?></p>
                                                             <h2 class="dashboard-title text-orange"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['due'], 2, '.', ','); ?></h2>
                                                             <p class="sub-text"><?php echo lang('this_month'); ?> </p>
                                                         </div>
@@ -374,7 +374,7 @@
                                                     <div class="card card-custom shadow-lg custom-rounded mx-1 m-2">
                                                         <div class="card-body">
                                                             <h5 class="mb-2 border-bottom pb-2 text-sm fw-bold"><?php echo lang('sales_vs_expenses') ?> <span class="text-xs badge badge-secondary ml-2"><?php echo lang('this_year') ?></span></h5>
-                                                            <div id="sales_expense_chart" style="width: 100%; height: 300px;"></div>
+                                                            <div id="sales_expense_chart"></div>
                                                             <script type="text/javascript">
                                                                 google.charts.load('current', {
                                                                     packages: ['corechart']
@@ -439,7 +439,7 @@
                                                             <h5 class="mb-0"><?php echo lang('notice'); ?></h5>
                                                         </div>
                                                         <div class="card-body">
-                                                            <table class="table table-bordered table-hover" id="editable-sample">
+                                                            <table class="table table-bordered table-hover" id="dt-home" data-legacy-table="editable-sample">
                                                                 <thead>
                                                                     <tr>
                                                                         <th><?php echo lang('title'); ?></th>
@@ -532,22 +532,22 @@
                                                                         $action = '';
                                                                         switch ($log->action) {
                                                                             case 'Added':
-                                                                                $action = '<span class="badge badge-success">' . lang('added') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('added') . '</span>';
                                                                                 break;
                                                                             case 'Added/Deposited':
-                                                                                $action = '<span class="badge badge-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
                                                                                 break;
                                                                             case 'Updated':
-                                                                                $action = '<span class="badge badge-success">' . lang('updated') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('updated') . '</span>';
                                                                                 break;
                                                                             case 'deleted_deposit':
-                                                                                $action = '<span class="badge badge-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
                                                                                 break;
                                                                             case 'deleted':
-                                                                                $action = '<span class="badge badge-danger">' . lang('deleted') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . '</span>';
                                                                                 break;
                                                                             default:
-                                                                                $action = '<span class="badge badge-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
                                                                         }
                                                                         $user_name = $this->db->get_where('users', array('id' => $log->user))->row()->username;
                                                                     ?>
@@ -616,7 +616,7 @@
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
                                         <a href="hospital" class="small-box-footer">
-                                            <div class="small-box badge-info">
+                                            <div class="small-box ap-status-info">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -646,7 +646,7 @@
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
                                         <a href=" hospital/active" class="small-box-footer">
-                                            <div class="small-box badge-success">
+                                            <div class="small-box ap-status-success">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -714,7 +714,7 @@
                                     <div class="col-lg-3 col-6">
                                         <!-- small box -->
                                         <a href="systems/expiredHospitals" class="small-box-footer">
-                                            <div class="small-box badge-danger">
+                                            <div class="small-box ap-status-danger">
                                                 <div class="inner">
                                                     <h3>
                                                         <?php
@@ -850,7 +850,7 @@
                             <div class="p-3">
                                 <h5 class="mb-2 border-bottom pb-2 text-sm fw-bold"><?php echo lang('top_services') ?> <span class="text-xs badge badge-secondary ml-2"><?php echo lang('last_30_days') ?></span></h5>
 
-                                <div id="topServicesChart" style="height: 200px;"></div>
+                                <div id="topServicesChart"></div>
                                 <script type="text/javascript">
                                     google.charts.load('current', {
                                         'packages': ['corechart']
@@ -1032,7 +1032,7 @@
                                             ?>
                                             <span class="badge <?php echo $alertClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
                                         </div>
-                                        <div class="progress" style="height: 6px;">
+                                        <div class="progress">
                                             <div class="progress-bar <?php echo $alertClass; ?>" role="progressbar" style="width: <?php echo min($ratio * 100, 100); ?>%" aria-valuenow="<?php echo $ratio; ?>" aria-valuemin="0" aria-valuemax="1"></div>
                                         </div>
                                     </div>

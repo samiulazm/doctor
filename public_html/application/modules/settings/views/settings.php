@@ -11,7 +11,7 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
 <!-- <link href="common/extranal/css/settings/settings.css" rel="stylesheet"> -->
 
 <?php if ($ap_settings_saas_ui) : ?>
-<div class="content-wrapper bg-gradient-light ap-settings-saas">
+<div class="content-wrapper bg-light ap-settings-saas">
     <section class="content-header py-4 ap-settings-saas-hero shadow-none border-0">
         <div class="container-fluid">
             <div class="row align-items-center">

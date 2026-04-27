@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -92,7 +92,7 @@
                                             </select>
                                         </div>
                                         
-                                        <div class="form-group" id="patient_group" style="display: none;">
+                                        <div class="form-group" id="patient_group">
                                             <label for="patient_id"><?php echo lang('patient'); ?></label>
                                             <select class="form-control select2" name="patient_id" id="patient_id">
                                                 <option value=""><?php echo lang('select') . ' ' . lang('patient'); ?></option>
@@ -104,7 +104,7 @@
                                             </select>
                                         </div>
                                         
-                                        <div class="form-group" id="doctor_group" style="display: none;">
+                                        <div class="form-group" id="doctor_group">
                                             <label for="doctor_id"><?php echo lang('doctor'); ?></label>
                                             <select class="form-control select2" name="doctor_id" id="doctor_id">
                                                 <option value=""><?php echo lang('select') . ' ' . lang('doctor'); ?></option>
@@ -116,7 +116,7 @@
                                             </select>
                                         </div>
                                         
-                                        <div class="form-group" id="department_group" style="display: none;">
+                                        <div class="form-group" id="department_group">
                                             <label for="department_id"><?php echo lang('department'); ?></label>
                                             <select class="form-control select2" name="department_id" id="department_id">
                                                 <option value=""><?php echo lang('select') . ' ' . lang('department'); ?></option>

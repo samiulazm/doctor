@@ -58,7 +58,5 @@ $CI = get_instance();
 <script src="common/js/codearistos.min.js"></script>
 <script type="text/javascript">
     var language = <?php echo json_encode($this->language); ?>;
-    window.pharmacyFinanceCsrfName = <?php echo json_encode($CI->security->get_csrf_token_name()); ?>;
-    window.pharmacyFinanceCsrfHash = <?php echo json_encode($CI->security->get_csrf_hash()); ?>;
 </script>
 <script src="common/extranal/js/pharmacy/payment.js"></script>

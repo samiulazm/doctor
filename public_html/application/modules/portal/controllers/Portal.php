@@ -35,12 +35,30 @@ class Portal extends MX_Controller
         ));
         $this->portal_model->ensureDefaultChamber($ctx['doctor']->id, $hospital_id);
         $chambers = $this->portal_model->getChambersForDoctor($ctx['doctor']->id, $hospital_id);
+        $verified_phone = $this->session->userdata('portal_verified_phone');
+        $verified_hospital = (int) $this->session->userdata('portal_verified_hospital');
+        $verified = ($verified_phone && $verified_hospital === $hospital_id) ? $verified_phone : '';
+        $upcoming = null;
+        $prescriptions = array();
+        $lab_reports = array();
+        if ($verified) {
+            $patient = $this->portal_model->findPatientByPhone($hospital_id, $verified);
+            if ($patient) {
+                $upcoming = $this->portal_model->getUpcomingAppointment($hospital_id, (int) $patient->id);
+                $prescriptions = $this->portal_model->getPrescriptionsForPatient($hospital_id, (int) $patient->id);
+                $lab_reports = $this->portal_model->getLabReportsForPatient($hospital_id, (int) $patient->id);
+            }
+        }
         $data = array(
             'slug' => $slug,
             'profile' => $ctx['profile'],
             'doctor' => $ctx['doctor'],
             'chambers' => $chambers,
             'hospital_id' => $hospital_id,
+            'verified' => $verified,
+            'upcoming' => $upcoming,
+            'prescriptions' => $prescriptions,
+            'lab_reports' => $lab_reports,
         );
         $this->load->view('portal/layout_public', array('content' => $this->load->view('portal/landing', $data, true)));
     }
@@ -67,8 +85,127 @@ class Portal extends MX_Controller
             'ok' => true,
             'serial' => $row ? (int) $row->serial_number : null,
             'status' => $row ? $row->status : null,
+            'csrf' => $this->security->get_csrf_hash(),
         );
+        $queue_id_param = (int) $this->input->get('queue_id');
+        if ($queue_id_param) {
+            $patient_row = $this->queue_model->getRowById($queue_id_param);
+            $patient_serial = null;
+            $estimated_wait = null;
+            if ($patient_row
+                && (int) $patient_row->hospital_id === (int) $chamber->hospital_id
+                && (int) $patient_row->doctor_id === $doctor_id
+                && (int) $patient_row->chamber_id === $chamber_id
+                && (string) $patient_row->queue_date === (string) $date) {
+                $patient_serial = (int) $patient_row->serial_number;
+                if ($out['serial'] !== null) {
+                    $estimated_wait = max(0, $patient_serial - (int) $out['serial']) * 5;
+                }
+            }
+            $out['patient_serial'] = $patient_serial;
+            $out['estimated_wait'] = $estimated_wait;
+        }
         $this->output->set_content_type('application/json')->set_output(json_encode($out));
+    }
+
+    public function queue($queue_id = 0)
+    {
+        $queue_id = (int) $queue_id;
+        if (!$queue_id) {
+            show_404();
+        }
+        $row = $this->queue_model->getRowById($queue_id);
+        if (!$row || !chamber_practice_enabled_for_hospital($this, (int) $row->hospital_id)) {
+            show_404();
+        }
+        $doctor = $this->db->get_where('doctor', array('id' => $row->doctor_id), 1)->row();
+        $chamber = $this->db->get_where('doctor_chamber', array('id' => $row->chamber_id), 1)->row();
+        $data = array(
+            'queue_row' => $row,
+            'doctor' => $doctor,
+            'chamber' => $chamber,
+            'queue_id' => $queue_id,
+            'doctor_id' => (int) $row->doctor_id,
+            'chamber_id' => (int) $row->chamber_id,
+            'queue_date' => $row->queue_date,
+        );
+        $this->load->view('portal/layout_public', array('content' => $this->load->view('portal/queue', $data, true)));
+    }
+
+    public function slots_json()
+    {
+        $chamber_id = (int) $this->input->get('chamber_id');
+        $date = $this->input->get('date');
+        if (!$chamber_id || !$date || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false)));
+            return;
+        }
+        $chamber = $this->db->get_where('doctor_chamber', array('id' => $chamber_id, 'is_active' => 1), 1)->row();
+        if (!$chamber || !chamber_practice_enabled_for_hospital($this, (int) $chamber->hospital_id)) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false)));
+            return;
+        }
+        $this->db->where('hospital_id', (int) $chamber->hospital_id);
+        $this->db->where('doctor_id', (int) $chamber->doctor_id);
+        $this->db->where('exception_date', $date);
+        $this->db->group_start();
+        $this->db->where('chamber_id', $chamber_id);
+        $this->db->or_where('chamber_id IS NULL', null, false);
+        $this->db->group_end();
+        $this->db->order_by('chamber_id', 'desc');
+        $this->db->limit(1);
+        $exception = $this->db->get('doctor_schedule_exception')->row();
+        if ($exception && (int) $exception->is_closed === 1) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'This chamber is closed on the selected date. Please choose another date.',
+            )));
+            return;
+        }
+        $hours = !empty($chamber->weekly_hours_json) ? @json_decode($chamber->weekly_hours_json, true) : array();
+        $day_num = (int) date('w', strtotime($date));
+        $day_key = strtolower(date('D', strtotime($date)));
+        $day_map = array('mon' => 'mon', 'tue' => 'tue', 'wed' => 'wed', 'thu' => 'thu', 'fri' => 'fri', 'sat' => 'sat', 'sun' => 'sun');
+        $day_key = isset($day_map[$day_key]) ? $day_map[$day_key] : (string) $day_num;
+        $day_hours = null;
+        if (is_array($hours)) {
+            if (!empty($hours[$day_key])) {
+                $day_hours = $hours[$day_key];
+            } elseif (!empty($hours[(string) $day_num])) {
+                $day_hours = $hours[(string) $day_num];
+            }
+        }
+        $start = is_array($day_hours) ? (isset($day_hours['open']) ? $day_hours['open'] : (isset($day_hours['s_time']) ? $day_hours['s_time'] : '')) : '';
+        $end = is_array($day_hours) ? (isset($day_hours['close']) ? $day_hours['close'] : (isset($day_hours['e_time']) ? $day_hours['e_time'] : '')) : '';
+        if ($exception && !empty($exception->open_time) && !empty($exception->close_time)) {
+            $start = $exception->open_time;
+            $end = $exception->close_time;
+        }
+        if (!$start || !$end) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'No regular hours are available for this chamber on the selected day.',
+            )));
+            return;
+        }
+        $s_time = strtotime($date . ' ' . $start);
+        $e_time = strtotime($date . ' ' . $end);
+        if ($s_time === false || $e_time === false || $e_time <= $s_time) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'No regular hours are available for this chamber on the selected day.',
+            )));
+            return;
+        }
+        $slots = array();
+        for ($t = $s_time; $t < $e_time; $t += 1800) {
+            $slots[] = array(
+                'time' => date('H:i', $t),
+                'label' => date('g:i A', $t),
+                'available' => true,
+            );
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => true, 'slots' => $slots)));
     }
 
     public function request_otp()
@@ -80,14 +217,22 @@ class Portal extends MX_Controller
         $mobile = preg_replace('/\D+/', '', $this->input->post('mobile'));
         $ctx = $this->portal_model->getProfileBySlug($slug);
         if (!$ctx || !chamber_practice_enabled_for_hospital($this, (int) $ctx['profile']->hospital_id) || strlen($mobile) < 10) {
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false, 'msg' => 'Invalid request')));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'Invalid request',
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         $hid = (int) $ctx['profile']->hospital_id;
         $maxPer15 = 6;
         $recent = $this->portal_model->countRecentOtpRequests($hid, $mobile, time() - 900);
         if ($recent >= $maxPer15) {
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false, 'msg' => 'Too many OTP requests. Try again later.')));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'Too many requests. Please wait a few minutes and try again.',
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         $otpLib = $this->chamber_otp;
@@ -98,7 +243,10 @@ class Portal extends MX_Controller
         $this->_send_otp_sms($hid, $mobile, $plain);
         $this->session->set_userdata('portal_otp_mobile', $mobile);
         $this->session->set_userdata('portal_slug', $slug);
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => true)));
+        $this->output->set_content_type('application/json')->set_output(json_encode(array(
+            'ok' => true,
+            'csrf' => $this->security->get_csrf_hash(),
+        )));
     }
 
     public function verify_otp()
@@ -111,29 +259,47 @@ class Portal extends MX_Controller
         $code = trim($this->input->post('otp'));
         $ctx = $this->portal_model->getProfileBySlug($slug);
         if (!$ctx || !chamber_practice_enabled_for_hospital($this, (int) $ctx['profile']->hospital_id)) {
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false)));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         $hid = (int) $ctx['profile']->hospital_id;
         $row = $this->portal_model->getLatestOtp($hid, $mobile);
         if (!$row || strtotime($row->expires_at) < time()) {
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false, 'msg' => 'Expired')));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'This code has expired. Please request a new OTP.',
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         if ((int) $row->attempts >= 8) {
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false, 'msg' => 'Too many attempts')));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'Too many attempts. Please request a new OTP.',
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         if (!$this->chamber_otp->verify($code, $row->otp_hash)) {
             $this->portal_model->incrementOtpAttempts($row->id, (int) $row->attempts);
-            $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => false, 'msg' => 'Wrong code')));
+            $this->output->set_content_type('application/json')->set_output(json_encode(array(
+                'ok' => false,
+                'msg' => 'Incorrect code. Please try again.',
+                'csrf' => $this->security->get_csrf_hash(),
+            )));
             return;
         }
         $this->portal_model->markOtpVerified($row->id);
         $this->session->set_userdata('portal_verified_phone', $mobile);
         $this->session->set_userdata('portal_verified_hospital', $hid);
         $this->session->set_userdata('portal_slug', $slug);
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => true)));
+        $this->output->set_content_type('application/json')->set_output(json_encode(array(
+            'ok' => true,
+            'csrf' => $this->security->get_csrf_hash(),
+        )));
     }
 
     public function triage($slug = '')
@@ -222,6 +388,20 @@ class Portal extends MX_Controller
                 $s_time = $weekly[$day_key]['open'];
                 $e_time = $weekly[$day_key]['close'];
             }
+        }
+        $slot_time = $this->input->post('slot_time');
+        if (!empty($slot_time)) {
+            if (!preg_match('/^\d{2}:\d{2}$/', $slot_time)) {
+                show_error('Invalid slot time', 400);
+            }
+            $range_start = strtotime(date('Y-m-d', $qd_ts) . ' ' . $s_time);
+            $range_end = strtotime(date('Y-m-d', $qd_ts) . ' ' . $e_time);
+            $slot_start = strtotime(date('Y-m-d', $qd_ts) . ' ' . $slot_time);
+            if ($slot_start === false || $range_start === false || $range_end === false || $slot_start < $range_start || $slot_start >= $range_end) {
+                show_error('Invalid slot time', 400);
+            }
+            $s_time = date('H:i', $slot_start);
+            $e_time = date('H:i', $slot_start + 1800);
         }
         $maxBookingsPer10Min = 5;
         $recentBookings = $this->portal_model->countRecentPortalQueueBookings($hid, $phone, time() - 600);
@@ -374,6 +554,100 @@ class Portal extends MX_Controller
             'currency' => $currency,
         );
         $this->load->view('portal/layout_public', array('content' => $this->load->view('portal/book_success', $data, true)));
+    }
+
+    public function prescription($id = 0)
+    {
+        $id = (int) $id;
+        $phone = $this->session->userdata('portal_verified_phone');
+        if (!$phone || !$id) {
+            show_404();
+        }
+        $hospital_id = (int) $this->session->userdata('portal_verified_hospital');
+        $rx = $this->portal_model->getPrescriptionForPortal($id);
+        if (!$rx || (int) $rx->hospital_id !== $hospital_id) {
+            show_404();
+        }
+        $patient = $this->portal_model->findPatientByPhone($hospital_id, $phone);
+        if (!$patient || (int) $rx->patient !== (int) $patient->id) {
+            show_error('Access denied', 403);
+        }
+        $data = array(
+            'rx' => $rx,
+            'medicines' => $this->_parse_prescription_medicines($rx),
+            'patient' => $patient,
+            'rx_id' => $id,
+        );
+        $this->load->view('portal/layout_public', array('content' => $this->load->view('portal/rx_detail', $data, true)));
+    }
+
+    public function prescription_pdf($id = 0)
+    {
+        $id = (int) $id;
+        $phone = $this->session->userdata('portal_verified_phone');
+        if (!$phone || !$id) {
+            show_404();
+        }
+        $hospital_id = (int) $this->session->userdata('portal_verified_hospital');
+        $rx = $this->portal_model->getPrescriptionForPortal($id);
+        if (!$rx || (int) $rx->hospital_id !== $hospital_id) {
+            show_404();
+        }
+        $patient = $this->portal_model->findPatientByPhone($hospital_id, $phone);
+        if (!$patient || (int) $rx->patient !== (int) $patient->id) {
+            show_error('Access denied', 403);
+        }
+        $data = array(
+            'rx' => $rx,
+            'medicines' => $this->_parse_prescription_medicines($rx),
+            'patient' => $patient,
+            'rx_id' => $id,
+        );
+        $html = $this->load->view('portal/prescription_pdf_template', $data, true);
+        $tmp_dir = APPPATH . '../files/mpdf-tmp';
+        if (!is_dir($tmp_dir)) {
+            mkdir($tmp_dir, 0755, true);
+        }
+        $mpdf = new \Mpdf\Mpdf(array('format' => 'A4', 'tempDir' => $tmp_dir));
+        $mpdf->setAutoTopMargin = 'stretch';
+        $mpdf->setAutoBottomMargin = 'stretch';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('prescription-' . $id . '.pdf', 'D');
+        exit;
+    }
+
+    protected function _parse_prescription_medicines($rx)
+    {
+        $medicines = array();
+        if (empty($rx->medicine)) {
+            return $medicines;
+        }
+        $entries = explode('###', $rx->medicine);
+        foreach ($entries as $entry) {
+            $entry = trim($entry);
+            if ($entry === '') {
+                continue;
+            }
+            $fields = explode('***', $entry);
+            if (count($fields) < 4) {
+                continue;
+            }
+            $name = trim($fields[0]);
+            if (is_numeric($name)) {
+                $med_row = $this->db->get_where('medicine', array('id' => (int) $name), 1)->row();
+                if ($med_row) {
+                    $name = !empty($med_row->name) ? $med_row->name : (!empty($med_row->brand_name) ? $med_row->brand_name : $name);
+                }
+            }
+            $medicines[] = array(
+                'name' => $name,
+                'dose' => isset($fields[1]) ? trim($fields[1]) : '',
+                'frequency' => isset($fields[2]) ? trim($fields[2]) : '',
+                'days' => isset($fields[3]) ? trim($fields[3]) : '',
+                'instruction' => isset($fields[4]) ? trim($fields[4]) : '',
+            );
+        }
+        return $medicines;
     }
 
     protected function _send_otp_sms($hospital_id, $mobile, $plain)

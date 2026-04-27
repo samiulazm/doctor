@@ -32,7 +32,7 @@
                                     <div class="panel">
                                         <div class="panel-body">
                                             <div class="flex-wrapper">
-                                                <div style="display: flex; max-width: 4.9in; margin-top: 20px;">
+                                                <div>
                                                     <div>
                                                         <table id="labelTable">
                                                             <tr>
@@ -114,7 +114,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <section class="col-md-12 no-print">
-                                    <div class="panel" style="background: transparent !important;">
+                                    <div class="panel">
                                         <a class='btn btn-warning mb-2' onclick="window.print()"><i class='fa fa-print'></i> Print</a><br>
                                         <a class='btn btn-danger mb-2' href="<?php echo site_url('lab/labLabel90?id=' . $lab->id); ?>"><i class='fa fa-undo'></i> Rotate 90 Deg</a><br>
                                     </div>

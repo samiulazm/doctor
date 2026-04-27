@@ -66,7 +66,7 @@ if (!isset($payment_gateway) && isset($settings)) {
                                         </div>
                                     </div>
 
-                                    <div class="pos_client clearfix" style="display: none;">
+                                    <div class="pos_client clearfix">
                                         <div class="col-md-6 mb-4">
                                             <div class="form-group">
                                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('patient_name'); ?></label>
@@ -227,7 +227,7 @@ if (!isset($payment_gateway) && isset($settings)) {
                                                         </select>
                                                     </div>
 
-                                                    <div class="cardPayment" style="display:none;">
+                                                    <div class="cardPayment">
                                                         <?php if ($payment_gateway != 'Paymob') { ?>
                                                             <div class="form-group mb-4">
                                                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('accepted_cards'); ?></label>

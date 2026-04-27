@@ -53,7 +53,7 @@ if (!isset($payment)) {
                                         <label class="font-weight-bold text-dark mb-2">
                                             <i class="fas fa-search mr-1"></i>Search Medicine
                                         </label>
-                                        <div class="select2-wrapper" style="position: relative;">
+                                        <div class="select2-wrapper">
                                             <select id="medicineSearch" class="form-control form-control-lg select2" style="width: 100%;">
                                                 <option value="">Type to search medicines...</option>
                                             </select>
@@ -180,7 +180,7 @@ if (!isset($payment)) {
                         </div>
 
                         <!-- Stock Alerts -->
-                        <div class="card shadow-lg border-0 mb-4" id="stockAlerts" style="display: none;">
+                        <div class="card shadow-lg border-0 mb-4" id="stockAlerts">
                             <div class="card-header bg-warning text-dark">
                                 <h6 class="mb-0">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>Stock Alerts

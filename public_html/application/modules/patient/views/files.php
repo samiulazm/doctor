@@ -101,7 +101,7 @@
 
                         <div class="panel-body">
                             <?php foreach ($patient_materials as $patient_material) { ?>
-                                <div class="panel col-md-3 patient_material_delete" style="">
+                                <div class="panel col-md-3 patient_material_delete">
                                     <a class="btn btn-info btn-xs btn_width" href="patient/deletePatientMaterial?id=<?php echo $patient_material->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"> X </a>
                                     <div class="post-info">
                                         <img src="<?php echo $patient_material->url; ?>" width="100%">

@@ -45,7 +45,7 @@
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="mt-3 mb-3 badge badge-warning">
+                            <div class="mt-3 mb-3 ap-status ap-status-warning">
                                 <?php echo validation_errors(); ?>
                             </div>
                             <form role="form" action="report/addReport" method="post" enctype="multipart/form-data">

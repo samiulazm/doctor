@@ -74,7 +74,7 @@ class Payroll extends MX_Controller
                 $data['employees'][$count][0] = $this->db->get_where('users', array('id' => $result->staff))->row()->username;
                 $data['employees'][$count][1] = $salary2;
                 $data['employees'][$count][2] = $result->paid_on;
-                $data['employees'][$count][3] = $result->status == 'Generated' ? '<span class="badge badge-warning">' . lang('generated') . '</span>' : '<span class="badge badge-success">' . lang('paid') . '</span>';
+                $data['employees'][$count][3] = $result->status == 'Generated' ? '<span class="ap-status ap-status-warning">' . lang('generated') . '</span>' : '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 $data['employees'][$count][4] = '<a href="payroll/download?id=' . $result->id . '&month=' . date('F') . '&year=' . date('Y') . '" class="btn btn-primary" data-id="">' . lang('invoice') . '</a> <a href="payroll/editPayroll?id=' . $result->id . '" class="btn btn-primary editPayroll" data-id="">' . lang('edit') . '</a>';
 
                 $count++;
@@ -129,7 +129,7 @@ class Payroll extends MX_Controller
                 $data['employees'][$count][0] = $months[$i];
                 $data['employees'][$count][1] = $salary2;
                 $data['employees'][$count][2] = $result->paid_on;
-                $data['employees'][$count][3] = $result->status == 'Generated' ? '<span class="badge badge-warning">' . lang('generated') . '</span>' : '<span class="badge badge-success">' . lang('paid') . '</span>';
+                $data['employees'][$count][3] = $result->status == 'Generated' ? '<span class="ap-status ap-status-warning">' . lang('generated') . '</span>' : '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 $data['employees'][$count][4] = '<a href="payroll/download?id=' . $result->id . '&month=' . date('F') . '&year=' . date('Y') . '" class="btn btn-primary" data-id="">' . lang('invoice') . '</a>';
 
                 $count++;
@@ -203,7 +203,7 @@ class Payroll extends MX_Controller
         $data['redirect'] = 'download';
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
         $mpdf->SetHTMLFooter('
-<div style="font-weight: bold; font-size: 8pt; font-style: italic;">
+<div>
      ' . lang('user') . ' : ' . $this->ion_auth->user()->row()->username . '
 </div>', 'O');
         $html = $this->load->view('payrollInvoice', $data, true);
@@ -406,7 +406,7 @@ class Payroll extends MX_Controller
             if ($result->status == 'Generated') {
                 $status .= '<span class="badge badge-secondary">' . lang('generated') . '</span>';
             } else if ($result->status == 'Paid') {
-                $status .= '<span class="badge badge-success">' . lang('paid') . '</span>';
+                $status .= '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
             }
 
             $table .= '<tr><td>' . $user->username . '</td>';
@@ -492,7 +492,7 @@ class Payroll extends MX_Controller
                 if ($result->status == 'Generated') {
                     $status .= '<span class="badge badge-secondary">' . lang('generated') . '</span>';
                 } else if ($result->status == 'Paid') {
-                    $status .= '<span class="badge badge-success">' . lang('paid') . '</span>';
+                    $status .= '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 }
 
                 $table .= '<tr><td>' . $user->username . '</td>';
@@ -722,7 +722,7 @@ $total = $exp + $earning - $deduction;
                     if ($result->status == 'Generated') {
                         $status .= '<span class="badge badge-secondary">' . lang('generated') . '</span>';
                     } else if ($result->status == 'Paid') {
-                        $status .= '<span class="badge badge-success">' . lang('paid') . '</span>';
+                        $status .= '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                     }
 
                     $table .= '<tr><td>' . $month[$i] . '</td>';
@@ -761,7 +761,7 @@ $total = $exp + $earning - $deduction;
                     if ($result->status == 'Generated') {
                         $status .= '<span class="badge badge-secondary">' . lang('generated') . '</span>';
                     } else if ($result->status == 'Paid') {
-                        $status .= '<span class="badge badge-success">' . lang('paid') . '</span>';
+                        $status .= '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                     }
 
                     $table .= '<tr><td>' . $month[$i] . '</td>';

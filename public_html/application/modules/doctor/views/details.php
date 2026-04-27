@@ -88,14 +88,14 @@
                                                                 $total_due = $payment_details->gross_total - $total_deposited_amount;
                                                                 if ($payment_details->gross_total == $total_due) {
                                                                     if ($payment_details->gross_total != 0) {
-                                                                        $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                                                                        $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                                                                     } else {
                                                                         $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                                                     }
                                                                 } elseif ($total_due == 0) {
                                                                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                                                 } else {
-                                                                    $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                                                                    $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
                                                                 }
 
 
@@ -134,7 +134,7 @@
                                             <div class="">
                                                 <div class="adv-table editable-table ">
                                                     <?php if (!empty($appointment_patients)) { ?>
-                                                        <table class="table table-striped table-hover table-bordered patient_datatable" id="editable-sample">
+                                                        <table class="table table-striped table-hover table-bordered patient_datatable" id="dt-doctor" data-legacy-table="editable-sample">
                                                             <thead>
                                                                 <tr>
                                                                     <th><?php echo lang('patient_id'); ?></th>
@@ -172,7 +172,7 @@
                                                     </div>
                                                 <?php } ?>
                                                 <div class="adv-table editable-table ">
-                                                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor" data-legacy-table="editable-sample">
                                                         <thead>
                                                             <tr>
 
@@ -275,7 +275,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="adv-table editable-table ">
-                                                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor" data-legacy-table="editable-sample">
                                                         <thead>
                                                             <tr>
                                                                 <th> # </th>

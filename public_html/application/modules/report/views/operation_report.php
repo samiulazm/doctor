@@ -33,7 +33,7 @@ $CI = get_instance();
                         <div class="card-body p-4">
                             <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered align-middle text-sm mb-0" id="editable-sample">
+                                <table class="table table-hover table-bordered align-middle text-sm mb-0" id="dt-report" data-legacy-table="editable-sample">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-uppercase"><?php echo lang('patient'); ?></th>

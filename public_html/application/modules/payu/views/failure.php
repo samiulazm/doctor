@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
@@ -41,37 +41,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ul>
 
 	</div>
-	
-</nav>	
+
+</nav>
 <!-- End Bootstrap 4 Navbar -->
 
 
 
 <div class="container mt-5">
 <div class="row">
-    <div class="col-md-2"></div>  
+    <div class="col-md-2"></div>
      <div class="col-md-8 text-center">
-     	<div class="card">
-    		<h4 class="card-header">Transaction <label for="failure" class="badge badge-danger">Failed</label></h4>
-    		<div class="card-body">
-    			<?php 
+	<div class="card">
+	<h4 class="card-header">Transaction <label for="failure" class="ap-status ap-status-danger">Failed</label></h4>
+	<div class="card-body">
+	<?php
 	                echo "<p>Your order status is ". $status ."..</br>";
 	                echo "Your transaction id for this transaction is ".$txnid.". <br>Contact our customer support.</p>";
 	                echo "<a href='".base_url()."' class='btn btn-sm float-left btn-info'> < - Go Back</a>";
 	            ?>
-    		</div>
-    	</div>
-     </div> 
+	</div>
+	</div>
+     </div>
     <div class="col-md-2"></div>
 </div>
 <!-- Footer -->
 
 <footer style="position: absolute;bottom:0; width: 90%;">
 	<hr>
-	<p>Copyright &copy; <?php echo date('Y'); ?>  
+	<p>Copyright &copy; <?php echo date('Y'); ?>
 		<span class="float-right">Coded with Love &hearts;	: <a href="https://facebook.com/anburocky3" target="_blank">Anbuselvan Rocky</a></span></p>
 </footer>
-</div> 
+</div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <link href="common/extranal/css/appointment/add_new.css" rel="stylesheet">
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-5 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -56,7 +56,7 @@
                                         <?php } ?>
                                     </div>
 
-                                    <div class="pos_client clearfix" style="display: none;">
+                                    <div class="pos_client clearfix">
                                         <div class="form-group mb-4">
                                             <label class="text-uppercase text-muted font-weight-bold">Patient Name</label>
                                             <input type="text" class="form-control form-control-lg shadow-sm" name="p_name" value='<?php if (!empty($payment->p_name)) {
@@ -180,7 +180,7 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="cardPayment" style="display:none;">
+                                                <div class="cardPayment">
                                                     <?php if ($payment_gateway != 'Paymob') { ?>
                                                         <div class="form-group mb-4">
                                                             <label class="text-uppercase text-muted font-weight-bold"><?php echo lang('accepted_cards'); ?></label>

@@ -141,7 +141,6 @@
                 var ids = [];
                 $('#queueBody tr').each(function(){ ids.push($(this).data('id')); });
                 $.post('<?php echo site_url('assistant_chamber/queue_reorder'); ?>', {
-                    <?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>',
                     order: ids
                 }, function(){ alert('Order saved'); }, 'json');
             });

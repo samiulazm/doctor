@@ -354,14 +354,14 @@
                                                                         $total_due = $payment_details->gross_total - $total_deposited_amount;
                                                                         if ($payment_details->gross_total == $total_due) {
                                                                             if ($payment_details->gross_total != 0) {
-                                                                                $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                                                                                $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                                                                             } else {
                                                                                 $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                                                             }
                                                                         } elseif ($total_due == 0) {
                                                                             $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                                                         } else {
-                                                                            $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                                                                            $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
                                                                         }
                                                                         ?>
 
@@ -535,8 +535,7 @@
         }
     }
                                                                 </style>
-                                                                <div
-                                                                    style=" width:40%; margin-left: 20px; margin-right:20px; margin-bottom: 60px; float:left;">
+                                                                <div>
                                                                     <ul class="clickUl">
                                                                         <li><a data-id="1" id="1" onClick="cause(this.id)"
                                                                                 style="background:#00ba72; color:#fff;">K</a>
@@ -1232,7 +1231,7 @@
                                                                 <input type="hidden" name="redirect_tab" value="odontogram">
                                                                 <input type="hidden" name="patient_id"
                                                                     value="<?php echo $patient->id; ?>"></input>
-                                                                <div style=" float:left; width:50%; margin-top:80px; ">
+                                                                <div>
                                                                     <label
                                                                         style="font-size: 20px;"><?php echo lang('description'); ?></label>
                                                                     <textarea
@@ -1250,7 +1249,7 @@
                                                                         style="color: #fff; background-color: #39B27C !important;"
                                                                         value="<?php echo lang('submit'); ?>">
                                                                 </div>
-                                                                <div style="clear:both"></div>
+                                                                <div></div>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -2530,8 +2529,7 @@ $('#printButtonn').click(function() {
     </div><!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade modal-enhanced" id="myModalff" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-    style="display: none;">
+<div class="modal fade modal-enhanced" id="myModalff" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

@@ -9,7 +9,7 @@
                         <h3 class="verifyTitle"><?php echo lang('purchase_code_verification') ?></h3>
                     </header>
                     <div class="block1">
-                        <div class="login-wrap" style="text-align:center; padding:30px;">
+                        <div class="login-wrap">
                             <p style="color:green; font-size:18px; font-weight:bold;">Verified</p>
                             <a class="btn btn-lg btn-login btn-block" href="home">Home</a>
                         </div>

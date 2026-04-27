@@ -34,7 +34,7 @@
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Widgets
-                <span class="right badge badge-danger">New</span>
+                <span class="right ap-status ap-status-danger">New</span>
               </p>
             </a>
           </li>
@@ -44,7 +44,7 @@
               <p>
                 Layout Options
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
+                <span class="ap-status ap-status-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -262,7 +262,7 @@
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
                 Calendar
-                <span class="badge badge-info right">2</span>
+                <span class="ap-status ap-status-info right">2</span>
               </p>
             </a>
           </li>

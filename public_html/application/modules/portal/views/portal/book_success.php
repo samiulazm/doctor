@@ -17,6 +17,13 @@
             <a class="btn btn-outline-secondary" href="<?php echo site_url('payment_bd/init_bkash?queue_id=' . (int) $queue_id); ?>"><i class="fas fa-wallet mr-1"></i> Pay with bKash</a>
         </div>
     <?php endif; ?>
+    <?php if (!empty($queue_id)) : ?>
+        <p class="mt-3 mb-2">
+            <a class="btn btn-outline-primary" href="<?php echo site_url('portal/queue/' . (int) $queue_id); ?>">
+                <i class="fas fa-clock mr-1"></i> View my queue status
+            </a>
+        </p>
+    <?php endif; ?>
     <p class="mt-3"><a class="btn btn-primary" href="<?php echo site_url('portal/d/' . rawurlencode($slug)); ?>">Back</a></p>
     </div>
 </div>

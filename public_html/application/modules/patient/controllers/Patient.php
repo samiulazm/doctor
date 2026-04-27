@@ -1079,7 +1079,7 @@ $case_id = $this->input->get('case_id');
             if (in_array('prescription', $this->modules)) {
                 $timeline[$prescription->date + 2] = '<div class="card-body profile-activity">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="badge badge-info px-3 py-2">' . lang('prescription') . '</h5>
+                        <h5 class="ap-status ap-status-info px-3 py-2">' . lang('prescription') . '</h5>
                         <h5 class="text-muted">' . date('d M Y', $prescription->date) . '</h5>
                     </div>
                     <div class="activity bg-light rounded p-3">
@@ -1108,7 +1108,7 @@ $case_id = $this->input->get('case_id');
             if (in_array('lab', $this->modules)) {
                 $timeline[$lab->date + 3] = '<div class="card-body profile-activity">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="badge badge-warning px-3 py-2">' . lang('lab') . '</h5>
+                        <h5 class="ap-status ap-status-warning px-3 py-2">' . lang('lab') . '</h5>
                         <h5 class="text-muted">' . date('d M Y', $lab->date) . '</h5>
                     </div>
                     <div class="activity bg-light rounded p-3">
@@ -1133,7 +1133,7 @@ $case_id = $this->input->get('case_id');
         foreach ($data['medical_histories'] as $medical_history) {
             $timeline[$medical_history->date + 4] = '<div class="card-body profile-activity">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="badge badge-success px-3 py-2">' . lang('case_history') . '</h5>
+                    <h5 class="ap-status ap-status-success px-3 py-2">' . lang('case_history') . '</h5>
                     <h5 class="text-muted">' . date('d M Y', $medical_history->date) . '</h5>
                 </div>
                 <div class="activity bg-light rounded p-3">
@@ -1638,8 +1638,8 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $info[] = array(
                     '<span class="badge badge-secondary">#' . $patient->id . '</span>',
                     '<strong>' . $patient->name . '</strong>',
-                    '<span class="badge badge-info">' . $patient->phone . '</span>',
-                    '<span class="badge badge-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
+                    '<span class="ap-status ap-status-info">' . $patient->phone . '</span>',
+                    '<span class="ap-status ap-status-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
                     $options1 . ' ' . $options6 . '  ' . $options3 . ' ' . $options4 . ' ' . $options5
                 );
             }
@@ -1648,8 +1648,8 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $info[] = array(
                     '<span class="badge badge-secondary">#' . $patient->id . '</span>',
                     '<strong>' . $patient->name . '</strong>',
-                    '<span class="badge badge-info">' . $patient->phone . '</span>',
-                    '<span class="badge badge-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
+                    '<span class="ap-status ap-status-info">' . $patient->phone . '</span>',
+                    '<span class="ap-status ap-status-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
                     $options1 . ' ' . $options6 . '  ' . $options3 . ' ' . $options4
                 );
             }
@@ -1658,8 +1658,8 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $info[] = array(
                     '<span class="badge badge-secondary">#' . $patient->id . '</span>',
                     '<strong>' . $patient->name . '</strong>',
-                    '<span class="badge badge-info">' . $patient->phone . '</span>',
-                    '<span class="badge badge-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
+                    '<span class="ap-status ap-status-info">' . $patient->phone . '</span>',
+                    '<span class="ap-status ap-status-success">' . $this->settings_model->getSettings()->currency . $this->patient_model->getDueBalanceByPatientId($patient->id) . '</span>',
                     $options1 . ' ' . $options6 . ' ' . $options4
                 );
             }
@@ -1668,7 +1668,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                 $info[] = array(
                     '<span class="badge badge-secondary">#' . $patient->id . '</span>',
                     '<strong>' . $patient->name . '</strong>',
-                    '<span class="badge badge-info">' . $patient->phone . '</span>',
+                    '<span class="ap-status ap-status-info">' . $patient->phone . '</span>',
                     $options1 . ' ' . $options6 . '  ' . $options3
                 );
             }
@@ -2384,7 +2384,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
             $patient_material = '
             
-                                            <div class="card col-md-3"  style="height: 200px; margin-right: 10px; margin-bottom: 36px; background: #f1f1f1; padding: 34px;">
+                                            <div class="card col-md-3">
 
                                                 <div class="post-info">
                                                     <img src="' . $patient_material->url . '" height="100" width="100">
@@ -2484,7 +2484,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                  <input type="hidden" id="t3" name="tooth[Tooth3]" value="' . $odontogram->Tooth3 . '"></input>
                  <input type="hidden" id="t2" name="tooth[Tooth2]" value="' . $odontogram->Tooth2 . '"></input>
                  <input type="hidden" id="t1" name="tooth[Tooth1]" value="' . $odontogram->Tooth1 . '"></input>
-<div style=" width:40%; margin-left: 20px; margin-right:20px; margin-bottom: 60px; float:left;">
+<div>
                      <ul class="clickUl">
                          <li><a data-id="1" id="1" onClick="cause(this.id)" style="background:#00ba72; color:#fff;">K</a></li>
                          <li><a data-id="2" id="2" onClick="cause(this.id)" style="background:#004eff; color:#fff;">C</a></li>
@@ -2860,7 +2860,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
 </div>
 <input type="hidden" name="patient_id" value="' . $patient->id . '"></input>
-<div style=" float:left; width:50%; margin-top:80px; ">
+<div>
                      <label style="font-size: 20px;">' . lang('description') . '</label>
                      <textarea style=" width:100%; height:150px; padding:10px; font-size:1.2em; resize:none;" name="description">' . $description . '</textarea>
                      <input type="submit" class="btn btn-info btn-md" style="color: #fff; background-color: #39B27C !important;" value="' . lang('submit') . '">
@@ -3493,7 +3493,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
 
         $data['redirect'] = 'download';
-        $header = '<div id="invoice_header" style="width:100%;">
+        $header = '<div id="invoice_header">
                         <table class="info_rer">
                             <tr class="tr_info">
 
@@ -3501,7 +3501,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                                     <img class="img_class_logo" alt="" src="' . $this->settings_model->getSettings()->logo . '" width="120">
                                     <br>
                                     
-                                        <div style="">
+                                        <div>
                                         
                                         <strong id="invoice_word">' . lang('invoice') . '</strong><br>
                                        
@@ -3514,7 +3514,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
                                 </td>
                                 <td class="second_td">
                                    
-                                        <div class="paragraphprint col-md-12" style="padding-top:-20px;">
+                                        <div class="paragraphprint col-md-12">
                                             <p style="font-size:18px !important;margin-top: -20px; font-weight:800; ">
                                             <h4>
                                                 ' . $settings1->title . '
@@ -3663,7 +3663,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             //$this->autoMarginPadding = 300;
             $mpdf->setAutoBottomMargin = 'stretch';
             $mpdf->SetHTMLFooter('
-        <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+        <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
             $html = $this->load->view('finance/invoiceA4_download', $data, true);
         } else {
@@ -3677,7 +3677,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
             // We disabled A5 download for patient login by commenting this line of code.
             $html = $this->load->view('fiance/invoiceA4_download', $data, true);
             $mpdf->SetHTMLFooter('
-        <div style="text-align:center;font-weight: bold; font-size: 7pt; !important;">' .
+        <div>' .
                 $settings1->footer_invoice_message . '</div>', 'O');
         }
 

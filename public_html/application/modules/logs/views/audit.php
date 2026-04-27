@@ -91,7 +91,7 @@
                             <div class="d-flex justify-content-between align-items-center audit-meta-row">
                                 <span class="text-muted small text-uppercase"><?php echo lang('logging'); ?></span>
                                 <?php if (!empty($audit_log_enabled)) { ?>
-                                    <span class="badge badge-success"><i class="fas fa-circle mr-1 audit-pulse-dot"></i><?php echo lang('active'); ?></span>
+                                    <span class="ap-status ap-status-success"><i class="fas fa-circle mr-1 audit-pulse-dot"></i><?php echo lang('active'); ?></span>
                                 <?php } else { ?>
                                     <span class="badge badge-light border"><i class="fas fa-pause mr-1"></i><?php echo lang('inactive'); ?></span>
                                 <?php } ?>

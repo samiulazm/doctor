@@ -44,7 +44,7 @@
                             <div class="row">
                                 <?php for ($i = 1; $i < 7; $i++) { ?>
                                     <div class=" labelSection col-md-6">
-                                        <div style="margin-bottom: 50px;">
+                                        <div>
                                             <table id="labelTable" style="float: left;">
                                                 <tr>
                                                     <td>PID: <?php echo $patient->id; ?></td>
@@ -81,7 +81,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <div class="barcodeVertical" style="float: right">
+                                            <div class="barcodeVertical">
                                                 <img alt="testing" src="<?php echo site_url('lab/barcode') ?>?text=000000000<?php echo $bed->id; ?>&print=true&orientation=vertical" />
                                             </div>
 

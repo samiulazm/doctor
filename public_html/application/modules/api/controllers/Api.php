@@ -542,7 +542,7 @@ class Api extends MX_Controller
         $data['redirect'] = 'download';
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
         $mpdf->SetHTMLFooter('
-        <div style="font-weight: bold; font-size: 8pt; font-style: italic;">
+        <div>
              ' . lang('user') . ' : ' . $this->ion_auth->user()->row()->username . '
         </div>', 'O');
         $html = $this->load->view('prescription/prescription_view_download', $data, true);

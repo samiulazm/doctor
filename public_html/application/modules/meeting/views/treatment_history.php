@@ -58,7 +58,7 @@
                         ?> 
                     </div>
 
-                    <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                    <table class="table table-striped table-hover table-bordered" id="dt-meeting" data-legacy-table="editable-sample">
                         <thead>
                             <tr>
                                 <th> <?php  echo lang('doctor_id'); ?></th>

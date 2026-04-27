@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="card-body bg-light p-4">
-                            <table class="table table-hover datatables" id="editable-sample" width="100%">
+                            <table class="table table-hover datatables" id="dt-insurance" data-legacy-table="editable-sample" width="100%">
                                 <thead>
                                     <tr class="bg-light">
                                         <th class="font-weight-bold text-uppercase"><?php echo lang('name'); ?></th>

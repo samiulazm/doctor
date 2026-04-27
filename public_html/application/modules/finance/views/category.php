@@ -3,7 +3,7 @@
 
 
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-light">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -40,7 +40,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover" id="editable-sample">
+                                <table class="table table-bordered table-hover" id="dt-finance" data-legacy-table="editable-sample">
                                     <thead>
                                         <tr>
                                             <th><?php echo lang('category'); ?></th>

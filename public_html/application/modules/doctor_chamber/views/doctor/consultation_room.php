@@ -104,7 +104,7 @@ if (!empty($favorites)) {
                     <div class="chamber-panel-body">
                         <?php if ($patient) : ?>
                             <p class="small text-muted mb-2">Full composer embedded below (same workflow as the main prescription screen).</p>
-                            <div class="border rounded bg-white" style="min-height:52rem;">
+                            <div class="border rounded bg-white">
                                 <iframe class="w-100" style="min-height:52rem;border:0;" title="Prescription composer"
                                     src="<?php echo site_url('prescription/addPrescriptionView?embed=1&patient=' . (int) $patient->id); ?>"></iframe>
                             </div>

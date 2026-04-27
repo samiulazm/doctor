@@ -137,7 +137,7 @@ $CI = get_instance();
                     <div class="card shadow-sm border-0 appointment-list-card">
                         <div class="card-header bg-white border-bottom py-3 d-flex flex-wrap justify-content-between align-items-center">
                             <h3 class="card-title h6 mb-0 text-muted text-uppercase"><?php echo lang('medicines'); ?> <?php echo lang('expiring'); ?> <?php echo lang('within'); ?> 90 <?php echo lang('days'); ?></h3>
-                            <span class="badge badge-info">
+                            <span class="ap-status ap-status-info">
                                 <?php echo lang('total'); ?>: <?php echo count($expiring_medicines); ?> <?php echo lang('batches'); ?>
                             </span>
                         </div>
@@ -204,28 +204,28 @@ $CI = get_instance();
                                             <td>
                                                 <?php 
                                                 if ($is_expired) {
-                                                    echo '<span class="badge badge-danger">' . lang('expired') . ' ' . abs($days_to_expiry) . ' ' . lang('days') . ' ' . lang('ago') . '</span>';
+                                                    echo '<span class="ap-status ap-status-danger">' . lang('expired') . ' ' . abs($days_to_expiry) . ' ' . lang('days') . ' ' . lang('ago') . '</span>';
                                                 } elseif ($days_to_expiry <= 0) {
-                                                    echo '<span class="badge badge-danger">' . lang('expires') . ' ' . lang('today') . '</span>';
+                                                    echo '<span class="ap-status ap-status-danger">' . lang('expires') . ' ' . lang('today') . '</span>';
                                                 } elseif ($days_to_expiry <= 7) {
-                                                    echo '<span class="badge badge-danger">' . $days_to_expiry . ' ' . lang('days') . '</span>';
+                                                    echo '<span class="ap-status ap-status-danger">' . $days_to_expiry . ' ' . lang('days') . '</span>';
                                                 } elseif ($days_to_expiry <= 30) {
-                                                    echo '<span class="badge badge-warning">' . $days_to_expiry . ' ' . lang('days') . '</span>';
+                                                    echo '<span class="ap-status ap-status-warning">' . $days_to_expiry . ' ' . lang('days') . '</span>';
                                                 } else {
-                                                    echo '<span class="badge badge-info">' . $days_to_expiry . ' ' . lang('days') . '</span>';
+                                                    echo '<span class="ap-status ap-status-info">' . $days_to_expiry . ' ' . lang('days') . '</span>';
                                                 }
                                                 ?>
                                             </td>
                                             <td>
                                                 <?php 
                                                 if ($is_expired) {
-                                                    echo '<span class="badge badge-danger">' . lang('expired') . '</span>';
+                                                    echo '<span class="ap-status ap-status-danger">' . lang('expired') . '</span>';
                                                 } elseif ($days_to_expiry <= 7) {
-                                                    echo '<span class="badge badge-danger">' . lang('critical') . '</span>';
+                                                    echo '<span class="ap-status ap-status-danger">' . lang('critical') . '</span>';
                                                 } elseif ($days_to_expiry <= 30) {
-                                                    echo '<span class="badge badge-warning">' . lang('warning') . '</span>';
+                                                    echo '<span class="ap-status ap-status-warning">' . lang('warning') . '</span>';
                                                 } else {
-                                                    echo '<span class="badge badge-info">' . lang('watch') . '</span>';
+                                                    echo '<span class="ap-status ap-status-info">' . lang('watch') . '</span>';
                                                 }
                                                 ?>
                                             </td>

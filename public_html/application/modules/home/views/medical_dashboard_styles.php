@@ -562,7 +562,7 @@ function showNotification(message, type = 'info') {
         backdrop-filter: blur(10px);
     `;
     notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div>
             <i class="fas fa-${type === 'emergency' ? 'exclamation-triangle' : 'info-circle'}"></i>
             <span>${message}</span>
             <button type="button" class="close ml-auto" onclick="this.parentElement.parentElement.remove()">

@@ -36,7 +36,7 @@ if (!isset($leave_types) || !is_array($leave_types)) {
                         <div class="card-body p-4">
                             <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="editable-sample" width="100%">
+                                <table class="table table-hover table-bordered align-middle text-sm datatables mb-0" id="dt-leave" data-legacy-table="editable-sample" width="100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-uppercase"><?php echo lang('employee'); ?></th>

@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="card">
 				<h5 class="card-header bg-primary text-white">Help in Integrating PayUMoney</h5>
 				<div class="card-body">
-					<div style="line-height:3rem">
+					<div>
 						<h6>Quick steps to integrate to your web/app on the go!</h6>
 						<ol>
 							<li> Clone the repository <code>git clone https://github.com/anburocky3/PayUMoney-Gateway-Integration-CodeIgniter.git</code> </li>

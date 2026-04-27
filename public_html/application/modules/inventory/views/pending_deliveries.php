@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -189,7 +189,7 @@
                                                     <?php echo date('Y-m-d', strtotime($order->expected_delivery_date)); ?>
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-danger"><?php echo $days_overdue; ?> days</span>
+                                                    <span class="ap-status ap-status-danger"><?php echo $days_overdue; ?> days</span>
                                                 </td>
                                                 <td class="font-weight-bold text-success">
                                                     <?php echo $settings->currency; ?> <?php echo number_format($order->grand_total, 2); ?>

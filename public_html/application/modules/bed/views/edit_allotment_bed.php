@@ -762,7 +762,7 @@ if (!empty($service->payment_id)) {
                                                                                                                                                 echo $allotment->id;
                                                                                                                                             }
                                                                                                                                             ?>">
-                                                                        <div class="col-md-3" style="margin-top: 23px;">
+                                                                        <div class="col-md-3">
                                                                             <button type="submit" name="submit"
                                                                                 class="btn btn-sm btn-info float-right block_content mt-2"><i
                                                                                     class="fa fa-save"></i>Save</button>
@@ -934,7 +934,7 @@ if (!empty($service->payment_id)) {
                                                                                                                                             if (!empty($allotment->id)) {
                                                                                                                                                 echo $allotment->id;
                                                                                                                                             }                                                                ?>">
-                                                                        <div class="col-md-3" style="margin-top: 32px;">
+                                                                        <div class="col-md-3">
                                                                             <button type="submit" name="submit"
                                                                                 class="btn btn-sm btn-info float-right block_content"><i
                                                                                     class="fa fa-save"></i>Save</button>

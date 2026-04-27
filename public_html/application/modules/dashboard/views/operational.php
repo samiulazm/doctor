@@ -294,7 +294,7 @@
                                 <strong><?php echo $item->name; ?></strong>
                                 <br><small>Current: <?php echo $item->current_stock; ?> | Min: <?php echo $item->minimum_stock; ?></small>
                             </div>
-                            <div class="metric-value" style="font-size: 1.2rem; color: <?php echo $item->current_stock <= $item->minimum_stock * 0.5 ? '#e74c3c' : '#f39c12'; ?>;">
+                            <div class="metric-value">
                                 <?php echo round(($item->current_stock / $item->minimum_stock) * 100, 0); ?>%
                             </div>
                         </div>
@@ -323,7 +323,7 @@
                                 <br><small>Department: <?php echo $queue->department; ?></small>
                             </div>
                             <div>
-                                <div class="metric-value" style="font-size: 1rem;">
+                                <div class="metric-value">
                                     <?php echo $queue->wait_time; ?> min
                                 </div>
                                 <small><?php echo ucfirst($queue->status); ?></small>
@@ -385,7 +385,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="metric-card">
-                                <div class="metric-value" style="color: #27ae60;">
+                                <div class="metric-value">
                                     <i class="fas fa-check-circle"></i>
                                 </div>
                                 <div class="metric-label">System Status</div>
@@ -396,7 +396,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="metric-card">
-                                <div class="metric-value" style="color: #3498db;">
+                                <div class="metric-value">
                                     <i class="fas fa-database"></i>
                                 </div>
                                 <div class="metric-label">Database</div>
@@ -407,7 +407,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="metric-card">
-                                <div class="metric-value" style="color: #f39c12;">
+                                <div class="metric-value">
                                     <i class="fas fa-server"></i>
                                 </div>
                                 <div class="metric-label">Server Load</div>
@@ -418,7 +418,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="metric-card">
-                                <div class="metric-value" style="color: #27ae60;">
+                                <div class="metric-value">
                                     <i class="fas fa-wifi"></i>
                                 </div>
                                 <div class="metric-label">Network</div>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ai_patient_overview extends MX_Controller
@@ -14,7 +14,7 @@ class Ai_patient_overview extends MX_Controller
         $this->load->library('session');
         $this->load->helper('url');
         $this->load->helper('form');
-        
+
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login', 'refresh');
         }
@@ -25,7 +25,7 @@ class Ai_patient_overview extends MX_Controller
         try {
             $data['patients'] = $this->patient_model->getPatient();
             $data['settings'] = $this->settings_model->getSettings();
-            
+
             // Get doctors based on user role
             if ($this->ion_auth->in_group('Doctor')) {
                 $current_user_id = $this->ion_auth->user()->row()->id;
@@ -38,16 +38,16 @@ class Ai_patient_overview extends MX_Controller
             } else {
                 $data['doctors'] = $this->doctor_model->getDoctor();
             }
-            
+
             $this->load->view('home/dashboard', $data);
             $this->load->view('index', $data);
             $this->load->view('home/footer');
-             
+
         } catch (Exception $e) {
             log_message('error', 'AI Patient Overview Error: ' . $e->getMessage());
             show_error('An error occurred while loading the page.');
         }
-    } 
+    }
 
     public function getPatientOverview()
     {
@@ -57,7 +57,7 @@ class Ai_patient_overview extends MX_Controller
 
         $patient_id = $this->input->post('patient_id');
         $doctor_id = $this->input->post('doctor_id');
-        
+
         if (!$patient_id) {
             echo json_encode(['success' => false, 'message' => 'Patient ID is required']);
             return;
@@ -66,7 +66,7 @@ class Ai_patient_overview extends MX_Controller
         try {
             // Collect all patient data
             $patient_data = $this->ai_patient_overview_model->collectPatientData($patient_id);
-            
+
             if (empty($patient_data)) {
                 echo json_encode(['success' => false, 'message' => 'No data found for this patient']);
                 return;
@@ -74,17 +74,17 @@ class Ai_patient_overview extends MX_Controller
 
             // Generate AI analysis (doctor_id is optional)
             $ai_analysis = $this->generateAIAnalysis($patient_data, $patient_id, $doctor_id);
-            
+
             // Save the analysis (use null doctor_id if not provided)
             $analysis_id = $this->ai_patient_overview_model->saveAnalysis($patient_id, $doctor_id, $ai_analysis);
-            
+
             echo json_encode([
                 'success' => true,
                 'analysis_id' => $analysis_id,
                 'patient_data' => $patient_data,
                 'ai_analysis' => $ai_analysis
             ]);
-            
+
         } catch (Exception $e) {
             log_message('error', 'AI Patient Overview Analysis Error: ' . $e->getMessage());
             echo json_encode(['success' => false, 'message' => 'Error generating analysis: ' . $e->getMessage()]);
@@ -96,17 +96,17 @@ class Ai_patient_overview extends MX_Controller
         // Get API key from environment-backed config
         $this->config->load('openai');
         $api_key = $this->config->item('openai_api_key');
-        
+
         if (empty($api_key)) {
             throw new Exception('OpenAI API key not configured');
         }
 
         // Prepare the comprehensive prompt
         $prompt = $this->prepareAnalysisPrompt($patient_data, $patient_id, $doctor_id);
-        
+
         $data = array(
             'model' => 'gpt-4.1',
-            'messages' => array( 
+            'messages' => array(
                 array(
                     'role' => 'user',
                     'content' => $prompt
@@ -135,7 +135,7 @@ class Ai_patient_overview extends MX_Controller
         }
 
         $result = json_decode($response, true);
-        
+
         if (isset($result['error'])) {
             throw new Exception('OpenAI API error: ' . $result['error']['message']);
         }
@@ -155,9 +155,9 @@ class Ai_patient_overview extends MX_Controller
         $patient_materials = $patient_data['patient_materials'];
         $payments = $patient_data['payments'];
         $diagnoses = $patient_data['diagnoses'];
-        
+
         $prompt = "As a medical AI assistant, please analyze the following comprehensive patient data and provide a detailed overview of the patient's current condition, medical history, treatments, and recommendations.\n\n";
-        
+
         $prompt .= "=== PATIENT DEMOGRAPHICS ===\n";
         $prompt .= "Name: " . $patient->name . "\n";
         $prompt .= "Age: " . $patient->age . " years\n";
@@ -165,7 +165,7 @@ class Ai_patient_overview extends MX_Controller
         $prompt .= "Patient ID: " . $patient_id . "\n";
         $prompt .= "Address: " . (isset($patient->address) ? $patient->address : 'Not provided') . "\n";
         $prompt .= "Phone: " . (isset($patient->phone) ? $patient->phone : 'Not provided') . "\n\n";
-        
+
         if (!empty($appointments)) {
             $prompt .= "=== APPOINTMENT HISTORY ===\n";
             foreach ($appointments as $appointment) {
@@ -178,7 +178,7 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($prescriptions)) {
             $prompt .= "=== PRESCRIPTION HISTORY ===\n";
             foreach ($prescriptions as $prescription) {
@@ -190,7 +190,7 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($lab_reports)) {
             $prompt .= "=== LABORATORY TEST RESULTS ===\n";
             foreach ($lab_reports as $lab) {
@@ -202,7 +202,7 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($medical_history)) {
             $prompt .= "=== MEDICAL HISTORY (CASE RECORDS) ===\n";
             foreach ($medical_history as $history) {
@@ -213,27 +213,27 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($vital_signs)) {
             $prompt .= "=== VITAL SIGNS RECORD ===\n";
             foreach ($vital_signs as $vital) {
                 $date = isset($vital->add_date_time) ? $vital->add_date_time : 'Unknown Date';
                 $heart_rate = isset($vital->heart_rate) ? $vital->heart_rate : 'N/A';
-                $blood_pressure = isset($vital->systolic_blood_pressure) && isset($vital->diastolic_blood_pressure) ? 
+                $blood_pressure = isset($vital->systolic_blood_pressure) && isset($vital->diastolic_blood_pressure) ?
                     $vital->systolic_blood_pressure . '/' . $vital->diastolic_blood_pressure : 'N/A';
                 $temperature = isset($vital->temperature) ? $vital->temperature : 'N/A';
                 $oxygen_saturation = isset($vital->oxygen_saturation) ? $vital->oxygen_saturation : 'N/A';
                 $respiratory_rate = isset($vital->respiratory_rate) ? $vital->respiratory_rate : 'N/A';
                 $weight = isset($vital->bmi_weight) ? $vital->bmi_weight : 'N/A';
                 $height = isset($vital->bmi_height) ? $vital->bmi_height : 'N/A';
-                
+
                 $prompt .= "- Date: " . $date . " | Heart Rate: " . $heart_rate . " bpm | BP: " . $blood_pressure . " mmHg | ";
                 $prompt .= "Temp: " . $temperature . "°C | O2 Sat: " . $oxygen_saturation . "% | ";
                 $prompt .= "Resp Rate: " . $respiratory_rate . " bpm | Weight: " . $weight . " kg | Height: " . $height . " cm\n";
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($bed_allotments)) {
             $prompt .= "=== HOSPITALIZATION RECORD ===\n";
             foreach ($bed_allotments as $bed) {
@@ -244,9 +244,9 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         // Diagnosis history not available - diagnosis table doesn't have patient column
-        
+
         if (!empty($payments)) {
             $prompt .= "=== PAYMENT HISTORY ===\n";
             foreach ($payments as $payment) {
@@ -257,7 +257,7 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         if (!empty($patient_materials)) {
             $prompt .= "=== PATIENT DOCUMENTS ===\n";
             foreach ($patient_materials as $material) {
@@ -268,7 +268,7 @@ class Ai_patient_overview extends MX_Controller
             }
             $prompt .= "\n";
         }
-        
+
         $prompt .= "=== AI ANALYSIS REQUEST ===\n";
         $prompt .= "Please provide a comprehensive medical analysis including:\n\n";
         $prompt .= "1. **PATIENT OVERVIEW**: Current health status, age-related considerations, and demographic factors\n";
@@ -282,7 +282,7 @@ class Ai_patient_overview extends MX_Controller
         $prompt .= "9. **EMERGENCY CONSIDERATIONS**: Any urgent health concerns or immediate action items\n";
         $prompt .= "10. **LIFESTYLE RECOMMENDATIONS**: Diet, exercise, and lifestyle modifications based on medical history\n";
         $prompt .= "Format the response as a professional medical report with clear sections, bullet points, and actionable recommendations suitable for healthcare providers and patient care coordination.";
-        
+
         return $prompt;
     }
 
@@ -293,7 +293,7 @@ class Ai_patient_overview extends MX_Controller
         }
 
         $analyses = $this->ai_patient_overview_model->getAllAnalyses();
-        
+
         $formatted_analyses = array();
         foreach ($analyses as $analysis) {
             $formatted_analyses[] = array(
@@ -304,7 +304,7 @@ class Ai_patient_overview extends MX_Controller
                 'status' => !empty($analysis->analysis_result) ? 'completed' : 'pending'
             );
         }
-        
+
         echo json_encode($formatted_analyses);
     }
 
@@ -353,10 +353,10 @@ class Ai_patient_overview extends MX_Controller
             $data = [];
             foreach ($records as $record) {
                 $status = !empty($record->analysis_result) ? 'completed' : 'pending';
-                $status_badge = $status === 'completed' ? 
-                    '<span class="badge badge-success">Completed</span>' : 
-                    '<span class="badge badge-warning">Pending</span>';
-                
+                $status_badge = $status === 'completed' ?
+                    '<span class="ap-status ap-status-success">Completed</span>' :
+                    '<span class="ap-status ap-status-warning">Pending</span>';
+
                 $actions = '
                     <a class="btn btn-sm btn-outline-primary" onclick="viewAnalysis(' . $record->id . ')">
                         <i class="fas fa-eye"></i>
@@ -395,14 +395,14 @@ class Ai_patient_overview extends MX_Controller
         }
 
         $analysis_id = $this->input->post('analysis_id');
-        
+
         if (!$analysis_id) {
             echo json_encode(['success' => false, 'message' => 'Analysis ID required']);
             return;
         }
 
         $analysis = $this->ai_patient_overview_model->getAnalysisById($analysis_id);
-        
+
         if (!$analysis) {
             echo json_encode(['success' => false, 'message' => 'Analysis not found']);
             return;
@@ -411,7 +411,7 @@ class Ai_patient_overview extends MX_Controller
         // Get patient and doctor names
         $patient = $this->patient_model->getPatientById($analysis->patient_id);
         $doctor = $this->doctor_model->getDoctorById($analysis->doctor_id);
-        
+
         $analysis->patient_name = $patient ? $patient->name : 'Unknown Patient';
         $analysis->doctor_name = $doctor ? $doctor->name : 'Unknown Doctor';
 
@@ -425,14 +425,14 @@ class Ai_patient_overview extends MX_Controller
         }
 
         $analysis_id = $this->input->post('analysis_id');
-        
+
         if (!$analysis_id) {
             echo json_encode(['success' => false, 'message' => 'Analysis ID required']);
             return;
         }
 
         $result = $this->ai_patient_overview_model->deleteAnalysis($analysis_id);
-        
+
         if ($result) {
             echo json_encode(['success' => true, 'message' => 'Analysis deleted successfully']);
         } else {

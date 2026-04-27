@@ -140,13 +140,13 @@ $CI = get_instance();
                                                         <td><?php echo html_escape($ambulance->capacity); ?></td>
                                                         <td>
                                                             <?php if ($ambulance->status == 'Available') { ?>
-                                                                <span class="badge badge-success"><?php echo $ambulance->status; ?></span>
+                                                                <span class="ap-status ap-status-success"><?php echo $ambulance->status; ?></span>
                                                             <?php } elseif ($ambulance->status == 'On Call') { ?>
-                                                                <span class="badge badge-warning"><?php echo $ambulance->status; ?></span>
+                                                                <span class="ap-status ap-status-warning"><?php echo $ambulance->status; ?></span>
                                                             <?php } elseif ($ambulance->status == 'Maintenance') { ?>
-                                                                <span class="badge badge-info"><?php echo $ambulance->status; ?></span>
+                                                                <span class="ap-status ap-status-info"><?php echo $ambulance->status; ?></span>
                                                             <?php } else { ?>
-                                                                <span class="badge badge-danger"><?php echo $ambulance->status; ?></span>
+                                                                <span class="ap-status ap-status-danger"><?php echo $ambulance->status; ?></span>
                                                             <?php } ?>
                                                         </td>
                                                         <td>

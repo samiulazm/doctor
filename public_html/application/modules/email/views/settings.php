@@ -36,7 +36,7 @@ $gateway_id = !empty($settings->id) ? (int) $settings->id : 0;
                             </h3>
                             <?php if (!empty($settings) && !empty($settings->type)) { ?>
                                 <p class="small text-muted mb-0 mt-2">
-                                    <span class="badge badge-info"><?php echo htmlspecialchars($settings->type, ENT_QUOTES, 'UTF-8'); ?></span>
+                                    <span class="ap-status ap-status-info"><?php echo htmlspecialchars($settings->type, ENT_QUOTES, 'UTF-8'); ?></span>
                                 </p>
                             <?php } ?>
                         </div>

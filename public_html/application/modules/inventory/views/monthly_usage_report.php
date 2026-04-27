@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -229,7 +229,7 @@
                                                         <?php echo $settings->currency . ' ' . number_format($item_total_cost, 2); ?>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-info">
+                                                        <span class="ap-status ap-status-info">
                                                             <?php echo $usage->usage_days; ?> days
                                                         </span>
                                                     </td>

@@ -167,12 +167,12 @@
     <div class="flex-wrapper">
         <?php $patient = $this->db->get_where('patient', array('id' => $lab->patient))->row(); ?>
 
-        <div class="reportBlock" style="padding: 10px">
+        <div class="reportBlock">
             <?php echo $lab->report; ?>
         </div>
         <htmlpagefooter>
            
-            <div id="footer" style="padding: 10px;">
+            <div id="footer">
                 <?php
                 $signature = "";
                 if ($lab->signed_by) {

@@ -2,7 +2,7 @@
 <!--main content start-->
 
 
-<div class="content-wrapper bg-gradient-light">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">

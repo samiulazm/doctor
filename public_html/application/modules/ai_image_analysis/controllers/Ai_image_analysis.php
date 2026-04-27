@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ai_image_analysis extends MX_Controller
@@ -15,7 +15,7 @@ class Ai_image_analysis extends MX_Controller
         $this->load->helper('url');
         $this->load->helper('form');
         $this->load->helper('file');
-        
+
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login', 'refresh');
         }
@@ -25,11 +25,11 @@ class Ai_image_analysis extends MX_Controller
     {
         try {
             // Debug: Check if models are loaded
-           
-            
+
+
             $data['patients'] = $this->patient_model->getPatient();
             $data['settings'] = $this->settings_model->getSettings();
-            
+
             // Get doctors based on user role
             if ($this->ion_auth->in_group('Doctor')) {
                 // For doctors, get only their information
@@ -44,7 +44,7 @@ class Ai_image_analysis extends MX_Controller
                 // For admins, get all doctors
                 $data['doctors'] = $this->doctor_model->getDoctor();
             }
-            
+
             // Debug: Log data
             log_message('debug', 'AI Image Analysis - Patients count: ' . count($data['patients']));
             log_message('debug', 'AI Image Analysis - Doctors count: ' . count($data['doctors']));
@@ -82,7 +82,7 @@ class Ai_image_analysis extends MX_Controller
         // Validate file type
         $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp');
         $file_extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-        
+
         if (!in_array($file_extension, $allowed_types)) {
             echo json_encode(['success' => false, 'message' => 'Invalid file type. Please upload a valid image file (JPG, PNG, GIF, BMP, TIFF, WebP).']);
             return;
@@ -236,7 +236,7 @@ class Ai_image_analysis extends MX_Controller
                 )
             ),
             'max_tokens' => 2500,
-            'temperature' => 0.0 
+            'temperature' => 0.0
         );
 
         $ch = curl_init();
@@ -267,7 +267,7 @@ class Ai_image_analysis extends MX_Controller
     private function callOpenAIVisionAPI($api_key, $analysis)
     {
         $image_path = FCPATH . 'uploads/ai_image_analysis/' . $analysis->image_path;
-        
+
         if (!file_exists($image_path)) {
             log_message('error', 'AI Image Analysis - Image file not found: ' . $image_path);
             return false;
@@ -333,9 +333,9 @@ class Ai_image_analysis extends MX_Controller
         $base_prompt = "You are an expert medical radiologist and diagnostic imaging specialist with extensive experience in interpreting medical images. Analyze this medical image with the highest level of clinical accuracy and attention to detail. ";
 
         $detection_instruction = "First, identify what type of medical image this is (X-ray, CT scan, MRI, ultrasound, endoscopy, dermatology, ophthalmology, pathology, or other medical imaging). Then provide a comprehensive, detailed analysis based on the identified image type, looking for specific pathological findings, anatomical structures, and clinical abnormalities.";
-        
+
         $additional_info = !empty($description) ? "Additional context: " . $description . " " : "";
-        
+
         $format_instruction = "Please provide your analysis in the following format:
 
 **CLINICAL FINDINGS:**
@@ -359,7 +359,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
     private function getAnalysisPrompt($image_type, $description)
     {
         $base_prompt = "You are a medical AI assistant. Analyze this medical image and provide a detailed, professional medical report. ";
-        
+
         $type_prompts = array(
             'xray' => "This is an X-ray image. Focus on bone structure, joint alignment, fractures, dislocations, and any abnormalities in the skeletal system.",
             'ct_scan' => "This is a CT scan image. Analyze internal organs, soft tissues, blood vessels, and any pathological findings.",
@@ -373,9 +373,9 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
         );
 
         $type_instruction = isset($type_prompts[$image_type]) ? $type_prompts[$image_type] : $type_prompts['other'];
-        
+
         $additional_info = !empty($description) ? "Additional context: " . $description . " " : "";
-        
+
         $format_instruction = "Please provide your analysis in the following format:
 
 **CLINICAL FINDINGS:**
@@ -406,7 +406,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
         $hospital_id = $this->session->userdata('hospital_id');
 
         $analyses = $this->ai_image_analysis_model->getImageAnalysesByPatient($patient_id, $hospital_id);
-        
+
         echo json_encode(['success' => true, 'analyses' => $analyses]);
     }
 
@@ -425,9 +425,9 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
 
         try {
             log_message('debug', 'AI Image Analysis - Getting analytics history');
-            
-           
-            
+
+
+
             // Check hospital_id
             $hospital_id = $this->session->userdata('hospital_id');
             if (!$hospital_id) {
@@ -435,32 +435,32 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
                 echo json_encode(['error' => 'Hospital ID not found']);
                 return;
             }
-            
-           
-            
+
+
+
             $analyses = $this->ai_image_analysis_model->getAllImageAnalyses($hospital_id);
             log_message('debug', 'AI Image Analysis - Raw analyses count: ' . count($analyses));
-            
+
             // Debug: Log the actual data
             if (count($analyses) > 0) {
                 log_message('debug', 'AI Image Analysis - First analysis: ' . json_encode($analyses[0]));
             } else {
                 log_message('debug', 'AI Image Analysis - No analyses found for hospital_id: ' . $hospital_id);
-                
+
                 // Try a simple count query to verify data exists
                 $this->db->select('COUNT(*) as total');
                 $this->db->from('ai_image_analyses');
                 $query = $this->db->get();
                 $total_all = $query->row()->total;
                 log_message('debug', 'AI Image Analysis - Total records in table: ' . $total_all);
-                
+
                 $this->db->select('COUNT(*) as total');
                 $this->db->from('ai_image_analyses');
                 $this->db->where('hospital_id', $hospital_id);
                 $query = $this->db->get();
                 $total_hospital = $query->row()->total;
                 log_message('debug', 'AI Image Analysis - Records for hospital ' . $hospital_id . ': ' . $total_hospital);
-                
+
                 // Try a direct query to see what's in the table
                 $this->db->select('*');
                 $this->db->from('ai_image_analyses');
@@ -469,7 +469,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
                 $sample_records = $query->result();
                 log_message('debug', 'AI Image Analysis - Sample records: ' . json_encode($sample_records));
             }
-            
+
             // Format the data for the analytics table
             $formatted_analyses = array();
             foreach ($analyses as $analysis) {
@@ -479,14 +479,14 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
                     $patient = $this->patient_model->getPatientById($analysis->patient_id);
                     $patient_name = $patient ? $patient->name : 'Unknown Patient';
                 }
-                
+
                 // Get doctor name if not available from join
                 $doctor_name = isset($analysis->doctor_name) ? $analysis->doctor_name : 'Unknown Doctor';
                 if ($doctor_name === 'Unknown Doctor' && isset($analysis->doctor_id)) {
                     $doctor = $this->doctor_model->getDoctorById($analysis->doctor_id);
                     $doctor_name = $doctor ? $doctor->name : 'Unknown Doctor';
                 }
-                
+
                 $formatted_analyses[] = array(
                     'id' => $analysis->id,
                     'created_at' => date('Y-m-d H:i:s', strtotime($analysis->created_at)),
@@ -496,10 +496,10 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
                     'status' => !empty($analysis->analysis_result) ? 'completed' : 'pending'
                 );
             }
-            
+
             log_message('debug', 'AI Image Analysis - Formatted analyses count: ' . count($formatted_analyses));
             echo json_encode($formatted_analyses);
-            
+
         } catch (Exception $e) {
             log_message('error', 'AI Image Analysis - Controller Error: ' . $e->getMessage());
             log_message('error', 'AI Image Analysis - Stack trace: ' . $e->getTraceAsString());
@@ -570,9 +570,9 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
             $data = [];
             foreach ($records as $record) {
                 $status = !empty($record->analysis_result) ? 'completed' : 'pending';
-                $status_badge = $status === 'completed' ? 
-                    '<span class="badge badge-success">Completed</span>' : 
-                    '<span class="badge badge-warning">Pending</span>';
+                $status_badge = $status === 'completed' ?
+                    '<span class="ap-status ap-status-success">Completed</span>' :
+                    '<span class="ap-status ap-status-warning">Pending</span>';
 
                 $actions = '
                     <a class="btn btn-sm btn-outline-primary" onclick="viewAnalysis(' . $record->id . ')">
@@ -622,7 +622,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
         }
 
         $analysis = $this->ai_image_analysis_model->getImageAnalysisById($analysis_id);
-        
+
         if (!$analysis) {
             echo json_encode(['success' => false, 'message' => 'Analysis not found.']);
             return;
@@ -637,7 +637,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
         // Get patient and doctor names
         $patient = $this->patient_model->getPatientById($analysis->patient_id);
         $doctor = $this->doctor_model->getDoctorById($analysis->doctor_id);
-        
+
         $analysis->patient_name = $patient ? $patient->name : 'Unknown Patient';
         $analysis->doctor_name = $doctor ? $doctor->name : 'Unknown Doctor';
 
@@ -660,7 +660,7 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
 
         // Get analysis to check hospital ownership
         $analysis = $this->ai_image_analysis_model->getImageAnalysisById($analysis_id);
-        
+
         if (!$analysis) {
             echo json_encode(['success' => false, 'message' => 'Analysis not found.']);
             return;

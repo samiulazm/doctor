@@ -79,7 +79,7 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                                                             <h5 class="mb-1"><?php echo htmlspecialchars($d_language->language, ENT_QUOTES, 'UTF-8'); ?></h5>
                                                             <small class="text-muted status-text"><?php echo $isSelected ? 'Currently Active' : 'Click to Select'; ?></small>
                                                         </div>
-                                                        <div class="position-absolute check-icon" style="top:10px; right:10px; <?php echo !$isSelected ? 'display:none;' : ''; ?>">
+                                                        <div class="position-absolute check-icon">
                                                             <i class="fas fa-check-circle text-primary"></i>
                                                         </div>
                                                     </label>

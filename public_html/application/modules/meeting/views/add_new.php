@@ -66,7 +66,7 @@ $all_timezones = DateTimeZone::listIdentifiers();
                                     </div>
                                 </div>
 
-                                <div class="pos_client border rounded-3 p-3 mb-3 bg-light" style="display: none;">
+                                <div class="pos_client border rounded-3 p-3 mb-3 bg-light">
                                     <h6 class="text-muted text-uppercase small mb-3"><?php echo lang('patient'); ?> &mdash; <?php echo lang('new'); ?></h6>
                                     <div class="row g-3">
                                         <div class="col-md-6">

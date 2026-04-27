@@ -292,7 +292,7 @@ $CI = get_instance();
                                                 </div>
                                                 <?php if (!$this->ion_auth->in_group(array('superadmin', 'admin'))) { ?>
                                                     <div id="email_notification" class="tab-pane">
-                                                        <table class="table table-bordered table-hover" id="editable-sample">
+                                                        <table class="table table-bordered table-hover" id="dt-profile" data-legacy-table="editable-sample">
                                                             <thead class="thead-light">
                                                                 <tr>
                                                                     <th><?php echo lang('email_type'); ?></th>

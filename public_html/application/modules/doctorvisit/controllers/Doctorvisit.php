@@ -184,9 +184,9 @@ class Doctorvisit extends MX_Controller
 
             $status = '';
             if ($doctorvisit->status == 'active') {
-                $status = '<span class="badge badge-info">' . lang('active') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('active') . '</span>';
             } else {
-                $status = '<span class="badge badge-warning">' . lang('in_active') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('in_active') . '</span>';
             }
             $doctor = $this->doctor_model->getDoctorById($doctorvisit->doctor_id);
             if (empty($doctor)) {

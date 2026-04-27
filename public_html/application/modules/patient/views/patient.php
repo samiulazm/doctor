@@ -32,7 +32,7 @@ if (!isset($groups) || !is_array($groups)) {
                         <div class="card-body p-4">
                             <div class="custom_buttons mb-3"></div>
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered" id="editable-sample" style="width:100%">
+                                <table class="table table-hover table-bordered" id="dt-patient" data-legacy-table="editable-sample" style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="font-weight-bold text-uppercase"><?php echo lang('id'); ?></th>
@@ -581,7 +581,7 @@ if (!isset($groups) || !is_array($groups)) {
                     enctype="multipart/form-data">
                     <input type="hidden" name="<?php echo $CI->security->get_csrf_token_name(); ?>" value="<?php echo $CI->security->get_csrf_hash(); ?>">
                     <div class="container-fluid">
-                        <div class="justify-content-center" style="display:flex">
+                        <div class="justify-content-center">
                             <div class="col-md-6">
                                 <!-- Basic Information Section -->
                                 <div class="card mb-4 shadow-sm">

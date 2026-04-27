@@ -519,14 +519,14 @@ class Bed extends MX_Controller
 
             if (!empty($current_allotment->a_timestamp)) {
                 if (empty($current_allotment->d_timestamp)) {
-                    $bedstatus = '<span class="badge badge-warning">' . lang('alloted') . '</span>';
+                    $bedstatus = '<span class="ap-status ap-status-warning">' . lang('alloted') . '</span>';
                 } elseif ((time() > $current_allotment->d_timestamp)) {
-                    $bedstatus = '<span class="badge badge-success">' . lang('available') . '</span>';
+                    $bedstatus = '<span class="ap-status ap-status-success">' . lang('available') . '</span>';
                 } elseif ((time() < $current_allotment->d_timestamp)) {
-                    $bedstatus = '<span class="badge  badge-warning">' . lang('alloted') . '</span>';
+                    $bedstatus = '<span class="ap-status ap-status-warning">' . lang('alloted') . '</span>';
                 }
             } else {
-                $bedstatus = '<span class="badge badge-success">' . lang('available') . '</span>';
+                $bedstatus = '<span class="ap-status ap-status-success">' . lang('available') . '</span>';
             }
 
 
@@ -1804,9 +1804,7 @@ class Bed extends MX_Controller
         $data['redirect'] = 'download';
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
         //     $mpdf->SetHTMLFooter('
-        //   <div style="text-align:right;font-weight: bold; 
-        // font-size: 8pt;
-        // font-style: italic;">
+        //   <div>
         //  ' . lang('user') . ' : ' . $this->ion_auth->user($data['payment']->user)->row()->username . '
         //   </div>', 'O');
 

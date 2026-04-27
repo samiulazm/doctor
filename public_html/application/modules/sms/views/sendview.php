@@ -58,7 +58,7 @@ if (!isset($templatename)) {
                                     <input class="form-check-input" type="radio" name="radio" id="radio_blood" value="bloodgroupwise">
                                     <label class="form-check-label" for="radio_blood"><?php echo lang('donor'); ?> (<?php echo lang('blood_group'); ?>)</label>
                                 </div>
-                                <div class="form-group pos_client pl-4 mb-3" style="display:none;">
+                                <div class="form-group pos_client pl-4 mb-3">
                                     <label for="bloodgroup" class="small text-muted mb-1"><?php echo lang('select_blood_group'); ?></label>
                                     <select class="form-control form-control-lg" id="bloodgroup" name="bloodgroup">
                                         <?php foreach ($groups as $group) { ?>
@@ -70,7 +70,7 @@ if (!isset($templatename)) {
                                     <input class="form-check-input" type="radio" name="radio" id="radio_single_patient" value="single_patient">
                                     <label class="form-check-label" for="radio_single_patient"><?php echo lang('single_patient'); ?></label>
                                 </div>
-                                <div class="form-group single_patient pl-4 mb-4" style="display: none;">
+                                <div class="form-group single_patient pl-4 mb-4">
                                     <label for="patientchoose" class="small text-muted mb-1"><?php echo lang('select_patient'); ?></label>
                                     <select class="form-control form-control-lg" id="patientchoose" name="patient"></select>
                                 </div>

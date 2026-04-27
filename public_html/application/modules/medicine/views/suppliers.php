@@ -62,9 +62,9 @@ $CI = get_instance();
                                                 <td><?php echo html_escape($settings->currency) . number_format((float) $supplier->credit_limit, 2); ?></td>
                                                 <td>
                                                     <?php if ($supplier->status == 'active') { ?>
-                                                        <span class="badge badge-success"><?php echo lang('active'); ?></span>
+                                                        <span class="ap-status ap-status-success"><?php echo lang('active'); ?></span>
                                                     <?php } else { ?>
-                                                        <span class="badge badge-danger"><?php echo lang('inactive'); ?></span>
+                                                        <span class="ap-status ap-status-danger"><?php echo lang('inactive'); ?></span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>

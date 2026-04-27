@@ -332,7 +332,7 @@ height: 100%!important;
                                             <img class="img_class_logo" alt="" src="<?php echo $this->settings_model->getSettings()->logo; ?>" width="120">
                                             <br>
                                             <?php if ($redirect == 'download') { ?>
-                                                <div style="">
+                                                <div>
                                                 <?php } ?>
                                                 <strong id="invoice_word"><?php echo lang('invoice'); ?></strong><br>
                                                 <?php
@@ -366,7 +366,7 @@ height: 100%!important;
                                                     </h4>
                                                 </div>
                                             <?php } else { ?>
-                                                <div class="paragraphprint col-md-12" style="padding-top:-10px;">
+                                                <div class="paragraphprint col-md-12">
                                                     <p style="font-size:9px !important;margin-top: -10px; ">
                                                     <h5>
                                                         <?php echo $settings->title ?>
@@ -911,7 +911,7 @@ font-weight: 600;"><?php echo lang('payment_history'); ?></td>
                             </table>
                         <?php } ?>
                         <?php if ($redirect == 'download') { ?>
-                            <!--                            <div class="col-md-12 invoice_footer" style="text-align:center;font-weight: bold; font-size: 7pt; margin-bottom:110px;">
+                            <!--                            <div class="col-md-12 invoice_footer">
 
                                 <?php echo $settings->footer_invoice_message; ?>
 
@@ -998,7 +998,7 @@ font-weight: 600;"><?php echo lang('payment_history'); ?></td>
                             </div>
 
                         </div>
-                        <div class="col-md-7" style="margin-top: 20%;">
+                        <div class="col-md-7">
                             <form role="form" action="finance/sendInvoice" method="post" enctype="multipart/form-data">
                                 <div class="radio radio_button">
                                     <label>

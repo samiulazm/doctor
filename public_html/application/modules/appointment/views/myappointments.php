@@ -42,7 +42,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-hover" id="editable-sample">
+                            <table class="table table-bordered table-hover" id="dt-appointment" data-legacy-table="editable-sample">
                                 <thead>
                                     <tr>
                                         <th> <?php echo lang('id'); ?></th>
@@ -72,14 +72,14 @@
                                             $total_due = $payment_details->gross_total - $total_deposited_amount;
                                             if ($payment_details->gross_total == $total_due) {
                                                 if ($payment_details->gross_total != 0) {
-                                                    $bill_status = '<span class="badge badge-warning">' . lang('unpaid') . '</span>';
+                                                    $bill_status = '<span class="ap-status ap-status-warning">' . lang('unpaid') . '</span>';
                                                 } else {
                                                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                                 }
                                             } elseif ($total_due == 0) {
                                                 $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                                             } else {
-                                                $bill_status = '<span class="badge badge-warning">' . lang('due') . '</span>';
+                                                $bill_status = '<span class="ap-status ap-status-warning">' . lang('due') . '</span>';
                                             }
                                             $patientdetails = $this->patient_model->getPatientById($appointment->patient);
                                             if (!empty($patientdetails)) {
@@ -212,7 +212,7 @@
 <script>
     $(document).ready(function() {
         "use strict";
-        var table = $("#editable-sample").DataTable({
+        var table = $("#dt-appointment").DataTable({
             responsive: true,
 
             processing: true,

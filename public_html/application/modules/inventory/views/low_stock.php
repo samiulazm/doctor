@@ -69,7 +69,7 @@ $CI = get_instance();
                                                     <td>
                                                         <?php echo $item->name; ?>
                                                         <?php if ($item->current_stock == 0) { ?>
-                                                            <br><span class="badge badge-danger">OUT OF STOCK</span>
+                                                            <br><span class="ap-status ap-status-danger">OUT OF STOCK</span>
                                                         <?php } ?>
                                                     </td>
                                                     <td><?php echo $item->category; ?></td>
@@ -80,13 +80,13 @@ $CI = get_instance();
                                                     </td>
                                                     <td><?php echo $item->reorder_level; ?></td>
                                                     <td>
-                                                        <span class="badge badge-danger">
+                                                        <span class="ap-status ap-status-danger">
                                                             <?php echo $shortage; ?>
                                                         </span>
                                                     </td>
                                                     <td><?php echo $settings->currency . ' ' . number_format($item->unit_cost, 2); ?></td>
                                                     <td>
-                                                        <span class="badge badge-success">
+                                                        <span class="ap-status ap-status-success">
                                                             <?php echo $suggested_order; ?>
                                                         </span>
                                                         <br>
@@ -135,9 +135,9 @@ $CI = get_instance();
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6>Legend:</h6>
-                                        <span class="badge badge-danger mr-2">Critical (Out of Stock)</span>
-                                        <span class="badge badge-warning mr-2">Low (Below 50% of reorder level)</span>
-                                        <span class="badge badge-info">Reorder Required</span>
+                                        <span class="ap-status ap-status-danger mr-2">Critical (Out of Stock)</span>
+                                        <span class="ap-status ap-status-warning mr-2">Low (Below 50% of reorder level)</span>
+                                        <span class="ap-status ap-status-info">Reorder Required</span>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <button type="button" class="btn btn-success" onclick="createBulkPurchaseOrder()">
@@ -194,7 +194,7 @@ function createBulkPurchaseOrder() {
         if ($(this).find('td').length > 1) {  // Skip the "no data" row
             var row = $(this);
             var itemCode = row.find('td:first').text().trim();
-            var suggestedOrder = parseInt(row.find('.badge-success').text().trim());
+            var suggestedOrder = parseInt(row.find('.ap-status-success').text().trim());
             
             if (suggestedOrder > 0) {
                 items.push({

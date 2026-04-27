@@ -125,7 +125,7 @@ $CI = get_instance();
                             ?>
 
                             <!-- New Patient Form -->
-                            <div class="pos_client" style="display: none;">
+                            <div class="pos_client">
                                 <div class="row g-2">
                                     <div class="col-md-6">
                                         <div class="mb-2">
@@ -227,7 +227,7 @@ $CI = get_instance();
                             </div>
 
                             <!-- New Doctor Form -->
-                            <div class="pos_doctor" style="display: none;">
+                            <div class="pos_doctor">
                                 <div class="row g-2">
                                     <div class="col-md-6">
                                         <div class="mb-2">
@@ -520,7 +520,7 @@ $CI = get_instance();
                                 </div>
 
                                 <!-- Card Payment -->
-                                <div class="cardPayment" style="display: none;">
+                                <div class="cardPayment">
                                     <div class="payment pad_bot mt-3">
                                         <label class="field-label"><?php echo lang('accepted'); ?> <?php echo lang('cards'); ?></label>
                                         <div class="payment pad_bot">

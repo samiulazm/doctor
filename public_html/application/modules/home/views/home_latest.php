@@ -487,7 +487,7 @@
                                                     <div class="col-md-12">
                                                         <div class="task-content">
                                                             <ul class="task-list">
-                                                                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                                                                <table class="table table-striped table-hover table-bordered" id="dt-home" data-legacy-table="editable-sample">
                                                                     <thead>
                                                                         <tr>
                                                                             <th> <?php echo lang('title'); ?></th>
@@ -506,7 +506,7 @@
                                                                 </table>
                                                             </ul>
 
-                                                            <div class="col-md-12 add-task-row" style="margin-bottom: 20px">
+                                                            <div class="col-md-12 add-task-row">
                                                                 <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
                                                                     <a class="btn btn-success btn-sm float-left" href="notice/addNewView"><?php echo lang('add'); ?> <?php echo lang('notice'); ?></a>
                                                                 <?php } ?>

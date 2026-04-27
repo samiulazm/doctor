@@ -64,7 +64,7 @@ $CI = get_instance();
 
                         <div class="card-body p-4">
                             <div class="table-responsive">
-                            <table class="table table-hover table-bordered" id="editable-sample">
+                            <table class="table table-hover table-bordered" id="dt-finance" data-legacy-table="editable-sample">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-uppercase"><?php echo lang('date'); ?></th>

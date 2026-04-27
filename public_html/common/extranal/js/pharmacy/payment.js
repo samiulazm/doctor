@@ -11,9 +11,7 @@ $(document).ready(function () {
             url: "finance/pharmacy/getPaymentList",
             type: 'POST',
             data: function (d) {
-                if (typeof window.pharmacyFinanceCsrfName !== "undefined" && typeof window.pharmacyFinanceCsrfHash !== "undefined") {
-                    d[window.pharmacyFinanceCsrfName] = window.pharmacyFinanceCsrfHash;
-                }
+                return d;
             },
         },
         scroller: {

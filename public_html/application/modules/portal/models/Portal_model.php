@@ -143,4 +143,47 @@ class Portal_model extends CI_Model
         ));
         return $this->db->insert_id();
     }
+
+    public function getUpcomingAppointment($hospital_id, $patient_id)
+    {
+        $this->db->select('q.*, q.id AS queue_id, q.queue_date AS appointment_date, c.name AS chamber_name');
+        $this->db->from('chamber_serial_queue q');
+        $this->db->join('doctor_chamber c', 'c.id = q.chamber_id', 'left');
+        $this->db->where('q.hospital_id', (int) $hospital_id);
+        $this->db->where('q.patient_id', (int) $patient_id);
+        $this->db->where('q.queue_date >=', date('Y-m-d'));
+        $this->db->where_not_in('q.status', array('cancelled', 'done'));
+        $this->db->order_by('q.queue_date', 'ASC');
+        $this->db->order_by('q.sort_position', 'ASC');
+        $this->db->limit(1);
+        return $this->db->get()->row();
+    }
+
+    public function getPrescriptionsForPatient($hospital_id, $patient_id)
+    {
+        $this->db->select('prescription.*, doctor.name AS doctor_name, doctor.department_name AS doctor_degree');
+        $this->db->join('doctor', 'doctor.id = prescription.doctor', 'left');
+        $this->db->where('prescription.hospital_id', (int) $hospital_id);
+        $this->db->where('prescription.patient', (int) $patient_id);
+        $this->db->order_by('prescription.date', 'DESC');
+        $this->db->limit(10);
+        return $this->db->get('prescription')->result();
+    }
+
+    public function getLabReportsForPatient($hospital_id, $patient_id)
+    {
+        $this->db->where('hospital_id', (int) $hospital_id);
+        $this->db->where('patient', (int) $patient_id);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(10);
+        return $this->db->get('lab')->result();
+    }
+
+    public function getPrescriptionForPortal($id)
+    {
+        $this->db->select('prescription.*, prescription.doctor AS doctor_id, doctor.name AS doctor_name, doctor.department_name AS doctor_degree');
+        $this->db->join('doctor', 'doctor.id = prescription.doctor', 'left');
+        $this->db->where('prescription.id', (int) $id);
+        return $this->db->get('prescription')->row();
+    }
 }

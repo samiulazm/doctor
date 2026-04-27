@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/js/bootstrap.min.js" />
-	
+
 </head>
 <body>
 
@@ -41,38 +41,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ul>
 
 	</div>
-	
+
 </nav>
 <!-- End Bootstrap 4 Navbar -->
 
-	
+
 
 <div class="container mt-5">
 	<div class="row">
-        <div class="col-md-2"></div>  
+        <div class="col-md-2"></div>
         <div class="col-md-8">
-        	<div class="card">
-        		<h4 class="card-header">Transaction <label for="Success" class="badge badge-success">Success</label></h4>
-        		<div class="card-body">
-        			<?php 
+	<div class="card">
+	<h4 class="card-header">Transaction <label for="Success" class="ap-status ap-status-success">Success</label></h4>
+	<div class="card-body">
+	<?php
 		                echo "<p>Thank You. Your order status is ". $status .".</br>";
 		                echo "Your Transaction ID for this transaction is ".$txnid."</br>";
 		                echo "We have received a payment of Rs. " . $amount . ". Your order  will dispatch soon.</p>";
 		            ?>
-        		</div>
-        	</div>
-            
-         </div> 
+	</div>
+	</div>
+
+         </div>
         <div class="col-md-2"></div>
     </div>
 	<!-- Footer -->
-	
+
 	<footer style="position: absolute;bottom:0; width: 90%;">
 		<hr>
-		<p>Copyright &copy; <?php echo date('Y'); ?>  
+		<p>Copyright &copy; <?php echo date('Y'); ?>
 			<span class="float-right">Coded with Love &hearts;	: <a href="https://facebook.com/anburocky3" target="_blank">Anbuselvan Rocky</a></span></p>
 	</footer>
-</div> 
+</div>
 
 </body>
 </html>

@@ -153,14 +153,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="flex-wrapper">
-                                                <div style="display: flex; max-width: 4.9in; margin-top: 65px; -webkit-transform: rotate(90deg);
--moz-transform: rotate(90deg);
--o-transform: rotate(90deg);
--ms-transform: rotate(90deg);
-transform: rotate(90deg);
-position: absolute;
-top: 30px;
-left: 0px;">
+                                                <div>
                                                     <div>
                                                         <table id="labelTable">
                                                             <tr>
@@ -230,7 +223,7 @@ left: 0px;">
                                     </div>
                                 </section>
                                 <section class="col-md-3 no-print">
-                                    <div class="" style="background: transparent !important;">
+                                    <div class="">
                                         <a class='btn btn-sm btn-warning mb-2' onclick="window.print()"><i class='fa fa-print'></i> <?php echo lang('print'); ?></a><br>
                                         <a class='btn btn-danger mb-2' href="<?php echo site_url('lab/printLabel?id=' . $lab->id); ?>"><i class='fa fa-undo'></i> <?php echo lang('go_back_to_the_original'); ?></a><br>
                                     </div>

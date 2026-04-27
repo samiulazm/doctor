@@ -8,7 +8,7 @@
  */
 ?>
 
-<div class="content-wrapper" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+<div class="content-wrapper">
     <!-- Main Header Section -->
     <section class="content-header py-0">
         <div class="container-fluid">

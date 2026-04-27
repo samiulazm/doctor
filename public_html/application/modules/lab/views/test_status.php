@@ -6,7 +6,7 @@
 <link href="common/extranal/css/description.css" rel="stylesheet">
 
 
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -161,14 +161,10 @@
 <script src="common/extranal/js/description.js"></script>
 <?php
 $__ci = get_instance();
-$__lab_csrf_n = $__ci->security->get_csrf_token_name();
-$__lab_csrf_h = $__ci->security->get_csrf_hash();
 ?>
 <script>
     (function() {
-        var LTS_CSRF = { n: <?php echo json_encode($__lab_csrf_n); ?>, h: <?php echo json_encode($__lab_csrf_h); ?> };
         window.labTestStatusMergeCsrf = function(d) {
-            d[LTS_CSRF.n] = LTS_CSRF.h;
             return d;
         };
     })();

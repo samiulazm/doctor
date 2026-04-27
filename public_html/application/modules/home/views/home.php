@@ -217,7 +217,7 @@ if (!function_exists('format_number_short')) {
                                     }
                                 </style>
 
-                                <div class="container-fluid pr-0" style="margin-top: -1rem;">
+                                <div class="container-fluid pr-0">
                                     <div class="row g-3 mt-2 mb-2">
                                         <style>
                                             .stat-card {
@@ -475,7 +475,7 @@ if (!function_exists('format_number_short')) {
                                                     <div class="card card-custom shadow-lg custom-rounded mx-1 m-2">
                                                         <div class="card-body">
                                                             <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('sales_vs_expenses') ?> <span class="text-xs badge badge-secondary ms-2 p-2"><?php echo lang('this_year') ?></span></h5>
-                                                            <div id="sales_expense_chart" style="width: 100%; height: 300px;"></div>
+                                                            <div id="sales_expense_chart"></div>
                                                             <script type="text/javascript">
                                                                 google.charts.load('current', {
                                                                     packages: ['corechart']
@@ -571,7 +571,7 @@ if (!function_exists('format_number_short')) {
                                                             <h5 class="mb-0"><?php echo lang('notice'); ?></h5>
                                                         </div>
                                                         <div class="card-body">
-                                                            <table class="table table-bordered table-hover" id="editable-sample">
+                                                            <table class="table table-bordered table-hover" id="dt-home" data-legacy-table="editable-sample">
                                                                 <thead>
                                                                     <tr>
                                                                         <th><?php echo lang('title'); ?></th>
@@ -662,22 +662,22 @@ if (!function_exists('format_number_short')) {
                                                                         $action = '';
                                                                         switch ($log->action) {
                                                                             case 'Added':
-                                                                                $action = '<span class="badge badge-success">' . lang('added') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('added') . '</span>';
                                                                                 break;
                                                                             case 'Added/Deposited':
-                                                                                $action = '<span class="badge badge-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('added') . ' ' . lang('deposited') . '</span>';
                                                                                 break;
                                                                             case 'Updated':
-                                                                                $action = '<span class="badge badge-success">' . lang('updated') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-success">' . lang('updated') . '</span>';
                                                                                 break;
                                                                             case 'deleted_deposit':
-                                                                                $action = '<span class="badge badge-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . ' ' . 'Deposit' . '</span>';
                                                                                 break;
                                                                             case 'deleted':
-                                                                                $action = '<span class="badge badge-danger">' . lang('deleted') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-danger">' . lang('deleted') . '</span>';
                                                                                 break;
                                                                             default:
-                                                                                $action = '<span class="badge badge-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
+                                                                                $action = '<span class="ap-status ap-status-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
                                                                         }
                                                                     ?>
                                                                         <tr>
@@ -967,7 +967,7 @@ if (!function_exists('format_number_short')) {
                                     </span>
                                 </h5>
 
-                                <div id="topServicesChart" style="height: 200px;"></div>
+                                <div id="topServicesChart"></div>
                                 <script type="text/javascript">
                                     google.charts.load('current', {
                                         'packages': ['corechart']
@@ -1178,7 +1178,7 @@ if (!function_exists('format_number_short')) {
                                                     ?>
                                                     <span class="badge <?php echo $barClass === 'bg-warning' ? 'bg-warning text-dark' : $barClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
                                                 </div>
-                                                <div class="progress" style="height: 6px;">
+                                                <div class="progress">
                                                     <div class="progress-bar <?php echo $barClass; ?>" role="progressbar" style="width: <?php echo min(floatval($ratio) * 100, 100); ?>%" aria-valuenow="<?php echo floatval($ratio); ?>" aria-valuemin="0" aria-valuemax="1"></div>
                                                 </div>
                                             </div>

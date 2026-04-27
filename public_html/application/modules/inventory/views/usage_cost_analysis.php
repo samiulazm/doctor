@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -210,7 +210,7 @@
                                                     </td>
                                                     <td><?php echo $analysis->category_name ?: 'Uncategorized'; ?></td>
                                                     <td>
-                                                        <span class="badge badge-info">
+                                                        <span class="ap-status ap-status-info">
                                                             <?php echo $analysis->total_quantity_used; ?> <?php echo $analysis->unit; ?>
                                                         </span>
                                                     </td>
@@ -219,9 +219,8 @@
                                                         <?php echo $settings->currency . ' ' . number_format($analysis->total_cost, 2); ?>
                                                     </td>
                                                     <td>
-                                                        <div class="progress" style="height: 20px;">
+                                                        <div class="progress">
                                                             <div class="progress-bar bg-primary" role="progressbar" 
-                                                                 style="width: <?php echo number_format($percentage, 1); ?>%" 
                                                                  aria-valuenow="<?php echo $percentage; ?>" 
                                                                  aria-valuemin="0" 
                                                                  aria-valuemax="100">

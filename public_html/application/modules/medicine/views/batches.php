@@ -92,13 +92,13 @@ $CI = get_instance();
                                                 <td>
                                                     <?php
                                                     if ($is_expired) {
-                                                        echo '<span class="badge badge-danger">' . lang('expired') . '</span>';
+                                                        echo '<span class="ap-status ap-status-danger">' . lang('expired') . '</span>';
                                                     } elseif ($batch->current_stock <= 0) {
                                                         echo '<span class="badge badge-dark">' . lang('out_of_stock') . '</span>';
                                                     } elseif ($days_to_expiry <= 30) {
-                                                        echo '<span class="badge badge-warning">' . lang('expiring_soon') . '</span>';
+                                                        echo '<span class="ap-status ap-status-warning">' . lang('expiring_soon') . '</span>';
                                                     } else {
-                                                        echo '<span class="badge badge-success">' . lang('active') . '</span>';
+                                                        echo '<span class="ap-status ap-status-success">' . lang('active') . '</span>';
                                                     }
                                                     ?>
                                                 </td>

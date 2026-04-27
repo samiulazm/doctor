@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $CI = get_instance();
 ?>
@@ -22,8 +22,8 @@ $CI = get_instance();
                     <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
-            <?php } ?> 
-            
+            <?php } ?>
+
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
                     <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
@@ -81,7 +81,7 @@ $CI = get_instance();
                                             </select>
                                         </div>
                                     </div>
-                                        
+
                                         <div class="col-md-4">
                                         <div class="form-group">
                                                 <label><?php echo lang('doctor'); ?></label>
@@ -103,11 +103,11 @@ $CI = get_instance();
                                             <?php endif; ?>
                                     </div>
                                 </div>
-                                
+
                                         <div class="col-md-4">
                                         <div class="form-group">
                                                 <label><?php echo lang('notes_optional'); ?></label>
-                                                <textarea class="form-control" id="description" name="description" rows="2" 
+                                                <textarea class="form-control" id="description" name="description" rows="2"
                                                           placeholder="Additional context..."></textarea>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@ $CI = get_instance();
                                     <!-- Image Upload Section -->
                                     <form id="imageUploadForm" enctype="multipart/form-data">
                                         <!-- Image Upload Area -->
-                                        <div id="imageSelector" class="text-center border border-dashed rounded p-4 mb-3" style="border-color: #dee2e6;">
+                                        <div id="imageSelector" class="text-center border border-dashed rounded p-4 mb-3">
                                             <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
                                             <h5 class="text-muted"><?php echo lang('select_medical_image'); ?></h5>
                                             <p class="text-muted"><?php echo lang('ai_will_automatically_detect_image_type'); ?></p>
@@ -127,9 +127,9 @@ $CI = get_instance();
                                             </button>
                                             <input type="file" class="d-none" id="imageFile" name="image" accept="image/*" required>
                                 </div>
-                                
+
                                         <!-- Image Preview -->
-                                        <div id="imagePreviewSection" class="text-center mb-3" style="display: none;">
+                                        <div id="imagePreviewSection" class="text-center mb-3">
                                             <img id="imagePreview" src="" alt="Selected Image" class="img-fluid rounded border mb-2" style="max-height: 300px;">
                                             <div>
                                                 <small class="text-muted" id="imageInfo"></small>
@@ -138,7 +138,7 @@ $CI = get_instance();
                                                 </button>
                                     </div>
                                 </div>
-                                
+
                                 <div class="text-center">
                                             <button type="button" class="btn btn-success btn-lg" id="uploadBtn" disabled onclick="submitForm()">
                                                 <i class="fas fa-brain mr-2"></i>Analyze with AI
@@ -285,7 +285,7 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     // Enhanced configuration for patient select
     $('#patientSelect').select2({
         theme: 'bootstrap4',
@@ -298,22 +298,22 @@ $(document).ready(function() {
             if ($.trim(params.term) === '') {
                 return data;
             }
-            
+
             // Check if the search term matches any part of the text
             var searchTerm = params.term.toLowerCase();
             var text = data.text.toLowerCase();
-            
+
             // Also check the data-patient-id attribute
             var patientId = $(data.element).attr('data-patient-id');
             if (patientId && patientId.toString().toLowerCase().indexOf(searchTerm) !== -1) {
                 return data;
             }
-            
+
             // Check if the text contains the search term
             if (text.indexOf(searchTerm) !== -1) {
                 return data;
             }
-            
+
             // Return null if no match
             return null;
         },
@@ -331,14 +331,14 @@ $(document).ready(function() {
     $('#patientSelect, #doctorSelect, #imageFile').on('change', function() {
         updateUploadButtonState();
     });
-    
+
     // Handle image preview
     $('#imageFile').on('change', function(e) {
         console.log('File input changed');
         const file = e.target.files[0];
         if (file) {
             console.log('File selected:', file.name, file.type, file.size);
-            
+
             // Validate file type
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff', 'image/webp'];
             if (!allowedTypes.includes(file.type)) {
@@ -346,30 +346,30 @@ $(document).ready(function() {
                 $(this).val('');
                 return;
             }
-            
+
             // Validate file size (10MB limit)
             if (file.size > 10485760) {
                 alert('File size too large. Maximum size is 10MB.');
                 $(this).val('');
                 return;
             }
-            
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 console.log('Image loaded, setting preview...');
                 console.log('Image selector visible:', $('#imageSelector').is(':visible'));
                 console.log('Image preview section visible:', $('#imagePreviewSection').is(':visible'));
-                
+
                 $('#imagePreview').attr('src', e.target.result);
                 $('#imageInfo').text(`${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
-                
+
                 // Force hide/show with important
                 $('#imageSelector').hide();
                 $('#imagePreviewSection').show();
-                
+
                 console.log('After toggle - Selector visible:', $('#imageSelector').is(':visible'));
                 console.log('After toggle - Preview visible:', $('#imagePreviewSection').is(':visible'));
-                
+
                 updateUploadButtonState();
             };
             reader.readAsDataURL(file);
@@ -380,13 +380,13 @@ $(document).ready(function() {
             updateUploadButtonState();
         }
     });
-    
+
     // Check if doctor is pre-selected (for doctor login)
     if ($('#doctorSelect').val() !== '') {
         // Doctor is pre-selected, trigger validation
         $('#patientSelect, #imageFile').trigger('change');
     }
-    
+
     // Initial button state check
     updateUploadButtonState();
 
@@ -410,35 +410,35 @@ $(document).ready(function() {
             `);
         }
     });
-    
+
     // Handle tab clicks using Bootstrap's built-in functionality
     $('#analysisTabs a[data-toggle="tab"]').on('click', function (e) {
         e.preventDefault();
         var target = $(this).attr('href');
         console.log('Tab clicked:', target);
         console.log('Target element exists:', $(target).length > 0);
-        
+
         // Remove active class from all tabs and panes
         $('#analysisTabs .nav-link').removeClass('active');
         $('.tab-pane').removeClass('show active');
         console.log('Removed active classes from all tabs and panes');
-        
+
         // Add active class to clicked tab
         $(this).addClass('active');
         console.log('Added active class to clicked tab');
-        
+
         // Show the target pane
         $(target).addClass('show active');
         console.log('Added show active classes to target pane');
         console.log('Target pane classes:', $(target).attr('class'));
-        
+
         // Load analytics history if history tab is clicked
         if (target === '#history') {
             console.log('Loading analytics history...');
             console.log('Current URL:', window.location.href);
             console.log('Session check - logged in:', <?php echo $this->ion_auth->logged_in() ? 'true' : 'false'; ?>);
             console.log('Hospital ID:', '<?php echo $this->session->userdata('hospital_id'); ?>');
-            
+
             // Initialize DataTables if not already initialized
             if (!$.fn.DataTable.isDataTable('#analyticsTable')) {
                 initializeAnalyticsDataTable();
@@ -448,13 +448,13 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     // Event handler for go to upload from report button
     $('#goToUploadFromReportBtn').on('click', function() {
         console.log('Go to upload from report button clicked');
         goToUploadTab();
     });
-    
+
     // Navigation function for going to upload tab
     window.goToUploadTab = function() {
         console.log('Navigating to upload tab');
@@ -468,7 +468,7 @@ $(document).ready(function() {
             console.error('Error navigating to upload tab:', error);
         }
     };
-    
+
     // Function to reset analysis state and show the button
     window.resetAnalysisState = function() {
         $('#analysisResults').html(`
@@ -482,7 +482,7 @@ $(document).ready(function() {
                 </button>
             </div>
         `);
-        
+
         // Re-bind the event handler for the new button
         $('#goToUploadFromReportBtn').on('click', function() {
             console.log('Go to upload from report button clicked (reset)');
@@ -494,7 +494,7 @@ $(document).ready(function() {
 function loadAnalyticsHistory() {
     console.log('Loading analytics history...');
     console.log('AJAX URL:', '<?php echo base_url(); ?>ai_image_analysis/getAnalyticsHistory');
-        
+
         $.ajax({
         url: '<?php echo base_url(); ?>ai_image_analysis/getAnalyticsHistory',
         type: 'GET',
@@ -510,14 +510,14 @@ function loadAnalyticsHistory() {
             console.log('Analytics response:', response);
             console.log('Response type:', typeof response);
             console.log('Response length:', response ? response.length : 'undefined');
-            
+
             if (response && response.length > 0) {
                 let tableRows = '';
                 response.forEach(function(analysis) {
-                    const status = analysis.status === 'completed' ? 
-                        '<span class="badge badge-success">Completed</span>' : 
-                        '<span class="badge badge-warning">Pending</span>';
-                    
+                    const status = analysis.status === 'completed' ?
+                        '<span class="ap-status ap-status-success">Completed</span>' :
+                        '<span class="ap-status ap-status-warning">Pending</span>';
+
                     const actions = `
                         <a class="btn btn-sm btn-outline-primary" onclick="viewAnalysis(${analysis.id})">
                             <i class="fas fa-eye"></i>
@@ -526,7 +526,7 @@ function loadAnalyticsHistory() {
                             <i class="fas fa-trash"></i>
                         </a>
                     `;
-                    
+
                     tableRows += `
                         <tr>
                             <td>${analysis.created_at}</td>
@@ -538,7 +538,7 @@ function loadAnalyticsHistory() {
                         </tr>
                     `;
                 });
-                
+
                 $('#analyticsTable tbody').html(tableRows);
                 } else {
                 console.log('No analytics data found');
@@ -556,7 +556,7 @@ function loadAnalyticsHistory() {
             console.error('Analytics error:', xhr.responseText);
             console.error('Status:', status);
             console.error('Error:', error);
-            
+
             let errorMessage = 'Unknown error occurred';
             try {
                 const response = JSON.parse(xhr.responseText);
@@ -566,7 +566,7 @@ function loadAnalyticsHistory() {
             } catch (e) {
                 errorMessage = xhr.responseText || error;
             }
-            
+
             $('#analyticsTable tbody').html(`
                 <tr>
                     <td colspan="6" class="text-center text-muted">
@@ -582,7 +582,7 @@ function loadAnalyticsHistory() {
 
 function initializeAnalyticsDataTable() {
     console.log('Initializing DataTables for analytics history...');
-    
+
     $('#analyticsTable').DataTable({
         processing: true,
         serverSide: true,
@@ -590,8 +590,7 @@ function initializeAnalyticsDataTable() {
             url: '<?php echo base_url(); ?>ai_image_analysis/getAnalyticsHistoryDataTables',
             type: 'POST',
             data: function(d) {
-                // Add CSRF token if available
-                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+                return d;
             },
             error: function(xhr, error, thrown) {
                 console.error('DataTables AJAX error:', xhr.responseText);
@@ -631,7 +630,6 @@ function viewAnalysis(analysisId) {
         type: 'POST',
         data: {
             analysis_id: analysisId,
-            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
@@ -655,7 +653,6 @@ function deleteAnalysis(analysisId) {
             type: 'POST',
             data: {
                 analysis_id: analysisId,
-                <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
             },
             dataType: 'json',
             success: function(response) {
@@ -682,22 +679,21 @@ function deleteAnalysis(analysisId) {
 
 function analyzeImage(analysisId) {
     $('#loadingModal').modal('show');
-    
+
     $.ajax({
         url: '<?php echo base_url(); ?>ai_image_analysis/analyzeImage',
         type: 'POST',
         data: {
             analysis_id: analysisId,
-            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
             $('#loadingModal').modal('hide');
-            
+
             if (response.success) {
                 displayAnalysisResult(response.analysis_result);
                 showNotification('AI analysis completed successfully!', 'success');
-                
+
                 // Reload analysis history
                 const patientId = $('#patientSelect').val();
                 if (patientId) {
@@ -717,27 +713,27 @@ function analyzeImage(analysisId) {
 function displayAnalysisResult(analysisResult, analysisData = null) {
     // Parse the analysis result to extract structured sections
     const sections = parseAnalysisResult(analysisResult);
-    
+
     // Get the actual generation time from database or use current time as fallback
     let generatedTime = new Date();
     let analysisId = Date.now().toString().slice(-6);
     let patientId = $('#patientSelect').val() || 'N/A';
     let patientName = $('#patientSelect option:selected').text().replace('ID: ' + patientId + ' - ', '') || 'N/A';
     let doctorName = $('#doctorSelect option:selected').text() || 'N/A';
-    
+
     if (analysisData) {
         // Use actual data from database
         generatedTime = new Date(analysisData.created_at);
         analysisId = analysisData.id;
         patientId = analysisData.patient_id;
         doctorName = analysisData.doctor_name || 'Unknown Doctor';
-        
+
         // Get patient name from analysis data if available
         if (analysisData.patient_name) {
             patientName = analysisData.patient_name;
         }
     }
-    
+
     const resultHTML = `
         <div class="container-fluid" id="printableAnalysis">
             <!-- Report Header -->
@@ -765,9 +761,9 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
                     </div>
                 </div>
             </div>
-            
+
             <!-- Confidence Level Indicator -->
-            
+
             <!-- Analysis Results -->
             <div class="row">
                 <div class="col-12">
@@ -781,7 +777,7 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
                             </div>
                             <div class="card-body">
                                 <div class="text-justify">
-                                    ${section.content.split('\n').map(line => 
+                                    ${section.content.split('\n').map(line =>
                                         line.trim() ? `<p class="mb-2">${line.replace(/^-\s*/, '')}</p>` : ''
                                     ).join('')}
                                 </div>
@@ -790,20 +786,20 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
                     `).join('')}
                 </div>
             </div>
-            
+
             <!-- Disclaimer -->
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-warning">
                         <h6><i class="fas fa-exclamation-triangle mr-2"></i>AI Analysis Disclaimer</h6>
                         <p class="mb-0 small">
-                            This analysis was generated by artificial intelligence and should be used as a supplementary tool for medical professionals. 
+                            This analysis was generated by artificial intelligence and should be used as a supplementary tool for medical professionals.
                             It is not a substitute for professional medical judgment, diagnosis, or treatment.
                         </p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Footer -->
             <div class="row">
                 <div class="col-12">
@@ -812,7 +808,7 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
                             <div class="row">
                                 <div class="col-md-6">
                                     <p class="mb-1"><strong>Doctor's Signature:</strong></p>
-                                    <div class="border-bottom mb-2" style="height: 2px;"></div>
+                                    <div class="border-bottom mb-2"></div>
                                     <p class="mb-0">${$('#doctorSelect option:selected').text()}</p>
                                     <small class="text-muted">Date: ${new Date().toLocaleDateString()}</small>
                                 </div>
@@ -830,7 +826,7 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
                     </div>
                 </div>
             </div>
-            
+
             <!-- Print Button -->
             <div class="row mt-4 no-print">
                 <div class="col-12">
@@ -846,14 +842,14 @@ function displayAnalysisResult(analysisResult, analysisData = null) {
             </div>
         </div>
     `;
-    
+
     // Hide loading modal and show report in tab
     $('#loadingModal').modal('hide');
     $('#analysisResults').html(resultHTML);
-    
+
     // Switch to report tab
     $('#report-tab').tab('show');
-    
+
     // Hospital details are already loaded from PHP settings
 }
 
@@ -863,10 +859,10 @@ function parseAnalysisResult(analysisResult) {
     const lines = analysisResult.split('\n');
     let currentSection = null;
     let currentContent = [];
-    
+
     for (let line of lines) {
         const trimmedLine = line.trim();
-        
+
         // Check if this is a section header
         if (trimmedLine.startsWith('**') && trimmedLine.endsWith('**')) {
             // Save previous section if exists
@@ -876,7 +872,7 @@ function parseAnalysisResult(analysisResult) {
                     content: currentContent.join('\n').replace(/\*\*/g, '').trim()
                 });
             }
-            
+
             // Start new section
             currentSection = trimmedLine.replace(/\*\*/g, '').trim();
             currentContent = [];
@@ -885,7 +881,7 @@ function parseAnalysisResult(analysisResult) {
             currentContent.push(trimmedLine);
         }
     }
-    
+
     // Add the last section
     if (currentSection) {
         sections.push({
@@ -893,7 +889,7 @@ function parseAnalysisResult(analysisResult) {
             content: currentContent.join('\n').replace(/\*\*/g, '').trim()
         });
     }
-    
+
     return sections;
 }
 
@@ -904,7 +900,7 @@ function getSectionIcon(sectionTitle) {
         'RECOMMENDATIONS': 'fa-prescription-bottle-alt',
         'NOTES': 'fa-clipboard-list'
     };
-    
+
     return iconMap[sectionTitle] || 'fa-file-medical';
 }
 
@@ -914,36 +910,35 @@ function loadAnalysisHistory(patientId) {
         type: 'POST',
         data: {
             patient_id: patientId,
-            <?php echo json_encode($this->security->get_csrf_token_name()); ?>: <?php echo json_encode($this->security->get_csrf_hash()); ?>
         },
         dataType: 'json',
         success: function(response) {
             if (response.success && response.analyses.length > 0) {
                 let historyHTML = '<div class="table-responsive"><table class="table table-striped">';
                 historyHTML += '<thead><tr><th>Date</th><th>Image Type</th><th>Doctor</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
-                
+
                 response.analyses.forEach(function(analysis) {
-                    const status = analysis.analysis_result ? 
-                        '<span class="badge badge-success">Completed</span>' : 
-                        '<span class="badge badge-warning">Pending</span>';
-                    
-                    const actions = analysis.analysis_result ? 
+                    const status = analysis.analysis_result ?
+                        '<span class="ap-status ap-status-success">Completed</span>' :
+                        '<span class="ap-status ap-status-warning">Pending</span>';
+
+                    const actions = analysis.analysis_result ?
                         `<button class="btn btn-sm btn-primary" onclick="viewFullReport('${analysis.id}')">View Report</button>` :
                         `<button class="btn btn-sm btn-warning" onclick="analyzeImage('${analysis.id}')">Analyze</button>`;
-                    
+
                     const imageTypeDisplay = analysis.image_type === 'auto_detect' ? 'Auto-Detected' : analysis.image_type.replace('_', ' ').toUpperCase();
-                    
+
                     historyHTML += `
                         <tr>
                             <td>${new Date(analysis.created_at).toLocaleDateString()}</td>
-                            <td><span class="badge badge-info">${imageTypeDisplay}</span></td>
+                            <td><span class="ap-status ap-status-info">${imageTypeDisplay}</span></td>
                             <td>${analysis.doctor_name}</td>
                             <td>${status}</td>
                             <td>${actions}</td>
                         </tr>
                     `;
                 });
-                
+
                 historyHTML += '</tbody></table></div>';
                 $('#analysisHistory').html(historyHTML);
             } else {
@@ -976,7 +971,7 @@ function viewFullReport(analysisId) {
             <p class="text-muted">Loading detailed report...</p>
         </div>
     `);
-    
+
     $('#reportModal').modal('show');
 }
 
@@ -984,14 +979,14 @@ function updateUploadButtonState() {
     const patientSelected = $('#patientSelect').val() !== '';
     const doctorSelected = $('#doctorSelect').val() !== '';
     const imageSelected = $('#imageFile')[0].files.length > 0;
-    
+
     $('#uploadBtn').prop('disabled', !(patientSelected && doctorSelected && imageSelected));
 }
 
 function printAnalysisReport() {
     const printContent = document.getElementById('printableAnalysis').innerHTML;
     const originalContent = document.body.innerHTML;
-    
+
     document.body.innerHTML = `
         <div class="container-fluid">
             <div class="row">
@@ -1001,7 +996,7 @@ function printAnalysisReport() {
             </div>
         </div>
     `;
-    
+
     window.print();
     document.body.innerHTML = originalContent;
     // Remove location.reload() to keep the image and report visible
@@ -1012,7 +1007,7 @@ function downloadAnalysisReport() {
     const patientName = $('#patientSelect option:selected').text().split(' (')[0];
     const timestamp = new Date().toISOString().split('T')[0];
     const filename = `Medical_Image_Analysis_${patientName}_${timestamp}.html`;
-    
+
     const blob = new Blob([`
         <!DOCTYPE html>
         <html>
@@ -1040,7 +1035,7 @@ function downloadAnalysisReport() {
         </body>
         </html>
     `], { type: 'text/html' });
-    
+
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -1057,7 +1052,7 @@ function submitForm() {
     const doctorId = $('#doctorSelect').val();
     const imageFile = $('#imageFile')[0].files[0];
     const description = $('#description').val();
-    
+
     if (!patientId || !doctorId || !imageFile) {
         showNotification('Please fill in all required fields.', 'error');
         return;
@@ -1069,10 +1064,9 @@ function submitForm() {
     formData.append('doctor_id', doctorId);
     formData.append('image', imageFile);
     formData.append('description', description);
-    formData.append(<?php echo json_encode($this->security->get_csrf_token_name()); ?>, <?php echo json_encode($this->security->get_csrf_hash()); ?>);
 
     $('#loadingModal').modal('show');
-    
+
     $.ajax({
         url: '<?php echo base_url(); ?>ai_image_analysis/uploadImage',
         type: 'POST',
@@ -1082,18 +1076,18 @@ function submitForm() {
         dataType: 'json',
         success: function(response) {
             $('#loadingModal').modal('hide');
-            
+
             if (response.success) {
                 currentAnalysisId = response.analysis_id;
-                
+
                 // Display analysis result directly
                 displayAnalysisResult(response.analysis_result);
-                
+
                 // Scroll to the report section
                 $('html, body').animate({
                     scrollTop: $('#analysisResults').offset().top - 100
                 }, 800);
-                
+
                 // Reload analysis history
                 const patientId = $('#patientSelect').val();
                 if (patientId) {
@@ -1133,17 +1127,17 @@ function showNotification(message, type) {
 
 /* Print styles */
 @media print {
-    .no-print { 
-        display: none !important; 
+    .no-print {
+        display: none !important;
     }
-    body { 
-        font-size: 12px; 
+    body {
+        font-size: 12px;
     }
-    .report-header h4 { 
-        font-size: 18px; 
+    .report-header h4 {
+        font-size: 18px;
     }
-    .section-title { 
-        font-size: 14px; 
+    .section-title {
+        font-size: 14px;
     }
     .row {
         display: flex !important;
@@ -1243,4 +1237,3 @@ function showNotification(message, type) {
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-

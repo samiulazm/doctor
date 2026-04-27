@@ -118,7 +118,7 @@
                                                 </select>
                                             </div>
 
-                                            <div class="pos_doctor row" style="display: none;">
+                                            <div class="pos_doctor row">
                                                 <div class="col-md-6 payment pad_bot">
                                                     <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?>
                                                         <?php echo lang('name'); ?></label>
@@ -308,7 +308,7 @@
                                     <div class="form-row">
                                         <div class="col-md-12">
                                             <div class="col-md-12 payment">
-                                                <div class="payment_label" style="margin-top: -3px;">
+                                                <div class="payment_label">
                                                     <label for="exampleInputEmail1"> <?php echo lang('sub_total'); ?>
                                                     </label>
                                                 </div>
@@ -588,7 +588,7 @@
 
                                                         </div>
                                                         <div class="">
-                                                            <div class="payment_label" style="margin-top:10px;">
+                                                            <div class="payment_label">
                                                                 <label
                                                                     for="exampleInputEmail1"><?php echo lang('insurance_details'); ?>
                                                                 </label>
@@ -602,7 +602,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="cardPayment" style="display: none;">
+                                                    <div class="cardPayment">
 
                                                         <hr>
                                                         <div class="col-md-12 payment pad_bot">

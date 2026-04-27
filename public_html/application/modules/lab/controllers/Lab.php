@@ -207,7 +207,7 @@ class Lab extends MX_Controller
                         </table>
                     </div>';
 
-        $footer = '<div class="invoice_footer" style="margin-top:50px;">
+        $footer = '<div class="invoice_footer">
 
                                 <table style="width: 100%">
                                 
@@ -398,15 +398,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -563,7 +563,7 @@ class Lab extends MX_Controller
             $bill_status = "";
             if (!empty($invoice_details)) {
                 if (($invoice_details->gross_total - $total_deposit) > 0) {
-                    $bill_status =  '<span class="badge badge-danger">' . lang('due_have') . '</span>';
+                    $bill_status =  '<span class="ap-status ap-status-danger">' . lang('due_have') . '</span>';
                 } else {
                     $bill_status = '<span class="badge badge-primary">' . lang('paid') . '</span>';
                 }
@@ -592,11 +592,11 @@ class Lab extends MX_Controller
                     if ($payment->payment_from == 'payment' || empty($payment->payment_from)) {
                         $payment_from_badge = '<span class="badge badge-primary">' . lang('opd') . '</span>';
                     } elseif ($payment->payment_from == 'admitted_patient_bed_medicine') {
-                        $payment_from_badge = '<span class="badge badge-warning">' . lang('ipd_medicine') . '</span>';
+                        $payment_from_badge = '<span class="ap-status ap-status-warning">' . lang('ipd_medicine') . '</span>';
                     } elseif ($payment->payment_from == 'admitted_patient_bed_service') {
-                        $payment_from_badge = '<span class="badge badge-success">' . lang('ipd_service') . '</span>';
+                        $payment_from_badge = '<span class="ap-status ap-status-success">' . lang('ipd_service') . '</span>';
                     } elseif ($payment->payment_from == 'admitted_patient_bed_diagnostic') {
-                        $payment_from_badge = '<span class="badge badge-info">' . lang('ipd_diagnostic') . '</span>';
+                        $payment_from_badge = '<span class="ap-status ap-status-info">' . lang('ipd_diagnostic') . '</span>';
                     }
                 }
             }
@@ -770,9 +770,9 @@ class Lab extends MX_Controller
             $bill_status = "";
             if (!empty($invoice_details)) {
                 if (($invoice_details->gross_total - $total_deposit) > 0) {
-                    $bill_status =  '<span class="badge badge-danger">' . lang('due_have') . '</span>';
+                    $bill_status =  '<span class="ap-status ap-status-danger">' . lang('due_have') . '</span>';
                 } else {
-                    $bill_status = '<span class="badge badge-success">' . lang('paid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 }
             }
 
@@ -788,11 +788,11 @@ class Lab extends MX_Controller
 
             $status = "";
             if ($lab->status == "pending") {
-                $status = '<span class="badge badge-danger">' . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('pending') . '</span>';
             } else if ($lab->status == "drafted") {
-                $status = '<span class="badge badge-warning">' . lang('drafted') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('drafted') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('completed') . '</span>';
             }
 
             $reported_by = "";
@@ -1086,9 +1086,9 @@ class Lab extends MX_Controller
             $bill_status = "";
             if (!empty($invoice_details)) {
                 if (($invoice_details->gross_total - $total_deposit) > 0) {
-                    $bill_status =  '<span class="badge badge-danger">' . lang('due_have') . '</span>';
+                    $bill_status =  '<span class="ap-status ap-status-danger">' . lang('due_have') . '</span>';
                 } else {
-                    $bill_status = '<span class="badge badge-success">' . lang('paid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 }
             }
 
@@ -1143,7 +1143,7 @@ class Lab extends MX_Controller
                 $invoice_date_time,
                 $test_name,
                 $bill_status,
-                '<span class="badge badge-success">' . lang('completed') . '</span>',
+                '<span class="ap-status ap-status-success">' . lang('completed') . '</span>',
                 $status,
                 $lab_delivery_status_date,
                 $lab->receiver_name,
@@ -2131,15 +2131,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2242,15 +2242,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2353,15 +2353,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2464,15 +2464,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2575,15 +2575,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2686,15 +2686,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2797,15 +2797,15 @@ class Lab extends MX_Controller
             if ($lab->status == 'sample_taken') {
                 $status = '<span class="badge badge-primary">' . lang('sample_collected') . '</span>';
             } elseif ($lab->status == 'complete') {
-                $status = '<span class="badge badge-info">' . lang('report') . " " . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-info">' . lang('report') . " " . lang('completed') . '</span>';
             } elseif ($lab->status == 'waiting') {
-                $status = '<span class="badge badge-danger">' . lang('sample_not_collected') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('sample_not_collected') . '</span>';
             } elseif ($lab->status == 'pending') {
-                $status = '<span class="badge badge-warning">' . lang('report') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('report') . " " . lang('pending') . '</span>';
             } elseif ($lab->status == 'delivery_pending') {
-                $status = '<span class="badge badge-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('delivery') . " " . lang('pending') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('delivered') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('delivered') . '</span>';
             }
             $patient_info = $this->patient_model->getPatientById($lab->patient);
             if (!empty($patient_info)) {
@@ -2981,9 +2981,9 @@ class Lab extends MX_Controller
             $bill_status = "";
             if ($invoice_details) {
                 if ($invoice_details && $invoice_details->amount_received == null || $total_deposit < $invoice_details->gross_total) {
-                    $bill_status = '<span class="badge badge-danger">' . lang('due_have') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-danger">' . lang('due_have') . '</span>';
                 } else {
-                    $bill_status = '<span class="badge badge-success">' . lang('paid') . '</span>';
+                    $bill_status = '<span class="ap-status ap-status-success">' . lang('paid') . '</span>';
                 }
             }
 
@@ -3006,11 +3006,11 @@ class Lab extends MX_Controller
 
             $status = "";
             if ($lab->status == "pending") {
-                $status = '<span class="badge badge-danger">' . lang('pending') . '</span>';
+                $status = '<span class="ap-status ap-status-danger">' . lang('pending') . '</span>';
             } else if ($lab->status == "drafted") {
-                $status = '<span class="badge badge-warning">' . lang('drafted') . '</span>';
+                $status = '<span class="ap-status ap-status-warning">' . lang('drafted') . '</span>';
             } else {
-                $status = '<span class="badge badge-success">' . lang('completed') . '</span>';
+                $status = '<span class="ap-status ap-status-success">' . lang('completed') . '</span>';
             }
 
             $reported_by = "";
@@ -3374,7 +3374,7 @@ class Lab extends MX_Controller
                         </table>
                     </div>';
 
-        $footer = '<div class="invoice_footer" style="margin-top:50px;">
+        $footer = '<div class="invoice_footer">
 
                                 <table style="width: 100%">
                                 

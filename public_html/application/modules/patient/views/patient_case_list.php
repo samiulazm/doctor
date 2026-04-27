@@ -70,7 +70,7 @@
                                         <ul class="list-unstyled">
                                             <li class="detail-item mb-3">
                                                 <span class="detail-label text-muted mr-2"><?php echo lang('patient_id'); ?></span>
-                                                <span class="badge badge-info px-3 py-2">#<?php echo $patient->id; ?></span>
+                                                <span class="ap-status ap-status-info px-3 py-2">#<?php echo $patient->id; ?></span>
                                             </li>
                                             <li class="detail-item mb-3">
                                                 <span class="detail-label text-muted mr-2"><?php echo lang('gender'); ?></span>
@@ -78,7 +78,7 @@
                                             </li>
                                             <li class="detail-item mb-3">
                                                 <span class="detail-label text-muted mr-2"><?php echo lang('birth_date'); ?></span>
-                                                <span class="badge badge-success px-3 py-2"><?php echo $patient->birthdate; ?></span>
+                                                <span class="ap-status ap-status-success px-3 py-2"><?php echo $patient->birthdate; ?></span>
                                             </li>
                                         </ul>
                                     </div>
@@ -462,7 +462,7 @@
     </div><!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="myDiagnosisModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="myDiagnosisModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

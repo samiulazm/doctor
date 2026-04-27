@@ -29,7 +29,7 @@
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         <?php echo lang('purchase_code_verification'); ?>
-                                        <span class="badge badge-success">Verified</span>
+                                        <span class="ap-status ap-status-success">Verified</span>
                                     </h4>
                                 </div>
                             </div>

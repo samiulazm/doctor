@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 100vh;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -58,7 +58,7 @@
                                     </div>
                                     
                                     <!-- Selected Patient - Compact Display -->
-                                    <div id="selected-patient-info" class="row" style="display: none;">
+                                    <div id="selected-patient-info" class="row">
                                         <div class="col-md-12">
                                             <div class="selected-patient-display">
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -103,7 +103,7 @@
                                 </div>
 
                                 <!-- Patient Information Display -->
-                                <div id="patient-info" class="row" style="display: none;">
+                                <div id="patient-info" class="row">
                                     <div class="col-md-12">
                                         <div class="alert alert-info">
                                             <div class="row">
@@ -507,13 +507,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="ai-analysis-loading" class="text-center" style="display: none;">
+                <div id="ai-analysis-loading" class="text-center">
                     <div class="spinner-border text-primary" role="status">
                         <span class="sr-only"><?php echo lang('loading'); ?></span>
                     </div>
                     <p class="mt-2"><?php echo lang('generating_ai_analysis'); ?></p>
                 </div>
-                <div id="ai-analysis-content" style="display: none;">
+                <div id="ai-analysis-content">
                     <div class="alert alert-info">
                         <h6><i class="fas fa-info-circle mr-2"></i><?php echo lang('patient_information'); ?></h6>
                         <div class="row">
@@ -523,7 +523,7 @@
                             <div class="col-md-3"><strong><?php echo lang('phone'); ?>:</strong> <span id="ai-patient-phone">-</span></div>
                         </div>
                     </div>
-                    <div id="ai-analysis-text" class="border p-3 rounded" style="background-color: #f8f9fa; max-height: 400px; overflow-y: auto;">
+                    <div id="ai-analysis-text" class="border p-3 rounded">
                         <!-- AI analysis content will be loaded here -->
                     </div>
                 </div>

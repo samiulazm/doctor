@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-gradient-light" style="min-height: 2726.9px;">
+<div class="content-wrapper bg-light">
     <section class="content-header py-4 bg-white shadow-sm">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -194,22 +194,22 @@
                                                     <td><?php echo date('d/m/Y H:i', strtotime($booking->pickup_time)); ?></td>
                                                     <td>
                                                         <?php if ($booking->status == 'Pending') { ?>
-                                                            <span class="badge badge-warning"><?php echo $booking->status; ?></span>
+                                                            <span class="ap-status ap-status-warning"><?php echo $booking->status; ?></span>
                                                         <?php } elseif ($booking->status == 'In Progress') { ?>
-                                                            <span class="badge badge-info"><?php echo $booking->status; ?></span>
+                                                            <span class="ap-status ap-status-info"><?php echo $booking->status; ?></span>
                                                         <?php } elseif ($booking->status == 'Completed') { ?>
-                                                            <span class="badge badge-success"><?php echo $booking->status; ?></span>
+                                                            <span class="ap-status ap-status-success"><?php echo $booking->status; ?></span>
                                                         <?php } else { ?>
                                                             <span class="badge badge-secondary"><?php echo $booking->status; ?></span>
                                                         <?php } ?>
                                                     </td>
                                                     <td>
                                                         <?php if ($booking->priority == 'High') { ?>
-                                                            <span class="badge badge-danger"><?php echo $booking->priority; ?></span>
+                                                            <span class="ap-status ap-status-danger"><?php echo $booking->priority; ?></span>
                                                         <?php } elseif ($booking->priority == 'Medium') { ?>
-                                                            <span class="badge badge-warning"><?php echo $booking->priority; ?></span>
+                                                            <span class="ap-status ap-status-warning"><?php echo $booking->priority; ?></span>
                                                         <?php } else { ?>
-                                                            <span class="badge badge-success"><?php echo $booking->priority; ?></span>
+                                                            <span class="ap-status ap-status-success"><?php echo $booking->priority; ?></span>
                                                         <?php } ?>
                                                     </td>
                                                     <td>

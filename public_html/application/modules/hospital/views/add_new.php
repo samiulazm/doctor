@@ -251,7 +251,7 @@
 
 
 
-                                            <div class="form-group pos_client" style="display: none;">
+                                            <div class="form-group pos_client">
                                                 <label for="exampleInputEmail1"> <?php echo lang('module_permission'); ?></label>
                                                 <br>
                                                 <input type='checkbox' value="accountant" name="module[]" <?php
