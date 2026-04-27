@@ -109,24 +109,49 @@ Future scale features.
 
 ## Traceability
 
-Updated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEC-01 through SEC-10 | Phase TBD | Pending |
-| UI-01 through UI-04 | Phase TBD | Pending |
-| UI-05 through UI-08 | Phase TBD | Pending |
-| UI-09 through UI-13 | Phase TBD | Pending |
-| AUTH-01 | Phase TBD | Pending |
-| QUEUE-01 | Phase TBD | Pending |
-| PAY-01 through PAY-02 | Phase TBD | Pending |
-| BUG-01 through BUG-06 | Phase TBD | Pending |
+| SEC-01 | Phase 1 — Security Hardening | Pending |
+| SEC-02 | Phase 1 — Security Hardening | Pending |
+| SEC-03 | Phase 1 — Security Hardening | Pending |
+| SEC-04 | Phase 1 — Security Hardening | Pending |
+| SEC-05 | Phase 1 — Security Hardening | Pending |
+| SEC-06 | Phase 1 — Security Hardening | Pending |
+| SEC-07 | Phase 1 — Security Hardening | Pending |
+| SEC-08 | Phase 1 — Security Hardening | Pending |
+| SEC-09 | Phase 1 — Security Hardening | Pending |
+| SEC-10 | Phase 1 — Security Hardening | Pending |
+| BUG-01 | Phase 2 — Code Health | Pending |
+| BUG-02 | Phase 2 — Code Health | Pending |
+| BUG-03 | Phase 2 — Code Health | Pending |
+| BUG-04 | Phase 2 — Code Health | Pending |
+| BUG-05 | Phase 2 — Code Health | Pending |
+| BUG-06 | Phase 2 — Code Health | Pending |
+| UI-01 | Phase 3 — Admin Design System | Pending |
+| UI-02 | Phase 3 — Admin Design System | Pending |
+| UI-03 | Phase 3 — Admin Design System | Pending |
+| UI-04 | Phase 3 — Admin Design System | Pending |
+| UI-05 | Phase 4 — Patient Portal | Pending |
+| UI-06 | Phase 4 — Patient Portal | Pending |
+| UI-07 | Phase 4 — Patient Portal | Pending |
+| UI-08 | Phase 4 — Patient Portal | Pending |
+| AUTH-01 | Phase 4 — Patient Portal | Pending |
+| PAY-02 | Phase 4 — Patient Portal | Pending |
+| UI-09 | Phase 5 — Doctor Portal | Pending |
+| UI-10 | Phase 5 — Doctor Portal | Pending |
+| UI-11 | Phase 5 — Doctor Portal | Pending |
+| UI-12 | Phase 6 — Assistant Portal + Real-Time | Pending |
+| UI-13 | Phase 6 — Assistant Portal + Real-Time | Pending |
+| PAY-01 | Phase 6 — Assistant Portal + Real-Time | Pending |
+| QUEUE-01 | Phase 6 — Assistant Portal + Real-Time | Pending |
 
 **Coverage:**
-- v1 requirements: 35 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 35 ⚠️
+- v1 requirements: 33 total (SEC x10, BUG x6, UI x13, AUTH x1, QUEUE x1, PAY x2)
+- Mapped to phases: 33
+- Unmapped: 0
+
+**Note on count:** Requirements count is 33, not 35 as initially estimated during intake. All named requirements (SEC-01 to SEC-10, UI-01 to UI-13, AUTH-01, QUEUE-01, PAY-01, PAY-02, BUG-01 to BUG-06) are accounted for.
 
 ---
 *Requirements defined: 2026-04-27*
-*Last updated: 2026-04-27 after initialization*
+*Last updated: 2026-04-27 — traceability table completed after roadmap creation*
