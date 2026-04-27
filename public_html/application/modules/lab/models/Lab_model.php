@@ -85,7 +85,14 @@ class Lab_model extends CI_model
         $query = $this->db->select('*')
             ->from('lab')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -115,7 +122,14 @@ class Lab_model extends CI_model
         $query = $this->db->select('*')
             ->from('lab')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -167,7 +181,10 @@ class Lab_model extends CI_model
             $this->db->where('category_id', $category);
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('name', $search);
+        $this->db->group_end();
         $query = $this->db->get('template');
 
         return $query->result();
@@ -207,7 +224,10 @@ class Lab_model extends CI_model
         }
         $this->db->limit($limit, $start);
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('name', $search);
+        $this->db->group_end();
         $query = $this->db->get('template');
 
         return $query->result();
@@ -409,7 +429,15 @@ class Lab_model extends CI_model
             $this->db->where('date <=', strtotime($to));
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }
@@ -520,7 +548,15 @@ class Lab_model extends CI_model
             $this->db->where('date <=', strtotime($to));
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }
@@ -688,7 +724,16 @@ class Lab_model extends CI_model
         if ($to) {
             $this->db->where('date <=', strtotime($to));
         }
-        $this->db->where("(id LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%' OR patient LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }
@@ -810,7 +855,16 @@ class Lab_model extends CI_model
             $this->db->where('date <=', strtotime($to));
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%' OR patient LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }
@@ -974,7 +1028,15 @@ class Lab_model extends CI_model
 
         $this->db->select('*');
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }
@@ -1091,7 +1153,15 @@ class Lab_model extends CI_model
         $this->db->limit($limit, $start);
         $this->db->select('*');
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%'  OR invoice_id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('invoice_id', $search);
+        $this->db->or_like('patient_name', $search);
+        $this->db->or_like('patient_phone', $search);
+        $this->db->or_like('patient_address', $search);
+        $this->db->or_like('doctor_name', $search);
+        $this->db->or_like('date_string', $search);
+        $this->db->group_end();
         $query = $this->db->get('lab');
         return $query->result();
     }

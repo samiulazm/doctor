@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(grep -v \"testpkz\\\\\\\\\")",
+      "Bash(npm view *)",
+      "Bash(npx --yes ctx7@latest library phpspreadsheet \"spreadsheet reading excel import\")",
+      "Bash(npx --yes ctx7@latest docs /phpoffice/phpspreadsheet \"reading Excel file IOFactory worksheet iterate cells\")",
+      "Bash(npx --yes \"ctx7\" docs \"/phpoffice/phpspreadsheet\" \"reading Excel file IOFactory worksheet iterate cells\")",
+      "WebFetch(domain:phpspreadsheet.readthedocs.io)",
+      "WebSearch",
+      "Bash(composer show *)",
+      "Bash(php *)",
+      "WebFetch(domain:packagist.org)",
+      "Bash(grep -A8 'echo $ion_user_id')",
+      "Bash(awk -F: '{if \\($1 <= 904\\) last=$0} END {print last}')",
+      "Bash(python3 -c \"import sys,json; c=json.load\\(sys.stdin\\); print\\('ui_phase:', c.get\\('workflow',{}\\).get\\('ui_phase','unset'\\)\\); print\\('ui_safety_gate:', c.get\\('workflow',{}\\).get\\('ui_safety_gate','unset'\\)\\)\")",
+      "Skill(gsd-ui-phase)"
+    ]
+  }
+}

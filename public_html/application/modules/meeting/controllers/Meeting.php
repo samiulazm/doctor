@@ -158,7 +158,7 @@ class Meeting extends MX_Controller
     //         'start_time' => $start_date,
     //         'timezone' => 'UTC',
     //         'duration' => 60,
-    //         'meeting_password' => '12345',
+    //         'meeting_password' => bin2hex(random_bytes(4)),
     //         'add_date' => date('m/d/y'),
     //         'registration_time' => time(),
     //         'user' => $this->ion_auth->get_user_id(),
@@ -440,7 +440,7 @@ class Meeting extends MX_Controller
             'start_time' => $start_date,
             'timezone' => 'UTC',
             'duration' => 60,
-            'meeting_password' => '12345',
+            'meeting_password' => bin2hex(random_bytes(4)),
             'add_date' => date('m/d/y'),
             'registration_time' => time(),
             'user' => $this->ion_auth->get_user_id(),
@@ -965,7 +965,7 @@ function settings()
             if (!empty($id)) {
                 $meeting_password = $this->meeting_model->getMeetingById($id)->meeting_password;
             } else {
-                $meeting_password = '12345';
+                $meeting_password = bin2hex(random_bytes(4)); // 8-char random hex meeting room password.
             }
         }
 

@@ -48,7 +48,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -77,7 +81,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -113,7 +121,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -162,7 +174,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -297,7 +313,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('alloted_bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('patientname', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -326,7 +346,11 @@ class Bed_model extends CI_model
         $query = $this->db->select('*')
             ->from('alloted_bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('patientname', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -377,7 +401,11 @@ class Bed_model extends CI_model
             ->from('alloted_bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where($field, null)
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('patientname', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -418,7 +446,11 @@ class Bed_model extends CI_model
             ->from('alloted_bed')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where($field, null)
-            ->where("(id LIKE '%" . $search . "%' OR bed_id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('bed_id', $search)
+            ->or_like('patientname', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }

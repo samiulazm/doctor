@@ -40,7 +40,11 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('logs')
                 ->where('hospital_id', $hospital_ion_user_id)
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' )", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('email', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -74,7 +78,11 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('logs')
                 ->where('hospital_id', $hospital_ion_user_id)
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' )", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('email', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -102,7 +110,11 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('logs')
               
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' )", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('email', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -132,7 +144,11 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('logs')
                 
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' )", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('email', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -181,7 +197,14 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('transaction_logs')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR date_time LIKE '%" . $search . "%' OR deposit_type LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%'  OR action LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('date_time', $search)
+                ->or_like('deposit_type', $search)
+                ->or_like('invoice_id', $search)
+                ->or_like('action', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -215,7 +238,14 @@ class Logs_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('transaction_logs')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR date_time LIKE '%" . $search . "%' OR deposit_type LIKE '%" . $search . "%' OR invoice_id LIKE '%" . $search . "%'  OR action LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('date_time', $search)
+                ->or_like('deposit_type', $search)
+                ->or_like('invoice_id', $search)
+                ->or_like('action', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();

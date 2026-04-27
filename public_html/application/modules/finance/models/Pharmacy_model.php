@@ -250,7 +250,9 @@ class Pharmacy_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('pharmacy_payment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -277,7 +279,9 @@ class Pharmacy_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('pharmacy_payment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }

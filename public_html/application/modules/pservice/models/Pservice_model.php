@@ -56,7 +56,12 @@ class Pservice_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('pservice')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR alpha_code LIKE '%" . $search . "%'OR code LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('alpha_code', $search)
+                ->or_like('code', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -76,7 +81,12 @@ class Pservice_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('pservice')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR alpha_code LIKE '%" . $search . "%'OR code LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('alpha_code', $search)
+                ->or_like('code', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }

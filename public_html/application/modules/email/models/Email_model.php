@@ -70,7 +70,10 @@ class Email_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('autoemailtemplate')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -89,7 +92,10 @@ class Email_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('autoemailtemplate')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -154,7 +160,10 @@ class Email_model extends CI_model {
                 ->from('manual_email_template')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('type', $type)
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -175,7 +184,10 @@ class Email_model extends CI_model {
                 ->from('manual_email_template')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('type', $type)
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -306,7 +318,10 @@ class Email_model extends CI_model {
             $query = $this->db->select('*')
                 ->from('pharmacist')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $searchTerm)
+                ->or_like('name', $searchTerm)
+                ->group_end()
                 ->get();
             $users = $query->result_array();
         } else {

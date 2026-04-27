@@ -2939,7 +2939,6 @@ class Finance extends MX_Controller
 
 
 
-        error_reporting(0);
         $data['redirect'] = 'download';
         $header = '<div id="invoice_header" style="width:100%;">
                         <table class="info_rer">
@@ -3179,7 +3178,6 @@ class Finance extends MX_Controller
 
 
 
-        error_reporting(0);
         $data['redirect'] = 'download';
         $header = '<div id="invoice_header" style="width:100%;">
                        <table class="info_rer">

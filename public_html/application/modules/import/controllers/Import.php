@@ -1,5 +1,9 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+
+// Excel imports use PhpOffice\PhpSpreadsheet through Composer autoload.
 class Import extends MX_Controller
 {
 
@@ -7,7 +11,6 @@ class Import extends MX_Controller
     {
         parent::__construct();
 
-        $this->load->library('Excel');
         $this->load->model('import_model');
         $this->load->helper('file');
 
@@ -58,13 +61,13 @@ class Import extends MX_Controller
 
     function importPatient($file, $tablename)
     {
-        $object = PHPExcel_IOFactory::load($file);
-        foreach ($object->getWorksheetIterator() as $worksheet) {
+        $spreadsheet = IOFactory::load($file);
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
             $highestRow = $worksheet->getHighestRow();    //get Highest Row
             $highestColumnLetter = $worksheet->getHighestColumn(); //get column highest as  letter
-            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
-            for ($column1 = 0; $column1 < $highestColumn; $column1++) {
-                $rowData1[] = $worksheet->getCellByColumnAndRow($column1, 1)->getValue();
+            $highestColumn = Coordinate::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
+            for ($column1 = 1; $column1 <= $highestColumn; $column1++) {
+                $rowData1[] = $worksheet->getCell([$column1, 1])->getValue();
             }
 
 
@@ -76,29 +79,29 @@ class Import extends MX_Controller
                     $rowData = [];
                     $rowData2 = [];
 
-                    for ($column = 0; $column < $highestColumn; $column++) {
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'password') {
-                            $rowData3[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
+                    for ($column = 1; $column <= $highestColumn; $column++) {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'password') {
+                            $rowData3[] = $worksheet->getCell([$column, 1])->getValue();
                         } else {
-                            $rowData2[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
+                            $rowData2[] = $worksheet->getCell([$column, 1])->getValue();
                         }
 
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) != 'password') {
-                            $rowData[] = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) != 'password') {
+                            $rowData[] = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'name') {
-                            $name = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'name') {
+                            $name = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'phone') {
-                            $phone = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'phone') {
+                            $phone = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'password') {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'password') {
 
-                            $password = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                            $password = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'email') {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'email') {
 
-                            $email = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                            $email = $worksheet->getCell([$column, $row])->getValue();
                         }
                     }
 
@@ -145,13 +148,13 @@ class Import extends MX_Controller
 
     function importDoctor($file, $tablename)
     {
-        $object = PHPExcel_IOFactory::load($file);
-        foreach ($object->getWorksheetIterator() as $worksheet) {
+        $spreadsheet = IOFactory::load($file);
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
             $highestRow = $worksheet->getHighestRow();    //get Highest Row
             $highestColumnLetter = $worksheet->getHighestColumn(); //get column highest as  letter
-            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
-            for ($column1 = 0; $column1 < $highestColumn; $column1++) {
-                $rowData1[] = $worksheet->getCellByColumnAndRow($column1, 1)->getValue();
+            $highestColumn = Coordinate::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
+            for ($column1 = 1; $column1 <= $highestColumn; $column1++) {
+                $rowData1[] = $worksheet->getCell([$column1, 1])->getValue();
             }
 
 
@@ -163,29 +166,29 @@ class Import extends MX_Controller
                     $rowData = [];
                     $rowData2 = [];
 
-                    for ($column = 0; $column < $highestColumn; $column++) {
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'password') {
-                            $rowData3[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
+                    for ($column = 1; $column <= $highestColumn; $column++) {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'password') {
+                            $rowData3[] = $worksheet->getCell([$column, 1])->getValue();
                         } else {
-                            $rowData2[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
+                            $rowData2[] = $worksheet->getCell([$column, 1])->getValue();
                         }
 
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) != 'password') {
-                            $rowData[] = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) != 'password') {
+                            $rowData[] = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'name') {
-                            $name = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'name') {
+                            $name = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'phone') {
-                            $phone = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'phone') {
+                            $phone = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'password') {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'password') {
 
-                            $password = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                            $password = $worksheet->getCell([$column, $row])->getValue();
                         }
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'email') {
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'email') {
 
-                            $email = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                            $email = $worksheet->getCell([$column, $row])->getValue();
                         }
                     }
 
@@ -227,14 +230,14 @@ class Import extends MX_Controller
 
     function importMedicine($file, $tablename)
     {
-        $object = PHPExcel_IOFactory::load($file);
+        $spreadsheet = IOFactory::load($file);
         $message2 = '';
-        foreach ($object->getWorksheetIterator() as $worksheet) {
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
             $highestRow = $worksheet->getHighestRow();    //get Highest Row
             $highestColumnLetter = $worksheet->getHighestColumn(); //get column highest as  letter
-            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
-            for ($column1 = 0; $column1 < $highestColumn; $column1++) {
-                $rowData1[] = $worksheet->getCellByColumnAndRow($column1, 1)->getValue();
+            $highestColumn = Coordinate::columnIndexFromString($highestColumnLetter); // convert letter to column index in number
+            for ($column1 = 1; $column1 <= $highestColumn; $column1++) {
+                $rowData1[] = $worksheet->getCell([$column1, 1])->getValue();
             }
 
 
@@ -246,15 +249,15 @@ class Import extends MX_Controller
                     $rowData = [];
                     $rowData2 = [];
 
-                    for ($column = 0; $column < $highestColumn; $column++) {
+                    for ($column = 1; $column <= $highestColumn; $column++) {
 
-                        $rowData2[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
-                        $rowData[] = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        $rowData2[] = $worksheet->getCell([$column, 1])->getValue();
+                        $rowData[] = $worksheet->getCell([$column, $row])->getValue();
 
 
 
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'name') {
-                            $name = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        if (strtolower($worksheet->getCell([$column, 1])->getValue()) === 'name') {
+                            $name = $worksheet->getCell([$column, $row])->getValue();
                         }
                     }
 

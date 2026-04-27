@@ -1640,7 +1640,7 @@ class Frontend extends MX_Controller
                 // }
                 // $data['p_limit'] = $p_limit;
                 // $data['d_limit'] = $d_limit;
-                // $this->ion_auth->register($name, '12345', $email, $dfg);
+                // $this->ion_auth->register($name, $password, $email, $dfg);
                 // $ion_user_id = $this->db->get_where('users', array('email' => $email))->row()->id;
                 // $data['from_where'] = 'Website';
                 // $insert = $this->hospital_model->insertHospital($data);
@@ -1701,7 +1701,7 @@ class Frontend extends MX_Controller
     {
 
         $name = $data1['name'];
-        $password = '12345';
+        $password = bin2hex(random_bytes(8)); // 16-char first-login temp credential.
         $email = $data1['email'];
         $address = $data1['address'];
         $phone = $data1['phone'];

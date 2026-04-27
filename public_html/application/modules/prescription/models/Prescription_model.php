@@ -76,7 +76,11 @@ class Prescription_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('prescription')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -104,7 +108,11 @@ class Prescription_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('prescription')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -140,7 +148,11 @@ class Prescription_model extends CI_model {
                 ->from('prescription')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -170,7 +182,11 @@ class Prescription_model extends CI_model {
                 ->from('prescription')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();

@@ -48,7 +48,12 @@ class Leave_model extends CI_Model {
             $query = $this->db->select('*')
                     ->from('leaves')
                     ->where('hospital_id', $this->session->userdata('hospital_id'))
-                    ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                    ->group_start()
+                    ->like('id', $search)
+                    ->or_like('name', $search)
+                    ->or_like('phone', $search)
+                    ->or_like('address', $search)
+                    ->group_end()
                     ->get();
             ;
             return $query->result();
@@ -59,7 +64,12 @@ class Leave_model extends CI_Model {
                     ->from('leaves')
                     ->where('hospital_id', $this->session->userdata('hospital_id'))
                     ->where('staff', $staff)
-                    ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                    ->group_start()
+                    ->like('id', $search)
+                    ->or_like('name', $search)
+                    ->or_like('phone', $search)
+                    ->or_like('address', $search)
+                    ->group_end()
                     ->get();
             ;
             return $query->result();
@@ -92,7 +102,12 @@ class Leave_model extends CI_Model {
             $query = $this->db->select('*')
                     ->from('leaves')
                     ->where('hospital_id', $this->session->userdata('hospital_id'))
-                    ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                    ->group_start()
+                    ->like('id', $search)
+                    ->or_like('name', $search)
+                    ->or_like('phone', $search)
+                    ->or_like('address', $search)
+                    ->group_end()
                     ->get();
             ;
             return $query->result();
@@ -104,7 +119,12 @@ class Leave_model extends CI_Model {
                     ->from('leaves')
                     ->where('hospital_id', $this->session->userdata('hospital_id'))
                     ->where('staff', $staff)
-                    ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                    ->group_start()
+                    ->like('id', $search)
+                    ->or_like('name', $search)
+                    ->or_like('phone', $search)
+                    ->or_like('address', $search)
+                    ->group_end()
                     ->get();
             ;
             return $query->result();
@@ -124,7 +144,12 @@ class Leave_model extends CI_Model {
         $query = $this->db->select('*')
                 ->from('leave_type')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -144,7 +169,12 @@ class Leave_model extends CI_Model {
         $query = $this->db->select('*')
                 ->from('leave_type')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();

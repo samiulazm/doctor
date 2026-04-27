@@ -117,9 +117,9 @@ class Ai_patient_condition extends MX_Controller
         }
 
         try {
-            // Get API key from settings
-            $settings = $this->settings_model->getSettings();
-            $api_key = $settings->chatgpt_api_key ?? '';
+            // Get API key from environment-backed config
+            $this->config->load('openai');
+            $api_key = $this->config->item('openai_api_key');
 
             if (empty($api_key)) {
                 echo json_encode(['success' => false, 'message' => 'AI API key not configured']);

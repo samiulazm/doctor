@@ -43,7 +43,11 @@ class Appointment_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -70,7 +74,11 @@ class Appointment_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -207,7 +215,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Requested')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -236,7 +248,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Requested')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -284,7 +300,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Pending Confirmation')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -313,7 +333,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Pending Confirmation')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -348,7 +372,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Confirmed')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -377,7 +405,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Confirmed')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -412,7 +444,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Treated')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -441,7 +477,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Treated')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -476,7 +516,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Cancelled')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -505,7 +549,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'Cancelled')
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -540,7 +588,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -569,7 +621,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -606,7 +662,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Requested')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -637,7 +697,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Requested')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -674,7 +738,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Cancelled')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -704,7 +772,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Cancelled')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -732,7 +804,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Pending Confirmation')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -762,7 +838,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Pending Confirmation')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -799,7 +879,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Treated')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -829,7 +913,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Treated')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -866,7 +954,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Confirmed')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -896,7 +988,11 @@ class Appointment_model extends CI_model {
                 ->from('appointment')
                 ->where('status', 'Confirmed')
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }

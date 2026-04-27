@@ -95,7 +95,8 @@ class Home extends MX_Controller
                 $patient_ids = array_unique($patient_ids);
                 if (!empty($patient_ids)) {
                     $this->db->where_in('id', $patient_ids);
-                    foreach ($this->db->get('patient')->result() as $prow) {
+                    $patient_query = $this->db->get('patient');
+                    foreach ($patient_query->result() as $prow) {
                         $data['appointment_patients_by_id'][$prow->id] = $prow;
                     }
                 }
@@ -565,45 +566,19 @@ class Home extends MX_Controller
             return;
         }
 
+        if (!array_key_exists($timezone, $this->gmtTime())) {
+            echo json_encode(['success' => false, 'message' => 'Invalid timezone']);
+            return;
+        }
+
         // Update timezone in settings table
         $this->db->where('hospital_id', $this->hospital_id);
         $result = $this->db->update('settings', ['timezone' => $timezone]);
 
         if ($result) {
-            // Update PHP timezone setting
-            $this->timeZone($timezone);
             echo json_encode(['success' => true, 'message' => 'Timezone updated successfully']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to update timezone']);
-        }
-    }
-
-    function timeZone($timezone) {
-        $reading = fopen('index.php', 'r');
-        $writing = fopen('index.tmp', 'w');
-
-        $replaced = false;
-
-        while (!feof($reading)) {
-            $line = fgets($reading);
-           
-            if (stristr($line, 'ini_set("date.timezone"')) {
-                $line = 'ini_set("date.timezone","' . $timezone . '");';
-                $replaced = true;
-            }
-            fputs($writing, $line);
-            if (stristr($line, 'ini_set("date.timezone"')) {
-                fputs($writing, "\n");
-            }
-        }
-      
-        fclose($reading);
-        fclose($writing);
-
-        if ($replaced) {
-            rename('index.tmp', 'index.php');
-        } else {
-            unlink('index.tmp');
         }
     }
 }

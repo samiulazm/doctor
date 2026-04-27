@@ -73,8 +73,8 @@ class Treatment_plan extends MX_Controller
             }
             
             // Get AI settings
-            $settings = $this->settings_model->getSettings();
-            $api_key = $settings->chatgpt_api_key ?? '';
+            $this->config->load('openai');
+            $api_key = $this->config->item('openai_api_key');
             
             if (empty($api_key)) {
                 echo json_encode(['success' => false, 'message' => 'AI API key not configured']);
@@ -148,8 +148,8 @@ class Treatment_plan extends MX_Controller
             $patient = $this->patient_model->getPatientById($treatment->patient_id);
             
             // Get AI settings
-            $settings = $this->settings_model->getSettings();
-            $api_key = $settings->chatgpt_api_key ?? '';
+            $this->config->load('openai');
+            $api_key = $this->config->item('openai_api_key');
             
             if (empty($api_key)) {
                 echo json_encode(['success' => false, 'message' => 'AI API key not configured']);
@@ -224,8 +224,8 @@ class Treatment_plan extends MX_Controller
             $patient = $this->patient_model->getPatientById($treatment->patient_id);
             
             // Get AI settings
-            $settings = $this->settings_model->getSettings();
-            $api_key = $settings->chatgpt_api_key ?? '';
+            $this->config->load('openai');
+            $api_key = $this->config->item('openai_api_key');
             
             if (empty($api_key)) {
                 echo json_encode(['success' => false, 'message' => 'AI API key not configured']);

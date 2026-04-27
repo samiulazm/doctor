@@ -200,7 +200,6 @@ class Payroll extends MX_Controller
 
 
         $data['settings'] = $this->settings_model->getSettings();
-        error_reporting(0);
         $data['redirect'] = 'download';
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
         $mpdf->SetHTMLFooter('

@@ -75,7 +75,10 @@ class Sms_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('autosmstemplate')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -95,7 +98,10 @@ class Sms_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('autosmstemplate')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -160,7 +166,10 @@ class Sms_model extends CI_model {
                 ->from('manual_sms_template')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('type', $type)
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -182,7 +191,10 @@ class Sms_model extends CI_model {
                 ->from('manual_sms_template')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('type', $type)
-                ->where("(id LIKE '%" . $search . "%' OR message LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('message', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();

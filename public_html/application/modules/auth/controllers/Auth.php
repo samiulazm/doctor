@@ -67,6 +67,14 @@ class Auth extends MX_Controller {
 //            }
             $remember = (bool) $this->input->post('remember');
 
+            // SEC-03: Reject locked-out identities before processing another attempt.
+            $identity_value = $this->input->post('identity', true);
+            if ($this->ion_auth->is_time_locked_out($identity_value)) {
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                redirect('auth/login', 'refresh');
+                return;
+            }
+
             if ($this->ion_auth->login($this->input->post('identity', true), $this->input->post('password'), $remember)) {
                 //if the login is successful
                 //redirect them back to the home page

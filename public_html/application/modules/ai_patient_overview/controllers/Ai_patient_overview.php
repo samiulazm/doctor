@@ -93,9 +93,9 @@ class Ai_patient_overview extends MX_Controller
 
     private function generateAIAnalysis($patient_data, $patient_id, $doctor_id)
     {
-        // Get API key from settings
-        $settings = $this->settings_model->getSettings();
-        $api_key = $settings->chatgpt_api_key ?? '';
+        // Get API key from environment-backed config
+        $this->config->load('openai');
+        $api_key = $this->config->item('openai_api_key');
         
         if (empty($api_key)) {
             throw new Exception('OpenAI API key not configured');

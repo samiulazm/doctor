@@ -29,7 +29,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'pending')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -59,7 +66,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'pending')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -94,7 +108,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'waiting')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -124,7 +145,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'waiting')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -159,7 +187,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'complete')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -189,7 +224,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'complete')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -224,7 +266,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'sample_taken')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -254,7 +303,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'sample_taken')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -289,7 +345,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'delivered')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -319,7 +382,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'delivered')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -354,7 +424,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('status', 'delivery_pending')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -384,7 +461,14 @@ function getPendingLab() {
                 ->from('lab')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('status', 'delivery_pending')
-                ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patient_name', $search)
+                ->or_like('patient_phone', $search)
+                ->or_like('patient_address', $search)
+                ->or_like('doctor_name', $search)
+                ->or_like('date_string', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();

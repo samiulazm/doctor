@@ -69,7 +69,10 @@ class Nurse_model extends CI_model
             $query = $this->db->select('*')
                 ->from('nurse')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $searchTerm)
+                ->or_like('name', $searchTerm)
+                ->group_end()
                 ->get();
             $users = $query->result_array();
         } else {

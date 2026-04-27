@@ -39,10 +39,10 @@ class Api extends MX_Controller
                 $data['user_id'] = $patient_details->id;
             }
 
-            $data['hospital_id'] = $this->getHospitalID($data['ion_id']);
             $data['message'] = 'successful';
-            $data['idToken'] = rand(1111, 9999);
+            $data['idToken'] = bin2hex(random_bytes(32));
             $data['ion_id'] = $ion_user_id;
+            $data['hospital_id'] = $this->getHospitalID($ion_user_id);
             $data['expiresIn'] = 86400;
             $data['error'] = null;
             echo json_encode($data);
@@ -78,7 +78,7 @@ class Api extends MX_Controller
                 }
 
                 $data['message'] = 'successful';
-                $data['idToken'] = rand(1111, 9999);
+                $data['idToken'] = bin2hex(random_bytes(32));
                 $data['ion_id'] = $this->ion_auth->get_user_id();
                 $data['user_id'] = $user_id->id;
                 $data['expiresIn'] = 86400;
@@ -900,8 +900,8 @@ class Api extends MX_Controller
                 $this->api_model->updatePatient($patient, $data_d);
             }
             //$this->sendSmsDuringAppointment($id, $data, $patient, $doctor, $status);
-            echo $ion_user_id;
-            die();
+            echo json_encode(['success' => true, 'appointment_id' => (int) $appointment_id]);
+            return;
         } else { // Updating department
             $previous_status = $this->api_model->getAppointmentById($id, $this->hospitalID)->status;
             if ($previous_status != "Confirmed") {
@@ -3211,7 +3211,13 @@ function getDocumentByPatientIonId()
         public function getPatientInfoList()
     {
         // Search term
-        $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getPatientInfoList($searchTerm, $this->hospitalID);
         echo json_encode($response);
@@ -3222,7 +3228,13 @@ function getDocumentByPatientIonId()
         // $patient_ion_id = 1141;
         // print_r($patient_ion_id);die();
         // $patient_ion_id = $this->input->get('patient_ion_id');
-        $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getDiagnosisInfo($searchTerm, $this->hospitalID);
         echo json_encode($response);
@@ -3230,7 +3242,13 @@ function getDocumentByPatientIonId()
     
         public function getTreatmentInfo()
     {
-        $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getTreatmentInfo($searchTerm, $this->hospitalID);
         echo json_encode($response);
@@ -3238,7 +3256,13 @@ function getDocumentByPatientIonId()
     
         public function getSymptomInfo()
     {
-       $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getSymptomInfo($searchTerm, $this->hospitalID);
         echo json_encode($response);
@@ -3246,7 +3270,13 @@ function getDocumentByPatientIonId()
 
     public function getAdviceInfo()
     {
-        $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getAdviceInfo($searchTerm, $this->hospitalID);
         echo json_encode($response);
@@ -3254,7 +3284,13 @@ function getDocumentByPatientIonId()
     
         public function getTestInfo()
     {
-        $this->hospitalID = $this->input->get('hospital_id');
+        $ion_id = $this->ion_auth->get_user_id();
+        if (!$ion_id) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthenticated']);
+            return;
+        }
+        $this->hospitalID = $this->getHospitalID($ion_id);
         $searchTerm = $this->input->post('searchTerm');
         $response = $this->api_model->getTestInfo($searchTerm, $this->hospitalID);
         echo json_encode($response);

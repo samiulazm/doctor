@@ -414,7 +414,7 @@ function required()
             }
         }
 
-        $common = array('payu', 'status', 'macro', 'auth', 'pservice', 'frontend', 'settings', 'import', 'home', 'profile', 'request', 'api', 'cronjobs', 'logs', 'doctorvisit', 'site', 'testpkz', 'facilitie', 'faq', 'diagnosis', 'treatment', 'symptom', 'advice', 'inventory', 'treatment_plan', 'ai_image_analysis', 'ai_patient_overview', 'emergency', 'ambulance', 'dashboard', 'radiology', 'health', 'portal', 'payment_bd', 'doctor_chamber', 'assistant_chamber', 'patient_chamber', 'saas_platform'); 
+        $common = array('payu', 'status', 'macro', 'auth', 'pservice', 'frontend', 'settings', 'import', 'home', 'profile', 'request', 'api', 'cronjobs', 'logs', 'doctorvisit', 'site', 'facilitie', 'faq', 'diagnosis', 'treatment', 'symptom', 'advice', 'inventory', 'treatment_plan', 'ai_image_analysis', 'ai_patient_overview', 'emergency', 'ambulance', 'dashboard', 'radiology', 'health', 'portal', 'payment_bd', 'doctor_chamber', 'assistant_chamber', 'patient_chamber', 'saas_platform');
 
         if (!in_array($RTR->class, $common)) {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {

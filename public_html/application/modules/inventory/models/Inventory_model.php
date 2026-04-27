@@ -205,10 +205,12 @@ class Inventory_model extends CI_model
             ->from('inventory_categories')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('status', 'active')
-            ->where("(id LIKE '%" . $search . "%' 
-                     OR name LIKE '%" . $search . "%' 
-                     OR description LIKE '%" . $search . "%' 
-                     OR status LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('description', $search)
+            ->or_like('status', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -239,10 +241,12 @@ class Inventory_model extends CI_model
             ->from('inventory_categories')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('status', 'active')
-            ->where("(id LIKE '%" . $search . "%' 
-                     OR name LIKE '%" . $search . "%' 
-                     OR description LIKE '%" . $search . "%' 
-                     OR status LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('description', $search)
+            ->or_like('status', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }

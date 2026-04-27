@@ -18,7 +18,14 @@ class Systems_model extends CI_Model {
         $this->db->order_by('id', 'desc');
         $query = $this->db->select('*')
                 ->from('doctor')
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->or_like('email', $search)
+                ->or_like('department', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -35,7 +42,14 @@ class Systems_model extends CI_Model {
         $this->db->limit($limit, $start);
         $query = $this->db->select('*')
                 ->from('doctor')
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->or_like('email', $search)
+                ->or_like('department', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();
@@ -51,7 +65,12 @@ class Systems_model extends CI_Model {
         $this->db->order_by('id', 'desc');
         $query = $this->db->select('*')
                 ->from('patient')
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();
@@ -69,7 +88,12 @@ class Systems_model extends CI_Model {
         $this->db->limit($limit, $start);
         $query = $this->db->select('*')
                 ->from('patient')
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('phone', $search)
+                ->or_like('address', $search)
+                ->group_end()
                 ->get();
         ;
         return $query->result();

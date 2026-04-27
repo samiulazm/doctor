@@ -1047,7 +1047,6 @@ For Any Support Please Contact with Phone No: {phone}';
         $data['deposit'] = $this->hospital_model->getHospitalDepositById($id);
         $data['settings'] = $this->db->get_where('settings', array('hospital_id' => 'superadmin'))->row();
 
-        error_reporting(0);
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
 
         $html = $this->load->view('invoice', $data, true);
@@ -1310,41 +1309,6 @@ For Any Support Please Contact with Phone No: {phone}';
         $id = $this->input->get('id');
         $data['language'] = $this->settings_model->getLanguageById($id);
         echo json_encode($data);
-    }
-function timeZone($timezone) {
-
-       
-
-
-        $reading = fopen('index.php', 'r');
-        $writing = fopen('index.tmp', 'w');
-
-        $replaced = false;
-
-        while (!feof($reading)) {
-            $line = fgets($reading);
-           
-            if (stristr($line, 'ini_set("date.timezone"')) {
-                
-                $line = 'ini_set("date.timezone","' . $timezone . '");';
-                
-                $replaced = true;
-            }
-            fputs($writing, $line);
-              if (stristr($line, 'ini_set("date.timezone"')) {
-            fputs($writing, "\n");
-              }
-        }
-      
-        fclose($reading);
-        fclose($writing);
-
-       
-        if ($replaced) {
-            rename('index.tmp', 'index.php');
-        } else {
-            unlink('index.tmp');
-        }
     }
      function gmtTime() {
         $timezones = array(

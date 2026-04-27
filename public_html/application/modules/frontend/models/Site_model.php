@@ -30,7 +30,12 @@ class Site_model extends CI_model
     {
         $this->db->order_by('id', 'desc');
         $this->db->where('hospital_id', $this->session->userdata('url_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search .  "%' OR address LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('name', $search);
+        $this->db->or_like('phone', $search);
+        $this->db->or_like('address', $search);
+        $this->db->group_end();
         $query = $this->db->get('appointment');
         return $query->result();
     }
@@ -51,7 +56,12 @@ class Site_model extends CI_model
 
         $this->db->order_by('id', 'desc');
         $this->db->where('hospital_id', $this->session->userdata('url_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search .  "%' OR address LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('name', $search);
+        $this->db->or_like('phone', $search);
+        $this->db->or_like('address', $search);
+        $this->db->group_end();
         $this->db->limit($limit, $start);
         $query = $this->db->get('appointment');
         return $query->result();

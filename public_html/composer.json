@@ -18,7 +18,8 @@
 		"league/omnipay": "^3",
 		"omnipay/paypal": "^3.0",
 		"mpdf/mpdf": "^8.0",
-		"phpoffice/phpword": "^0.18.3"
+		"phpoffice/phpword": "^0.18.3",
+		"phpoffice/phpspreadsheet": "^5.7"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

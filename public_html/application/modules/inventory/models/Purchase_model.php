@@ -506,11 +506,13 @@ class Purchase_model extends CI_model
         $this->db->join('suppliers s', 'po.supplier_id = s.id');
         $this->db->join('purchase_order_items poi', 'po.id = poi.purchase_order_id', 'left');
         $this->db->where('po.hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(po.po_number LIKE '%" . $search . "%' 
-                         OR s.name LIKE '%" . $search . "%' 
-                         OR s.company_name LIKE '%" . $search . "%' 
-                         OR po.status LIKE '%" . $search . "%' 
-                         OR po.grand_total LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('po.po_number', $search);
+        $this->db->or_like('s.name', $search);
+        $this->db->or_like('s.company_name', $search);
+        $this->db->or_like('po.status', $search);
+        $this->db->or_like('po.grand_total', $search);
+        $this->db->group_end();
         $this->db->group_by('po.id');
         
         if ($order != null) {
@@ -554,11 +556,13 @@ class Purchase_model extends CI_model
         $this->db->join('suppliers s', 'po.supplier_id = s.id');
         $this->db->join('purchase_order_items poi', 'po.id = poi.purchase_order_id', 'left');
         $this->db->where('po.hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(po.po_number LIKE '%" . $search . "%' 
-                         OR s.name LIKE '%" . $search . "%' 
-                         OR s.company_name LIKE '%" . $search . "%' 
-                         OR po.status LIKE '%" . $search . "%' 
-                         OR po.grand_total LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('po.po_number', $search);
+        $this->db->or_like('s.name', $search);
+        $this->db->or_like('s.company_name', $search);
+        $this->db->or_like('po.status', $search);
+        $this->db->or_like('po.grand_total', $search);
+        $this->db->group_end();
         $this->db->group_by('po.id');
         
         if ($order != null) {

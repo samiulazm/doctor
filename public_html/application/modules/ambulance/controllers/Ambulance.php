@@ -385,7 +385,10 @@ class Ambulance extends MX_Controller
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
         
         if (!empty($searchTerm)) {
-            $this->db->where("(booking_number LIKE '%" . $searchTerm . "%' OR patient_name LIKE '%" . $searchTerm . "%')", NULL, FALSE);
+            $this->db->group_start();
+            $this->db->like('booking_number', $searchTerm);
+            $this->db->or_like('patient_name', $searchTerm);
+            $this->db->group_end();
         }
         
         $this->db->order_by('id', 'desc');
@@ -734,36 +737,6 @@ class Ambulance extends MX_Controller
             $this->session->set_flashdata('feedback_error', 'No rates were updated');
         }
         redirect('ambulance/rates');
-    }
-
-    // Debug method to check database table
-    public function debugRates()
-    {
-        $hospital_id = $this->session->userdata('hospital_id');
-        
-        // Check if table exists
-        $tables = $this->db->list_tables();
-        echo "<h3>Available tables:</h3>";
-        echo "<pre>" . print_r($tables, true) . "</pre>";
-        
-        // Check table structure
-        if (in_array('ambulance_rates', $tables)) {
-            echo "<h3>ambulance_rates table structure:</h3>";
-            $fields = $this->db->list_fields('ambulance_rates');
-            echo "<pre>" . print_r($fields, true) . "</pre>";
-            
-            // Check existing data
-            echo "<h3>Existing rates data for hospital_id $hospital_id:</h3>";
-            $this->db->where('hospital_id', $hospital_id);
-            $rates = $this->db->get('ambulance_rates')->result();
-            echo "<pre>" . print_r($rates, true) . "</pre>";
-        } else {
-            echo "<h3>ambulance_rates table does not exist!</h3>";
-        }
-        
-        // Check session data
-        echo "<h3>Session data:</h3>";
-        echo "<pre>" . print_r($this->session->userdata(), true) . "</pre>";
     }
 
     // AJAX Functions

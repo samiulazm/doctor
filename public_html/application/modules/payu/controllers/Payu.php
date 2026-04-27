@@ -290,7 +290,7 @@ class Payu extends MX_Controller {
 if($from=='backend'){
     $password=$data['password'];
 }else{
-    $password='12345';
+    $password = '';
 }
         if ($from == 'deposit_backend') {
             $product_info = $data['package_duration'] . '-' . $invoice_id . '-' . 'test' . '-' . $data['package'] . '-' . $from . '-' . $data['from'];

@@ -62,7 +62,12 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('patient')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }
@@ -93,7 +98,12 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('patient')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }
@@ -164,7 +174,13 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('medical_history')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }
@@ -185,7 +201,13 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('medical_history')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('description', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }
@@ -284,7 +306,14 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('patient_material')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%' OR title LIKE '%" . $search . "%' OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('title', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }
@@ -313,7 +342,14 @@ class Patient_model extends CI_model
         $query = $this->db->select('*')
             ->from('patient_material')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%' OR patient_phone LIKE '%" . $search . "%' OR patient_address LIKE '%" . $search . "%' OR title LIKE '%" . $search . "%' OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('title', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();;
         return $query->result();
     }

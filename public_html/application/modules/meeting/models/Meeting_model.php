@@ -35,7 +35,11 @@ class Meeting_model extends CI_model {
             $this->db->where('patient_ion_id', $this->ion_auth->get_user_id());
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('patientname', $search);
+        $this->db->or_like('doctorname', $search);
+        $this->db->group_end();
         $this->db->order_by('id', 'desc');
         $query = $this->db->get('meeting');
         return $query->result();
@@ -61,7 +65,11 @@ class Meeting_model extends CI_model {
             $this->db->where('patient_ion_id', $this->ion_auth->get_user_id());
         }
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-        $this->db->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE);
+        $this->db->group_start();
+        $this->db->like('id', $search);
+        $this->db->or_like('patientname', $search);
+        $this->db->or_like('doctorname', $search);
+        $this->db->group_end();
         $this->db->order_by('id', 'desc');
         $this->db->limit($limit, $start);
         $query = $this->db->get('meeting');
@@ -156,7 +164,11 @@ class Meeting_model extends CI_model {
                 ->where('status', 'Requested')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
                 ->where('doctor', $doctor)
-                ->where("(id LIKE '%" . $search . "%' OR patientname LIKE '%" . $search . "%' OR doctorname LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('patientname', $search)
+                ->or_like('doctorname', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }

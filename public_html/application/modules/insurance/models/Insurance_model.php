@@ -59,7 +59,11 @@ class Insurance_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('insurance_company')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('description', $search)
+                ->group_end()
                 ->get();
         return $query->result();
     }
@@ -83,7 +87,11 @@ class Insurance_model extends CI_model {
         $query = $this->db->select('*')
                 ->from('insurance_company')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $search)
+                ->or_like('name', $search)
+                ->or_like('description', $search)
+                ->group_end()
                 ->get();
 
         return $query->result();

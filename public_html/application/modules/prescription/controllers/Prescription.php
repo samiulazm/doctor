@@ -741,7 +741,6 @@ class Prescription extends MX_Controller
         $settings1 = $this->settings_model->getSettings();
 
 
-        error_reporting(0);
         $data['redirect'] = 'download';
 
 

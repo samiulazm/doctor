@@ -4,7 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Baseline HTTP security headers (safe defaults for a hospital admin app).
- * Adjust CSP in a future phase if you add inline scripts from CDNs.
+ * CSP uses 'unsafe-inline' for Phase 1 compatibility with existing inline scripts.
+ * Upgrade to nonce-based CSP after the views are audited.
  */
 function security_headers()
 {
@@ -21,4 +22,18 @@ function security_headers()
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
         $CI->output->set_header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
     }
+
+    // SEC-08: Content Security Policy baseline for existing AdminLTE pages.
+    $CI->output->set_header(
+        "Content-Security-Policy: " .
+        "default-src 'self'; " .
+        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " .
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://code.ionicframework.com; " .
+        "font-src 'self' https://fonts.gstatic.com https://code.ionicframework.com data:; " .
+        "img-src 'self' data: blob:; " .
+        "connect-src 'self'; " .
+        "frame-ancestors 'self'; " .
+        "object-src 'none'; " .
+        "base-uri 'self';"
+    );
 }

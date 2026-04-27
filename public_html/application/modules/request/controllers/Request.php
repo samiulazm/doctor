@@ -179,7 +179,7 @@ class Request extends MX_Controller {
         );
 
         $username = $name;
-        $password = '12345';
+        $password = bin2hex(random_bytes(8)); // 16-char first-login temp credential.
 
         if ($this->ion_auth->email_check($email)) {
             show_swal(lang('this_email_address_is_already_registered'), 'error', lang('error'));

@@ -95,7 +95,8 @@ class Ai_image_analysis extends MX_Controller
         }
 
         // Get AI API key
-        $api_key = $this->settings_model->getSettings()->chatgpt_api_key;
+        $this->config->load('openai');
+        $api_key = $this->config->item('openai_api_key');
         if (empty($api_key)) {
             echo json_encode(['success' => false, 'message' => 'AI API key not configured.']);
             return;
@@ -170,7 +171,8 @@ class Ai_image_analysis extends MX_Controller
         }
 
         // Get AI API key
-        $api_key = $this->settings_model->getSettings()->chatgpt_api_key;
+        $this->config->load('openai');
+        $api_key = $this->config->item('openai_api_key');
         if (empty($api_key)) {
             echo json_encode(['success' => false, 'message' => 'AI API key not configured.']);
             return;
@@ -506,162 +508,6 @@ Keep the analysis professional, detailed, and clinically relevant. Do not includ
             log_message('error', 'AI Image Analysis - PHP Error: ' . $e->getMessage());
             log_message('error', 'AI Image Analysis - Stack trace: ' . $e->getTraceAsString());
             echo json_encode(['error' => 'A PHP error occurred: ' . $e->getMessage()]);
-        }
-    }
-
-    public function testAnalytics()
-    {
-        // Check if user is logged in
-        if (!$this->ion_auth->logged_in()) {
-            echo "User not authenticated. Please log in first.<br>";
-            return;
-        }
-
-        try {
-            echo "Testing analytics...<br>";
-            
-            // Check user details
-            $user = $this->ion_auth->user()->row();
-            if ($user) {
-                echo "User ID: " . $user->id . "<br>";
-                echo "Username: " . $user->username . "<br>";
-            } else {
-                echo "No user data found<br>";
-            }
-            
-            // Check database connection
-            if (!$this->db->conn_id) {
-                echo "Database connection failed<br>";
-                return;
-            }
-            echo "Database connected<br>";
-            
-            // Check session data
-            echo "Session data: " . print_r($this->session->all_userdata(), true) . "<br>";
-            
-            // Check hospital_id
-            $hospital_id = $this->session->userdata('hospital_id');
-            if (!$hospital_id) {
-                echo "Hospital ID not found: " . var_export($hospital_id, true) . "<br>";
-                return;
-            }
-            echo "Hospital ID: " . $hospital_id . "<br>";
-            
-            // Check if table exists
-            if (!$this->db->table_exists('ai_image_analyses')) {
-                echo "Table ai_image_analyses does not exist<br>";
-                return;
-            }
-            echo "Table exists<br>";
-            
-            // Try simple query
-            $query = $this->db->get('ai_image_analyses');
-            echo "Total records: " . $query->num_rows() . "<br>";
-            
-            // Try with hospital filter
-            $this->db->where('hospital_id', $hospital_id);
-            $query = $this->db->get('ai_image_analyses');
-            echo "Records for hospital: " . $query->num_rows() . "<br>";
-            
-            // Show sample data
-            $this->db->select('*');
-            $this->db->from('ai_image_analyses');
-            $this->db->where('hospital_id', $hospital_id);
-            $this->db->limit(3);
-            $query = $this->db->get();
-            $records = $query->result();
-            
-            echo "<br>Sample records:<br>";
-            foreach ($records as $record) {
-                echo "ID: " . $record->id . ", Patient ID: " . $record->patient_id . ", Doctor ID: " . $record->doctor_id . ", Image Type: " . $record->image_type . ", Created: " . $record->created_at . "<br>";
-            }
-            
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
-        }
-    }
-
-    public function testAnalyticsNoAuth()
-    {
-        // This method doesn't require authentication for testing
-        try {
-            echo "Testing analytics without authentication...<br>";
-            
-            // Check database connection
-            if (!$this->db->conn_id) {
-                echo "Database connection failed<br>";
-                return;
-            }
-            echo "Database connected<br>";
-            
-            // Check if table exists
-            if (!$this->db->table_exists('ai_image_analyses')) {
-                echo "Table ai_image_analyses does not exist<br>";
-                return;
-            }
-            echo "Table exists<br>";
-            
-            // Try simple query
-            $query = $this->db->get('ai_image_analyses');
-            echo "Total records: " . $query->num_rows() . "<br>";
-            
-            // Show sample data
-            $this->db->select('*');
-            $this->db->from('ai_image_analyses');
-            $this->db->limit(5);
-            $query = $this->db->get();
-            $records = $query->result();
-            
-            echo "<br>Sample records:<br>";
-            foreach ($records as $record) {
-                echo "ID: " . $record->id . ", Hospital ID: " . $record->hospital_id . ", Patient ID: " . $record->patient_id . ", Doctor ID: " . $record->doctor_id . ", Image Type: " . $record->image_type . ", Created: " . $record->created_at . "<br>";
-            }
-            
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
-        }
-    }
-
-    public function getAnalyticsHistorySimple()
-    {
-        // Simple version without authentication for testing
-        try {
-            $this->db->select('*');
-            $this->db->from('ai_image_analyses');
-            $this->db->order_by('created_at', 'DESC');
-            $query = $this->db->get();
-            $records = $query->result();
-            
-            echo json_encode($records);
-            
-        } catch (Exception $e) {
-            echo json_encode(['error' => $e->getMessage()]);
-        }
-    }
-
-    public function debugSession()
-    {
-        // Debug session data
-        echo "Session data:<br>";
-        echo "User logged in: " . ($this->ion_auth->logged_in() ? 'Yes' : 'No') . "<br>";
-        echo "Hospital ID: " . $this->session->userdata('hospital_id') . "<br>";
-        echo "User ID: " . $this->ion_auth->get_user_id() . "<br>";
-        echo "All session data: " . print_r($this->session->all_userdata(), true) . "<br>";
-        
-        // Test database query
-        $this->db->select('COUNT(*) as total');
-        $this->db->from('ai_image_analyses');
-        $query = $this->db->get();
-        $total = $query->row()->total;
-        echo "Total records in ai_image_analyses: " . $total . "<br>";
-        
-        if ($this->session->userdata('hospital_id')) {
-            $this->db->select('COUNT(*) as total');
-            $this->db->from('ai_image_analyses');
-            $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
-            $query = $this->db->get();
-            $total_hospital = $query->row()->total;
-            echo "Records for hospital " . $this->session->userdata('hospital_id') . ": " . $total_hospital . "<br>";
         }
     }
 

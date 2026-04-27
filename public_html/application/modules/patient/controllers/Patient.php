@@ -3492,7 +3492,6 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
 
 
-        error_reporting(0);
         $data['redirect'] = 'download';
         $header = '<div id="invoice_header" style="width:100%;">
                         <table class="info_rer">
@@ -3720,7 +3719,8 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: Bearer ' . $this->settings->chatgpt_api_key;
+        $this->config->load('openai');
+        $headers[] = 'Authorization: Bearer ' . $this->config->item('openai_api_key');
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $response = curl_exec($ch);

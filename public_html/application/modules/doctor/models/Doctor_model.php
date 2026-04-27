@@ -55,7 +55,14 @@ class Doctor_model extends CI_model
         $query = $this->db->select('*')
             ->from('doctor')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->or_like('email', $search)
+            ->or_like('department_name', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -84,7 +91,14 @@ class Doctor_model extends CI_model
         $query = $this->db->select('*')
             ->from('doctor')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->or_like('email', $search)
+            ->or_like('department_name', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -135,7 +149,10 @@ class Doctor_model extends CI_model
             $query = $this->db->select('*')
                 ->from('doctor')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $searchTerm)
+                ->or_like('name', $searchTerm)
+                ->group_end()
                 ->get();
             $users = $query->result_array();
         } else {
@@ -171,7 +188,10 @@ class Doctor_model extends CI_model
             $query = $this->db->select('*')
                 ->from('doctor')
                 ->where('hospital_id', $this->session->userdata('hospital_id'))
-                ->where("(id LIKE '%" . $searchTerm . "%' OR name LIKE '%" . $searchTerm . "%')", NULL, FALSE)
+                ->group_start()
+                ->like('id', $searchTerm)
+                ->or_like('name', $searchTerm)
+                ->group_end()
                 ->get();
             $users = $query->result_array();
         } else {
@@ -219,7 +239,14 @@ class Doctor_model extends CI_model
             ->from('doctor')
             ->where('department', $department)
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->or_like('email', $search)
+            ->or_like('department_name', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -250,7 +277,14 @@ class Doctor_model extends CI_model
             ->from('doctor')
             ->where('department', $department)
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR phone LIKE '%" . $search . "%' OR address LIKE '%" . $search . "%'OR email LIKE '%" . $search . "%'OR department_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('name', $search)
+            ->or_like('phone', $search)
+            ->or_like('address', $search)
+            ->or_like('email', $search)
+            ->or_like('department_name', $search)
+            ->group_end()
             ->get();
 
         return $query->result();

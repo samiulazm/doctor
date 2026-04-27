@@ -1801,7 +1801,6 @@ class Bed extends MX_Controller
         $data['patient'] = $this->patient_model->getPatientById($data['bed']->patient);
         $data['doctor'] = $this->doctor_model->getDoctorById($data['discharge']->doctor);
         $data['settings'] = $this->settings_model->getSettings();
-        error_reporting(0);
         $data['redirect'] = 'download';
         $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
         //     $mpdf->SetHTMLFooter('

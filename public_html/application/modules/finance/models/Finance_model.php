@@ -49,7 +49,18 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('payment')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -89,7 +100,18 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('payment')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -782,7 +804,12 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('expense')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR datestring LIKE '%" . $search . "%' OR category LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('datestring', $search)
+            ->or_like('category', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -811,7 +838,12 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('expense')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR datestring LIKE '%" . $search . "%' OR category LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('datestring', $search)
+            ->or_like('category', $search)
+            ->group_end()
             ->get();
         return $query->result();
     }
@@ -1301,7 +1333,18 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('draft_payment')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1330,7 +1373,18 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('draft_payment')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1368,7 +1422,18 @@ class Finance_model extends CI_model
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('date >=', $start_date_stamp)
             ->where('date <=', $end_date_stamp)
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1399,7 +1464,18 @@ class Finance_model extends CI_model
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('date >=', $start_date_stamp)
             ->where('date <=', $end_date_stamp)
-            ->where("(id LIKE '%" . $search . "%' OR amount LIKE '%" . $search . "%' OR gross_total LIKE '%" . $search . "%' OR patient_name LIKE '%" . $search . "%'OR patient_phone LIKE '%" . $search . "%'OR patient_address LIKE '%" . $search . "%'OR remarks LIKE '%" . $search . "%'OR doctor_name LIKE '%" . $search . "%'OR flat_discount LIKE '%" . $search . "%'OR date_string LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('amount', $search)
+            ->or_like('gross_total', $search)
+            ->or_like('patient_name', $search)
+            ->or_like('patient_phone', $search)
+            ->or_like('patient_address', $search)
+            ->or_like('remarks', $search)
+            ->or_like('doctor_name', $search)
+            ->or_like('flat_discount', $search)
+            ->or_like('date_string', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1425,7 +1501,13 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('payment_category')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%' OR type LIKE '%" . $search . "%'OR category LIKE '%" . $search . "%'OR payment_category_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('description', $search)
+            ->or_like('type', $search)
+            ->or_like('category', $search)
+            ->or_like('payment_category_name', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1441,7 +1523,13 @@ class Finance_model extends CI_model
         $query = $this->db->select('*')
             ->from('payment_category')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
-            ->where("(id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%' OR type LIKE '%" . $search . "%'OR category LIKE '%" . $search . "%'OR payment_category_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('description', $search)
+            ->or_like('type', $search)
+            ->or_like('category', $search)
+            ->or_like('payment_category_name', $search)
+            ->group_end()
             ->get();
 
 
@@ -1481,7 +1569,13 @@ class Finance_model extends CI_model
             ->from('payment_category')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('payment_category', $filter_category)
-            ->where("(id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%' OR type LIKE '%" . $search . "%'OR category LIKE '%" . $search . "%'OR payment_category_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('description', $search)
+            ->or_like('type', $search)
+            ->or_like('category', $search)
+            ->or_like('payment_category_name', $search)
+            ->group_end()
             ->get();
 
         return $query->result();
@@ -1498,7 +1592,13 @@ class Finance_model extends CI_model
             ->from('payment_category')
             ->where('hospital_id', $this->session->userdata('hospital_id'))
             ->where('payment_category', $filter_category)
-            ->where("(id LIKE '%" . $search . "%' OR description LIKE '%" . $search . "%' OR type LIKE '%" . $search . "%'OR category LIKE '%" . $search . "%'OR payment_category_name LIKE '%" . $search . "%')", NULL, FALSE)
+            ->group_start()
+            ->like('id', $search)
+            ->or_like('description', $search)
+            ->or_like('type', $search)
+            ->or_like('category', $search)
+            ->or_like('payment_category_name', $search)
+            ->group_end()
             ->get();
 
 
