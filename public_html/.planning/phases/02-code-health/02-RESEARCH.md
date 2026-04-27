@@ -422,22 +422,16 @@ This phase involves deletions and code removals. No rename/rebrand.
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **BUG-04: What does the mobile app/JS expect from `addAppointment` response?**
-   - What we know: Current response is bare integer (`echo $ion_user_id; die()`)
-   - What's unclear: Whether any frontend JavaScript or mobile app parses this as a raw integer vs JSON object
-   - Recommendation: Search JS view files for `addAppointment` AJAX response handlers before changing the response format
+   - RESOLVED: `addAppointmentForm` uses standard HTML form submit (`method="post"`) — no AJAX response parsing in any view file. No mobile app exists yet (Phase 4). Safe to replace `die()` with proper JSON + `return`. Plans proceed on this basis.
 
 2. **BUG-01: Is the full-table scan truly fixed or still present?**
-   - What we know: Lines 87-102 show a `where_in` pattern that appears to be the fix already applied
-   - What's unclear: Whether there is a separate code path that still does `$this->db->get('patient')->result()` without a where clause
-   - Recommendation: Run `grep -n "get('patient')\|get(\"patient\")" Home.php` to confirm no bare table scans remain
+   - RESOLVED: `Home.php:98` confirmed still contains `$this->db->get('patient')->result()` bare table scan (grep verified). Fix is needed and planned. Plans proceed on this basis.
 
 3. **BUG-06 scope expansion: Include Prescription.php and Settings.php?**
-   - What we know: Both files have `error_reporting(0)` with the same pattern; REQUIREMENTS.md only names 4 files
-   - What's unclear: Whether the requirements intentionally excluded these two files or simply missed them
-   - Recommendation: Include all 6 files in BUG-06 — the fix is identical and the exclusion appears to be oversight
+   - RESOLVED: 7 files confirmed via grep: Bed.php:1804, Finance.php:2942+3182, Patient.php:3495, Payroll.php:203, Prescription.php:744, Settings.php:1050. All 7 included in plans — exclusion from REQUIREMENTS.md was oversight, not intent.
 
 ---
 
