@@ -502,17 +502,13 @@ $this->db->select('id, queue_id, bp_systolic AS bp_sys, bp_diastolic AS bp_dia, 
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **What is the intended source for `$rx_templates` in the consultation room template dropdown?**
-   - What we know: `prescription_print_template` table exists but stores print layout HTML (header/footer), not content templates. `prescription_favorite` has `label` and medicine JSON. The UI-SPEC uses `$tpl->id` and `$tpl->label`.
-   - What's unclear: Is the dropdown supposed to show prescription favorites (quick-fill templates) or a new class of structured content templates?
-   - Recommendation: Use `prescription_favorite` as the source for Phase 5 (rename `$favorites` as `$rx_templates` in `$data` array), and relabel the dropdown "Favorites" rather than "Templates". This avoids a schema change and uses already-loaded data.
+   - RESOLVED: Use `prescription_favorite` table (already loaded as `$favorites` in `consultation_room()`). Pass as `$rx_templates` in `$data` and label the dropdown "Favorites". No schema change. Confirmed: `prescription_favorite` table exists (migration 20260419000007), has `id` + `label` columns, is already queried at controller line 222. Plans proceed on this basis.
 
-2. **Should `followup_count` and `high_risk_patients` use `patient_practice_tag` (doctor-assigned tags) or `triage_json` in `chamber_serial_queue`?**
-   - What we know: `patient_practice_tag` table stores durable tags assigned by the doctor (`high_risk`, `follow_up`, `vip`). `triage_json` in queue rows stores per-visit symptom data and may also contain a `tag` key.
-   - What's unclear: UI-SPEC says "follow_up tag from today's queue" and "`triage_json LIKE '%tag':'follow_up'%' OR join to patient_tag`". The OR condition means either source counts.
-   - Recommendation: Use `patient_practice_tag` JOIN `chamber_serial_queue` (verified schema). This is cleaner than LIKE on JSON and uses indexed columns.
+2. **Should `followup_count` and `high_risk_patients` use `patient_practice_tag` (doctor-assigned tags) or `triage_json`?**
+   - RESOLVED: Use `patient_practice_tag` JOIN `chamber_serial_queue` on `patient_id`. Confirmed: table exists (controller line 218, migration verified). `high_risk` and `follow_up` are valid tag values (controller line 313). Avoids LIKE on JSON — uses indexed FK columns. Plans proceed on this basis.
 
 ---
 
