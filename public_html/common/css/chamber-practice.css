@@ -827,6 +827,15 @@
     color: #1d4ed8;
 }
 
+.chamber-table tr.dragging {
+    opacity: .6;
+}
+
+.chamber-table .handle {
+    cursor: move;
+    user-select: none;
+}
+
 /* bKash brand button */
 .btn-bkash {
     background-color: #e2136e;

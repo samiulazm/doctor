@@ -69,6 +69,22 @@ final class DoctorPortalTest extends TestCase
         );
     }
 
+    public function test_ui10_dashboard_uses_bundled_chart_asset(): void
+    {
+        $html = $this->readFile('application/modules/doctor_chamber/views/doctor/dashboard.php');
+
+        self::assertStringContainsString(
+            'adminlte/plugins/chart.js/Chart.min.js',
+            $html,
+            'dashboard.php must use the bundled Chart.js asset for production-safe chart rendering'
+        );
+        self::assertStringNotContainsString(
+            'cdn.jsdelivr.net/npm/chart.js',
+            $html,
+            'dashboard.php must not depend on the Chart.js CDN'
+        );
+    }
+
     public function test_ui10_no_server_rendered_queue_loop(): void
     {
         $html = $this->readFile('application/modules/doctor_chamber/views/doctor/dashboard.php');

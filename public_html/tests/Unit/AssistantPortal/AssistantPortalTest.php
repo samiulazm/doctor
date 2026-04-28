@@ -64,6 +64,15 @@ final class AssistantPortalTest extends TestCase
         self::assertStringContainsString('print_token', $html);
     }
 
+    public function test_ui12_desk_view_has_native_drag_fallback(): void
+    {
+        $html = $this->readSource('application/modules/assistant_chamber/views/assistant/desk.php');
+
+        self::assertStringContainsString('window.Sortable', $html);
+        self::assertStringContainsString('enableNativeDragFallback', $html);
+        self::assertStringContainsString('dragover', $html);
+    }
+
     public function test_ui12_migration_adds_is_emergency(): void
     {
         $this->assertSourceFileExists('application/migrations/20260427000012_chamber_queue_is_emergency.php');

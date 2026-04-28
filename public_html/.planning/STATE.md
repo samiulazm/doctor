@@ -54,6 +54,7 @@ Recent decisions affecting current work:
 - [Phase 5]: Consultation room embeds the existing prescription composer and uses a postMessage callback for save-and-print.
 - [Phase 6]: Assistant queue sync uses long-poll plus immediate SortableJS reorder POST for shared-hosting compatibility.
 - [Phase 6]: Desk bKash flow initiates inline and reports JSON status without redirecting the assistant away from the queue.
+- [Post-Phase 6]: Doctor dashboard charts use the bundled AdminLTE Chart.js asset; assistant queue drag-drop has a native browser fallback if SortableJS CDN is unavailable.
 
 ### Pending Todos
 
@@ -64,8 +65,6 @@ Recent decisions affecting current work:
 
 - [Phase 4]: OTP SMS delivery depends on existing Twilio/SMS infrastructure being configured and tested.
 - [Phase 4]: SSLCommerz/bKash payment requires sandbox/live credentials in `paymentGateway` or environment variables.
-- [Phase 5]: Chart.js loads from a pinned CDN and should be checked in the deployment network.
-- [Phase 6]: SortableJS loads from a pinned CDN and should be checked in the deployment network.
 - [Phase 6]: Real bKash success requires sandbox/live credentials and gateway callback configuration.
 
 ## Deferred Items

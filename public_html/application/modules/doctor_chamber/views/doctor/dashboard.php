@@ -140,7 +140,7 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
     </section>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="<?php echo base_url('adminlte/plugins/chart.js/Chart.min.js'); ?>"></script>
 <script>
 (function () {
     var BASE_URL = '<?php echo rtrim(site_url(), '/'); ?>/';
@@ -190,19 +190,17 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
         return {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
+            legend: { display: false },
+            tooltips: { mode: 'index', intersect: false },
             scales: {
-                x: {
-                    grid: { color: '#e2e8f0' },
-                    ticks: { color: '#475569', font: { family: 'DM Sans', size: 12, weight: '400' } }
-                },
-                y: {
-                    beginAtZero: true,
-                    grid: { color: '#e2e8f0' },
-                    ticks: { color: '#475569', precision: 0, font: { family: 'DM Sans', size: 12, weight: '400' } }
-                }
+                xAxes: [{
+                    gridLines: { color: '#e2e8f0' },
+                    ticks: { fontColor: '#475569', fontFamily: 'DM Sans', fontSize: 12 }
+                }],
+                yAxes: [{
+                    gridLines: { color: '#e2e8f0' },
+                    ticks: { beginAtZero: true, fontColor: '#475569', fontFamily: 'DM Sans', fontSize: 12, precision: 0 }
+                }]
             }
         };
     }
@@ -210,7 +208,8 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
     function renderCharts() {
         if (typeof Chart === 'undefined') return;
         $.getJSON(BASE_URL + 'doctor_chamber/chart_data_json', function (r) {
-            var labels = (r && r.labels) ? r.labels : [];
+            r = r || {};
+            var labels = r.labels || [];
             var color = 'rgba(15, 118, 110, 0.75)';
             var border = '#0f766e';
             var revenueCanvas = document.getElementById('chartMonthlyRevenue');

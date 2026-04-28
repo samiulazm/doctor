@@ -244,6 +244,56 @@
                     });
                 }
 
+                function getDragAfterElement(container, y) {
+                    var rows = Array.prototype.slice.call(container.querySelectorAll('tr[data-id]:not(.dragging)'));
+                    return rows.reduce(function (closest, row) {
+                        var box = row.getBoundingClientRect();
+                        var offset = y - box.top - (box.height / 2);
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: row };
+                        }
+                        return closest;
+                    }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+                }
+
+                function enableNativeDragFallback(container) {
+                    var dragged = null;
+                    container.querySelectorAll('tr[data-id]').forEach(function (row) {
+                        row.setAttribute('draggable', 'true');
+                        row.addEventListener('dragstart', function (event) {
+                            if (!event.target.closest('.handle')) {
+                                event.preventDefault();
+                                return;
+                            }
+                            dragged = row;
+                            row.classList.add('dragging');
+                            event.dataTransfer.effectAllowed = 'move';
+                            event.dataTransfer.setData('text/plain', row.getAttribute('data-id'));
+                        });
+                        row.addEventListener('dragend', function () {
+                            row.classList.remove('dragging');
+                            dragged = null;
+                        });
+                    });
+
+                    container.addEventListener('dragover', function (event) {
+                        if (!dragged) return;
+                        event.preventDefault();
+                        var afterElement = getDragAfterElement(container, event.clientY);
+                        if (afterElement === null) {
+                            container.appendChild(dragged);
+                        } else {
+                            container.insertBefore(dragged, afterElement);
+                        }
+                    });
+
+                    container.addEventListener('drop', function (event) {
+                        if (!dragged) return;
+                        event.preventDefault();
+                        postOrder('Queue reordered.');
+                    });
+                }
+
                 var el = document.getElementById('queueBody');
                 if (el && window.Sortable) {
                     Sortable.create(el, {
@@ -253,6 +303,8 @@
                             postOrder('Queue reordered.');
                         }
                     });
+                } else if (el) {
+                    enableNativeDragFallback(el);
                 }
 
                 $('#saveOrder').on('click', function () {
