@@ -52,8 +52,8 @@
             <div class="form-group"><label>Date</label><input type="date" name="exception_date" class="form-control" required></div>
             <div class="form-check mb-2"><input type="checkbox" name="is_closed" value="1" checked id="cl"><label for="cl"> Chamber closed</label></div>
             <div class="form-row">
-                <div class="col-md-6 mb-2"><label>Open time override</label><input name="open_time" class="form-control" placeholder="09:00"></div>
-                <div class="col-md-6 mb-2"><label>Close time override</label><input name="close_time" class="form-control" placeholder="17:00"></div>
+                <div class="col-md-6 mb-2"><label>Open time override</label><input name="open_time" type="time" class="form-control"></div>
+                <div class="col-md-6 mb-2"><label>Close time override</label><input name="close_time" type="time" class="form-control"></div>
             </div>
             <div class="form-group"><label>Reason</label><input name="reason" class="form-control"></div>
             <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Save</button>

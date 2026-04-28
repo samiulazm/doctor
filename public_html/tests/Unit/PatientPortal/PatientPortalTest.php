@@ -98,6 +98,18 @@ final class PatientPortalTest extends TestCase
         self::assertStringNotContainsString('cdn.jsdelivr.net', $layout);
     }
 
+    public function test_location_exception_lookup_prefers_newest_specific_row(): void
+    {
+        $src = $this->readFile('application/modules/portal/controllers/Portal.php');
+
+        self::assertGreaterThanOrEqual(
+            2,
+            substr_count($src, "\$this->db->order_by('chamber_id', 'desc');\r\n        \$this->db->order_by('id', 'desc');")
+                + substr_count($src, "\$this->db->order_by('chamber_id', 'desc');\n        \$this->db->order_by('id', 'desc');"),
+            'Portal slot and booking exception lookups should prefer chamber-specific rows, then newest duplicate row'
+        );
+    }
+
     public function test_ui08_prescription_pdf_returns_403_when_phone_does_not_match(): void
     {
         $src = $this->readFile('application/modules/portal/controllers/Portal.php');

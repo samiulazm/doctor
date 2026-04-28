@@ -153,6 +153,7 @@ class Portal extends MX_Controller
         $this->db->or_where('chamber_id IS NULL', null, false);
         $this->db->group_end();
         $this->db->order_by('chamber_id', 'desc');
+        $this->db->order_by('id', 'desc');
         $this->db->limit(1);
         $exception = $this->db->get('doctor_schedule_exception')->row();
         if ($exception && (int) $exception->is_closed === 1) {
@@ -369,6 +370,7 @@ class Portal extends MX_Controller
         $this->db->or_where('chamber_id IS NULL', null, false);
         $this->db->group_end();
         $this->db->order_by('chamber_id', 'desc');
+        $this->db->order_by('id', 'desc');
         $this->db->limit(1);
         $exception = $this->db->get('doctor_schedule_exception')->row();
         if ($exception && (int) $exception->is_closed === 1) {

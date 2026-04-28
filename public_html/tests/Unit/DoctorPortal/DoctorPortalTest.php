@@ -126,6 +126,65 @@ final class DoctorPortalTest extends TestCase
         self::assertStringNotContainsString('style="display:inline"', $html);
     }
 
+    public function test_location_schedule_exceptions_are_hospital_scoped_and_upserted(): void
+    {
+        $src = $this->readFile('application/modules/doctor_chamber/controllers/Doctor_chamber.php');
+
+        self::assertMatchesRegularExpression(
+            '/function schedule_exceptions\(\).*?where\(\'hospital_id\', \$doc->hospital_id\).*?doctor_schedule_exception/s',
+            $src,
+            'schedule_exceptions() must scope listed location exceptions by hospital'
+        );
+        self::assertStringContainsString('normalizeChamberDate', $src);
+        self::assertStringContainsString('normalizeChamberTime', $src);
+        self::assertStringContainsString("\$existing = \$this->db->get('doctor_schedule_exception')->row();", $src);
+        self::assertStringContainsString("update('doctor_schedule_exception'", $src);
+    }
+
+    public function test_location_forms_use_time_inputs(): void
+    {
+        $locations = $this->readFile('application/modules/doctor_chamber/views/doctor/my_chambers.php');
+        $exceptions = $this->readFile('application/modules/doctor_chamber/views/doctor/schedule_exceptions.php');
+
+        self::assertStringContainsString('type="time" name="wh_<?php echo $dk; ?>_open"', $locations);
+        self::assertStringContainsString('type="time" name="wh_<?php echo $dk; ?>_close"', $locations);
+        self::assertStringContainsString('name="open_time" type="time"', $exceptions);
+        self::assertStringContainsString('name="close_time" type="time"', $exceptions);
+    }
+
+    public function test_doctor_profile_and_template_queries_are_hospital_scoped(): void
+    {
+        $src = $this->readFile('application/modules/doctor_chamber/controllers/Doctor_chamber.php');
+
+        self::assertMatchesRegularExpression(
+            '/function portal_profile\(\).*?where\(\'doctor_id\', \$doc->id\).*?where\(\'hospital_id\', \$doc->hospital_id\).*?doctor_portal_profile/s',
+            $src,
+            'portal_profile() must scope profile reads by hospital'
+        );
+        self::assertMatchesRegularExpression(
+            '/function template_builder\(\).*?where\(\'doctor_id\', \$doc->id\).*?where\(\'hospital_id\', \$doc->hospital_id\).*?prescription_print_template/s',
+            $src,
+            'template_builder() must scope template reads by hospital'
+        );
+        self::assertStringContainsString("'hospital_id' => \$doc->hospital_id", $src);
+    }
+
+    public function test_doctor_crm_post_actions_verify_patient_hospital(): void
+    {
+        $src = $this->readFile('application/modules/doctor_chamber/controllers/Doctor_chamber.php');
+
+        self::assertMatchesRegularExpression(
+            '/function tag_patient\(\).*?getPatientById\(\$pid\).*?hospital_id.*?\$doc->hospital_id.*?patient_practice_tag/s',
+            $src,
+            'tag_patient() must verify posted patient_id belongs to the doctor hospital'
+        );
+        self::assertMatchesRegularExpression(
+            '/function refer_lab\(\).*?getPatientById\(\$pid\).*?hospital_id.*?\$doc->hospital_id.*?insertReferral/s',
+            $src,
+            'refer_lab() must verify posted patient_id belongs to the doctor hospital'
+        );
+    }
+
     private function readFile(string $relPath): string
     {
         $root = dirname(__DIR__, 3);

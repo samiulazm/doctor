@@ -67,10 +67,33 @@ class Doctor_chamber extends MX_Controller
             ->set_output(json_encode($payload));
     }
 
+    protected function normalizeChamberDate($value)
+    {
+        $date = trim((string) $value);
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return '';
+        }
+        $ts = strtotime($date);
+        return ($ts !== false && date('Y-m-d', $ts) === $date) ? $date : '';
+    }
+
+    protected function normalizeChamberTime($value)
+    {
+        $time = trim((string) $value);
+        if ($time === '') {
+            return null;
+        }
+        if (!preg_match('/^([01]?\d|2[0-3]):([0-5]\d)$/', $time, $m)) {
+            return false;
+        }
+        return sprintf('%02d:%02d', (int) $m[1], (int) $m[2]);
+    }
+
     public function portal_profile()
     {
         $doc = $this->currentDoctor();
         $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $profile = $this->db->get('doctor_portal_profile')->row();
         $data = array('settings' => $this->settings_model->getSettings(), 'doctor' => $doc, 'profile' => $profile);
         $this->load->view('home/dashboard', $data);
@@ -99,11 +122,13 @@ class Doctor_chamber extends MX_Controller
             $row['advance_booking_fee'] = max(0, $fee);
         }
         $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $exist = $this->db->get('doctor_portal_profile')->row();
         if ($exist) {
             $upd = $row;
             unset($upd['doctor_id'], $upd['hospital_id']);
             $this->db->where('doctor_id', $doc->id);
+            $this->db->where('hospital_id', $doc->hospital_id);
             $this->db->update('doctor_portal_profile', $upd);
         } else {
             $this->db->insert('doctor_portal_profile', $row);
@@ -537,11 +562,16 @@ class Doctor_chamber extends MX_Controller
         }
         $doc = $this->currentDoctor();
         $pid = (int) $this->input->post('patient_id');
+        $pat = $this->patient_model->getPatientById($pid);
+        if (!$pat || (string) $pat->hospital_id !== (string) $doc->hospital_id) {
+            show_404();
+        }
         $tag = $this->input->post('tag');
         if (!in_array($tag, array('high_risk', 'follow_up', 'vip'), true)) {
             show_error('Invalid tag', 400);
         }
         $this->db->delete('patient_practice_tag', array(
+            'hospital_id' => $doc->hospital_id,
             'doctor_id' => $doc->id,
             'patient_id' => $pid,
             'tag' => $tag,
@@ -561,6 +591,7 @@ class Doctor_chamber extends MX_Controller
         $doc = $this->currentDoctor();
         $this->portal_model->ensureDefaultChamber($doc->id, $doc->hospital_id);
         $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->order_by('exception_date', 'desc');
         $rows = $this->db->get('doctor_schedule_exception')->result();
         $this->db->where('doctor_id', $doc->id);
@@ -583,16 +614,52 @@ class Doctor_chamber extends MX_Controller
         if ($chamber_id > 0 && !$this->portal_model->getChamberIfOwned($chamber_id, $doc->id, $doc->hospital_id)) {
             show_error('Invalid chamber', 400);
         }
-        $this->db->insert('doctor_schedule_exception', array(
+        $date = $this->normalizeChamberDate($this->input->post('exception_date'));
+        if ($date === '') {
+            show_error('Invalid exception date', 400);
+        }
+        $is_closed = $this->input->post('is_closed') ? 1 : 0;
+        $open_time = $this->normalizeChamberTime($this->input->post('open_time'));
+        $close_time = $this->normalizeChamberTime($this->input->post('close_time'));
+        if ($open_time === false || $close_time === false) {
+            show_error('Invalid time format', 400);
+        }
+        if (!$is_closed) {
+            if ($open_time === null || $close_time === null || $close_time <= $open_time) {
+                show_error('Open and close times are required for timing overrides', 400);
+            }
+        } else {
+            $open_time = null;
+            $close_time = null;
+        }
+        $row = array(
             'hospital_id' => $doc->hospital_id,
             'doctor_id' => $doc->id,
             'chamber_id' => $chamber_id > 0 ? $chamber_id : null,
-            'exception_date' => $this->input->post('exception_date'),
-            'is_closed' => $this->input->post('is_closed') ? 1 : 0,
-            'open_time' => $this->input->post('open_time') ?: null,
-            'close_time' => $this->input->post('close_time') ?: null,
+            'exception_date' => $date,
+            'is_closed' => $is_closed,
+            'open_time' => $open_time,
+            'close_time' => $close_time,
             'reason' => $this->input->post('reason'),
-        ));
+        );
+
+        $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->where('doctor_id', $doc->id);
+        $this->db->where('exception_date', $date);
+        if ($chamber_id > 0) {
+            $this->db->where('chamber_id', $chamber_id);
+        } else {
+            $this->db->where('chamber_id IS NULL', null, false);
+        }
+        $existing = $this->db->get('doctor_schedule_exception')->row();
+        if ($existing) {
+            $this->db->where('id', (int) $existing->id);
+            $this->db->where('hospital_id', $doc->hospital_id);
+            $this->db->where('doctor_id', $doc->id);
+            $this->db->update('doctor_schedule_exception', $row);
+        } else {
+            $this->db->insert('doctor_schedule_exception', $row);
+        }
         redirect('doctor_chamber/schedule_exceptions');
     }
 
@@ -600,6 +667,7 @@ class Doctor_chamber extends MX_Controller
     {
         $doc = $this->currentDoctor();
         $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $tpl = $this->db->get('prescription_print_template')->row();
         $data = array('settings' => $this->settings_model->getSettings(), 'tpl' => $tpl, 'doctor' => $doc);
         $this->load->view('home/dashboard', $data);
@@ -619,9 +687,13 @@ class Doctor_chamber extends MX_Controller
             'header_html' => $this->input->post('header_html'),
             'footer_html' => $this->input->post('footer_html'),
         );
-        $existing = $this->db->get_where('prescription_print_template', array('doctor_id' => $doc->id), 1)->row();
+        $existing = $this->db->get_where('prescription_print_template', array(
+            'doctor_id' => $doc->id,
+            'hospital_id' => $doc->hospital_id,
+        ), 1)->row();
         if ($existing) {
             $this->db->where('doctor_id', $doc->id);
+            $this->db->where('hospital_id', $doc->hospital_id);
             $this->db->update('prescription_print_template', $row);
         } else {
             $this->db->insert('prescription_print_template', $row);
@@ -637,7 +709,7 @@ class Doctor_chamber extends MX_Controller
         $doc = $this->currentDoctor();
         $pid = (int) $this->input->post('patient_id');
         $pat = $this->patient_model->getPatientById($pid);
-        if (!$pat) {
+        if (!$pat || (string) $pat->hospital_id !== (string) $doc->hospital_id) {
             show_404();
         }
         $code = 'LAB' . strtoupper(bin2hex(random_bytes(3)));
@@ -756,25 +828,36 @@ class Doctor_chamber extends MX_Controller
             show_404();
         }
         $update = array(
-            'name' => $this->input->post('name'),
+            'name' => trim((string) $this->input->post('name')),
             'address' => $this->input->post('address'),
             'phone' => $this->input->post('phone'),
             'sort_order' => (int) $this->input->post('sort_order'),
             'is_active' => $this->input->post('is_active') ? 1 : 0,
         );
+        if ($update['name'] === '') {
+            show_error('Chamber name is required', 400);
+        }
         if ($this->db->field_exists('weekly_hours_json', 'doctor_chamber')) {
             $days = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
             $weekly = array();
             foreach ($days as $d) {
-                $o = trim((string) $this->input->post('wh_' . $d . '_open'));
-                $cl = trim((string) $this->input->post('wh_' . $d . '_close'));
-                if ($o !== '' || $cl !== '') {
+                $o = $this->normalizeChamberTime($this->input->post('wh_' . $d . '_open'));
+                $cl = $this->normalizeChamberTime($this->input->post('wh_' . $d . '_close'));
+                if ($o === false || $cl === false) {
+                    show_error('Invalid weekly hours time format', 400);
+                }
+                if ($o !== null || $cl !== null) {
+                    if ($o === null || $cl === null || $cl <= $o) {
+                        show_error('Each weekly hours row needs a valid open and close time', 400);
+                    }
                     $weekly[$d] = array('open' => $o, 'close' => $cl);
                 }
             }
             $update['weekly_hours_json'] = empty($weekly) ? null : json_encode($weekly);
         }
         $this->db->where('id', $cid);
+        $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->update('doctor_chamber', $update);
         redirect('doctor_chamber/my_chambers');
     }

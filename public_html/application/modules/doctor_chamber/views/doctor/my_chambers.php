@@ -73,8 +73,8 @@
                             ?>
                                 <tr>
                                     <td><?php echo $dl; ?></td>
-                                    <td><input class="form-control form-control-sm" type="text" name="wh_<?php echo $dk; ?>_open" placeholder="e.g. 09:00" value="<?php echo htmlspecialchars((string) $wo); ?>"></td>
-                                    <td><input class="form-control form-control-sm" type="text" name="wh_<?php echo $dk; ?>_close" placeholder="e.g. 17:00" value="<?php echo htmlspecialchars((string) $wc); ?>"></td>
+                                    <td><input class="form-control form-control-sm" type="time" name="wh_<?php echo $dk; ?>_open" value="<?php echo htmlspecialchars((string) $wo); ?>"></td>
+                                    <td><input class="form-control form-control-sm" type="time" name="wh_<?php echo $dk; ?>_close" value="<?php echo htmlspecialchars((string) $wc); ?>"></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
