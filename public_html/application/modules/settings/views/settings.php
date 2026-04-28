@@ -131,12 +131,12 @@ $ap_settings_saas_ui = $this->ion_auth->in_group('superadmin');
                                                 </div>
                                             </div>
 
-                                            <!-- Hospital Email -->
+                                            <!-- Practice Email -->
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-group">
                                                     <label class="text-uppercase font-weight-bold text-dark">
                                                         <i class="fas fa-envelope mr-2 text-muted"></i>
-                                                        <?php echo lang('hospital_email'); ?>
+                                                        Practice <?php echo lang('email'); ?>
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <input type="email" class="form-control form-control-lg shadow-sm"

@@ -83,7 +83,7 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
                                             <td> 
                                                 <div class="paragraphprint">
                                                     <?php $hospital_info = $this->db->get_where('hospital', array('id' => $deposit->hospital_user_id))->row(); ?>
-                                                    <label class="control-label"><?php echo lang('hospital'); ?> <?php echo lang('name'); ?> </label>
+                                                    <label class="control-label">Practice <?php echo lang('name'); ?> </label>
                                                     <span class="invoice_upper"> : 
                                                         <?php
                                                         if (!empty($hospital_info)) {

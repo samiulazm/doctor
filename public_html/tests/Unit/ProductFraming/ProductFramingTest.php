@@ -57,6 +57,28 @@ final class ProductFramingTest extends TestCase
         self::assertStringNotContainsString('Hospital Registration confirmation', $controller);
     }
 
+    public function test_settings_and_subscription_copy_use_practice_language(): void
+    {
+        $settingsView = $this->readFile('application/modules/settings/views/settings.php');
+        $invoiceView = $this->readFile('application/modules/settings/views/invoice.php');
+        $controller = $this->readFile('application/modules/settings/controllers/Settings.php');
+
+        self::assertStringContainsString('Practice <?php echo lang(\'email\'); ?>', $settingsView);
+        self::assertStringContainsString('Practice <?php echo lang(\'name\'); ?>', $invoiceView);
+        self::assertStringContainsString('Your practice package has changed successfully', $controller);
+        self::assertStringContainsString('Your practice package has renewed successfully', $controller);
+        self::assertStringContainsString('Practice Package Updated', $controller);
+        self::assertStringContainsString("'hospital_name' => 'Practice Name'", $controller);
+        self::assertStringContainsString("'hospital_email' => 'Practice Email'", $controller);
+        self::assertStringNotContainsString('hospital_email\'); ?>', $settingsView);
+        self::assertStringNotContainsString("lang('hospital'); ?> <?php echo lang('name')", $invoiceView);
+        self::assertStringNotContainsString('Your hospital package has changed successfully', $controller);
+        self::assertStringNotContainsString('Your hospital package has renewed successfully', $controller);
+        self::assertStringNotContainsString('Hospital Package Changed', $controller);
+        self::assertStringNotContainsString("'hospital_name' => 'Hospital Name'", $controller);
+        self::assertStringNotContainsString("'hospital_email' => 'Hospital Email'", $controller);
+    }
+
     public function test_treatment_plan_prescription_output_uses_practice_language(): void
     {
         $src = $this->readFile('application/modules/treatment_plan/views/index.php');

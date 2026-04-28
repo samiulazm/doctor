@@ -991,7 +991,7 @@ if (!defined('BASEPATH'))
         $emailSettings = $this->email_model->getAdminEmailSettingsById();
         if (!empty($data['from'])) {
             $message1 = '<strong>{name}</strong> ,<br>
-Your hospital package has changed successfully . Please check the details Below.<br>
+Your practice package has changed successfully. Please check the details below.<br>
 Migrated Package Name: {package_name}.<br>
 Subscription Length: {subscription_duration}.<br>
 Amount Paid: {amount}.<br>
@@ -1001,7 +1001,7 @@ Next Payment Date: {next_payment_date}.<br>
 For Any Support Please Contact with Phone No: {phone}';
         } else {
             $message1 = '<strong>{name}</strong> ,<br>
-Your hospital package has renewed successfully . Please check the details Below.<br>
+Your practice package has renewed successfully. Please check the details below.<br>
 Migrated Package Name: {package_name}.<br>
 Subscription Length: {subscription_duration}.<br>
 Amount Paid: {amount}.<br>
@@ -1014,7 +1014,7 @@ For Any Support Please Contact with Phone No: {phone}';
         $messageprint1 = $this->parser->parse_string($message1, $data1);
         $this->email->from($emailSettings->admin_email, $set['settings']->system_vendor);
         $this->email->to($hospital_details->email);
-        $this->email->subject('Hospital Package Changed');
+        $this->email->subject('Practice Package Updated');
         $this->email->message($messageprint1);
         if (function_exists('mail')) {
             $this->email->send();
@@ -1227,10 +1227,10 @@ For Any Support Please Contact with Phone No: {phone}';
             ));
         } else {
             echo json_encode(array(
-                'hospital_name' => 'Hospital Name',
-                'hospital_address' => 'Hospital Address',
-                'hospital_phone' => 'Hospital Phone',
-                'hospital_email' => 'Hospital Email'
+                'hospital_name' => 'Practice Name',
+                'hospital_address' => 'Practice Address',
+                'hospital_phone' => 'Practice Phone',
+                'hospital_email' => 'Practice Email'
             ));
         }
     }
