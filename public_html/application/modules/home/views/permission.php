@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="Rizvi">
-        <meta name="keyword" content="Php, Hospital, Clinic, Management, Software, Php, CodeIgniter, Hms, Accounting">
+        <meta name="keyword" content="PHP, Doctor Chamber, Practice Management, Appointment, Queue, Prescription, Billing, CodeIgniter">
         <link rel="shortcut icon" href="uploads/favicon.png">
         <title>Access Is Denied</title>
         <!-- Bootstrap core CSS -->

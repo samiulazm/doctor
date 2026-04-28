@@ -524,10 +524,10 @@
       <div class="sidebar-brand">
         <a href="home" class="brand-link">
           <?php if (!$this->ion_auth->in_group(array('superadmin'))) { ?>
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
+            <img src="<?php echo $settings->logo_title; ?>" alt="Practice logo" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
             <span class="brand-text fw-light"><?php echo $settings->title; ?></span>
           <?php } else { ?>
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
+            <img src="<?php echo $settings->logo_title; ?>" alt="Practice logo" class="brand-image opacity-75 shadow" style="width: 33px; height: 33px; object-fit: cover;">
             <span class="brand-text fw-light"><?php echo $settings->title; ?></span>
           <?php } ?>
         </a>

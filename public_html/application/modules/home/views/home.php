@@ -1195,7 +1195,7 @@ if (!function_exists('format_number_short')) {
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3">
                             <div class="p-3">
-                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold"><?php echo lang('hospital') ?> <?php echo lang('analytics') ?></h5>
+                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold">Practice <?php echo lang('analytics') ?></h5>
                                 <ul class="list-group list-group-flush">
                                     <?php
                                     // Define hospital ID

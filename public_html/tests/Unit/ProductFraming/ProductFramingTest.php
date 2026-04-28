@@ -79,6 +79,46 @@ final class ProductFramingTest extends TestCase
         self::assertStringNotContainsString("'hospital_email' => 'Hospital Email'", $controller);
     }
 
+    public function test_dashboard_and_permission_copy_use_practice_language(): void
+    {
+        $dashboard = $this->readFile('application/modules/home/views/dashboard.php');
+        $home = $this->readFile('application/modules/home/views/home.php');
+        $permission = $this->readFile('application/modules/home/views/permission.php');
+        $enhanced = $this->readFile('application/modules/home/views/home_enhanced.php');
+
+        self::assertStringContainsString('alt="Practice logo"', $dashboard);
+        self::assertStringContainsString('Practice <?php echo lang(\'analytics\') ?>', $home);
+        self::assertStringContainsString('Doctor Chamber', $permission);
+        self::assertStringContainsString('practice management dashboard', $enhanced);
+        self::assertStringNotContainsString('alt="HMS"', $dashboard);
+        self::assertStringNotContainsString("lang('hospital') ?> <?php echo lang('analytics')", $home);
+        self::assertStringNotContainsString('Hospital, Clinic, Management, Software', $permission);
+        self::assertStringNotContainsString('Hospital Management Dashboard', $enhanced);
+    }
+
+    public function test_legacy_frontend_index_copy_uses_practice_language(): void
+    {
+        $src = $this->readFile('application/modules/frontend/views/index.php');
+
+        self::assertStringContainsString('doctor chamber software, practice management', $src);
+        self::assertStringContainsString('Doctor Practice Management', $src);
+        self::assertStringContainsString('Register practice', $src);
+        self::assertStringContainsString('doctor chamber or small practice', $src);
+        self::assertStringContainsString('Active practices', $src);
+        self::assertStringContainsString('Practice Name*', $src);
+        self::assertStringContainsString('Practice Email*', $src);
+        self::assertStringContainsString('Practice Pro', $src);
+        self::assertStringNotContainsString('HMS software', $src);
+        self::assertStringNotContainsString('hospital management system', $src);
+        self::assertStringNotContainsString("lang('register_hospital')", $src);
+        self::assertStringNotContainsString("lang('active_hospitals')", $src);
+        self::assertStringNotContainsString("lang('subscribe_your_hospital')", $src);
+        self::assertStringNotContainsString("lang('enter_your_hospital_details_below')", $src);
+        self::assertStringNotContainsString("lang('Hospital Name')", $src);
+        self::assertStringNotContainsString("lang('Hospital Email')", $src);
+        self::assertStringNotContainsString('HMS Pro', $src);
+    }
+
     public function test_treatment_plan_prescription_output_uses_practice_language(): void
     {
         $src = $this->readFile('application/modules/treatment_plan/views/index.php');

@@ -24,7 +24,7 @@ if (isset($settings->description) && $settings->description !== '') {
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="<?php echo htmlspecialchars($meta_description, ENT_QUOTES, 'UTF-8'); ?>" />
-    <meta name="keywords" content="software development, HMS software, hospital management system, custom software development" />
+    <meta name="keywords" content="doctor chamber software, practice management, appointment queue, prescription billing, custom healthcare software" />
     <meta name="author" content="<?php echo $settings->title; ?>">
     <meta name="robots" content="index, follow">
     
@@ -189,7 +189,7 @@ if (isset($settings->description) && $settings->description !== '') {
                             <span class="text-2xl font-extrabold">
                                 <span class="text-secondary-900"><?php echo $title[0]; ?></span><span class="text-primary-600"><?php echo isset($title[1]) ? $title[1] : ''; ?></span>
                             </span>
-                            <span class="hidden lg:block text-xs text-gray-500 -mt-1">Healthcare Management Solutions</span>
+                            <span class="hidden lg:block text-xs text-gray-500 -mt-1">Doctor Practice Management</span>
                         </div>
                     </a>
                 </div>
@@ -219,7 +219,7 @@ if (isset($settings->description) && $settings->description !== '') {
                     <?php } ?>
 
                     <a href="#register" class="inline-flex items-center px-6 py-2.5 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition duration-300 shadow-sm">
-                        <?php echo lang('register_hospital'); ?>
+                        Register practice
                     </a>
                 </div>
 
@@ -260,7 +260,7 @@ if (isset($settings->description) && $settings->description !== '') {
                 <?php } ?>
 
                 <a href="#register" class="block px-4 py-2 text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors font-medium">
-                    <?php echo lang('register_hospital'); ?>
+                    Register practice
                 </a>
             </div>
         </div>
@@ -298,7 +298,7 @@ if (isset($settings->description) && $settings->description !== '') {
                         <span class="block mt-2 text-secondary-900">Management</span>
                     </h1>
                     <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                        Streamline your healthcare facility with our comprehensive hospital management system. Efficient, secure, and user-friendly.
+                        Streamline your doctor chamber or small practice with appointment booking, live queues, prescriptions, billing, and patient records.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
                         <a href="#register" class="group inline-flex items-center px-8 py-4 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
@@ -319,7 +319,7 @@ if (isset($settings->description) && $settings->description !== '') {
                     <div class="grid grid-cols-3 gap-8">
                         <div class="text-center">
                             <div class="text-4xl font-bold text-primary-600 mb-2">1000+</div>
-                            <div class="text-sm text-gray-600"><?php echo lang('active_hospitals'); ?></div>
+                            <div class="text-sm text-gray-600">Active practices</div>
                         </div>
                         <div class="text-center">
                             <div class="text-4xl font-bold text-primary-600 mb-2">50M+</div>
@@ -340,7 +340,7 @@ if (isset($settings->description) && $settings->description !== '') {
                         <div class="col-span-2">
                             <div class="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                                 <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                                     alt="Modern Hospital" 
+                                     alt="Modern practice"
                                      class="w-full h-64 object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                                 <div class="absolute bottom-4 left-4 text-white">
@@ -373,7 +373,7 @@ if (isset($settings->description) && $settings->description !== '') {
                             </div>
                             <div>
                                 <div class="text-sm font-medium text-gray-500">Latest Tech</div>
-                                <div class="text-lg font-bold text-blue-600">HMS Pro</div>
+                                <div class="text-lg font-bold text-blue-600">Practice Pro</div>
                             </div>
                         </div>
                     </div>
@@ -476,7 +476,7 @@ if (isset($settings->description) && $settings->description !== '') {
                         <span class="counter">1000</span>
                         <span>+</span>
                     </div>
-                    <p class="text-gray-600 font-medium"><?php echo lang('active_hospitals'); ?></p>
+                    <p class="text-gray-600 font-medium">Active practices</p>
                 </div>
                 <div class="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <div class="text-4xl font-bold text-green-600 mb-2 flex items-center justify-center gap-2">
@@ -740,11 +740,11 @@ if (isset($settings->description) && $settings->description !== '') {
                     <?php echo lang('join_us'); ?>
                 </span>
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-6 text-white">
-            <?php echo lang('subscribe_your_hospital'); ?>
+            Subscribe your practice
           </h2>
                 <div class="w-24 h-1 bg-gradient-to-r from-indigo-400 to-purple-400 mx-auto rounded-full mb-6"></div>
                 <p class="text-xl text-indigo-200 leading-relaxed">
-            <?php echo lang('enter_your_hospital_details_below'); ?>
+            Enter your practice details below
           </p>
         </div>
 
@@ -756,22 +756,22 @@ if (isset($settings->description) && $settings->description !== '') {
               <?php echo lang('subscribe'); ?>
             </h3>
                         <p class="text-indigo-200">
-              <?php echo lang('enter_your_hospital_details_below'); ?>
+              Enter your practice details below
             </p>
           </div>
 
                     <form action="frontend/addNewHospitalPayment" method="post" id="addNewHospital" enctype="multipart/form-data" class="p-8 space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <input type="text" name="name" placeholder="<?php echo lang('Hospital Name'); ?>*" 
+                            <input type="text" name="name" placeholder="Practice Name*"
                                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:border-indigo-500">
                             
-                            <input type="text" name="address" placeholder="<?php echo lang('Hospital Address'); ?>*"
+                            <input type="text" name="address" placeholder="Practice Address*"
                                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                             
-                            <input type="email" name="email" placeholder="<?php echo lang('Hospital Email'); ?>*"
+                            <input type="email" name="email" placeholder="Practice Email*"
                                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                             
-                            <input type="text" name="phone" placeholder="<?php echo lang('Hospital Phone'); ?>*"
+                            <input type="text" name="phone" placeholder="Practice Phone*"
                                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
 
               <div class="package_select_div">
@@ -855,7 +855,7 @@ if (isset($settings->description) && $settings->description !== '') {
 
                         <button type="submit" id="submit-btn"
                                 class="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105">
-              <?php echo lang('register'); ?> <?php echo lang('hospital'); ?>
+              Register practice
             </button>
           </form>
                 </div>

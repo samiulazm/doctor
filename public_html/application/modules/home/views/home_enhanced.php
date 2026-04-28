@@ -1,6 +1,6 @@
 <?php
 /**
- * Enhanced Modern Hospital Management Dashboard
+ * Enhanced modern practice management dashboard
  * Built with Tailwind CSS for a modern, responsive, and professional medical interface
  */
 ?>
