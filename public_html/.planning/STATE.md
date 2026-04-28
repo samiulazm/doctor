@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-04-27)
 
 **Core value:** Real doctors actively using the system to manage their daily patient queue
-**Current focus:** Phase 6 - Assistant Portal + Real-Time
+**Current focus:** All planned phases executed; production readiness verification remains
 
 ## Current Position
 
 Phase: 6 of 6 (Assistant Portal + Real-Time)
-Plan: 0 of 6 in current phase
-Status: Ready to execute Phase 6
-Last activity: 2026-04-28 - Phase 5 Doctor Portal implemented and validated; DoctorPortal tests green
+Plan: 6 of 6 in current phase
+Status: All planned phases complete
+Last activity: 2026-04-28 - Phase 6 Assistant Portal + Real-Time implemented and validated; AssistantPortal tests green
 
-Progress: [#########-] 85%
+Progress: [##########] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 35
+- Total plans completed: 41
 - Average duration: not tracked for imported execution
 - Total execution time: not tracked
 
@@ -32,10 +32,10 @@ Progress: [#########-] 85%
 | 3. Admin Design System | 7 | 7 | - |
 | 4. Patient Portal | 6 | 6 | - |
 | 5. Doctor Portal | 7 | 7 | - |
-| 6. Assistant Portal + Real-Time | 0 | 6 | - |
+| 6. Assistant Portal + Real-Time | 6 | 6 | - |
 
 **Recent Trend:**
-- Last 5 plans: 05-02, 05-03, 05-04, 05-05, 05-06 complete
+- Last 5 plans: 06-01, 06-02, 06-03, 06-04, 06-05 complete
 - Trend: green static validation; manual live checks still required where noted
 
 *Updated after each plan completion*
@@ -52,18 +52,21 @@ Recent decisions affecting current work:
 - [Phase 4]: Patient portal payment uses existing `payment_bd` SSLCommerz/bKash queue-intent flow after booking confirmation.
 - [Phase 5]: Doctor dashboard and consultation room use long-poll JSON endpoints instead of WebSocket.
 - [Phase 5]: Consultation room embeds the existing prescription composer and uses a postMessage callback for save-and-print.
+- [Phase 6]: Assistant queue sync uses long-poll plus immediate SortableJS reorder POST for shared-hosting compatibility.
+- [Phase 6]: Desk bKash flow initiates inline and reports JSON status without redirecting the assistant away from the queue.
 
 ### Pending Todos
 
-- Execute Phase 6 Assistant Portal + Real-Time plans.
-- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, doctor dashboard queue polling, consultation save-and-print, assistant billing, and prescription PDF download before production.
+- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, doctor dashboard queue polling, consultation save-and-print, assistant drag-drop reorder, emergency bump, bKash sandbox initiation, assistant billing, token printing, and prescription PDF download before production.
+- Apply database migrations in the target environment, including `20260427000012_chamber_queue_is_emergency.php`.
 
 ### Blockers/Concerns
 
 - [Phase 4]: OTP SMS delivery depends on existing Twilio/SMS infrastructure being configured and tested.
 - [Phase 4]: SSLCommerz/bKash payment requires sandbox/live credentials in `paymentGateway` or environment variables.
 - [Phase 5]: Chart.js loads from a pinned CDN and should be checked in the deployment network.
-- [Phase 6]: Real-time queue (QUEUE-01) requires choosing between WebSocket and long-poll; shared hosting (Apache/LiteSpeed) may not support persistent WebSocket connections - long-poll may be the safer fallback.
+- [Phase 6]: SortableJS loads from a pinned CDN and should be checked in the deployment network.
+- [Phase 6]: Real bKash success requires sandbox/live credentials and gateway callback configuration.
 
 ## Deferred Items
 
@@ -77,5 +80,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-04-28
-Stopped at: Phase 5 validated; Phase 6 Assistant Portal + Real-Time ready to execute
+Stopped at: All six phases validated; production/live manual verification remains
 Resume file: None

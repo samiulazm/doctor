@@ -100,12 +100,17 @@ class Assistant_chamber extends MX_Controller
             show_error('Invalid', 400);
         }
         $pos = 1.0;
+        $serial = 1;
         foreach ($ids as $qid) {
             $qid = (int) $qid;
             $row = $this->queue_model->getRow($qid, $hid);
             if ($row) {
-                $this->queue_model->updateRow($qid, array('sort_position' => $pos));
+                $this->queue_model->updateRow($qid, array(
+                    'sort_position' => $pos,
+                    'serial_number' => $serial,
+                ));
                 $pos += 1.0;
+                $serial++;
             }
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => true)));
@@ -128,7 +133,19 @@ class Assistant_chamber extends MX_Controller
         $this->db->where('queue_date', $row->queue_date);
         $min = $this->db->get('chamber_serial_queue')->row();
         $newp = ($min && $min->sort_position !== null) ? ((float) $min->sort_position) - 1.0 : 0.0;
-        $this->queue_model->updateRow($id, array('sort_position' => $newp));
+        $this->queue_model->updateRow($id, array('sort_position' => $newp, 'is_emergency' => 1));
+        $this->db->select('id');
+        $this->db->where('hospital_id', $hid);
+        $this->db->where('doctor_id', $row->doctor_id);
+        $this->db->where('chamber_id', $row->chamber_id);
+        $this->db->where('queue_date', $row->queue_date);
+        $this->db->where_not_in('status', array('done', 'cancelled'));
+        $this->db->order_by('sort_position', 'asc');
+        $ordered = $this->db->get('chamber_serial_queue')->result();
+        $serial = 1;
+        foreach ($ordered as $item) {
+            $this->queue_model->updateRow((int) $item->id, array('serial_number' => $serial++));
+        }
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
 
@@ -266,6 +283,72 @@ class Assistant_chamber extends MX_Controller
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
 
+    public function mark_queue_fee_paid_ajax()
+    {
+        if ($this->input->method() !== 'post') {
+            $this->output->set_status_header(405)->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Method not allowed', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+        $id = (int) $this->input->post('queue_id');
+        $hid = $this->session->userdata('hospital_id');
+        $row = $this->queue_model->getRow($id, $hid);
+        if (!$row || empty($row->patient_id)) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Queue row not found', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+        $amount = (float) $this->input->post('amount');
+        if ($amount <= 0) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Invalid amount', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $fee_type = $this->input->post('fee_type') === 'procedure' ? 'procedure' : 'consultation';
+        $category = $fee_type === 'procedure' ? 'Procedure' : 'Consultant Fee';
+        $pay_status = in_array($this->input->post('pay_status'), array('paid', 'due'), true) ? $this->input->post('pay_status') : 'paid';
+        $pay_method = $this->input->post('pay_method') ?: 'cash';
+        $pat = $this->patient_model->getPatientById($row->patient_id);
+        if (!$pat) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Patient not found', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+        $doc = $this->db->get_where('doctor', array('id' => $row->doctor_id))->row();
+        $docname = $doc ? $doc->name : '';
+        $remarks = trim('Desk ' . $fee_type . ': ' . (string) $pay_method . ' ' . (string) $this->input->post('remarks'));
+        $data_payment = array(
+            'category_name' => $category,
+            'patient' => $row->patient_id,
+            'amount' => (string) $amount,
+            'doctor' => $row->doctor_id,
+            'discount' => '0',
+            'flat_discount' => '0',
+            'gross_total' => (string) $amount,
+            'status' => $pay_status,
+            'hospital_amount' => '0',
+            'doctor_amount' => (string) $amount,
+            'user' => $this->ion_auth->get_user_id(),
+            'patient_name' => $pat->name,
+            'patient_phone' => $pat->phone,
+            'patient_address' => $pat->address,
+            'doctor_name' => $docname,
+            'remarks' => $remarks,
+            'payment_from' => 'chamber_desk',
+            'appointment_id' => $row->appointment_id ? $row->appointment_id : null,
+            'date' => time(),
+            'date_string' => date('d-m-Y'),
+        );
+        $this->finance_model->insertPayment($data_payment);
+        $this->chamber_platform_model->logUsage($hid, 'assistant_desk_fee_ajax', $row->doctor_id, $this->ion_auth->get_user_id(), array('queue_id' => $id, 'amount' => $amount, 'status' => $pay_status));
+        $this->output->set_content_type('application/json')->set_output(json_encode(array(
+            'success' => true,
+            'message' => 'Fee recorded.',
+            'csrf_hash' => $this->security->get_csrf_hash(),
+        )));
+    }
+
     public function mark_serving()
     {
         if ($this->input->method() !== 'post') {
@@ -304,6 +387,45 @@ class Assistant_chamber extends MX_Controller
         }
         $this->chamber_platform_model->logUsage($hid, 'assistant_queue_' . $status, $row->doctor_id, $this->ion_auth->get_user_id(), array('queue_id' => $id));
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
+    }
+
+    public function queue_ticker_json()
+    {
+        $doctor_id = (int) $this->input->get('doctor_id');
+        $chamber_id = (int) $this->input->get('chamber_id');
+        $date = $this->input->get('date');
+        if (!$doctor_id || !$chamber_id || !$date) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('serial' => null, 'serving_name' => null, 'updated_at' => date('c'))));
+            return;
+        }
+
+        $hid = $this->session->userdata('hospital_id');
+        $this->db->select('id');
+        $doctor = $this->db->get_where('doctor', array('id' => $doctor_id, 'hospital_id' => $hid), 1)->row();
+        if (!$doctor) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('serial' => null, 'serving_name' => null, 'updated_at' => date('c'))));
+            return;
+        }
+
+        $row = $this->queue_model->getTicker($doctor_id, $chamber_id, $date);
+        if ($row && (int) $row->hospital_id !== (int) $hid) {
+            $row = null;
+        }
+        $ticker = $this->db->select('updated_at')
+            ->get_where('chamber_queue_ticker', array(
+                'hospital_id' => $hid,
+                'doctor_id' => $doctor_id,
+                'chamber_id' => $chamber_id,
+                'queue_date' => $date,
+            ), 1)->row();
+        $updated_at = $ticker ? date('c', strtotime($ticker->updated_at)) : date('c');
+        $this->output->set_content_type('application/json')->set_output(json_encode(array(
+            'serial' => $row ? (int) $row->serial_number : null,
+            'serving_name' => $row ? ($row->guest_name ?: null) : null,
+            'updated_at' => $updated_at,
+        )));
     }
 
     public function manual_booking()
@@ -413,6 +535,25 @@ class Assistant_chamber extends MX_Controller
             show_404();
         }
         redirect('prescription/viewPrescriptionPrint?id=' . $rx);
+    }
+
+    public function print_token()
+    {
+        $queue_id = (int) $this->input->get('queue_id');
+        $hid = $this->session->userdata('hospital_id');
+        $row = $this->queue_model->getRow($queue_id, $hid);
+        if (!$row) {
+            show_404();
+            return;
+        }
+        $doc = $this->db->get_where('doctor', array('id' => $row->doctor_id), 1)->row();
+        $settings = $this->settings_model->getSettings();
+        $data = array(
+            'queue_row' => $row,
+            'doctor' => $doc,
+            'settings' => $settings,
+        );
+        $this->load->view('assistant/token_print', $data);
     }
 
     /**

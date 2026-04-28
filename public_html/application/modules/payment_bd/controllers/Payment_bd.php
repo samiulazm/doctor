@@ -506,4 +506,96 @@ class Payment_bd extends MX_Controller
             'content' => '<div class="container py-5"><h3>Payment could not be confirmed</h3><p>Please contact the chamber if money was debited.</p>' . $back . '</div>',
         ));
     }
+
+    public function bkash_initiate_desk()
+    {
+        if ($this->input->method() !== 'post') {
+            $this->output->set_status_header(405)->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Method not allowed', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+        if (!$this->ion_auth->logged_in() || !$this->ion_auth->in_group(array('Receptionist', 'Nurse', 'admin'))) {
+            $this->output->set_status_header(403)->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Unauthorized', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $queue_id = (int) $this->input->post('queue_id');
+        $amount = (float) $this->input->post('amount');
+        $hid = $this->session->userdata('hospital_id');
+        if ($queue_id < 1 || $amount <= 0) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'queue_id and amount required', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $row = $this->queue_model->getRowById($queue_id);
+        if (!$row || (int) $row->hospital_id !== (int) $hid) {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'Queue row not found', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $this->load->library('Bd_payment_bkash');
+        list($app_key, $app_secret, $user, $pass) = $this->bkash_credentials_for_hospital($hid);
+        if ($app_key === '' || $app_secret === '' || $user === '' || $pass === '') {
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => 'bKash not configured for this hospital', 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $amount_str = number_format($amount, 2, '.', '');
+        $intent_id = $this->chamber_platform_model->insertBdIntent(array(
+            'hospital_id' => $hid,
+            'queue_id' => $queue_id,
+            'gateway' => 'bkash',
+            'amount' => $amount,
+            'currency' => 'BDT',
+            'status' => 'created',
+        ));
+        $merchant_invoice = 'DESK' . $intent_id . 'T' . time();
+        $payer_ref = preg_replace('/\D/', '', (string) $row->guest_phone);
+        $payer_ref = $payer_ref !== '' ? substr($payer_ref, 0, 11) : ('Q' . $queue_id);
+        $base = Bd_payment_bkash::baseUrl();
+        $callback_base = rtrim(site_url('payment_bd/bkash_callback'), '/');
+        $grant = Bd_payment_bkash::grantToken($base, $user, $pass, $app_key, $app_secret);
+        if (empty($grant['ok']) || empty($grant['id_token'])) {
+            $msg = isset($grant['error']) ? $grant['error'] : 'bKash token grant failed';
+            $this->chamber_platform_model->updateBdIntent($intent_id, array('status' => 'failed'));
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => $msg, 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $create = Bd_payment_bkash::createUrlCheckout(
+            $base,
+            $grant['id_token'],
+            $app_key,
+            $payer_ref,
+            $callback_base,
+            $amount_str,
+            $merchant_invoice
+        );
+        if (empty($create['ok']) || empty($create['paymentID'])) {
+            $msg = isset($create['error']) ? $create['error'] : 'bKash payment create failed';
+            $this->chamber_platform_model->updateBdIntent($intent_id, array(
+                'status' => 'failed',
+                'meta_json' => json_encode(array('error' => $msg, 'merchant_invoice' => $merchant_invoice)),
+            ));
+            $this->output->set_content_type('application/json')
+                ->set_output(json_encode(array('success' => false, 'message' => $msg, 'csrf_hash' => $this->security->get_csrf_hash())));
+            return;
+        }
+
+        $this->chamber_platform_model->updateBdIntent($intent_id, array(
+            'gateway_session_id' => $create['paymentID'],
+            'meta_json' => json_encode(array('merchant_invoice' => $merchant_invoice)),
+        ));
+        $this->output->set_content_type('application/json')->set_output(json_encode(array(
+            'success' => true,
+            'payment_id' => $create['paymentID'],
+            'message' => 'bKash payment initiated.',
+            'csrf_hash' => $this->security->get_csrf_hash(),
+        )));
+    }
 }

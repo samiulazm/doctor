@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Admin Design System** - Unify AdminLTE 3 layout, DataTables, CSRF, and design tokens across all modules
 - [x] **Phase 4: Patient Portal** - Complete patient-facing portal: home, booking (with OTP + SSLCommerz), queue, and prescriptions
 - [x] **Phase 5: Doctor Portal** - Complete doctor dashboard and consultation room
-- [ ] **Phase 6: Assistant Portal + Real-Time** - Complete assistant queue and billing screens, bKash integration, and live queue sync
+- [x] **Phase 6: Assistant Portal + Real-Time** - Complete assistant queue and billing screens, bKash integration, and live queue sync
 
 ## Phase Details
 
@@ -134,12 +134,12 @@ Plans:
   4. Queue serial and "now serving" number update on doctor, assistant, and patient views in real-time (WebSocket or long-poll) without any manual page reload
 **Plans**: 6 plans
 Plans:
-- [ ] 06-00-PLAN.md â€” Wave 0: Create AssistantPortalTest.php scaffold (20+ assertions, UI-12 through QUEUE-01)
-- [ ] 06-01-PLAN.md â€” Wave 1: is_emergency migration + 3 CSS classes (chamber-practice.css)
-- [ ] 06-02-PLAN.md â€” Wave 2: desk.php full rewrite + _billing_panel.php partial (UI-12, UI-13)
-- [ ] 06-03-PLAN.md â€” Wave 2: queue_ticker_json() in Assistant_chamber + bkash_initiate_desk() in Payment_bd (QUEUE-01, PAY-01)
-- [ ] 06-04-PLAN.md â€” Wave 3: print_token() + mark_queue_fee_paid_ajax() + emergency_bump update + token_print.php (UI-12, UI-13)
-- [ ] 06-05-PLAN.md â€” Wave 3: Full test suite smoke run + human verification checkpoint
+- [x] 06-00-PLAN.md â€” Wave 0: Create AssistantPortalTest.php scaffold (20+ assertions, UI-12 through QUEUE-01)
+- [x] 06-01-PLAN.md â€” Wave 1: is_emergency migration + 3 CSS classes (chamber-practice.css)
+- [x] 06-02-PLAN.md â€” Wave 2: desk.php full rewrite + _billing_panel.php partial (UI-12, UI-13)
+- [x] 06-03-PLAN.md â€” Wave 2: queue_ticker_json() in Assistant_chamber + bkash_initiate_desk() in Payment_bd (QUEUE-01, PAY-01)
+- [x] 06-04-PLAN.md â€” Wave 3: print_token() + mark_queue_fee_paid_ajax() + emergency_bump update + token_print.php (UI-12, UI-13)
+- [x] 06-05-PLAN.md â€” Wave 3: Full test suite smoke run + human verification checkpoint
 **UI hint**: yes
 
 ## Progress
@@ -154,7 +154,7 @@ Phases execute in numeric order: 1 â†’ 2 â†’ 3 â†’ 4 â†’ 5 �
 | 3. Admin Design System | 7/7 | Complete | 2026-04-28 |
 | 4. Patient Portal | 6/6 | Complete | 2026-04-28 |
 | 5. Doctor Portal | 7/7 | Complete | 2026-04-28 |
-| 6. Assistant Portal + Real-Time | 0/6 | Planned | - |
+| 6. Assistant Portal + Real-Time | 6/6 | Complete | 2026-04-28 |
 
 ---
 *Roadmap created: 2026-04-27*
@@ -170,3 +170,4 @@ Phases execute in numeric order: 1 â†’ 2 â†’ 3 â†’ 4 â†’ 5 �
 *Phase 3 completed: 2026-04-28 - DesignSystem tests green*
 *Phase 4 completed: 2026-04-28 - PatientPortal tests green*
 *Phase 5 completed: 2026-04-28 - DoctorPortal tests green*
+*Phase 6 completed: 2026-04-28 - AssistantPortal tests green*

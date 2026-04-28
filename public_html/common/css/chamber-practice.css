@@ -787,3 +787,61 @@
         box-shadow: none;
     }
 }
+
+/* =========================================================
+   Phase 6 additions - Assistant Portal
+   ========================================================= */
+
+/* Emergency status tag */
+.chamber-status.emergency {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* Source tag - booking origin indicator */
+.chamber-source-tag {
+    align-items: center;
+    border-radius: 4px;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 4px;
+    letter-spacing: .03em;
+    line-height: 1;
+    padding: 4px 8px;
+    text-transform: uppercase;
+}
+
+.chamber-source-tag.manual {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.chamber-source-tag.phone {
+    background: #fff7ed;
+    color: #9a3412;
+}
+
+.chamber-source-tag.website {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+/* bKash brand button */
+.btn-bkash {
+    background-color: #e2136e;
+    border-color: #c10f5e;
+    color: #fff;
+}
+
+.btn-bkash:hover,
+.btn-bkash:focus {
+    background-color: #c10f5e;
+    border-color: #a30d50;
+    color: #fff;
+}
+
+.btn-bkash:disabled {
+    opacity: .65;
+    pointer-events: none;
+}
