@@ -55,6 +55,7 @@ Recent decisions affecting current work:
 - [Phase 6]: Assistant queue sync uses long-poll plus immediate SortableJS reorder POST for shared-hosting compatibility.
 - [Phase 6]: Desk bKash flow initiates inline and reports JSON status without redirecting the assistant away from the queue.
 - [Post-Phase 6]: Doctor dashboard charts use the bundled AdminLTE Chart.js asset; assistant queue drag-drop uses local native browser drag/drop with optional SortableJS support if bundled later.
+- [Post-Phase 6]: Product framing is doctor chamber/practice management; `hospital_id` remains an internal tenant boundary and should not appear in active portal copy.
 
 ### Pending Todos
 

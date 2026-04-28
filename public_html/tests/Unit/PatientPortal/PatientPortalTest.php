@@ -98,6 +98,18 @@ final class PatientPortalTest extends TestCase
         self::assertStringNotContainsString('cdn.jsdelivr.net', $layout);
     }
 
+    public function test_payment_copy_and_back_link_are_practice_scoped(): void
+    {
+        $src = $this->readFile('application/modules/payment_bd/controllers/Payment_bd.php');
+
+        self::assertStringContainsString("'hospital_id' => \$queue->hospital_id", $src);
+        self::assertStringContainsString('SSLCommerz is not configured for this practice', $src);
+        self::assertStringContainsString('bKash is not configured for this practice', $src);
+        self::assertStringContainsString('bKash not configured for this practice', $src);
+        self::assertStringNotContainsString('not configured for this hospital', $src);
+        self::assertStringNotContainsString('Payment gateways', $src);
+    }
+
     public function test_location_exception_lookup_prefers_newest_specific_row(): void
     {
         $src = $this->readFile('application/modules/portal/controllers/Portal.php');

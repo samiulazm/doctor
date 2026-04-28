@@ -11,7 +11,7 @@
         </div>
     </section>
     <section class="content">
-        <p class="text-muted small">Outbound SMS sends immediately when the hospital SMS gateway is configured. AI call requests are queued as integration events for a telephony worker.</p>
+        <p class="text-muted small">Outbound SMS sends immediately when the practice SMS gateway is configured. AI call requests are queued as integration events for a telephony worker.</p>
         <?php if ($this->session->flashdata('chamber_bulk_msg')) : ?>
             <div class="alert alert-info"><?php echo htmlspecialchars($this->session->flashdata('chamber_bulk_msg')); ?></div>
         <?php endif; ?>

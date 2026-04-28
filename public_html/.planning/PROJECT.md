@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A multi-tenant SaaS platform for managing doctor chambers and hospital operations in Bangladesh. Doctors, assistants, and patients interact through role-based portals covering appointment booking, live queue management, e-prescriptions, billing, and patient records. Built on CodeIgniter 3 + PHP 8.1, serving the Asia/Dhaka market with local payment integrations (bKash, SSLCommerz).
+A multi-tenant SaaS platform for managing independent doctor chambers and small practices in Bangladesh. Doctors, assistants, and patients interact through role-based portals covering appointment booking, live queue management, e-prescriptions, billing, and patient records. Built on CodeIgniter 3 + PHP 8.1, serving the Asia/Dhaka market with local payment integrations (bKash, SSLCommerz). Legacy broader modules remain available where they support records, billing, lab, and pharmacy workflows, but the launch product is chamber/practice management.
 
 ## Core Value
 
@@ -12,7 +12,7 @@ Real doctors actively using the system to manage their daily patient queue — e
 
 ### Validated
 
-- ✓ Multi-tenant hospital/clinic isolation with `hospital_id` scoping — existing
+- ✓ Multi-tenant practice isolation with internal `hospital_id` scoping — existing
 - ✓ Role-based authentication (Ion Auth) — Doctor, Assistant, Admin, Patient, Super Admin — existing
 - ✓ Appointment booking with time slots and chamber-wise scheduling — existing
 - ✓ Serial-based queue management with check-in flow — existing
@@ -70,7 +70,7 @@ Real doctors actively using the system to manage their daily patient queue — e
 
 ## Context
 
-- **Market:** Bangladesh clinics and hospitals; primary language Bangla, UI in English
+- **Market:** Bangladesh doctor chambers and small practices; primary language Bangla, UI in English
 - **Payment methods:** bKash (mobile), SSLCommerz (card/bank), cash on-spot
 - **Timezone:** Asia/Dhaka
 - **Platform release:** 0.2.0 (tracked in `application/config/platform.php`)
@@ -93,6 +93,7 @@ Real doctors actively using the system to manage their daily patient queue — e
 | Fix all CRITICAL security first | Patient medical data — cannot ship vulnerable | — Pending |
 | Use existing AdminLTE 3 + Bootstrap 4 | No frontend build pipeline; design system layered on top | — Pending |
 | bKash + SSLCommerz (not Stripe) | Bangladesh local payment methods; Stripe manually vendored at v7 | — Pending |
+| Product framing is doctor/chamber practice management | `hospital_id` remains an internal tenant key, not launch product copy | Active portal copy says practice/chamber |
 
 ## Evolution
 

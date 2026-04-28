@@ -201,7 +201,7 @@ class Assistant_chamber extends MX_Controller
                 $skipped++;
             }
         }
-        $this->session->set_flashdata('chamber_bulk_msg', 'Sent ' . $sent . ' SMS. Skipped or failed: ' . $skipped . '. Configure SMS under hospital settings (MSG91, Twilio, 80Kobo, or Clickatell).');
+        $this->session->set_flashdata('chamber_bulk_msg', 'Sent ' . $sent . ' SMS. Skipped or failed: ' . $skipped . '. Configure SMS under practice settings (MSG91, Twilio, 80Kobo, or Clickatell).');
         redirect('assistant_chamber/bulk_sms');
     }
 
@@ -463,7 +463,7 @@ class Assistant_chamber extends MX_Controller
             show_404();
         }
         if ((int) $doc->hospital_id !== (int) $hid) {
-            show_error('Doctor is outside this hospital', 403);
+            show_error('Doctor is outside this practice', 403);
         }
         $chamber = $this->portal_model->getChamberIfOwned($chamber_id, $doctor_id, $hid);
         if (!$chamber) {
@@ -557,7 +557,7 @@ class Assistant_chamber extends MX_Controller
     }
 
     /**
-     * JSON map patient_id => latest prescription id for this doctor/hospital (for desk auto-print poll).
+     * JSON map patient_id => latest prescription id for this doctor/practice (for desk auto-print poll).
      */
     public function desk_rx_poll()
     {

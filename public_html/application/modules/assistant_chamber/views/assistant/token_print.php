@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-$hospital_name = isset($settings->hospital_name) && $settings->hospital_name !== '' ? $settings->hospital_name : 'Chamber';
+$practice_name = isset($settings->hospital_name) && $settings->hospital_name !== '' ? $settings->hospital_name : 'Chamber';
 $doctor_name = '';
 if ($doctor) {
     if (!empty($doctor->name)) {
@@ -28,7 +28,7 @@ $patient_name = !empty($queue_row->guest_name) ? $queue_row->guest_name : ('Pati
             max-width: 300px;
             padding: 12px;
         }
-        .hospital-name {
+        .practice-name {
             border-bottom: 1px dashed #000;
             font-size: 14px;
             font-weight: bold;
@@ -83,8 +83,8 @@ $patient_name = !empty($queue_row->guest_name) ? $queue_row->guest_name : ('Pati
     </style>
 </head>
 <body onload="window.print()">
-    <div class="hospital-name">
-        <?php echo htmlspecialchars($hospital_name, ENT_QUOTES, 'UTF-8'); ?>
+    <div class="practice-name">
+        <?php echo htmlspecialchars($practice_name, ENT_QUOTES, 'UTF-8'); ?>
     </div>
 
     <?php if ($doctor_name !== '') : ?>

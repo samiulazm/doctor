@@ -258,7 +258,10 @@ class Payment_bd extends MX_Controller
         if (!$queue) {
             return '';
         }
-        $prof = $this->db->get_where('doctor_portal_profile', array('doctor_id' => $queue->doctor_id))->row();
+        $prof = $this->db->get_where('doctor_portal_profile', array(
+            'doctor_id' => $queue->doctor_id,
+            'hospital_id' => $queue->hospital_id,
+        ))->row();
         if (!$prof || empty($prof->public_slug)) {
             return '';
         }
@@ -278,7 +281,7 @@ class Payment_bd extends MX_Controller
         $amount = (float) $row->advance_fee_amount;
         list($store_id, $store_pass) = $this->sslcommerz_credentials_for_hospital($hid);
         if ($store_id === '' || $store_pass === '') {
-            show_error('SSLCommerz is not configured for this hospital (Finance → Payment gateways → SSLCommerz) or set SSLCOMMERZ_* in .env', 501);
+            show_error('SSLCommerz is not configured for this practice. Configure SSLCommerz credentials or set SSLCOMMERZ_* in .env.', 501);
         }
         $intent_id = $this->chamber_platform_model->insertBdIntent(array(
             'hospital_id' => $hid,
@@ -408,7 +411,7 @@ class Payment_bd extends MX_Controller
         chamber_practice_require_enabled($this, $hid, true);
         list($app_key, $app_secret, $user, $pass) = $this->bkash_credentials_for_hospital($hid);
         if ($app_key === '' || $app_secret === '' || $user === '' || $pass === '') {
-            show_error('bKash is not configured (Finance → Payment gateways → bKash: app key, secret, username, password) or set BKASH_* in .env', 501);
+            show_error('bKash is not configured for this practice. Configure bKash credentials or set BKASH_* in .env.', 501);
         }
         $amount = (float) $row->advance_fee_amount;
         $amount_str = number_format($amount, 2, '.', '');
@@ -540,7 +543,7 @@ class Payment_bd extends MX_Controller
         list($app_key, $app_secret, $user, $pass) = $this->bkash_credentials_for_hospital($hid);
         if ($app_key === '' || $app_secret === '' || $user === '' || $pass === '') {
             $this->output->set_content_type('application/json')
-                ->set_output(json_encode(array('success' => false, 'message' => 'bKash not configured for this hospital', 'csrf_hash' => $this->security->get_csrf_hash())));
+                ->set_output(json_encode(array('success' => false, 'message' => 'bKash not configured for this practice', 'csrf_hash' => $this->security->get_csrf_hash())));
             return;
         }
 

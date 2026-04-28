@@ -167,6 +167,24 @@ final class AssistantPortalTest extends TestCase
         $this->assertSourceFileExists('application/modules/assistant_chamber/views/assistant/token_print.php');
     }
 
+    public function test_assistant_copy_uses_practice_language(): void
+    {
+        $controller = $this->readSource('application/modules/assistant_chamber/controllers/Assistant_chamber.php');
+        $bulk = $this->readSource('application/modules/assistant_chamber/views/assistant/bulk_sms.php');
+        $token = $this->readSource('application/modules/assistant_chamber/views/assistant/token_print.php');
+
+        self::assertStringContainsString('under practice settings', $controller);
+        self::assertStringContainsString('outside this practice', $controller);
+        self::assertStringContainsString('practice SMS gateway', $bulk);
+        self::assertStringContainsString('$practice_name', $token);
+        self::assertStringContainsString('practice-name', $token);
+        self::assertStringNotContainsString('under hospital settings', $controller);
+        self::assertStringNotContainsString('outside this hospital', $controller);
+        self::assertStringNotContainsString('hospital SMS gateway', $bulk);
+        self::assertStringNotContainsString('$hospital_name', $token);
+        self::assertStringNotContainsString('hospital-name', $token);
+    }
+
     private function readSource(string $relPath): string
     {
         $full = $this->resolveSourcePath($relPath);
