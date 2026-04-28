@@ -25,6 +25,38 @@ final class ProductFramingTest extends TestCase
         }
     }
 
+    public function test_login_page_has_no_demo_hms_credentials_or_remote_brand_assets(): void
+    {
+        $src = $this->readFile('application/views/auth/login.php');
+
+        self::assertStringContainsString('uploads/favicon.png', $src);
+        self::assertStringNotContainsString('@hms.com', $src);
+        self::assertStringNotContainsString('12345', $src);
+        self::assertStringNotContainsString('fillCredentials', $src);
+        self::assertStringNotContainsString('toggleSections', $src);
+        self::assertStringNotContainsString('cdn-icons-png.flaticon.com', $src);
+        self::assertStringNotContainsString('fonts.googleapis.com', $src);
+    }
+
+    public function test_frontend_registration_copy_uses_practice_language(): void
+    {
+        $view = $this->readFile('application/modules/frontend/views/front_end.php');
+        $controller = $this->readFile('application/modules/frontend/controllers/Frontend.php');
+
+        self::assertStringContainsString('Register practice', $view);
+        self::assertStringContainsString('Practice <?php echo lang(\'name\'); ?>', $view);
+        self::assertStringContainsString('New practice created successfully', $view);
+        self::assertStringContainsString('Doctor Chamber Practice Management', $controller);
+        self::assertStringContainsString('Your practice is registered successfully', $controller);
+        self::assertStringContainsString('Practice Registration confirmation', $controller);
+        self::assertStringNotContainsString('Hospital, Clinic, Management, Software', $view);
+        self::assertStringNotContainsString("lang('register_hospital')", $view);
+        self::assertStringNotContainsString('Hospital Not Created', $controller);
+        self::assertStringNotContainsString('Hospital management System', $controller);
+        self::assertStringNotContainsString('Your hospital is registered successfully', $controller);
+        self::assertStringNotContainsString('Hospital Registration confirmation', $controller);
+    }
+
     public function test_treatment_plan_prescription_output_uses_practice_language(): void
     {
         $src = $this->readFile('application/modules/treatment_plan/views/index.php');

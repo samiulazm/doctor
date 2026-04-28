@@ -1532,13 +1532,13 @@ class Frontend extends MX_Controller
           if ($recaptcha->success) {
             if ($recaptcha->score > 0.8) {
             } else {
-                show_swal('Hospital Not Created', 'error', lang('error'));
-                // $this->session->set_flashdata('feedback', 'Hospital Not Created');
+                show_swal('Practice Not Created', 'error', lang('error'));
+                // $this->session->set_flashdata('feedback', 'Practice Not Created');
                 redirect('frontend?hospital_message=failed#register');
             }
         } else {
-            show_swal('Hospital Not Created', 'error', lang('error'));
-            // $this->session->set_flashdata('feedback', 'Hospital Not Created');
+            show_swal('Practice Not Created', 'error', lang('error'));
+            // $this->session->set_flashdata('feedback', 'Practice Not Created');
                 redirect('frontend?hospital_message=failed#register');
         }
 
@@ -1772,7 +1772,7 @@ class Frontend extends MX_Controller
                 'address' => $address,
                 'phone' => $phone,
                 'language' => $language,
-                'system_vendor' => 'Code Aristos - Hospital management System',
+                'system_vendor' => 'Doctor Chamber Practice Management',
                 'discount' => 'flat',
                 'sms_gateway' => 'Twilio',
                 'currency' => HOSPITAL_CURRENCY_SYMBOL,
@@ -1930,7 +1930,7 @@ class Frontend extends MX_Controller
             $email_Settings = $this->email_model->getAdminEmailSettingsByIdByType($mail_provider);
 
             $message1 = '<strong>{name}</strong> ,<br>
-Your hospital is registered successfully . Please check the details Below.<br>
+Your practice is registered successfully. Please check the details below.<br>
 Package Name: {package_name}.<br>
 Subscription Length: {subscription_duration}.<br>
 Amount Paid: {amount}.<br>
@@ -1965,7 +1965,7 @@ For Any Support Please Contact with Phone No: {phone}';
                 $this->email->from($email_Settings->user, $settngs_name);
             }
             $this->email->to($email);
-            $this->email->subject('Hospital Registration confirmation');
+            $this->email->subject('Practice Registration confirmation');
             $this->email->message($messageprint1);
             if (function_exists('mail')) {
                 $this->email->send();
@@ -2013,10 +2013,10 @@ For Any Support Please Contact with Phone No: {phone}';
                 if ($gateway == 'Pay U Money') {
                     show_swal(lang('yes'), 'success', lang('success'));
 
-                    redirect('frontend?hospital_message=new_hospital_created#book&status=success');
+                    redirect('frontend?hospital_message=new_practice_created#book&status=success');
                 } else {
-                    show_swal(lang('new_hospital_created'), 'success', lang('success'));
-                    redirect('frontend?hospital_message=new_hospital_created#book&status=success');
+                    show_swal('New practice created successfully', 'success', lang('success'));
+                    redirect('frontend?hospital_message=new_practice_created#book&status=success');
                 }
             }
         }

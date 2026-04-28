@@ -12,7 +12,7 @@ $title = explode(' ', $settings->title);
     <title><?php echo $settings->title; ?></title>
     <meta name="description" content="">
     <meta name="author" content="Rizvi">
-    <meta name="keyword" content="Php, Hospital, Clinic, Management, Software, Php, CodeIgniter, Hms, Accounting">
+    <meta name="keyword" content="PHP, Doctor Chamber, Practice Management, Appointment, Queue, Prescription, Billing, CodeIgniter">
     <meta property="og:type" content="website" />
     <link href="common/css/style.css" rel="stylesheet">
     <link href="common/css/style-responsive.css" rel="stylesheet" />
@@ -298,7 +298,7 @@ $title = explode(' ', $settings->title);
                 <a href="<?php echo $link; ?>" target="_blank" class="c-nav-menu__nav-link mr-s is-login-button w-nav-link"><?php echo $link_lang; ?></a>
                 <a href="frontend#book" class="c-button__secondary is--small w-inline-block" data-ix="button-icon">
                     <div class="c-button__text is--purple is--small">
-                        <?php echo lang('register_hospital'); ?>
+                        Register practice
                         <i class="fa fa-arrow-right"></i>
                     </div>
                 </a>
@@ -402,7 +402,7 @@ $title = explode(' ', $settings->title);
                         <p class="c-paragraph is--large"><?php echo $slide->text2; ?></p>
                         <a href="frontend#book" class="c-button__primary w-inline-block bg-green" data-ix="button-icon">
                             <div class="c-button__text">
-                                <?php echo lang('register_hospital'); ?> <i class="fa fa-arrow-right"></i>
+                                Register practice <i class="fa fa-arrow-right"></i>
                             </div>
                         </a>
                     </div>
@@ -546,15 +546,17 @@ $title = explode(' ', $settings->title);
                 <h2 class="c-heading-2 is--center"> <?php echo $settings->registration_block_text; ?></h2>
                 <div id="msg">
                     <?php
-                    $message1 = $this->session->flashdata('feedback');
                     if (!empty($hospital_message)) {
-                        //                        if ($message1 == 'yes') {
-                        //                            $message = lang('new_hospital_created');
-                        //                        } else {
-                        //                            $message = $message1;
-                        //                        }
                     ?>
-                        <h2 class="c-heading-2 is--center h2_heading"> <?php echo lang($hospital_message); ?></h2>
+                        <h2 class="c-heading-2 is--center h2_heading">
+                            <?php
+                            if ($hospital_message === 'new_practice_created') {
+                                echo 'New practice created successfully';
+                            } else {
+                                echo lang($hospital_message);
+                            }
+                            ?>
+                        </h2>
                     <?php } ?>
                 </div>
             </div>
@@ -571,22 +573,22 @@ $title = explode(' ', $settings->title);
 
                     <form action="frontend/addNewHospitalPayment" class="clearfix p-5" id="addNewHospital" enctype="multipart/form-data" method="POST">
                         <div class="form-group col-md-6">
-                            <label class="text-lg" for="exampleInputEmail1"> <?php echo lang('hospital'); ?> <?php echo lang('name'); ?>
+                            <label class="text-lg" for="exampleInputEmail1"> Practice <?php echo lang('name'); ?>
                                 &ast;</label>
                             <input type="text" class="form-control form-control-lg" name="name" id="recap" value='' placeholder="" required="">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="text-lg" for="exampleInputEmail1"> <?php echo lang('hospital'); ?>
+                            <label class="text-lg" for="exampleInputEmail1"> Practice
                                 <?php echo lang('address'); ?> &ast;</label>
                             <input type="text" class="form-control form-control-lg" name="address" value='' placeholder="" required="">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="text-lg" for="exampleInputEmail1"> <span><?php echo lang('hospital'); ?>
+                            <label class="text-lg" for="exampleInputEmail1"> <span>Practice
                                     <?php echo lang('email'); ?> &ast;</span></label>
                             <input type="email" class="form-control form-control-lg" name="email" value='' placeholder="" required="">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="text-lg" for="exampleInputEmail1"> <?php echo lang('hospital'); ?>
+                            <label class="text-lg" for="exampleInputEmail1"> Practice
                                 <?php echo lang('phone'); ?> &ast;</label>
                             <input type="number" class="form-control form-control-lg" name="phone" value='' placeholder="" required="">
                         </div>
@@ -851,7 +853,7 @@ $title = explode(' ', $settings->title);
                     <h2 class="c-heading-2"><?php echo $settings->team_title; ?></h2>
                     <p class="c-paragraph is--centermobile"><?php echo $settings->team_description; ?><br /></p>
                     <a href="frontend#book" class="c-button__secondary extra--space w-inline-block" data-ix="button-icon">
-                        <div class="c-button__text is--purple"><?php echo lang('register_hospital'); ?>
+                        <div class="c-button__text is--purple">Register practice
                             <?php echo lang('now'); ?>
                         </div>
                         <i class="fa fa-arrow-right"></i>
@@ -938,7 +940,7 @@ $title = explode(' ', $settings->title);
                                 </div>
                                 <div class="col-md-6">
                                     <label id="label-lastname-93389280-7d5f-4a00-a4a2-6b177ad9e886">
-                                        <span> <?php echo lang('hospital'); ?> <?php echo lang('name'); ?> &ast;</span>
+                                        <span> Practice <?php echo lang('name'); ?> &ast;</span>
                                         <span class="hs-form-required">*</span></label>
                                     <legend class="hs-field-desc hs_field_desc"></legend>
                                     <div class="input">
@@ -1010,7 +1012,7 @@ $title = explode(' ', $settings->title);
                             <a href="frontend#package" class="c-footer-menu__nav-link"><?php echo lang('package'); ?></a>
                             <a href="frontend#contact" class="c-footer-menu__nav-link"><?php echo lang('contact'); ?>
                             </a>
-                            <a href="frontend#book" class="c-footer-menu__nav-link"><?php echo lang('register_hospital'); ?> </a>
+                            <a href="frontend#book" class="c-footer-menu__nav-link">Register practice</a>
                         </li>
                     </ul>
                     <ul id="w-node-fc700cf1-12f3-3b80-fcc9-a265950b4a6d-2df6d2bd" role="list" class="c-footer-list w-list-unstyled">
@@ -1029,7 +1031,7 @@ $title = explode(' ', $settings->title);
 
                         <li class="c-footer-list-item bg-green">
                             <a href="frontend#book" class="c-button__primary w-inline-block" data-ix="button-icon">
-                                <div class="c-button__text"><?php echo lang('register_hospital'); ?> <i class="fa fa-arrow-right"></i></div>
+                                <div class="c-button__text">Register practice <i class="fa fa-arrow-right"></i></div>
 
                             </a>
                         </li>
