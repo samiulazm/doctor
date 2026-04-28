@@ -634,9 +634,9 @@ $(document).ready(function() {
                             </div>
                             
                             <div class="info-row">
-                                <div class="hospital-info">
-                                    <h2 class="hospital-name"><?php echo $settings->title ?? "Hospital"; ?></h2>
-                                    <div class="hospital-details">
+                                <div class="practice-info">
+                                    <h2 class="practice-name"><?php echo $settings->title ?? "Practice"; ?></h2>
+                                    <div class="practice-details">
                                         <p><strong>Address:</strong> <?php echo $settings->address ?? ""; ?></p>
                                         <p><strong>Phone:</strong> <?php echo $settings->phone ?? ""; ?> | <strong>Email:</strong> <?php echo $settings->email ?? ""; ?></p>
                                     </div>
@@ -659,7 +659,7 @@ $(document).ready(function() {
                                     <p>Date: _________________</p>
                                 </div>
                                 <div class="prescription-note">
-                                    <p><em>Please follow the prescription as directed. Contact the hospital if you have any questions.</em></p>
+                                    <p><em>Please follow the prescription as directed. Contact the practice if you have any questions.</em></p>
                                 </div>
                             </div>
                         </div>
@@ -718,17 +718,17 @@ $(document).ready(function() {
                             margin-bottom: 25px;
                             gap: 30px;
                         }
-                        .hospital-info {
+                        .practice-info {
                             flex: 1;
                             text-align: left;
                         }
-                        .hospital-name {
+                        .practice-name {
                             font-size: 24px;
                             font-weight: bold;
                             color: #2c3e50;
                             margin: 0 0 10px 0;
                         }
-                        .hospital-details p {
+                        .practice-details p {
                             margin: 5px 0;
                             font-size: 14px;
                             color: #555;

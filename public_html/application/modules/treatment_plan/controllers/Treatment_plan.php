@@ -245,9 +245,9 @@ class Treatment_plan extends MX_Controller
             $prompt .= "- Do NOT include patient details (name, age, gender) - these are already displayed by the system\n";
             $prompt .= "- Do NOT include doctor signature lines - these are already provided by the system\n";
             $prompt .= "- Do NOT include prescription numbers or dates - these are handled by the system\n";
-            $prompt .= "- Do NOT include clinic/hospital information - this is already displayed by the system\n";
+            $prompt .= "- Do NOT include practice/chamber information - this is already displayed by the system\n";
             $prompt .= "- Do NOT include phrases like 'sample prescription', 'template for educational purposes', or 'must be reviewed by licensed healthcare provider'\n";
-            $prompt .= "- Do NOT include placeholder text like '[Clinic Name/Logo]', '[Clinic Address]', or '[Clinic Phone Number]'\n";
+            $prompt .= "- Do NOT include placeholder text like '[Practice Name/Logo]', '[Practice Address]', or '[Practice Phone Number]'\n";
             $prompt .= "- Provide ONLY ONE specific medication for each condition\n";
             $prompt .= "- Do NOT use 'OR' between medications - this confuses patients\n";
             $prompt .= "- If multiple medications are needed, list them as separate numbered items\n";
