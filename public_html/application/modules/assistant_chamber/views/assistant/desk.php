@@ -26,19 +26,19 @@
         <?php endif; ?>
 
         <form method="get" class="chamber-toolbar">
-            <select name="doctor_id" class="form-control mr-2" style="max-width:200px;">
+            <select name="doctor_id" class="form-control mr-2 chamber-filter-doctor">
                 <option value="">Doctor</option>
                 <?php foreach ($doctors as $d) : ?>
                     <option value="<?php echo (int) $d->id; ?>" <?php echo ($doctor_id == $d->id) ? 'selected' : ''; ?>><?php echo htmlspecialchars($d->name, ENT_QUOTES, 'UTF-8'); ?></option>
                 <?php endforeach; ?>
             </select>
-            <select name="chamber_id" class="form-control mr-2" style="max-width:180px;">
+            <select name="chamber_id" class="form-control mr-2 chamber-filter-chamber">
                 <option value="">Chamber</option>
                 <?php foreach ((isset($chambers) ? $chambers : array()) as $c) : ?>
                     <option value="<?php echo (int) $c->id; ?>" <?php echo ($chamber_id == $c->id) ? 'selected' : ''; ?>><?php echo htmlspecialchars($c->name, ENT_QUOTES, 'UTF-8'); ?></option>
                 <?php endforeach; ?>
             </select>
-            <input type="date" name="date" class="form-control mr-2" style="max-width:160px;" value="<?php echo htmlspecialchars($queue_date, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="date" name="date" class="form-control mr-2 chamber-filter-date" value="<?php echo htmlspecialchars($queue_date, ENT_QUOTES, 'UTF-8'); ?>">
             <button class="btn btn-sm btn-primary" type="submit">
                 <i class="fas fa-sync-alt mr-1"></i> Load
             </button>
@@ -50,7 +50,7 @@
                     <h3 class="chamber-panel-title">
                         <i class="fas fa-list-ol mr-2 text-muted"></i>
                         Today's queue
-                        <span id="nowServingBadge" class="chamber-status serving ml-2 small" style="display:none;"></span>
+                        <span id="nowServingBadge" class="chamber-status serving ml-2 small" hidden></span>
                     </h3>
                     <button type="button" class="btn btn-sm btn-outline-secondary" id="saveOrder">
                         <i class="fas fa-save mr-1"></i> Save order
@@ -60,7 +60,7 @@
                     <table class="table table-sm chamber-table mb-0" id="queueTable">
                         <thead>
                             <tr>
-                                <th style="width:28px;"></th>
+                                <th class="chamber-drag-column"></th>
                                 <th>#</th>
                                 <th>Patient</th>
                                 <th>Source</th>
@@ -95,7 +95,7 @@
                                     $patient_label = !empty($q->guest_name) ? $q->guest_name : ('#' . $q->patient_id);
                                     ?>
                                     <tr data-id="<?php echo (int) $q->id; ?>">
-                                        <td class="handle" style="cursor:move; color:#94a3b8;">
+                                        <td class="handle">
                                             <i class="fas fa-grip-vertical"></i>
                                         </td>
                                         <td class="font-weight-bold"><?php echo (int) $q->serial_number; ?></td>
@@ -211,7 +211,6 @@
 
             <p class="small text-muted">Drag rows to reorder queue.</p>
 
-            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
             <script>
             (function () {
                 var BASE_URL = '<?php echo rtrim(site_url(), '/'); ?>/';
@@ -325,10 +324,10 @@
                             if (!badge || !r) return;
                             if (r.serial) {
                                 badge.textContent = 'Now serving: #' + parseInt(r.serial, 10);
-                                badge.style.display = '';
+                                badge.hidden = false;
                             } else {
                                 badge.textContent = 'No one serving';
-                                badge.style.display = '';
+                                badge.hidden = false;
                             }
                         });
                     }

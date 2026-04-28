@@ -118,6 +118,14 @@ final class DoctorPortalTest extends TestCase
         );
     }
 
+    public function test_doctor_crm_uses_css_inline_form_class(): void
+    {
+        $html = $this->readFile('application/modules/doctor_chamber/views/doctor/crm_search.php');
+
+        self::assertStringContainsString('chamber-inline-form', $html);
+        self::assertStringNotContainsString('style="display:inline"', $html);
+    }
+
     private function readFile(string $relPath): string
     {
         $root = dirname(__DIR__, 3);

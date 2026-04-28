@@ -3,7 +3,7 @@ $currency = isset($settings->currency) && $settings->currency !== '' ? $settings
 $patient_label = !empty($q->guest_name) ? $q->guest_name : ('#' . $q->patient_id);
 ?>
 <div class="chamber-billing-panel p-3 border rounded bg-white">
-    <p class="small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing:.04em;">
+    <p class="small font-weight-bold text-muted text-uppercase chamber-micro-label mb-2">
         <i class="fas fa-file-invoice-dollar mr-1"></i>
         Billing - <?php echo htmlspecialchars($patient_label, ENT_QUOTES, 'UTF-8'); ?>
     </p>
@@ -15,9 +15,9 @@ $patient_label = !empty($q->guest_name) ? $q->guest_name : ('#' . $q->patient_id
                 <div class="input-group-prepend">
                     <span class="input-group-text"><?php echo htmlspecialchars($currency, ENT_QUOTES, 'UTF-8'); ?></span>
                 </div>
-                <input type="number" class="form-control" id="fee_<?php echo (int) $q->id; ?>"
+                <input type="number" class="form-control chamber-fee-input" id="fee_<?php echo (int) $q->id; ?>"
                        name="amount" step="0.01" min="0.01" placeholder="0.00"
-                       style="max-width:100px;" required>
+                       required>
             </div>
         </div>
         <div class="col-auto">
@@ -68,7 +68,7 @@ $patient_label = !empty($q->guest_name) ? $q->guest_name : ('#' . $q->patient_id
 
     <div class="mb-2">
         <input class="form-control form-control-sm" id="remarks_<?php echo (int) $q->id; ?>"
-               name="remarks" placeholder="Remarks (optional)" style="max-width:220px;">
+               name="remarks" placeholder="Remarks (optional)">
     </div>
 
     <button type="button" class="btn btn-sm btn-primary"

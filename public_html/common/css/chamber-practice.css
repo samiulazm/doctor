@@ -700,6 +700,12 @@
     color: var(--chamber-green);
 }
 
+.chamber-confirm-icon {
+    height: 54px;
+    margin-bottom: 0;
+    width: 54px;
+}
+
 .chamber-rx-doc {
     margin-left: auto;
     margin-right: auto;
@@ -742,6 +748,41 @@
     color: var(--chamber-text);
     line-height: 1.6;
     padding: 12px 16px;
+}
+
+.chamber-search-id,
+.chamber-filter-date {
+    max-width: 160px;
+}
+
+.chamber-search-date,
+.chamber-filter-chamber {
+    max-width: 180px;
+}
+
+.chamber-filter-doctor {
+    max-width: 200px;
+}
+
+.chamber-rx-frame {
+    border: 0;
+    min-height: 52rem;
+}
+
+.chamber-micro-label {
+    letter-spacing: .04em;
+}
+
+.chamber-fee-input {
+    max-width: 100px;
+}
+
+.chamber-billing-panel input[name="remarks"] {
+    max-width: 220px;
+}
+
+.chamber-inline-form {
+    display: inline;
 }
 
 @media (max-width: 575px) {
@@ -831,7 +872,12 @@
     opacity: .6;
 }
 
+.chamber-drag-column {
+    width: 28px;
+}
+
 .chamber-table .handle {
+    color: #94a3b8;
     cursor: move;
     user-select: none;
 }

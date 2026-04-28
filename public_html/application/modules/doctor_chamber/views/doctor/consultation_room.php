@@ -50,8 +50,8 @@ $vital_cards = array(
                     <span>By date</span>
                 </label>
             </div>
-            <input type="number" id="searchPatientId" class="form-control mr-2" placeholder="Patient ID" style="max-width:160px;" value="<?php echo $patient ? (int) $patient->id : ''; ?>">
-            <input type="date" id="searchDate" class="form-control mr-2" style="max-width:180px; display:none;" value="<?php echo date('Y-m-d'); ?>">
+            <input type="number" id="searchPatientId" class="form-control mr-2 chamber-search-id" placeholder="Patient ID" value="<?php echo $patient ? (int) $patient->id : ''; ?>">
+            <input type="date" id="searchDate" class="form-control mr-2 chamber-search-date d-none" value="<?php echo date('Y-m-d'); ?>">
             <button class="btn btn-primary" id="btnSearchPatient" type="button">
                 <i class="fas fa-search mr-1"></i> Load patient
             </button>
@@ -161,7 +161,7 @@ $vital_cards = array(
                     <div class="chamber-panel-body" id="epadBody">
                         <?php if ($patient) : ?>
                             <div class="border rounded bg-white">
-                                <iframe id="rxFrame" class="w-100" style="min-height:52rem; border:0;" title="Prescription composer" src="<?php echo site_url('prescription/addPrescriptionView?embed=1&patient=' . (int) $patient->id); ?>"></iframe>
+                                <iframe id="rxFrame" class="w-100 chamber-rx-frame" title="Prescription composer" src="<?php echo site_url('prescription/addPrescriptionView?embed=1&patient=' . (int) $patient->id); ?>"></iframe>
                             </div>
                             <p class="small mt-2 mb-0">
                                 <a class="text-muted" target="_blank" href="<?php echo site_url('prescription/addPrescriptionView?patient=' . (int) $patient->id); ?>">Open in full window</a> if the frame is clipped.
@@ -174,7 +174,7 @@ $vital_cards = array(
                         <?php endif; ?>
 
                         <div class="mt-3">
-                            <label class="small font-weight-bold text-muted text-uppercase" style="letter-spacing:.04em;">
+                            <label class="small font-weight-bold text-muted text-uppercase chamber-micro-label">
                                 <i class="fas fa-pills mr-1"></i> Medicine search
                             </label>
                             <input id="drugq" class="form-control mb-2" placeholder="Name, generic, or company..." autocomplete="off">
@@ -183,7 +183,7 @@ $vital_cards = array(
 
                         <div class="mt-3">
                             <?php if (!empty($favorites)) : ?>
-                                <label class="small font-weight-bold text-muted text-uppercase" style="letter-spacing:.04em;">
+                                <label class="small font-weight-bold text-muted text-uppercase chamber-micro-label">
                                     <i class="fas fa-star mr-1"></i> Favorites
                                 </label>
                                 <div class="chamber-btn-row mb-2">
@@ -240,8 +240,8 @@ $vital_cards = array(
 
     $('input[name="searchMode"]').on('change', function () {
         var mode = $(this).val();
-        $('#searchPatientId').toggle(mode === 'id');
-        $('#searchDate').toggle(mode === 'date');
+        $('#searchPatientId').toggleClass('d-none', mode !== 'id');
+        $('#searchDate').toggleClass('d-none', mode !== 'date');
     });
 
     $('#btnSearchPatient').on('click', function () {

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Book serial</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('front/site_assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('adminlte/plugins/fontawesome-free/css/all.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('application/assets/css/app-design-tokens.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('common/css/chamber-practice.css'); ?>">
@@ -14,7 +14,8 @@
 <main id="public-main" tabindex="-1">
 <?php echo isset($content) ? $content : ''; ?>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo base_url('adminlte/plugins/jquery/jquery.min.js'); ?>"></script>
+<script src="<?php echo base_url('front/site_assets/vendor/jquery/popper.min.js'); ?>"></script>
+<script src="<?php echo base_url('front/site_assets/vendor/bootstrap/js/bootstrap.min.js'); ?>"></script>
 </body>
 </html>

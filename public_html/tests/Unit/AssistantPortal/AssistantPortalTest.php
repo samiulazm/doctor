@@ -71,6 +71,7 @@ final class AssistantPortalTest extends TestCase
         self::assertStringContainsString('window.Sortable', $html);
         self::assertStringContainsString('enableNativeDragFallback', $html);
         self::assertStringContainsString('dragover', $html);
+        self::assertStringNotContainsString('cdn.jsdelivr.net/npm/sortablejs', $html);
     }
 
     public function test_ui12_migration_adds_is_emergency(): void

@@ -54,7 +54,7 @@ Recent decisions affecting current work:
 - [Phase 5]: Consultation room embeds the existing prescription composer and uses a postMessage callback for save-and-print.
 - [Phase 6]: Assistant queue sync uses long-poll plus immediate SortableJS reorder POST for shared-hosting compatibility.
 - [Phase 6]: Desk bKash flow initiates inline and reports JSON status without redirecting the assistant away from the queue.
-- [Post-Phase 6]: Doctor dashboard charts use the bundled AdminLTE Chart.js asset; assistant queue drag-drop has a native browser fallback if SortableJS CDN is unavailable.
+- [Post-Phase 6]: Doctor dashboard charts use the bundled AdminLTE Chart.js asset; assistant queue drag-drop uses local native browser drag/drop with optional SortableJS support if bundled later.
 
 ### Pending Todos
 

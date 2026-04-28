@@ -2,7 +2,7 @@
 <div class="container chamber-public-container py-5">
     <div class="chamber-public-panel text-center">
         <div class="mb-3">
-            <span class="chamber-stat-icon" style="height:54px;width:54px;margin-bottom:0;"><i class="fas fa-check"></i></span>
+            <span class="chamber-stat-icon chamber-confirm-icon"><i class="fas fa-check"></i></span>
         </div>
     <h2 class="text-success">Booking confirmed</h2>
     <p class="lead">Your serial number is <strong><?php echo (int) $serial; ?></strong></p>

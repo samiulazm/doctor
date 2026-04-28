@@ -25,7 +25,7 @@
                     <td><?php echo htmlspecialchars($p->phone); ?></td>
                     <td>
                         <a class="btn btn-xs btn-default" href="<?php echo site_url('doctor_chamber/consultation_room?patient=' . (int) $p->id); ?>"><i class="fas fa-door-open"></i> Room</a>
-                        <form method="post" action="<?php echo site_url('doctor_chamber/tag_patient'); ?>" style="display:inline">
+                        <form method="post" action="<?php echo site_url('doctor_chamber/tag_patient'); ?>" class="chamber-inline-form">
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="hidden" name="patient_id" value="<?php echo (int) $p->id; ?>">
                             <input type="hidden" name="redirect_q" value="<?php echo htmlspecialchars($q); ?>">
@@ -37,7 +37,7 @@
                             <input name="notes" class="form-control form-control-sm d-inline w-auto" placeholder="note">
                             <button class="btn btn-xs btn-warning" type="submit"><i class="fas fa-tag"></i> Tag</button>
                         </form>
-                        <form method="post" action="<?php echo site_url('doctor_chamber/refer_lab'); ?>" style="display:inline" onsubmit="return confirm('Send lab referral SMS?');">
+                        <form method="post" action="<?php echo site_url('doctor_chamber/refer_lab'); ?>" class="chamber-inline-form" onsubmit="return confirm('Send lab referral SMS?');">
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="hidden" name="patient_id" value="<?php echo (int) $p->id; ?>">
                             <input name="lab_name" class="form-control form-control-sm d-inline w-auto" placeholder="Lab name">

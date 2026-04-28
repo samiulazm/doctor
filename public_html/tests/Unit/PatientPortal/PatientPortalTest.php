@@ -88,6 +88,16 @@ final class PatientPortalTest extends TestCase
         self::assertStringContainsString('setInterval(loadQueueStatus, 15000)', $view);
     }
 
+    public function test_ui05_public_layout_uses_local_assets(): void
+    {
+        $layout = $this->readFile('application/modules/portal/views/portal/layout_public.php');
+
+        self::assertStringContainsString('front/site_assets/vendor/bootstrap/css/bootstrap.min.css', $layout);
+        self::assertStringContainsString('adminlte/plugins/jquery/jquery.min.js', $layout);
+        self::assertStringContainsString('front/site_assets/vendor/bootstrap/js/bootstrap.min.js', $layout);
+        self::assertStringNotContainsString('cdn.jsdelivr.net', $layout);
+    }
+
     public function test_ui08_prescription_pdf_returns_403_when_phone_does_not_match(): void
     {
         $src = $this->readFile('application/modules/portal/controllers/Portal.php');
