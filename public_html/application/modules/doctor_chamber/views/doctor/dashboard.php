@@ -1,16 +1,24 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+$currency = isset($settings->currency) ? (string) $settings->currency : '';
+?>
 <div class="chamber-ui">
     <section class="content-header">
         <div class="chamber-head">
             <div>
                 <div class="chamber-kicker">Doctor portal</div>
                 <h1>Chamber dashboard</h1>
-                <p class="chamber-subtitle mb-0">Today queue, checked-in patients, and chamber actions in one view.</p>
+                <p class="chamber-subtitle mb-0">Today's queue, checked-in patients, and revenue at a glance.</p>
             </div>
             <div class="chamber-actions">
-                <a class="btn btn-primary" href="<?php echo site_url('doctor_chamber/consultation_room'); ?>"><i class="fas fa-notes-medical"></i> Consultation room</a>
-                <a class="btn btn-outline-primary" href="<?php echo site_url('ai_patient_overview'); ?>"><i class="fas fa-brain"></i> AI overview</a>
-                <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/portal_profile'); ?>"><i class="fas fa-id-card"></i> Public settings</a>
+                <a class="btn btn-sm btn-primary" href="<?php echo site_url('doctor_chamber/consultation_room'); ?>">
+                    <i class="fas fa-notes-medical mr-1"></i> Consultation room
+                </a>
+                <a class="btn btn-sm btn-outline-primary" href="<?php echo site_url('ai_patient_overview'); ?>">
+                    <i class="fas fa-brain mr-1"></i> AI overview
+                </a>
+                <a class="btn btn-sm btn-outline-secondary" href="<?php echo site_url('doctor_chamber/portal_profile'); ?>">
+                    <i class="fas fa-id-card mr-1"></i> Public settings
+                </a>
             </div>
         </div>
     </section>
@@ -18,68 +26,214 @@
         <div class="chamber-stat-grid">
             <div class="chamber-stat">
                 <span class="chamber-stat-icon"><i class="fas fa-calendar-day"></i></span>
-                <div class="chamber-stat-value"><?php echo (int) $appt_today; ?></div>
-                <div class="chamber-stat-label">Appointments today</div>
-            </div>
-            <div class="chamber-stat">
-                <span class="chamber-stat-icon"><i class="fas fa-users"></i></span>
-                <div class="chamber-stat-value"><?php echo (int) $queue_open; ?></div>
-                <div class="chamber-stat-label">Open queue</div>
-            </div>
-            <div class="chamber-stat">
-                <span class="chamber-stat-icon"><i class="fas fa-hourglass-half"></i></span>
-                <div class="chamber-stat-value"><?php echo (int) $queue_pending; ?></div>
-                <div class="chamber-stat-label">Pending arrivals</div>
+                <div class="chamber-stat-value"><?php echo (int) $total_today; ?></div>
+                <div class="chamber-stat-label">Total patients today</div>
             </div>
             <div class="chamber-stat">
                 <span class="chamber-stat-icon"><i class="fas fa-user-check"></i></span>
-                <div class="chamber-stat-value"><?php echo (int) $queue_checked_in; ?></div>
+                <div class="chamber-stat-value"><?php echo (int) $checked_in; ?></div>
                 <div class="chamber-stat-label">Checked in</div>
             </div>
-        </div>
-        <div class="chamber-ai-strip">
-            <div><i class="fas fa-magic"></i> Use existing AI tools for patient overview and medical image analysis from the chamber workflow.</div>
-            <div class="chamber-actions">
-                <a class="btn btn-sm btn-outline-primary" href="<?php echo site_url('ai_patient_overview'); ?>"><i class="fas fa-user-md"></i> Patient overview</a>
-                <a class="btn btn-sm btn-outline-primary" href="<?php echo site_url('ai_image_analysis'); ?>"><i class="fas fa-x-ray"></i> Image analysis</a>
+            <div class="chamber-stat">
+                <span class="chamber-stat-icon"><i class="fas fa-hourglass-half"></i></span>
+                <div class="chamber-stat-value"><?php echo (int) $pending; ?></div>
+                <div class="chamber-stat-label">Pending</div>
+            </div>
+            <div class="chamber-stat">
+                <span class="chamber-stat-icon"><i class="fas fa-coins"></i></span>
+                <div class="chamber-stat-value"><?php echo htmlspecialchars($currency, ENT_QUOTES, 'UTF-8'); ?> <?php echo number_format((float) $today_revenue, 0); ?></div>
+                <div class="chamber-stat-label">Today's revenue</div>
             </div>
         </div>
+
         <div class="chamber-actions mb-3">
-            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/revenue'); ?>"><i class="fas fa-chart-line"></i> Revenue summary</a>
-            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/crm_search'); ?>"><i class="fas fa-search"></i> Patient CRM</a>
-            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/my_chambers'); ?>"><i class="fas fa-clinic-medical"></i> Chambers</a>
-            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/schedule_exceptions'); ?>"><i class="fas fa-calendar-times"></i> Schedules</a>
+            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/revenue'); ?>"><i class="fas fa-chart-line mr-1"></i> Revenue summary</a>
+            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/crm_search'); ?>"><i class="fas fa-search mr-1"></i> Patient CRM</a>
+            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/my_chambers'); ?>"><i class="fas fa-clinic-medical mr-1"></i> Chambers</a>
+            <a class="btn btn-outline-secondary" href="<?php echo site_url('doctor_chamber/schedule_exceptions'); ?>"><i class="fas fa-calendar-times mr-1"></i> Schedules</a>
         </div>
-        <div class="chamber-panel">
-            <div class="chamber-panel-header"><h3 class="chamber-panel-title">Today's live queue</h3></div>
-            <div class="table-responsive">
-                <table class="table table-sm chamber-table">
-                    <thead><tr><th>Serial</th><th>Patient</th><th>Chamber</th><th>Status</th><th>Triage</th><th></th></tr></thead>
-                    <tbody>
-                    <?php foreach ((isset($queue_today) ? $queue_today : array()) as $q) : ?>
-                        <?php
-                        $triage = !empty($q->triage_json) ? json_decode($q->triage_json, true) : array();
-                        $triage_summary = is_array($triage) ? trim((isset($triage['symptom']) ? $triage['symptom'] : '') . ' ' . (isset($triage['duration']) ? '(' . $triage['duration'] . ')' : '')) : '';
-                        ?>
-                        <tr>
-                            <td><?php echo (int) $q->serial_number; ?></td>
-                            <td><?php echo htmlspecialchars($q->guest_name ?: ('#' . $q->patient_id)); ?></td>
-                            <td><?php echo htmlspecialchars((string) $q->chamber_name); ?></td>
-                            <td><span class="chamber-status <?php echo htmlspecialchars($q->status); ?>"><?php echo htmlspecialchars($q->status); ?></span></td>
-                            <td><?php echo $triage_summary !== '' ? htmlspecialchars($triage_summary) : '<span class="text-muted">-</span>'; ?></td>
-                            <td>
-                                <?php if (!empty($q->patient_id)) : ?>
-                                    <a class="btn btn-xs btn-primary" href="<?php echo site_url('doctor_chamber/consultation_room?patient=' . (int) $q->patient_id); ?>"><i class="fas fa-door-open"></i> Open room</a>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    <?php if (empty($queue_today)) : ?>
-                        <tr><td colspan="6" class="text-muted text-center py-4">No active queue yet today.</td></tr>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header">
+                        <h3 class="chamber-panel-title">
+                            <i class="fas fa-list-ol mr-2 text-muted"></i>Today's live queue
+                        </h3>
+                        <span class="chamber-muted small" id="queueLastUpdated"></span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm chamber-table mb-0" id="liveQueueTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Patient</th>
+                                    <th>Chamber</th>
+                                    <th>Status</th>
+                                    <th>Triage</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="liveQueueBody">
+                                <tr><td colspan="6" class="text-muted text-center py-4">Loading queue...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header">
+                        <h3 class="chamber-panel-title"><i class="fas fa-redo-alt mr-2 text-muted"></i>Follow-ups today</h3>
+                    </div>
+                    <div class="chamber-panel-body text-center py-3">
+                        <div class="chamber-stat-value"><?php echo (int) $followup_count; ?></div>
+                        <div class="chamber-stat-label mt-1">Patients with follow-up tag</div>
+                    </div>
+                </div>
+
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header">
+                        <h3 class="chamber-panel-title"><i class="fas fa-exclamation-triangle mr-2 text-muted"></i>High-risk patients</h3>
+                    </div>
+                    <div class="chamber-panel-body p-0">
+                        <ul class="list-unstyled mb-0" id="highRiskList">
+                            <?php if (empty($high_risk_patients)) : ?>
+                                <li class="px-3 py-3 text-muted small">No high-risk patients in today's queue.</li>
+                            <?php else : ?>
+                                <?php foreach ($high_risk_patients as $hr) : ?>
+                                    <?php $hr_name = !empty($hr->guest_name) ? $hr->guest_name : (!empty($hr->patient_name) ? $hr->patient_name : ('#' . $hr->patient_id)); ?>
+                                    <li class="px-3 py-2 border-bottom d-flex align-items-center justify-content-between">
+                                        <span class="small font-weight-bold"><?php echo htmlspecialchars($hr_name, ENT_QUOTES, 'UTF-8'); ?></span>
+                                        <span class="chamber-status high_risk">High risk</span>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header">
+                        <h3 class="chamber-panel-title"><i class="fas fa-chart-bar mr-2 text-muted"></i>Monthly revenue</h3>
+                    </div>
+                    <div class="chamber-panel-body">
+                        <canvas id="chartMonthlyRevenue" class="chamber-chart-canvas" height="220"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chamber-panel">
+                    <div class="chamber-panel-header">
+                        <h3 class="chamber-panel-title"><i class="fas fa-users mr-2 text-muted"></i>Monthly patients</h3>
+                    </div>
+                    <div class="chamber-panel-body">
+                        <canvas id="chartMonthlyPatients" class="chamber-chart-canvas" height="220"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+(function () {
+    var BASE_URL = '<?php echo rtrim(site_url(), '/'); ?>/';
+    var POLL_INTERVAL = 12000;
+
+    function escHtml(s) {
+        return String(s === null || s === undefined ? '' : s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function statusClass(status) {
+        var clean = String(status || 'pending').replace(/[^a-z0-9_-]/gi, '').toLowerCase();
+        return clean || 'pending';
+    }
+
+    function pollQueue() {
+        $.getJSON(BASE_URL + 'doctor_chamber/queue_json', function (r) {
+            if (!r || !r.rows) return;
+            var rows = r.rows || [];
+            var html = '';
+            if (rows.length === 0) {
+                html = '<tr><td colspan="6" class="text-muted text-center py-4">No active queue yet today.</td></tr>';
+            } else {
+                rows.forEach(function (q) {
+                    var status = statusClass(q.status);
+                    var serial = parseInt(q.serial_number, 10);
+                    var patientId = parseInt(q.patient_id, 10);
+                    html += '<tr>' +
+                        '<td>' + (isNaN(serial) ? '' : serial) + '</td>' +
+                        '<td>' + escHtml(q.guest_name || (patientId ? ('#' + patientId) : '')) + '</td>' +
+                        '<td>' + escHtml(q.chamber_name || '') + '</td>' +
+                        '<td><span class="chamber-status ' + status + '">' + escHtml(status) + '</span></td>' +
+                        '<td>' + escHtml(q.triage_summary || '') + '</td>' +
+                        '<td>' + (patientId ? '<a class="btn btn-xs btn-primary" href="' + BASE_URL + 'doctor_chamber/consultation_room?patient=' + patientId + '"><i class="fas fa-door-open mr-1"></i>Open</a>' : '') + '</td>' +
+                        '</tr>';
+                });
+            }
+            $('#liveQueueBody').html(html);
+            $('#queueLastUpdated').text('Updated ' + new Date().toLocaleTimeString('en-BD', { hour: '2-digit', minute: '2-digit' }));
+        });
+    }
+
+    function chartOptions() {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    grid: { color: '#e2e8f0' },
+                    ticks: { color: '#475569', font: { family: 'DM Sans', size: 12, weight: '400' } }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#e2e8f0' },
+                    ticks: { color: '#475569', precision: 0, font: { family: 'DM Sans', size: 12, weight: '400' } }
+                }
+            }
+        };
+    }
+
+    function renderCharts() {
+        if (typeof Chart === 'undefined') return;
+        $.getJSON(BASE_URL + 'doctor_chamber/chart_data_json', function (r) {
+            var labels = (r && r.labels) ? r.labels : [];
+            var color = 'rgba(15, 118, 110, 0.75)';
+            var border = '#0f766e';
+            var revenueCanvas = document.getElementById('chartMonthlyRevenue');
+            var patientsCanvas = document.getElementById('chartMonthlyPatients');
+            if (revenueCanvas) {
+                new Chart(revenueCanvas, {
+                    type: 'bar',
+                    data: { labels: labels, datasets: [{ data: r.revenue || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
+                    options: chartOptions()
+                });
+            }
+            if (patientsCanvas) {
+                new Chart(patientsCanvas, {
+                    type: 'bar',
+                    data: { labels: labels, datasets: [{ data: r.patients || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
+                    options: chartOptions()
+                });
+            }
+        });
+    }
+
+    pollQueue();
+    setInterval(pollQueue, POLL_INTERVAL);
+    renderCharts();
+}());
+</script>

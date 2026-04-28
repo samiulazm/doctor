@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-04-27)
 
 **Core value:** Real doctors actively using the system to manage their daily patient queue
-**Current focus:** Phase 5 - Doctor Portal
+**Current focus:** Phase 6 - Assistant Portal + Real-Time
 
 ## Current Position
 
-Phase: 5 of 6 (Doctor Portal)
-Plan: 0 of 7 in current phase
-Status: Ready to execute Phase 5
-Last activity: 2026-04-28 - Phases 1-4 implemented and validated; Phase 4 placeholder tests converted to green static assertions
+Phase: 6 of 6 (Assistant Portal + Real-Time)
+Plan: 0 of 6 in current phase
+Status: Ready to execute Phase 6
+Last activity: 2026-04-28 - Phase 5 Doctor Portal implemented and validated; DoctorPortal tests green
 
-Progress: [#######---] 68%
+Progress: [#########-] 85%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 28
+- Total plans completed: 35
 - Average duration: not tracked for imported execution
 - Total execution time: not tracked
 
@@ -31,11 +31,11 @@ Progress: [#######---] 68%
 | 2. Code Health | 5 | 5 | - |
 | 3. Admin Design System | 7 | 7 | - |
 | 4. Patient Portal | 6 | 6 | - |
-| 5. Doctor Portal | 0 | 7 | - |
+| 5. Doctor Portal | 7 | 7 | - |
 | 6. Assistant Portal + Real-Time | 0 | 6 | - |
 
 **Recent Trend:**
-- Last 5 plans: 04-01, 04-02, 04-03, 04-04, 04-05 complete
+- Last 5 plans: 05-02, 05-03, 05-04, 05-05, 05-06 complete
 - Trend: green static validation; manual live checks still required where noted
 
 *Updated after each plan completion*
@@ -50,16 +50,19 @@ Recent decisions affecting current work:
 - [Pre-Phase 1]: Security phases 1-2 must complete before any portal UI ships to production - patient medical data requires it
 - [Pre-Phase 1]: Complete CI3 system; no framework switch - 90% already built
 - [Phase 4]: Patient portal payment uses existing `payment_bd` SSLCommerz/bKash queue-intent flow after booking confirmation.
+- [Phase 5]: Doctor dashboard and consultation room use long-poll JSON endpoints instead of WebSocket.
+- [Phase 5]: Consultation room embeds the existing prescription composer and uses a postMessage callback for save-and-print.
 
 ### Pending Todos
 
-- Execute Phase 5 Doctor Portal plans.
-- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, queue polling, and prescription PDF download before production.
+- Execute Phase 6 Assistant Portal + Real-Time plans.
+- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, doctor dashboard queue polling, consultation save-and-print, assistant billing, and prescription PDF download before production.
 
 ### Blockers/Concerns
 
 - [Phase 4]: OTP SMS delivery depends on existing Twilio/SMS infrastructure being configured and tested.
 - [Phase 4]: SSLCommerz/bKash payment requires sandbox/live credentials in `paymentGateway` or environment variables.
+- [Phase 5]: Chart.js loads from a pinned CDN and should be checked in the deployment network.
 - [Phase 6]: Real-time queue (QUEUE-01) requires choosing between WebSocket and long-poll; shared hosting (Apache/LiteSpeed) may not support persistent WebSocket connections - long-poll may be the safer fallback.
 
 ## Deferred Items
@@ -74,5 +77,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-04-28
-Stopped at: Phases 1-4 validated; Phase 5 Doctor Portal ready to execute
+Stopped at: Phase 5 validated; Phase 6 Assistant Portal + Real-Time ready to execute
 Resume file: None

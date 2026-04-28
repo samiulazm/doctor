@@ -27,6 +27,46 @@ class Doctor_chamber extends MX_Controller
         return $this->db->get_where('doctor', array('ion_user_id' => $uid))->row();
     }
 
+    protected function normalizeVitals($v)
+    {
+        if (!$v) {
+            return null;
+        }
+        $row = is_object($v) ? get_object_vars($v) : (array) $v;
+        $row['bp_sys'] = isset($row['bp_sys']) ? $row['bp_sys'] : (isset($row['bp_systolic']) ? $row['bp_systolic'] : null);
+        $row['bp_dia'] = isset($row['bp_dia']) ? $row['bp_dia'] : (isset($row['bp_diastolic']) ? $row['bp_diastolic'] : null);
+        $row['pulse'] = isset($row['pulse']) ? $row['pulse'] : null;
+        $row['weight_kg'] = isset($row['weight_kg']) ? $row['weight_kg'] : null;
+        return (object) $row;
+    }
+
+    protected function triageSummary($triage_json)
+    {
+        if (empty($triage_json)) {
+            return '';
+        }
+        $triage = @json_decode($triage_json, true);
+        if (!is_array($triage)) {
+            return '';
+        }
+        $symptom = '';
+        foreach (array('symptom', 'complaint', 'chief_complaint', 'problem') as $key) {
+            if (!empty($triage[$key])) {
+                $symptom = (string) $triage[$key];
+                break;
+            }
+        }
+        $duration = !empty($triage['duration']) ? ' (' . $triage['duration'] . ')' : '';
+        return trim($symptom . $duration);
+    }
+
+    protected function jsonResponse($payload)
+    {
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($payload));
+    }
+
     public function portal_profile()
     {
         $doc = $this->currentDoctor();
@@ -80,44 +120,77 @@ class Doctor_chamber extends MX_Controller
         }
         $start = strtotime('today');
         $end = strtotime('tomorrow');
+        $today_qd = date('Y-m-d');
+
         $this->db->where('doctor', $doc->id);
         $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->where('date >=', $start);
         $this->db->where('date <', $end);
-        $appt_today = $this->db->count_all_results('appointment');
-        $today_qd = date('Y-m-d');
-        $this->db->where('doctor_id', $doc->id);
-        $this->db->where('hospital_id', $doc->hospital_id);
-        $this->db->where('queue_date', $today_qd);
-        $this->db->where_in('status', array('pending', 'arrived', 'serving'));
-        $queue_open = $this->db->count_all_results('chamber_serial_queue');
+        $total_today = $this->db->count_all_results('appointment');
+
         $this->db->where('doctor_id', $doc->id);
         $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->where('queue_date', $today_qd);
         $this->db->where('status', 'pending');
-        $queue_pending = $this->db->count_all_results('chamber_serial_queue');
+        $pending = $this->db->count_all_results('chamber_serial_queue');
+
         $this->db->where('doctor_id', $doc->id);
         $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->where('queue_date', $today_qd);
         $this->db->where_in('status', array('arrived', 'serving'));
-        $queue_checked_in = $this->db->count_all_results('chamber_serial_queue');
-        $this->db->select('q.*, c.name AS chamber_name');
+        $checked_in = $this->db->count_all_results('chamber_serial_queue');
+
+        $this->db->select_sum('doctor_amount');
+        $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->where('doctor', $doc->id);
+        $this->db->where('date >=', $start);
+        $this->db->where('date <', $end);
+        $rev = $this->db->get('payment')->row();
+        $today_revenue = $rev && $rev->doctor_amount !== null ? (float) $rev->doctor_amount : 0.0;
+
+        $followJoin = 'ppt.patient_id = q.patient_id AND ppt.doctor_id = q.doctor_id AND ppt.hospital_id = q.hospital_id AND ppt.tag = ' . $this->db->escape('follow_up');
+        $this->db->select('COUNT(DISTINCT q.patient_id) AS cnt', false);
         $this->db->from('chamber_serial_queue q');
-        $this->db->join('doctor_chamber c', 'c.id = q.chamber_id', 'left');
+        $this->db->join('patient_practice_tag ppt', $followJoin, 'left');
         $this->db->where('q.doctor_id', $doc->id);
         $this->db->where('q.hospital_id', $doc->hospital_id);
         $this->db->where('q.queue_date', $today_qd);
         $this->db->where_not_in('q.status', array('done', 'cancelled'));
+        $this->db->where('q.patient_id IS NOT NULL', null, false);
+        $this->db->group_start();
+        $this->db->where('ppt.id IS NOT NULL', null, false);
+        $this->db->or_like('q.triage_json', 'follow_up');
+        $this->db->group_end();
+        $follow = $this->db->get()->row();
+        $followup_count = $follow ? (int) $follow->cnt : 0;
+
+        $riskJoin = 'ppt.patient_id = q.patient_id AND ppt.doctor_id = q.doctor_id AND ppt.hospital_id = q.hospital_id AND ppt.tag = ' . $this->db->escape('high_risk');
+        $this->db->select('q.patient_id, q.guest_name, p.name AS patient_name');
+        $this->db->from('chamber_serial_queue q');
+        $this->db->join('patient p', 'p.id = q.patient_id AND p.hospital_id = q.hospital_id', 'left');
+        $this->db->join('patient_practice_tag ppt', $riskJoin, 'left');
+        $this->db->where('q.doctor_id', $doc->id);
+        $this->db->where('q.hospital_id', $doc->hospital_id);
+        $this->db->where('q.queue_date', $today_qd);
+        $this->db->where_not_in('q.status', array('done', 'cancelled'));
+        $this->db->group_start();
+        $this->db->where('ppt.id IS NOT NULL', null, false);
+        $this->db->or_like('q.triage_json', 'high_risk');
+        $this->db->group_end();
+        $this->db->group_by('q.patient_id, q.guest_name, p.name', false);
         $this->db->order_by('q.sort_position', 'asc');
-        $queue_today = $this->db->get()->result();
+        $this->db->limit(10);
+        $high_risk_patients = $this->db->get()->result();
+
         $data = array(
             'settings' => $this->settings_model->getSettings(),
             'doctor' => $doc,
-            'appt_today' => $appt_today,
-            'queue_open' => $queue_open,
-            'queue_pending' => $queue_pending,
-            'queue_checked_in' => $queue_checked_in,
-            'queue_today' => $queue_today,
+            'total_today' => $total_today,
+            'checked_in' => $checked_in,
+            'pending' => $pending,
+            'today_revenue' => $today_revenue,
+            'followup_count' => $followup_count,
+            'high_risk_patients' => $high_risk_patients,
         );
         $this->chamber_platform_model->logUsage($doc->hospital_id, 'doctor_chamber_dashboard', $doc->id, $this->ion_auth->get_user_id(), null);
         $this->load->view('home/dashboard', $data);
@@ -189,17 +262,118 @@ class Doctor_chamber extends MX_Controller
         $this->load->view('home/footer');
     }
 
+    public function queue_json()
+    {
+        $doc = $this->currentDoctor();
+        if (!$doc) {
+            $this->jsonResponse(array('rows' => array()));
+            return;
+        }
+
+        $this->db->select('q.id, q.serial_number, q.patient_id, q.guest_name, q.status, q.triage_json, c.name AS chamber_name, p.name AS patient_name');
+        $this->db->from('chamber_serial_queue q');
+        $this->db->join('doctor_chamber c', 'c.id = q.chamber_id', 'left');
+        $this->db->join('patient p', 'p.id = q.patient_id AND p.hospital_id = q.hospital_id', 'left');
+        $this->db->where('q.doctor_id', $doc->id);
+        $this->db->where('q.hospital_id', $doc->hospital_id);
+        $this->db->where('q.queue_date', date('Y-m-d'));
+        $this->db->where_not_in('q.status', array('done', 'cancelled'));
+        $this->db->order_by('q.sort_position', 'asc');
+        $this->db->order_by('q.serial_number', 'asc');
+        $rows = $this->db->get()->result();
+
+        $out = array();
+        foreach ($rows as $row) {
+            $out[] = array(
+                'serial_number' => (int) $row->serial_number,
+                'patient_id' => (int) $row->patient_id,
+                'guest_name' => !empty($row->guest_name) ? $row->guest_name : $row->patient_name,
+                'chamber_name' => $row->chamber_name,
+                'status' => $row->status,
+                'triage_summary' => $this->triageSummary($row->triage_json),
+            );
+        }
+
+        $this->jsonResponse(array('rows' => $out));
+    }
+
+    public function chart_data_json()
+    {
+        $doc = $this->currentDoctor();
+        if (!$doc) {
+            $this->jsonResponse(array('labels' => array(), 'revenue' => array(), 'patients' => array()));
+            return;
+        }
+
+        $months = array();
+        for ($i = 5; $i >= 0; $i--) {
+            $ts = strtotime('first day of -' . $i . ' months');
+            $months[date('Y-m', $ts)] = array(
+                'label' => date('M', $ts),
+                'revenue' => 0.0,
+                'patients' => 0,
+            );
+        }
+
+        $keys = array_keys($months);
+        $range_start = strtotime($keys[0] . '-01');
+        $range_end = strtotime('first day of +1 month', strtotime($keys[count($keys) - 1] . '-01'));
+
+        $this->db->select("DATE_FORMAT(FROM_UNIXTIME(`date`), '%Y-%m') AS month_key, SUM(doctor_amount) AS total", false);
+        $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->where('doctor', $doc->id);
+        $this->db->where('date >=', $range_start);
+        $this->db->where('date <', $range_end);
+        $this->db->group_by("DATE_FORMAT(FROM_UNIXTIME(`date`), '%Y-%m')", false);
+        $revenue_rows = $this->db->get('payment')->result();
+        foreach ($revenue_rows as $row) {
+            if (isset($months[$row->month_key])) {
+                $months[$row->month_key]['revenue'] = (float) $row->total;
+            }
+        }
+
+        $this->db->select("DATE_FORMAT(FROM_UNIXTIME(`date`), '%Y-%m') AS month_key, COUNT(id) AS total", false);
+        $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->where('doctor', $doc->id);
+        $this->db->where('date >=', $range_start);
+        $this->db->where('date <', $range_end);
+        $this->db->group_by("DATE_FORMAT(FROM_UNIXTIME(`date`), '%Y-%m')", false);
+        $patient_rows = $this->db->get('appointment')->result();
+        foreach ($patient_rows as $row) {
+            if (isset($months[$row->month_key])) {
+                $months[$row->month_key]['patients'] = (int) $row->total;
+            }
+        }
+
+        $this->jsonResponse(array(
+            'labels' => array_values(array_map(function ($row) {
+                return $row['label'];
+            }, $months)),
+            'revenue' => array_values(array_map(function ($row) {
+                return $row['revenue'];
+            }, $months)),
+            'patients' => array_values(array_map(function ($row) {
+                return $row['patients'];
+            }, $months)),
+        ));
+    }
+
     public function consultation_room()
     {
         $doc = $this->currentDoctor();
         $patient_id = (int) $this->input->get('patient');
         $patient = $patient_id ? $this->patient_model->getPatientById($patient_id) : null;
+        if ($patient && (string) $patient->hospital_id !== (string) $doc->hospital_id) {
+            $patient = null;
+            $patient_id = 0;
+        }
         $vitals = null;
         $triage = null;
         $past_prescriptions = array();
         $patient_tags = array();
-        if ($patient_id) {
+        if ($patient_id && $patient) {
             $this->db->where('hospital_id', $doc->hospital_id);
+            $this->db->where('doctor_id', $doc->id);
             $this->db->where('patient_id', $patient_id);
             $this->db->order_by('id', 'desc');
             $this->db->limit(1);
@@ -209,15 +383,17 @@ class Doctor_chamber extends MX_Controller
                 $triage = is_array($decoded_triage) ? $decoded_triage : null;
                 $this->db->where('queue_id', $qrow->id);
                 $this->db->order_by('id', 'desc');
-                $vitals = $this->db->get('visit_vital')->row();
+                $vitals = $this->normalizeVitals($this->db->get('visit_vital')->row());
             }
             $past_prescriptions = $this->prescription_model->getPrescriptionByPatientId($patient_id);
             $this->db->where('doctor_id', $doc->id);
+            $this->db->where('hospital_id', $doc->hospital_id);
             $this->db->where('patient_id', $patient_id);
             $this->db->order_by('id', 'desc');
             $patient_tags = $this->db->get('patient_practice_tag')->result();
         }
         $this->db->where('doctor_id', $doc->id);
+        $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->order_by('label', 'asc');
         $favorites = $this->db->get('prescription_favorite')->result();
         $data = array(
@@ -229,7 +405,8 @@ class Doctor_chamber extends MX_Controller
             'past_prescriptions' => $past_prescriptions,
             'patient_tags' => $patient_tags,
             'favorites' => $favorites,
-            'rx_url' => $patient ? site_url('prescription/addPrescriptionView') : '',
+            'rx_templates' => $favorites,
+            'rx_url' => $patient ? site_url('prescription/addPrescriptionView?embed=1&patient=' . (int) $patient->id) : '',
         );
         $this->load->view('home/dashboard', $data);
         $this->load->view('doctor/consultation_room', $data);
@@ -241,6 +418,7 @@ class Doctor_chamber extends MX_Controller
         $doc = $this->currentDoctor();
         $patient_id = (int) $this->input->get('patient');
         $this->db->where('hospital_id', $doc->hospital_id);
+        $this->db->where('doctor_id', $doc->id);
         $this->db->where('patient_id', $patient_id);
         $this->db->order_by('id', 'desc');
         $this->db->limit(1);
@@ -249,9 +427,59 @@ class Doctor_chamber extends MX_Controller
         if ($qrow) {
             $this->db->where('queue_id', $qrow->id);
             $this->db->order_by('id', 'desc');
-            $v = $this->db->get('visit_vital')->row();
+            $v = $this->normalizeVitals($this->db->get('visit_vital')->row());
         }
-        $this->output->set_content_type('application/json')->set_output(json_encode(array('ok' => true, 'vitals' => $v)));
+        $this->jsonResponse(array('ok' => true, 'vitals' => $v));
+    }
+
+    public function search_json()
+    {
+        $doc = $this->currentDoctor();
+        $mode = $this->input->get('mode') === 'date' ? 'date' : 'id';
+        $patients = array();
+
+        if ($mode === 'id') {
+            $patient_id = (int) $this->input->get('id');
+            if ($patient_id > 0) {
+                $this->db->select('id, name, phone, age');
+                $this->db->where('hospital_id', $doc->hospital_id);
+                $this->db->where('id', $patient_id);
+                $row = $this->db->get('patient')->row();
+                if ($row) {
+                    $patients[] = array(
+                        'id' => (int) $row->id,
+                        'name' => $row->name,
+                        'phone' => $row->phone,
+                        'age' => isset($row->age) ? $row->age : '',
+                    );
+                }
+            }
+        } else {
+            $date = trim((string) $this->input->get('date'));
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                $date = date('Y-m-d');
+            }
+            $this->db->select('p.id, p.name, p.phone, p.age');
+            $this->db->from('chamber_serial_queue q');
+            $this->db->join('patient p', 'p.id = q.patient_id AND p.hospital_id = q.hospital_id', 'inner');
+            $this->db->where('q.hospital_id', $doc->hospital_id);
+            $this->db->where('q.doctor_id', $doc->id);
+            $this->db->where('q.queue_date', $date);
+            $this->db->group_by('p.id, p.name, p.phone, p.age', false);
+            $this->db->order_by('p.name', 'asc');
+            $this->db->limit(50);
+            $rows = $this->db->get()->result();
+            foreach ($rows as $row) {
+                $patients[] = array(
+                    'id' => (int) $row->id,
+                    'name' => $row->name,
+                    'phone' => $row->phone,
+                    'age' => isset($row->age) ? $row->age : '',
+                );
+            }
+        }
+
+        $this->jsonResponse(array('ok' => true, 'patients' => $patients));
     }
 
     public function favorites()
@@ -461,7 +689,7 @@ class Doctor_chamber extends MX_Controller
         foreach ($rows as $r) {
             $label = $r->name;
             if (!empty($r->generic)) {
-                $label .= ' — ' . $r->generic;
+                $label .= ' - ' . $r->generic;
             }
             if (!empty($r->company)) {
                 $label .= ' (' . $r->company . ')';

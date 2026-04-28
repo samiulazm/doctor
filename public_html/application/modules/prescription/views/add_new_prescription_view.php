@@ -63,7 +63,10 @@ if (!isset($preselect_patient)) {
 
                         <div class="card-body bg-light p-4">
                             <?php echo validation_errors(); ?>
-                            <form role="form" action="prescription/addNewPrescription" class="clearfix" method="post" enctype="multipart/form-data">
+                            <form id="addForm" role="form" action="prescription/addNewPrescription" class="clearfix" method="post" enctype="multipart/form-data">
+                                <?php if (!empty($embed)) { ?>
+                                    <input type="hidden" name="embed" value="1">
+                                <?php } ?>
                                 <div class="row">
                                     <!-- Left Column -->
                                     <div class="col-md-6">

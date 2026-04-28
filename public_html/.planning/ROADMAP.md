@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Code Health** - Remove dead code, fix bugs, and eliminate tech debt that masks runtime failures
 - [x] **Phase 3: Admin Design System** - Unify AdminLTE 3 layout, DataTables, CSRF, and design tokens across all modules
 - [x] **Phase 4: Patient Portal** - Complete patient-facing portal: home, booking (with OTP + SSLCommerz), queue, and prescriptions
-- [ ] **Phase 5: Doctor Portal** - Complete doctor dashboard and consultation room
+- [x] **Phase 5: Doctor Portal** - Complete doctor dashboard and consultation room
 - [ ] **Phase 6: Assistant Portal + Real-Time** - Complete assistant queue and billing screens, bKash integration, and live queue sync
 
 ## Phase Details
@@ -114,13 +114,13 @@ Plans:
   3. Doctor can open the consultation room, search a patient's history by date or unique ID, write a prescription using the e-pad with medicine search and templates, and save and print â€” the complete consultation workflow completes without leaving the screen
 **Plans**: 7 plans
 Plans:
-- [ ] 05-00-PLAN.md â€” Wave 0: Create DoctorPortalTest.php scaffold (8 static-analysis assertions, UI-09 through UI-11)
-- [ ] 05-01-PLAN.md â€” Wave 1: UI-09 + UI-10 controller â€” Add $today_revenue, $followup_count, $high_risk_patients to dashboard(); add queue_json() endpoint
-- [ ] 05-02-PLAN.md â€” Wave 1: UI-09 + UI-10 view â€” Rewrite dashboard.php (stat grid + two-column layout + queue long-poll JS); CSS spacing tweaks
-- [ ] 05-03-PLAN.md â€” Wave 2: UI-10 chart endpoint â€” Add chart_data_json() (6-month revenue + patient loop)
-- [ ] 05-04-PLAN.md â€” Wave 2: UI-10 chart wiring + vitals fix â€” Wire chart canvases to chart_data_json; fix vitals_json() BP column alias
-- [ ] 05-05-PLAN.md â€” Wave 3: UI-11 controller â€” Add search_json() endpoint; add rx_templates to consultation_room() $data
-- [ ] 05-06-PLAN.md â€” Wave 3: UI-11 view â€” Rewrite consultation_room.php (radio toolbar, 5/7 split, rxFrame, template dropdown, action bar, debounced search) + human-verify checkpoint
+- [x] 05-00-PLAN.md â€” Wave 0: Create DoctorPortalTest.php scaffold (8 static-analysis assertions, UI-09 through UI-11)
+- [x] 05-01-PLAN.md â€” Wave 1: UI-09 + UI-10 controller â€” Add $today_revenue, $followup_count, $high_risk_patients to dashboard(); add queue_json() endpoint
+- [x] 05-02-PLAN.md â€” Wave 1: UI-09 + UI-10 view â€” Rewrite dashboard.php (stat grid + two-column layout + queue long-poll JS); CSS spacing tweaks
+- [x] 05-03-PLAN.md â€” Wave 2: UI-10 chart endpoint â€” Add chart_data_json() (6-month revenue + patient loop)
+- [x] 05-04-PLAN.md â€” Wave 2: UI-10 chart wiring + vitals fix â€” Wire chart canvases to chart_data_json; fix vitals_json() BP column alias
+- [x] 05-05-PLAN.md â€” Wave 3: UI-11 controller â€” Add search_json() endpoint; add rx_templates to consultation_room() $data
+- [x] 05-06-PLAN.md â€” Wave 3: UI-11 view â€” Rewrite consultation_room.php (radio toolbar, 5/7 split, rxFrame, template dropdown, action bar, debounced search) + human-verify checkpoint
 **UI hint**: yes
 
 ### Phase 6: Assistant Portal + Real-Time
@@ -153,7 +153,7 @@ Phases execute in numeric order: 1 â†’ 2 â†’ 3 â†’ 4 â†’ 5 �
 | 2. Code Health | 5/5 | Complete | 2026-04-28 |
 | 3. Admin Design System | 7/7 | Complete | 2026-04-28 |
 | 4. Patient Portal | 6/6 | Complete | 2026-04-28 |
-| 5. Doctor Portal | 0/7 | Planned | - |
+| 5. Doctor Portal | 7/7 | Complete | 2026-04-28 |
 | 6. Assistant Portal + Real-Time | 0/6 | Planned | - |
 
 ---
@@ -169,3 +169,4 @@ Phases execute in numeric order: 1 â†’ 2 â†’ 3 â†’ 4 â†’ 5 �
 *Phase 2 completed: 2026-04-28 - CodeHealth tests green*
 *Phase 3 completed: 2026-04-28 - DesignSystem tests green*
 *Phase 4 completed: 2026-04-28 - PatientPortal tests green*
+*Phase 5 completed: 2026-04-28 - DoctorPortal tests green*

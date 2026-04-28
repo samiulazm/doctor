@@ -98,6 +98,8 @@ class Prescription extends MX_Controller
         }
 
         $id = $this->input->post('id');
+        $embed = ($this->input->post('embed') === '1');
+        $print_after = ($this->input->post('print_after') === '1');
         $tab = $this->input->post('tab');
         $date = $this->input->post('date');
         if (!empty($date)) {
@@ -172,11 +174,18 @@ class Prescription extends MX_Controller
             } else {
                 $data = array();
                 $data['setval'] = 'setval';
+                $data['embed'] = $embed;
+                $data['preselect_patient'] = null;
+                if ($embed && !empty($patient)) {
+                    $data['preselect_patient'] = $this->patient_model->getPatientById((int) $patient);
+                }
                 $data['medicines'] = $this->medicine_model->getMedicine();
                 $data['patients'] = $this->patient_model->getPatient();
                 $data['doctors'] = $this->doctor_model->getDoctor();
                 $data['settings'] = $this->settings_model->getSettings();
-                $this->load->view('home/dashboard', $data);
+                if (!$embed) {
+                    $this->load->view('home/dashboard', $data);
+                }
                 $this->load->view('add_new_prescription_view', $data);
                 $this->load->view('home/footer');
             }
@@ -199,9 +208,27 @@ class Prescription extends MX_Controller
                 $this->prescription_model->insertPrescription($data);
                 $insert_id = $this->db->insert_id();
                 show_swal(lang('new_prescription_addedd'), 'success', lang('added'));
+                $saved_id = $insert_id;
             } else {
                 $this->prescription_model->updatePrescription($id, $data);
                 show_swal(lang('prescription_updated_successfully'), 'success', lang('updated'));
+                $saved_id = $id;
+            }
+
+            if ($embed) {
+                $payload = array(
+                    'type' => 'rx:saved',
+                    'id' => (int) $saved_id,
+                    'print_url' => $print_after ? site_url('prescription/viewPrescriptionPrint?id=' . (int) $saved_id) : '',
+                );
+                $message = json_encode(json_encode($payload));
+                $this->output->set_output(
+                    '<!doctype html><html><head><meta charset="utf-8"></head><body>'
+                    . '<p style="font-family:Arial,sans-serif;color:#475569;padding:16px;">Prescription saved.</p>'
+                    . '<script>if(window.parent){window.parent.postMessage(JSON.parse(' . $message . '), window.location.origin);}</script>'
+                    . '</body></html>'
+                );
+                return;
             }
 
             if (!empty($id)) {
