@@ -248,8 +248,8 @@ function required()
             redirect('home/permission');
         }
         $CI->db->where('hospital_id', $CI->session->userdata('site_id'));
-        $language = $CI->db->get('site_settings')->row()->language;
-
+        $site_settings_row = $CI->db->get('site_settings')->row();
+        $language = ($site_settings_row && !empty($site_settings_row->language)) ? $site_settings_row->language : null;
 
         if (!empty($CI->session->userdata('language_site'))) {
             $language = $CI->session->userdata('language_site');
