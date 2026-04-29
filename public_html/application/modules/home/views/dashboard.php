@@ -19,6 +19,8 @@
 <head>
   <base href="<?php echo base_url(); ?>"> 
   <script>window.CI_BASE_URL = <?php echo json_encode(rtrim(base_url(), '/') . '/'); ?>;</script>
+  <!-- Module views are rendered before home/footer.php, so jQuery must exist before inline page scripts register DataTables handlers. -->
+  <script src="adminlte/plugins/jquery/jquery.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta charset="utf-8">

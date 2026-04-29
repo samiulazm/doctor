@@ -203,7 +203,7 @@
     var select_patient = "<?php echo lang('select_patient'); ?>";
 </script>
 <script type="text/javascript">
-    var language = <?php echo $this->language; ?>;
+    var language = <?php echo json_encode($this->language); ?>;
 </script>
 <script type="text/javascript">
     var no_available_timeslots = "<?php echo lang('no_available_timeslots'); ?>";

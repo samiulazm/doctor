@@ -324,7 +324,9 @@
     $('.labStatus').on("change", function() {
         let status = $('.labStatus').val();
         if (status == 'all') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 
@@ -391,7 +393,9 @@
             });
             table.buttons().container().appendTo('.custom_buttons');
         } else if (status == 'pending') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 
@@ -458,7 +462,9 @@
             });
             table.buttons().container().appendTo('.custom_buttons');
         } else if (status == 'waiting') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 
@@ -525,7 +531,9 @@
             });
             table.buttons().container().appendTo('.custom_buttons');
         } else if (status == 'sample_taken') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 
@@ -592,7 +600,9 @@
             });
             table.buttons().container().appendTo('.custom_buttons');
         } else if (status == 'complete') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 
@@ -659,7 +669,9 @@
             });
             table.buttons().container().appendTo('.custom_buttons');
         } else if (status == 'delivered') {
-            $('#editable-sample').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample')) {
+                $('#editable-sample').DataTable().clear().destroy();
+            }
             var table = $('#editable-sample').DataTable({
                 responsive: true,
 

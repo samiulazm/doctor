@@ -19,14 +19,14 @@ $CI = get_instance();
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')) { ?>
                 <div class="alert alert-success alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('success'); ?>
                 </div>
             <?php } ?>
 
             <?php if ($this->session->flashdata('error')) { ?>
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="<?php echo lang('close'); ?>">&times;</button>
                     <?php echo $this->session->flashdata('error'); ?>
                 </div>
             <?php } ?>
@@ -44,17 +44,17 @@ $CI = get_instance();
                             <!-- Tab Navigation -->
                             <ul class="nav nav-tabs" id="analysisTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
+                                    <a class="nav-link active" id="upload-tab" data-bs-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">
                                         <i class="fas fa-upload mr-1"></i> <?php echo lang('upload_analyze'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
+                                    <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">
                                         <i class="fas fa-file-medical mr-1"></i> <?php echo lang('analysis_report'); ?>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
+                                    <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">
                                         <i class="fas fa-history mr-1"></i> <?php echo lang('analytics_history'); ?>
                                     </a>
                                 </li>
@@ -223,7 +223,7 @@ $CI = get_instance();
 </div>
 
 <!-- Loading Modal -->
-<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body text-center py-4">
@@ -247,7 +247,7 @@ $CI = get_instance();
                     <i class="fas fa-file-medical mr-2"></i>
                     Medical Image Analysis Report
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
+                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="<?php echo lang('close'); ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -255,7 +255,7 @@ $CI = get_instance();
                 <!-- Report content will be loaded here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('close'); ?></button>
                 <button type="button" class="btn btn-primary" id="printReportBtn">
                     <i class="fas fa-print mr-2"></i>
                     <?php echo lang('print_report'); ?>
@@ -268,7 +268,7 @@ $CI = get_instance();
 <script>
 let currentAnalysisId = null;
 
-$(document).ready(function() {
+window.addEventListener('load', function() {
     // Initialize Select2 with enhanced search
     $('.select2').select2({
         theme: 'bootstrap4',
@@ -412,7 +412,7 @@ $(document).ready(function() {
     });
 
     // Handle tab clicks using Bootstrap's built-in functionality
-    $('#analysisTabs a[data-toggle="tab"]').on('click', function (e) {
+    $('#analysisTabs a[data-bs-toggle="tab"]').on('click', function (e) {
         e.preventDefault();
         var target = $(this).attr('href');
         console.log('Tab clicked:', target);
@@ -1013,7 +1013,7 @@ function downloadAnalysisReport() {
         <html>
         <head>
             <title>Medical Image Analysis Report</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
             <style>
                 @media print {
@@ -1227,13 +1227,3 @@ function showNotification(message, type) {
 }
 
 </style>
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css">
-
-<!-- DataTables JS -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>

@@ -68,9 +68,17 @@ if ($language == 'english') {
 
 ?>
 
-<!-- jQuery first: inline scripts and plugins below depend on $. -->
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- jQuery may already be loaded by dashboard.php so module inline scripts can register before this footer. -->
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="adminlte/plugins/jquery/jquery.min.js"><\/script>');
+    }
+</script>
+<script>
+    if (!window.jQuery || !window.jQuery.ui) {
+        document.write('<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"><\/script>');
+    }
+</script>
 
 <script type="text/javascript">
     var langdate = "<?php echo htmlspecialchars($langdate, ENT_QUOTES, 'UTF-8'); ?>";

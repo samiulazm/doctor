@@ -244,7 +244,11 @@
 <!--footer start-->
 
 <!-- page end-->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="adminlte/plugins/jquery/jquery.min.js"><\/script>');
+    }
+</script>
 
 
 <style>
@@ -465,7 +469,11 @@
 <!-- Add Patient Modal-->
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="adminlte/plugins/jquery/jquery.min.js"><\/script>');
+    }
+</script>
 <script>
     $(document).ready(function() {
         $(".flashmessage").delay(3000).fadeOut(100);

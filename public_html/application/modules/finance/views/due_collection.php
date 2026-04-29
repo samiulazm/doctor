@@ -308,7 +308,9 @@ $gateway_stripe = (isset($gateway) && is_object($gateway) && !empty($gateway->pu
                     alert('Select a Valid Date. End Date should be Greater than Start Date');
                     $(this).val("");
                 } else {
-                    $('#editable-sample4').DataTable().destroy().clear();
+                    if ($.fn.DataTable.isDataTable('#editable-sample4')) {
+                        $('#editable-sample4').DataTable().clear().destroy();
+                    }
                     "use strict";
                     var table = $("#editable-sample4").DataTable({
                         responsive: true,
@@ -398,7 +400,9 @@ $gateway_stripe = (isset($gateway) && is_object($gateway) && !empty($gateway->pu
                     alert('Select a Valid Date. End Date should be Greater than Start Date');
                     $(this).val("");
                 } else {
-                    $('#editable-sample4').DataTable().destroy().clear();
+                    if ($.fn.DataTable.isDataTable('#editable-sample4')) {
+                        $('#editable-sample4').DataTable().clear().destroy();
+                    }
                     "use strict";
                     var table = $("#editable-sample4").DataTable({
                         responsive: true,

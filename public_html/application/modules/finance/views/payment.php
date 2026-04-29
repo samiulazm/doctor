@@ -132,7 +132,9 @@ $CI = get_instance();
                     alert('Select a Valid Date. End Date should be Greater than Start Date');
                     $(this).val("");
                 } else {
-                    $('#editable-sample3').DataTable().destroy().clear();
+                    if ($.fn.DataTable.isDataTable('#editable-sample3')) {
+                        $('#editable-sample3').DataTable().clear().destroy();
+                    }
                     "use strict";
                     var table = $('#editable-sample3').DataTable({
                         responsive: true,
@@ -220,7 +222,9 @@ $CI = get_instance();
                     alert('Select a Valid Date. End Date should be Greater than Start Date');
                     $(this).val("");
                 } else {
-                    $('#editable-sample3').DataTable().destroy().clear();
+                    if ($.fn.DataTable.isDataTable('#editable-sample3')) {
+                        $('#editable-sample3').DataTable().clear().destroy();
+                    }
                     "use strict";
                     var table = $('#editable-sample3').DataTable({
                         responsive: true,

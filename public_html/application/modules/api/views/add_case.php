@@ -18,6 +18,7 @@
 
 <head>
     <base href="<?php echo base_url(); ?>">
+    <script src="adminlte/plugins/jquery/jquery.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
@@ -65,6 +66,7 @@
     <link rel="stylesheet" href="adminlte/plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="adminlte/dist/css/bs4-compat.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
@@ -73,9 +75,9 @@
     <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.min.css">
 
 
-    <!-- <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"> -->
-    <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap5.min.css">
 
 
     <link rel="stylesheet" href="adminlte/dist/css/changes.css">
@@ -583,15 +585,19 @@ if (!empty($selected_advice)) {
 
 
 
-    <!-- jQuery -->
-    <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery is loaded in <head> so inline page scripts can register before footer assets. -->
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="adminlte/plugins/jquery/jquery.min.js"><\/script>');
+        }
+    </script>
     <!-- jQuery UI 1.11.4 -->
     <script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <!-- Bootstrap 4 -->
+    <!-- Bootstrap 5 -->
     <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script src="adminlte/dist/js/adminlte.min.js"></script>
@@ -619,16 +625,12 @@ if (!empty($selected_advice)) {
 
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="adminlte/dist/js/pages/dashboard.js"></script>
-
-
-    <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
-
     <script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap5.min.js"></script>
     <script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap5.min.js"></script>
     <script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap5.min.js"></script>
     <script src="adminlte/plugins/jszip/jszip.min.js"></script>
     <script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
     <script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
@@ -684,7 +686,7 @@ if (!empty($selected_advice)) {
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: "en",
-                themeSystem: 'bootstrap', // Enable Bootstrap theme
+                themeSystem: 'bootstrap5',
                 events: "appointment/getAppointmentByJason",
                 headerToolbar: {
                     left: "prev,next today",

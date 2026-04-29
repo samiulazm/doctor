@@ -5,14 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Chart</title>
+    <base href="<?php echo base_url(); ?>">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Bootstrap 5 + DataTables -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap5.min.css">
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap5.min.js"></script>
+    <script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap5.min.js"></script>
+    <script src="adminlte/plugins/jszip/jszip.min.js"></script>
+    <script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 </head>
 
 <style>

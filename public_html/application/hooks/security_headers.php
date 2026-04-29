@@ -19,6 +19,10 @@ function security_headers()
     $CI->output->set_header('Referrer-Policy: strict-origin-when-cross-origin');
     $CI->output->set_header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 
+    if (config_item('csrf_protection') && isset($CI->security)) {
+        $CI->output->set_header('X-CSRF-Hash: ' . $CI->security->get_csrf_hash());
+    }
+
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
         $CI->output->set_header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
     }

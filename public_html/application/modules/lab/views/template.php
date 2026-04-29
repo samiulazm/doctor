@@ -167,7 +167,9 @@
             let user_id = $('.user_id').val();
             let category = $('.category').val();
 
-            $('#editable-sample1').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample1')) {
+            $('#editable-sample1').DataTable().clear().destroy();
+        }
             var table = $('#editable-sample1').DataTable({
                 responsive: true,
 
@@ -239,7 +241,9 @@
             let user_id = $('.user_id').val();
             let category = $('.category').val();
 
-            $('#editable-sample1').DataTable().destroy().clear();
+            if ($.fn.DataTable.isDataTable('#editable-sample1')) {
+            $('#editable-sample1').DataTable().clear().destroy();
+        }
             var table = $('#editable-sample1').DataTable({
                 responsive: true,
 

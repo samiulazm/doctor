@@ -199,7 +199,9 @@
         let fromDate = $('#from_date').val();
         let toDate = $('#to_date').val();
         "use strict";
-        $('#editable-sample1').DataTable().destroy().clear();
+        if ($.fn.DataTable.isDataTable('#editable-sample1')) {
+            $('#editable-sample1').DataTable().clear().destroy();
+        }
         var table = $('#editable-sample1').DataTable({
             responsive: true,
 
@@ -273,7 +275,9 @@
         let fromDate = $('#from_date').val();
         let toDate = $('#to_date').val();
         "use strict";
-        $('#editable-sample1').DataTable().destroy().clear();
+        if ($.fn.DataTable.isDataTable('#editable-sample1')) {
+            $('#editable-sample1').DataTable().clear().destroy();
+        }
         var table = $('#editable-sample1').DataTable({
             responsive: true,
 
@@ -356,7 +360,9 @@
         let fromDate = $('#from_date').val();
         let toDate = $('#to_date').val();
         "use strict";
-        $('#editable-sample1').DataTable().destroy().clear();
+        if ($.fn.DataTable.isDataTable('#editable-sample1')) {
+            $('#editable-sample1').DataTable().clear().destroy();
+        }
         var table = $('#editable-sample1').DataTable({
             responsive: true,
 

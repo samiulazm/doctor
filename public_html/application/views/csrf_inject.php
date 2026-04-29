@@ -12,6 +12,12 @@ $hash = $this->security->get_csrf_hash();
   var n = <?php echo json_encode($name); ?>;
   var h = <?php echo json_encode($hash); ?>;
   window.CI_CSRF_HASH = h;
+  function updateCsrfHash(value) {
+    if (value) {
+      window.CI_CSRF_HASH = value;
+      h = value;
+    }
+  }
   function addCsrf(form) {
     if (!form || !form.method || form.method.toUpperCase() !== 'POST') {
       return;
@@ -88,9 +94,13 @@ $hash = $this->security->get_csrf_hash();
           options.data[n] = window.CI_CSRF_HASH;
         }
       });
+      $(document).ajaxComplete(function (event, xhr) {
+          updateCsrfHash(xhr.getResponseHeader('X-CSRF-Hash'));
+      });
       $(document).ajaxSuccess(function (event, xhr, settings, data) {
+          updateCsrfHash(xhr.getResponseHeader('X-CSRF-Hash'));
           if (data && data.csrf_hash) {
-              window.CI_CSRF_HASH = data.csrf_hash;
+              updateCsrfHash(data.csrf_hash);
           }
       });
     }(jQuery));

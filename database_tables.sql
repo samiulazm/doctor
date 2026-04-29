@@ -9016,6 +9016,7 @@ CREATE TABLE `chamber_serial_queue` (
   `serial_number` int(11) NOT NULL,
   `sort_position` decimal(12,4) NOT NULL DEFAULT 0.0000,
   `status` enum('pending','arrived','serving','done','cancelled') NOT NULL DEFAULT 'pending',
+  `is_emergency` tinyint(1) NOT NULL DEFAULT 0,
   `patient_id` int(11) DEFAULT NULL,
   `guest_name` varchar(255) DEFAULT NULL,
   `guest_phone` varchar(50) DEFAULT NULL,
@@ -9028,6 +9029,7 @@ CREATE TABLE `chamber_serial_queue` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_queue_day` (`doctor_id`, `chamber_id`, `queue_date`, `status`),
+  KEY `idx_chamber_queue_day` (`doctor_id`, `chamber_id`, `queue_date`, `status`),
   KEY `idx_hospital` (`hospital_id`),
   KEY `idx_sort` (`doctor_id`, `chamber_id`, `queue_date`, `sort_position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -9067,6 +9069,7 @@ CREATE TABLE `doctor_portal_profile` (
   `specialty_label` varchar(255) DEFAULT NULL,
   `hero_image` varchar(500) DEFAULT NULL,
   `booking_enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `advance_booking_fee` decimal(12,2) NOT NULL DEFAULT 0.00,
   `signature_image` varchar(500) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -9297,6 +9300,144 @@ CREATE TABLE `visit_vital` (
   KEY `idx_queue` (`queue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audit_log`
+--
+
+CREATE TABLE `audit_log` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `hospital_id` varchar(64) DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `action` varchar(128) NOT NULL,
+  `entity_type` varchar(64) DEFAULT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `metadata` longtext DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hospital_id` (`hospital_id`),
+  KEY `user_id` (`user_id`),
+  KEY `action` (`action`),
+  KEY `entity` (`entity_type`, `entity_id`),
+  KEY `created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_settings`
+--
+
+CREATE TABLE `dashboard_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `dashboard_type` enum('executive','clinical','financial','operational') NOT NULL,
+  `widgets` text DEFAULT NULL,
+  `layout` text DEFAULT NULL,
+  `refresh_interval` int(11) DEFAULT 300,
+  `hospital_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_hospital_id` (`hospital_id`),
+  KEY `idx_dashboard_type` (`dashboard_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_metrics_cache`
+--
+
+CREATE TABLE `dashboard_metrics_cache` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `metric_key` varchar(255) NOT NULL,
+  `metric_value` text NOT NULL,
+  `hospital_id` int(11) NOT NULL,
+  `expires_at` timestamp NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_metric_hospital` (`metric_key`, `hospital_id`),
+  KEY `idx_hospital_id` (`hospital_id`),
+  KEY `idx_expires_at` (`expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_alerts`
+--
+
+CREATE TABLE `dashboard_alerts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alert_type` enum('info','warning','danger','success') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `dashboard_type` enum('executive','clinical','financial','operational') NOT NULL,
+  `priority` enum('low','medium','high','critical') DEFAULT 'medium',
+  `is_active` tinyint(1) DEFAULT 1,
+  `hospital_id` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_hospital_id` (`hospital_id`),
+  KEY `idx_dashboard_type` (`dashboard_type`),
+  KEY `idx_priority` (`priority`),
+  KEY `idx_is_active` (`is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_widgets`
+--
+
+CREATE TABLE `dashboard_widgets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `widget_name` varchar(255) NOT NULL,
+  `widget_type` varchar(100) NOT NULL,
+  `widget_config` text DEFAULT NULL,
+  `dashboard_type` enum('executive','clinical','financial','operational') NOT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `sort_order` int(11) DEFAULT 0,
+  `hospital_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_hospital_id` (`hospital_id`),
+  KEY `idx_dashboard_type` (`dashboard_type`),
+  KEY `idx_is_active` (`is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_analytics`
+--
+
+CREATE TABLE `dashboard_analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `dashboard_type` enum('executive','clinical','financial','operational') NOT NULL,
+  `action` varchar(100) NOT NULL,
+  `details` text DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `hospital_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_hospital_id` (`hospital_id`),
+  KEY `idx_dashboard_type` (`dashboard_type`),
+  KEY `idx_action` (`action`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --
 -- Indexes for dumped tables
@@ -9392,7 +9533,9 @@ ALTER TABLE `ambulance_rates`
 --
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_chamber_appt_doctor_date` (`hospital_id`, `doctor`, `date`);
+  ADD KEY `idx_chamber_appt_doctor_date` (`hospital_id`, `doctor`, `date`),
+  ADD KEY `idx_hospital_date` (`hospital_id`, `date`),
+  ADD KEY `idx_hospital_status` (`hospital_id`, `status`);
 
 --
 -- Indexes for table `attendance`
@@ -9512,7 +9655,8 @@ ALTER TABLE `diagnostic_report`
 -- Indexes for table `doctor`
 --
 ALTER TABLE `doctor`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_doctor_ion_user_id` (`ion_user_id`);
 
 --
 -- Indexes for table `doctor_visit`
@@ -9542,7 +9686,8 @@ ALTER TABLE `email`
 -- Indexes for table `email_settings`
 --
 ALTER TABLE `email_settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_email_settings_type_hospital` (`type`, `hospital_id`);
 
 --
 -- Indexes for table `emergency`
@@ -9640,7 +9785,9 @@ ALTER TABLE `holidays`
 -- Indexes for table `hospital`
 --
 ALTER TABLE `hospital`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_hospital_ion_user_id` (`ion_user_id`),
+  ADD KEY `idx_hospital_username` (`username`);
 
 --
 -- Indexes for table `hospital_deposit`
@@ -9904,7 +10051,8 @@ ALTER TABLE `package`
 --
 ALTER TABLE `patient`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_chamber_patient_phone` (`hospital_id`, `phone`(32));
+  ADD KEY `idx_chamber_patient_phone` (`hospital_id`, `phone`(32)),
+  ADD KEY `idx_patient_ion_user_id` (`ion_user_id`);
 
 --
 -- Indexes for table `patient_deposit`
@@ -10047,7 +10195,8 @@ ALTER TABLE `service`
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_settings_hospital_id` (`hospital_id`);
 
 --
 -- Indexes for table `site_featured`
@@ -10089,7 +10238,8 @@ ALTER TABLE `site_service`
 -- Indexes for table `site_settings`
 --
 ALTER TABLE `site_settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_site_settings_hospital_id` (`hospital_id`);
 
 --
 -- Indexes for table `site_slide`
@@ -10131,7 +10281,8 @@ ALTER TABLE `stock_transactions`
 -- Indexes for table `superadmin`
 --
 ALTER TABLE `superadmin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_superadmin_ion_user_id` (`ion_user_id`);
 
 --
 -- Indexes for table `suppliers`
@@ -10221,6 +10372,7 @@ ALTER TABLE `users`
 ALTER TABLE `users_groups`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
+  ADD KEY `idx_users_groups_user_id` (`user_id`),
   ADD KEY `fk_users_groups_users1_idx` (`user_id`),
   ADD KEY `fk_users_groups_groups1_idx` (`group_id`);
 
