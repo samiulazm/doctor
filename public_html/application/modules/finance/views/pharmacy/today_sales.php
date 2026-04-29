@@ -36,13 +36,14 @@
                             <div class="float-right">
                                 <a href="finance/pharmacy/addPaymentView">
                                     <button id="" class="btn btn-success btn-sm">
-                                        <i class="fa fa-plus-circle"></i> <?php echo lang('add_sale'); ?>
+                                        <i class="fas fa-plus-circle"></i> <?php echo lang('add_sale'); ?>
                                     </button>
                                 </a>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="dt-finance" data-legacy-table="editable-sample">
                                 <thead>
                                     <tr>
@@ -76,12 +77,12 @@
 
                                             <td>
                                                 <?php if ($this->ion_auth->in_group('admin')) { ?>
-                                                    <a class="btn btn-info btn-xs editbutton width_auto" href="finance/pharmacy/editPayment?id=<?php echo $payment->id; ?>"><i class="fa fa-edit"> </i> <?php echo lang('edit'); ?></a>
+                                                    <a class="btn btn-info btn-xs editbutton width_auto" href="finance/pharmacy/editPayment?id=<?php echo $payment->id; ?>"><i class="fas fa-edit"> </i> <?php echo lang('edit'); ?></a>
                                                 <?php } ?>
 
-                                                <a class="btn btn-xs width_auto" href="finance/pharmacy/invoice?id=<?php echo $payment->id; ?>"><i class="fa fa-file-text"></i> <?php echo lang('invoice'); ?></a>
+                                                <a class="btn btn-xs width_auto" href="finance/pharmacy/invoice?id=<?php echo $payment->id; ?>"><i class="fas fa-file-alt"></i> <?php echo lang('invoice'); ?></a>
                                                 <?php if ($this->ion_auth->in_group('admin')) { ?>
-                                                    <a class="btn btn-info btn-xs delete_button width_auto" href="finance/pharmacy/delete?id=<?php echo $payment->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o"></i> <?php echo lang('delete'); ?></a>
+                                                    <a class="btn btn-info btn-xs delete_button width_auto" href="finance/pharmacy/delete?id=<?php echo $payment->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i> <?php echo lang('delete'); ?></a>
                                                 <?php } ?>
                                                 </button>
                                             </td>
@@ -89,6 +90,7 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

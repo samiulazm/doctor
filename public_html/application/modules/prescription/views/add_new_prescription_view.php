@@ -20,10 +20,23 @@ if (!isset($preselect_patient)) {
 
 
 <div class="content-wrapper bg-light<?php echo !empty($embed) ? ' ml-0' : ''; ?>">
-    <section class="content-header py-4 bg-white shadow-sm">
+    <section class="content-header<?php echo !empty($embed) ? ' py-2 bg-white border-bottom mb-0' : ' py-4 bg-white shadow-sm'; ?>">
         <div class="container-fluid">
             <div class="row align-items-center">
-                <div class="col-sm-6">
+                <div class="<?php echo !empty($embed) ? 'col-12' : 'col-sm-6'; ?>">
+                    <?php if (!empty($embed)) : ?>
+                        <h2 class="h5 font-weight-bold mb-0">
+                            <i class="fas fa-prescription mr-2 text-primary"></i>
+                            <?php
+                            if (!empty($prescription->id)) {
+                                echo lang('edit_prescription');
+                            } else {
+                                echo lang('add_prescription');
+                            }
+                            ?>
+                            <span class="badge badge-secondary small ml-1">Consultation room</span>
+                        </h2>
+                    <?php else : ?>
                     <h1 class="display-4 font-weight-black mb-0">
                         <i class="fas fa-prescription mr-3 text-primary"></i>
                         <?php
@@ -31,12 +44,11 @@ if (!isset($preselect_patient)) {
                             echo lang('edit_prescription');
                         else
                             echo lang('add_prescription');
-                        if (!empty($embed)) {
-                            echo ' <span class="badge badge-secondary small">Consultation room</span>';
-                        }
                         ?>
                     </h1>
+                    <?php endif; ?>
                 </div>
+                <?php if (empty($embed)) : ?>
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb float-sm-right bg-transparent">
@@ -51,11 +63,12 @@ if (!isset($preselect_patient)) {
                         </ol>
                     </nav>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>
 
-    <section class="content py-5">
+    <section class="content<?php echo !empty($embed) ? ' py-2' : ' py-5'; ?>">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-12">
@@ -66,6 +79,7 @@ if (!isset($preselect_patient)) {
                             <form id="addForm" role="form" action="prescription/addNewPrescription" class="clearfix" method="post" enctype="multipart/form-data">
                                 <?php if (!empty($embed)) { ?>
                                     <input type="hidden" name="embed" value="1">
+                                    <input type="hidden" name="print_after" value="0" id="embed_print_after">
                                 <?php } ?>
                                 <div class="row">
                                     <!-- Left Column -->
@@ -309,12 +323,12 @@ if (!isset($preselect_patient)) {
 
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="d-flex gap-2 justify-content-end">
+                                                        <div class="d-flex justify-content-end">
                                                             <button type="submit" name="submit" class="btn btn-primary btn-lg px-4">
                                                                 <i class="fas fa-save mr-2"></i>
                                                                 <?php echo $prescription->id ? lang('update') : lang('submit'); ?>
                                                             </button>
-                                                            <a href="prescription/viewPrescription?id=<?php echo $prescription->id; ?>" type="button" class="btn btn-outline-primary btn-lg px-4" id="print">
+                                                            <a href="prescription/viewPrescription?id=<?php echo $prescription->id; ?>" type="button" class="btn btn-outline-primary btn-lg px-4 ml-2" id="print">
                                                                 <i class="fas fa-print mr-2"></i>
                                                                 <?php echo lang('print'); ?>
                                                             </a>

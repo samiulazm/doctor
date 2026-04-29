@@ -22,9 +22,11 @@ from pathlib import Path, PurePosixPath
 
 # Directories/files to skip during upload
 SKIP = {
-    '.git', '.gitignore', '.env', '__pycache__', '.phpunit.cache',
+    '.git', '.gitignore', '.gitattributes', '.env', '.env.example',
+    '__pycache__', '.phpunit.cache', '.claude', '.planning', '.vscode',
     'node_modules', 'deploy.py', 'tests', 'phpunit.xml.dist',
     'run-tests.ps1', 'composer.ps1', '.github', 'deploy_progress.json',
+    '.DS_Store', 'CLAUDE.md',
 }
 
 # Large asset directories to skip with --skip-assets
@@ -242,12 +244,27 @@ def deploy(dry_run=False, only_changed=False, skip_assets=False, resume=False, c
     user = config.get('FTP_USER', '')
     password = config.get('FTP_PASS', '')
     remote_dir = config.get('FTP_REMOTE_DIR', '/')
+    missing_ftp = [
+        key for key, value in {
+            'FTP_HOST': host,
+            'FTP_USER': user,
+            'FTP_PASS': password,
+            'FTP_REMOTE_DIR': remote_dir,
+        }.items()
+        if not value
+    ]
 
-    print(f"[*] FTP Target: {user}@{host}:{port}")
+    print(f"[*] FTP Target: {user}@{host}:{port}" if not missing_ftp else "[*] FTP Target: <missing FTP_* config>")
     print(f"[*] Remote dir: {remote_dir}")
     print(f"[*] Mode: {'config-only' if config_only else ('changed only' if only_changed else 'full')}"
           f"{' | skip-assets' if skip_assets else ''}"
           f"{' | resume' if resume else ''}")
+    if missing_ftp:
+        print(f"[!] Missing FTP config: {', '.join(missing_ftp)}")
+        if not dry_run:
+            print("[ERROR] Cannot deploy without complete FTP_* credentials in .env.")
+            sys.exit(1)
+        print("[!] Dry run will continue for file-list validation only.")
     print()
 
     if config_only and only_changed:

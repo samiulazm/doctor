@@ -1,18 +1,34 @@
 <!--sidebar end-->
 <!--main content start-->
-<section id="main-content">
-    <section class="wrapper site-min-height">
-        <!-- page start-->
-        <section class="">
-            <header class="panel-heading">
-                <?php
-                if (!empty($payment->id))
-                    echo lang('edit_payment');
-                else
-                    echo lang('poss');
-                ?>
-            </header>
-            <div class="">
+<div class="content-wrapper bg-light">
+    <section class="content-header py-4 bg-white shadow-sm">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h1 class="display-4 font-weight-black mb-0">
+                        <i class="<?php echo !empty($payment->id) ? 'fas fa-edit' : 'fas fa-plus-circle'; ?> text-primary mr-3"></i>
+                        <?php
+                        if (!empty($payment->id)) {
+                            echo lang('edit_payment');
+                        } else {
+                            echo lang('poss');
+                        }
+                        ?>
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent mb-0">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo lang('pharmacy'); ?></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content py-5">
+        <div class="container-fluid">
+            <div class="card shadow-lg border-0">
+                <div class="card-body bg-light p-4">
                 <div class="adv-table editable-table ">
                     <div class="clearfix">
                         <!--  <div class="col-lg-12"> -->
@@ -219,11 +235,11 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </section>
-
+        </div>
     </section>
-</section>
+</div>
 <!--main content end-->
 <!--footer start-->
 
@@ -411,8 +427,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title font-weight-bold"><i class="fa fa-plus-circle"></i> Patient Registration</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="<?php echo lang('close') ?: 'Close'; ?>">&times;</button>
+                <h4 class="modal-title font-weight-bold"><i class="fas fa-plus-circle"></i> Patient Registration</h4>
             </div>
             <div class="modal-body">
                 <form role="form" action="patient/addNew?redirect=payment" method="post" enctype="multipart/form-data">

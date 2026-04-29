@@ -94,6 +94,7 @@ Real doctors actively using the system to manage their daily patient queue — e
 | Use existing AdminLTE 3 + Bootstrap 4 | No frontend build pipeline; design system layered on top | — Pending |
 | bKash + SSLCommerz (not Stripe) | Bangladesh local payment methods; Stripe manually vendored at v7 | — Pending |
 | Product framing is doctor/chamber practice management | `hospital_id` remains an internal tenant key, not launch product copy | Active portal copy says practice/chamber |
+| Production ship playbook | Staging UAT, FTP deploy, migrations, verify SQL, rollback — single source in repo | `docs/ship-to-production/` (sibling to `public_html/`) — 2026-04-28 |
 
 ## Evolution
 

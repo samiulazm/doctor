@@ -185,6 +185,102 @@ final class DoctorPortalTest extends TestCase
         );
     }
 
+    public function test_production_json_guard_requireDoctorJson(): void
+    {
+        $src = $this->readFile('application/modules/doctor_chamber/controllers/Doctor_chamber.php');
+
+        self::assertStringContainsString('function requireDoctorJson', $src);
+        self::assertStringContainsString('doctor_profile_required', $src);
+        self::assertMatchesRegularExpression(
+            '/function vitals_json\(\).*?requireDoctorJson/s',
+            $src,
+            'vitals_json must call requireDoctorJson before using $doc'
+        );
+        self::assertMatchesRegularExpression(
+            '/function search_json\(\).*?requireDoctorJson/s',
+            $src,
+            'search_json must call requireDoctorJson before using $doc'
+        );
+        self::assertMatchesRegularExpression(
+            '/function drug_search_json\(\).*?requireDoctorJson/s',
+            $src,
+            'drug_search_json must call requireDoctorJson before using $doc'
+        );
+        self::assertMatchesRegularExpression(
+            '/function queue_json\(\).*?requireDoctorJson/s',
+            $src,
+            'queue_json must use requireDoctorJson for missing doctor profile'
+        );
+        self::assertMatchesRegularExpression(
+            '/function chart_data_json\(\).*?requireDoctorJson/s',
+            $src,
+            'chart_data_json must use requireDoctorJson for missing doctor profile'
+        );
+        self::assertStringContainsString('normalizeChamberDate', $src);
+        self::assertStringContainsString("'error' => 'invalid_patient'", $src);
+        self::assertStringContainsString("'error' => 'invalid_date'", $src);
+    }
+
+    public function test_dashboard_queue_and_chart_resilience_js(): void
+    {
+        $html = $this->readFile('application/modules/doctor_chamber/views/doctor/dashboard.php');
+
+        self::assertStringContainsString('queueConnectionStatus', $html);
+        self::assertStringContainsString('.fail(function', $html);
+        self::assertStringContainsString('queueInflight', $html);
+        self::assertStringContainsString('scheduleQueue(POLL_INTERVAL_OK)', $html);
+        self::assertStringContainsString('POLL_MAX_BACKOFF', $html);
+        self::assertStringNotContainsString('setInterval(pollQueue', $html);
+        self::assertStringContainsString('chartPollStatus', $html);
+        self::assertStringContainsString('chartInflight', $html);
+        self::assertStringContainsString('scheduleCharts', $html);
+        self::assertStringContainsString('Stale - retrying', $html);
+        self::assertStringContainsString('Stale', $html);
+        self::assertStringContainsString('Reconnecting', $html);
+    }
+
+    public function test_consultation_room_hardening_js(): void
+    {
+        $html = $this->readFile('application/modules/doctor_chamber/views/doctor/consultation_room.php');
+
+        self::assertStringContainsString('event.origin !== window.location.origin', $html);
+        self::assertStringContainsString('consultationStatusBar', $html);
+        self::assertStringContainsString('SAVE_BUSY_MAX_MS', $html);
+        self::assertStringContainsString('Prescription frame is not ready', $html);
+        self::assertStringContainsString('Cannot access the prescription form', $html);
+        self::assertStringContainsString('Prescription form not found', $html);
+        self::assertStringContainsString('setActionBusy(false)', $html);
+        self::assertStringContainsString('VITALS_INTERVAL_MS = 8000', $html);
+        self::assertStringContainsString('vitalsPollStatus', $html);
+        self::assertStringContainsString('Vitals feed is stale; retrying automatically.', $html);
+        self::assertStringContainsString('scheduleVitals(0)', $html);
+        self::assertMatchesRegularExpression(
+            '/vitals_json.*?\.fail\(/s',
+            $html,
+            'vitals_json poll must chain .fail() for stale handling'
+        );
+    }
+
+    public function test_prescription_embed_postmessage_minimal(): void
+    {
+        $src = $this->readFile('application/modules/prescription/controllers/Prescription.php');
+
+        self::assertStringContainsString("'type' => 'rx:saved'", $src);
+        self::assertStringContainsString("'print_url' =>", $src);
+        self::assertStringContainsString('array_intersect_key', $src);
+        self::assertStringContainsString('window.parent.postMessage(p, window.location.origin)', $src);
+        self::assertStringContainsString('JSON_HEX_TAG', $src);
+    }
+
+    public function test_prescription_embed_form_has_print_after_hidden(): void
+    {
+        $html = $this->readFile('application/modules/prescription/views/add_new_prescription_view.php');
+
+        self::assertStringContainsString('<input type="hidden" name="embed" value="1">', $html);
+        self::assertStringContainsString('name="print_after"', $html);
+        self::assertStringContainsString('embed_print_after', $html);
+    }
+
     private function readFile(string $relPath): string
     {
         $root = dirname(__DIR__, 3);

@@ -18,7 +18,11 @@ Use this file as the execution sheet for final QA sign-off. Mark each item as pa
 |-----------|----------|--------|
 | 2026-04-28 | Runtime verification with required PHP executable | ✅ PHP 8.4.20 confirmed via `php -v` |
 | 2026-04-28 | DesignSystem regression suite (`--filter DesignSystem`) | ✅ 8 tests passed, 15 assertions |
+| 2026-04-29 | Full regression suite (`phpunit.xml.dist`) | ✅ 108 tests passed, 403 assertions |
+| 2026-04-29 | Project lint pass (`scripts/lint-php.php`) | ✅ 1266 PHP files linted |
 | 2026-04-28 | Static preflight checks for UI-02/UI-03/UI-04 | ⚠️ Legacy DataTable ID and badge classes not found; browser verification pending |
+| 2026-04-29 | Import/PDF/CSV static implementation checks | ⚠️ PhpSpreadsheet namespace present; runtime flow validation still pending |
+| 2026-04-29 | App log preflight (`application/logs/log-2026-04-28.php`) | ⚠️ Found DB connection-refused errors; clean-session runtime verification required |
 
 ---
 
@@ -27,7 +31,7 @@ Use this file as the execution sheet for final QA sign-off. Mark each item as pa
 | Check | Status | Evidence/Notes |
 |-------|--------|----------------|
 | PHP runtime is `C:\laragon\bin\php\php-8.4.20-Win32-vs17-x64\php.exe` | ✅ | `php -v` confirms PHP 8.4.20 (cli), Zend Engine 4.4.20 |
-| App is running with latest DB snapshot + representative data | ⬜ | |
+| App is running with latest DB snapshot + representative data | ⚠️ | Not yet verified in this run; requires runtime confirmation on target environment |
 | Browser cache is disabled (DevTools open) | ⬜ | |
 | Test users ready: Admin, Doctor, Assistant, Patient | ⬜ | |
 
@@ -99,9 +103,9 @@ Pass criteria: all role columns green for all scenarios.
 
 | Scenario | Status | Evidence/Notes |
 |----------|--------|----------------|
-| Patient import via `.xlsx` succeeds | ⬜ | |
-| Doctor import via `.xlsx` succeeds | ⬜ | |
-| Medicine import via `.xlsx` succeeds | ⬜ | |
+| Patient import via `.xlsx` succeeds | ⚠️ | Controller-level static migration check done; runtime upload flow pending |
+| Doctor import via `.xlsx` succeeds | ⚠️ | Controller-level static migration check done; runtime upload flow pending |
+| Medicine import via `.xlsx` succeeds | ⚠️ | Controller-level static migration check done; runtime upload flow pending |
 | Empty/malformed sheet fails gracefully with clear message | ⬜ | |
 | Imported fields map correctly (no shifted columns) | ⬜ | |
 
@@ -111,9 +115,9 @@ Pass criteria: all role columns green for all scenarios.
 
 | Scenario | Status | Evidence/Notes |
 |----------|--------|----------------|
-| Finance invoice PDF opens and downloads | ⬜ | |
-| Lab report PDF/print works | ⬜ | |
-| CSV/export buttons produce valid output | ⬜ | |
+| Finance invoice PDF opens and downloads | ⚠️ | Invoice/PDF-related finance views present; browser/runtime validation pending |
+| Lab report PDF/print works | ⚠️ | Lab report/export views present; browser/runtime validation pending |
+| CSV/export buttons produce valid output | ⚠️ | CSV/export-related module paths detected; output validity pending runtime test |
 | No blank PDF or corrupted output | ⬜ | |
 
 ---
@@ -125,7 +129,7 @@ Pass criteria: all role columns green for all scenarios.
 | Dashboard loads without obvious slowdown | ⬜ | |
 | Large list pages (100+ rows) remain usable | ⬜ | |
 | No repeated network failures in DevTools | ⬜ | |
-| No fatal errors in PHP/app logs during session | ⬜ | |
+| No fatal errors in PHP/app logs during session | ⚠️ | Existing log shows DB connection-refused errors on 2026-04-28; rerun on clean session required |
 
 ---
 
@@ -138,10 +142,10 @@ Use this matrix to keep audit traceability from QA outcomes to implementation pl
 | 03-00 | DesignSystem test baseline | Confirm green baseline remains valid on runtime + representative data | 0, 7 | ✅ | `phpunit --filter DesignSystem` passed (8/8) on PHP 8.4.20 |
 | 03-01 | CSRF contract hardening | Session + token refresh + repeated AJAX + no CSRF 403 | 1 | ⚠️ | Static checks found `window.CI_CSRF_HASH` in `csrf_inject.php` and `csrf_regenerate` set true; role/session browser flow pending |
 | 03-02 | Status class migration | `.ap-status-*` in UI; no legacy semantic badge behavior | 4 | ⚠️ | Static scan found zero `badge-success/warning/danger/info`; browser render confirmation pending |
-| 03-03 | Layout cleanup | Card consistency and no critical style regressions | 4 | ⬜ | |
+| 03-03 | Layout cleanup | Card consistency and no critical style regressions | 4 | ⚠️ | Lint + unit suite green; visual/card consistency browser pass pending |
 | 03-04 | DataTable ID migration | Priority DataTables functional checks pass | 3 | ⚠️ | Static scan found zero exact `id="editable-sample"`; live table behavior checks pending |
 | 03-05 | DataTables cleanup breadth | No regressions across list pages using new IDs/patterns | 3, 7 | ⚠️ | Static scan clean for legacy exact ID; list-page runtime checks pending |
-| 03-06 | Remaining UI sweep | Final visual stability and no hidden regressions | 4, 7 | ⬜ | |
+| 03-06 | Remaining UI sweep | Final visual stability and no hidden regressions | 4, 7 | ⚠️ | Full suite + lint green; runtime visual and log-clean checks pending |
 
 ---
 

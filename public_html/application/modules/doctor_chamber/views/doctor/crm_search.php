@@ -24,7 +24,7 @@
                     <td><?php echo htmlspecialchars($p->name); ?></td>
                     <td><?php echo htmlspecialchars($p->phone); ?></td>
                     <td>
-                        <a class="btn btn-xs btn-default" href="<?php echo site_url('doctor_chamber/consultation_room?patient=' . (int) $p->id); ?>"><i class="fas fa-door-open"></i> Room</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="<?php echo site_url('doctor_chamber/consultation_room?patient=' . (int) $p->id); ?>"><i class="fas fa-door-open"></i> Room</a>
                         <form method="post" action="<?php echo site_url('doctor_chamber/tag_patient'); ?>" class="chamber-inline-form">
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="hidden" name="patient_id" value="<?php echo (int) $p->id; ?>">
@@ -35,13 +35,13 @@
                                 <label class="chamber-radio-pill"><input type="radio" name="tag" value="vip"><span>VIP</span></label>
                             </span>
                             <input name="notes" class="form-control form-control-sm d-inline w-auto" placeholder="note">
-                            <button class="btn btn-xs btn-warning" type="submit"><i class="fas fa-tag"></i> Tag</button>
+                            <button class="btn btn-sm btn-warning" type="submit"><i class="fas fa-tag"></i> Tag</button>
                         </form>
                         <form method="post" action="<?php echo site_url('doctor_chamber/refer_lab'); ?>" class="chamber-inline-form" onsubmit="return confirm('Send lab referral SMS?');">
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="hidden" name="patient_id" value="<?php echo (int) $p->id; ?>">
                             <input name="lab_name" class="form-control form-control-sm d-inline w-auto" placeholder="Lab name">
-                            <button class="btn btn-xs btn-info" type="submit"><i class="fas fa-vial"></i> Refer to lab</button>
+                            <button class="btn btn-sm btn-info" type="submit"><i class="fas fa-vial"></i> Refer to lab</button>
                         </form>
                     </td>
                 </tr>

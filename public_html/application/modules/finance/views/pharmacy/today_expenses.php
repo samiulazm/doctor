@@ -32,15 +32,16 @@
                         <div class="card-header">
                             <h3 class="card-title"><?php echo lang('All te todays pharmacy expense'); ?></h3>
                             <div class="float-right">
-                                <a href="finance/pharmacy/addExpenseView"">
+                                <a href="finance/pharmacy/addExpenseView">
                                     <button id="" class=" btn btn-success btn-sm">
-                                    <i class="fa fa-plus-circle"></i> <?php echo lang('add_expense'); ?>
+                                    <i class="fas fa-plus-circle"></i> <?php echo lang('add_expense'); ?>
                                     </button>
                                 </a>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="dt-finance" data-legacy-table="editable-sample">
                                 <thead>
                                     <tr>
@@ -60,14 +61,15 @@
                                             <td><?php echo $settings->currency; ?> <?php echo $expense->amount; ?></td>
                                             <?php if ($this->ion_auth->in_group('admin')) { ?>
                                                 <td>
-                                                    <a class="btn btn-info btn-xs editbutton width_auto" href="finance/pharmacy/editExpense?id=<?php echo $expense->id; ?>"><i class="fa fa-edit"></i> <?php echo lang('edit'); ?></a>
-                                                    <a class="btn btn-info btn-xs delete_button width_auto" href="finance/pharmacy/deleteExpense?id=<?php echo $expense->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash-o"></i> <?php echo lang('delete'); ?></a>
+                                                    <a class="btn btn-info btn-xs editbutton width_auto" href="finance/pharmacy/editExpense?id=<?php echo $expense->id; ?>"><i class="fas fa-edit"></i> <?php echo lang('edit'); ?></a>
+                                                    <a class="btn btn-info btn-xs delete_button width_auto" href="finance/pharmacy/deleteExpense?id=<?php echo $expense->id; ?>" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash"></i> <?php echo lang('delete'); ?></a>
                                                 </td>
                                             <?php } ?>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

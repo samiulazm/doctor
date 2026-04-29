@@ -60,7 +60,10 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
                         <h3 class="chamber-panel-title">
                             <i class="fas fa-list-ol mr-2 text-muted"></i>Today's live queue
                         </h3>
-                        <span class="chamber-muted small" id="queueLastUpdated"></span>
+                        <div class="chamber-muted small text-right">
+                            <span id="queueLastUpdated"></span>
+                            <span class="ml-2" id="queueConnectionStatus" title="Queue feed health"></span>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-sm chamber-table mb-0" id="liveQueueTable">
@@ -118,8 +121,9 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
         <div class="row">
             <div class="col-md-6">
                 <div class="chamber-panel">
-                    <div class="chamber-panel-header">
-                        <h3 class="chamber-panel-title"><i class="fas fa-chart-bar mr-2 text-muted"></i>Monthly revenue</h3>
+                    <div class="chamber-panel-header d-flex align-items-center justify-content-between flex-wrap">
+                        <h3 class="chamber-panel-title mb-0"><i class="fas fa-chart-bar mr-2 text-muted"></i>Monthly revenue</h3>
+                        <span class="small text-muted" id="chartPollStatus"></span>
                     </div>
                     <div class="chamber-panel-body">
                         <canvas id="chartMonthlyRevenue" class="chamber-chart-canvas" height="220"></canvas>
@@ -144,7 +148,17 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
 <script>
 (function () {
     var BASE_URL = '<?php echo rtrim(site_url(), '/'); ?>/';
-    var POLL_INTERVAL = 12000;
+    var POLL_INTERVAL_OK = 12000;
+    var POLL_BASE_BACKOFF = 2000;
+    var POLL_MAX_BACKOFF = 60000;
+    var queueInflight = false;
+    var queueTimer = null;
+    var queueFailStreak = 0;
+    var chartInflight = false;
+    var chartTimer = null;
+    var chartFailStreak = 0;
+    var revenueChart = null;
+    var patientsChart = null;
 
     function escHtml(s) {
         return String(s === null || s === undefined ? '' : s)
@@ -159,31 +173,78 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
         return clean || 'pending';
     }
 
+    function setQueueHealth(mode) {
+        var $s = $('#queueConnectionStatus');
+        if (mode === 'ok') {
+            $s.removeClass('text-warning text-danger').addClass('text-success');
+            $s.text('Live');
+        } else if (mode === 'reconnecting') {
+            $s.removeClass('text-success text-danger').addClass('text-warning');
+            $s.text('Reconnecting...');
+        } else {
+            $s.removeClass('text-success text-warning').addClass('text-danger');
+            $s.text('Stale');
+        }
+    }
+
+    function markQueueFailure() {
+        queueFailStreak += 1;
+        var pow = Math.min(queueFailStreak, 5);
+        var delay = Math.min(POLL_MAX_BACKOFF, POLL_BASE_BACKOFF * Math.pow(2, pow));
+        setQueueHealth('stale');
+        scheduleQueue(delay);
+    }
+
+    function scheduleQueue(delayMs) {
+        if (queueTimer) {
+            clearTimeout(queueTimer);
+        }
+        queueTimer = setTimeout(pollQueue, delayMs);
+    }
+
     function pollQueue() {
-        $.getJSON(BASE_URL + 'doctor_chamber/queue_json', function (r) {
-            if (!r || !r.rows) return;
-            var rows = r.rows || [];
-            var html = '';
-            if (rows.length === 0) {
-                html = '<tr><td colspan="6" class="text-muted text-center py-4">No active queue yet today.</td></tr>';
-            } else {
-                rows.forEach(function (q) {
-                    var status = statusClass(q.status);
-                    var serial = parseInt(q.serial_number, 10);
-                    var patientId = parseInt(q.patient_id, 10);
-                    html += '<tr>' +
-                        '<td>' + (isNaN(serial) ? '' : serial) + '</td>' +
-                        '<td>' + escHtml(q.guest_name || (patientId ? ('#' + patientId) : '')) + '</td>' +
-                        '<td>' + escHtml(q.chamber_name || '') + '</td>' +
-                        '<td><span class="chamber-status ' + status + '">' + escHtml(status) + '</span></td>' +
-                        '<td>' + escHtml(q.triage_summary || '') + '</td>' +
-                        '<td>' + (patientId ? '<a class="btn btn-xs btn-primary" href="' + BASE_URL + 'doctor_chamber/consultation_room?patient=' + patientId + '"><i class="fas fa-door-open mr-1"></i>Open</a>' : '') + '</td>' +
-                        '</tr>';
-                });
-            }
-            $('#liveQueueBody').html(html);
-            $('#queueLastUpdated').text('Updated ' + new Date().toLocaleTimeString('en-BD', { hour: '2-digit', minute: '2-digit' }));
-        });
+        if (queueInflight) {
+            return;
+        }
+        queueInflight = true;
+        setQueueHealth('reconnecting');
+        $.getJSON(BASE_URL + 'doctor_chamber/queue_json')
+            .done(function (r) {
+                if (!r || !$.isArray(r.rows)) {
+                    markQueueFailure();
+                    return;
+                }
+                queueFailStreak = 0;
+                var rows = r.rows || [];
+                var html = '';
+                if (rows.length === 0) {
+                    html = '<tr><td colspan="6" class="text-muted text-center py-4">No active queue yet today.</td></tr>';
+                } else {
+                    rows.forEach(function (q) {
+                        var status = statusClass(q.status);
+                        var serial = parseInt(q.serial_number, 10);
+                        var patientId = parseInt(q.patient_id, 10);
+                        html += '<tr>' +
+                            '<td>' + (isNaN(serial) ? '' : serial) + '</td>' +
+                            '<td>' + escHtml(q.guest_name || (patientId ? ('#' + patientId) : '')) + '</td>' +
+                            '<td>' + escHtml(q.chamber_name || '') + '</td>' +
+                            '<td><span class="chamber-status ' + status + '">' + escHtml(status) + '</span></td>' +
+                            '<td>' + escHtml(q.triage_summary || '') + '</td>' +
+                            '<td>' + (patientId ? '<a class="btn btn-sm btn-primary" href="' + BASE_URL + 'doctor_chamber/consultation_room?patient=' + patientId + '"><i class="fas fa-door-open mr-1"></i>Open</a>' : '') + '</td>' +
+                            '</tr>';
+                    });
+                }
+                $('#liveQueueBody').html(html);
+                $('#queueLastUpdated').text('Updated ' + new Date().toLocaleTimeString('en-BD', { hour: '2-digit', minute: '2-digit' }));
+                setQueueHealth('ok');
+                scheduleQueue(POLL_INTERVAL_OK);
+            })
+            .fail(function () {
+                markQueueFailure();
+            })
+            .always(function () {
+                queueInflight = false;
+            });
     }
 
     function chartOptions() {
@@ -205,34 +266,82 @@ $currency = isset($settings->currency) ? (string) $settings->currency : '';
         };
     }
 
-    function renderCharts() {
-        if (typeof Chart === 'undefined') return;
-        $.getJSON(BASE_URL + 'doctor_chamber/chart_data_json', function (r) {
-            r = r || {};
-            var labels = r.labels || [];
-            var color = 'rgba(15, 118, 110, 0.75)';
-            var border = '#0f766e';
-            var revenueCanvas = document.getElementById('chartMonthlyRevenue');
-            var patientsCanvas = document.getElementById('chartMonthlyPatients');
-            if (revenueCanvas) {
-                new Chart(revenueCanvas, {
-                    type: 'bar',
-                    data: { labels: labels, datasets: [{ data: r.revenue || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
-                    options: chartOptions()
-                });
-            }
-            if (patientsCanvas) {
-                new Chart(patientsCanvas, {
-                    type: 'bar',
-                    data: { labels: labels, datasets: [{ data: r.patients || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
-                    options: chartOptions()
-                });
-            }
-        });
+    function destroyChartsIfAny() {
+        if (revenueChart) {
+            revenueChart.destroy();
+            revenueChart = null;
+        }
+        if (patientsChart) {
+            patientsChart.destroy();
+            patientsChart = null;
+        }
     }
 
-    pollQueue();
-    setInterval(pollQueue, POLL_INTERVAL);
-    renderCharts();
+    function scheduleCharts(delayMs) {
+        if (chartTimer) {
+            clearTimeout(chartTimer);
+        }
+        chartTimer = setTimeout(loadCharts, delayMs);
+    }
+
+    function markChartFailure() {
+        chartFailStreak += 1;
+        var pow = Math.min(chartFailStreak, 5);
+        var delay = Math.min(POLL_MAX_BACKOFF, POLL_BASE_BACKOFF * Math.pow(2, pow));
+        $('#chartPollStatus').text('Stale - retrying');
+        scheduleCharts(delay);
+    }
+
+    function loadCharts() {
+        if (typeof Chart === 'undefined') {
+            $('#chartPollStatus').text('Chart library unavailable');
+            scheduleCharts(8000);
+            return;
+        }
+        if (chartInflight) {
+            return;
+        }
+        chartInflight = true;
+        $('#chartPollStatus').text('Loading...');
+        $.getJSON(BASE_URL + 'doctor_chamber/chart_data_json')
+            .done(function (r) {
+                if (!r || !$.isArray(r.labels)) {
+                    markChartFailure();
+                    return;
+                }
+                chartFailStreak = 0;
+                $('#chartPollStatus').text('');
+                destroyChartsIfAny();
+                r = r || {};
+                var labels = r.labels || [];
+                var color = 'rgba(15, 118, 110, 0.75)';
+                var border = '#0f766e';
+                var revenueCanvas = document.getElementById('chartMonthlyRevenue');
+                var patientsCanvas = document.getElementById('chartMonthlyPatients');
+                if (revenueCanvas) {
+                    revenueChart = new Chart(revenueCanvas, {
+                        type: 'bar',
+                        data: { labels: labels, datasets: [{ data: r.revenue || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
+                        options: chartOptions()
+                    });
+                }
+                if (patientsCanvas) {
+                    patientsChart = new Chart(patientsCanvas, {
+                        type: 'bar',
+                        data: { labels: labels, datasets: [{ data: r.patients || [], backgroundColor: color, borderColor: border, borderWidth: 1 }] },
+                        options: chartOptions()
+                    });
+                }
+            })
+            .fail(function () {
+                markChartFailure();
+            })
+            .always(function () {
+                chartInflight = false;
+            });
+    }
+
+    scheduleQueue(0);
+    scheduleCharts(0);
 }());
 </script>

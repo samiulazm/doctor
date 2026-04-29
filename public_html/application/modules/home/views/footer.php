@@ -1,5 +1,9 @@
+<?php $iframe_embed = isset($iframe_embed) && $iframe_embed; ?>
+<?php if (!$iframe_embed) : ?>
     </main><!-- /.app-main -->
+<?php endif; ?>
 
+<?php if (!$iframe_embed) : ?>
 <footer class="app-footer no-print">
     <div class="text-center">
         <?php echo date('Y'); ?> &copy;
@@ -12,6 +16,7 @@
         </a>
     </div>
 </footer>
+<?php endif; ?>
 <!--footer end-->
 
 <?php
@@ -111,22 +116,113 @@ if ($language == 'english') {
 </script>
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
-// jQuery bridge for Bootstrap 5 components
-// Allows existing code like $('#myModal').modal('show') to work with BS5
+// Bootstrap 4 compatibility layer for legacy portal views running on Bootstrap 5.
+// Keeps old data-toggle/data-dismiss markup and $('#myModal').modal('show') calls working.
 (function($) {
-    if (!$ || !bootstrap) return;
-    ['Modal','Tooltip','Popover','Alert','Tab','Collapse','Dropdown','Offcanvas'].forEach(function(comp) {
-        var name = comp.toLowerCase();
-        if (bootstrap[comp]) {
-            $.fn[name] = function(option) {
-                return this.each(function() {
-                    var inst = bootstrap[comp].getOrCreateInstance(this);
-                    if (typeof option === 'string' && typeof inst[option] === 'function') {
-                        inst[option]();
+    if (!$ || typeof bootstrap === 'undefined') return;
+
+    var dataAttributeMap = {
+        'toggle': 'bs-toggle',
+        'target': 'bs-target',
+        'dismiss': 'bs-dismiss',
+        'placement': 'bs-placement',
+        'container': 'bs-container',
+        'html': 'bs-html',
+        'trigger': 'bs-trigger',
+        'content': 'bs-content',
+        'parent': 'bs-parent'
+    };
+
+    function copyLegacyDataAttributes(root) {
+        var scope = root && root.querySelectorAll ? root : document;
+        var selectors = Object.keys(dataAttributeMap).map(function(name) {
+            return '[data-' + name + ']';
+        }).join(',');
+        var nodes = [];
+
+        if (root && root.matches && root.matches(selectors)) {
+            nodes.push(root);
+        }
+
+        Array.prototype.push.apply(nodes, scope.querySelectorAll(selectors));
+
+        nodes.forEach(function(node) {
+            Object.keys(dataAttributeMap).forEach(function(oldName) {
+                var newName = dataAttributeMap[oldName];
+                var oldAttr = 'data-' + oldName;
+                var newAttr = 'data-' + newName;
+
+                if (node.hasAttribute(oldAttr) && !node.hasAttribute(newAttr)) {
+                    node.setAttribute(newAttr, node.getAttribute(oldAttr));
+                }
+            });
+        });
+    }
+
+    copyLegacyDataAttributes(document);
+
+    document.addEventListener('click', function(event) {
+        var trigger = event.target.closest('[data-toggle], [data-target], [data-dismiss]');
+        if (trigger) {
+            copyLegacyDataAttributes(trigger);
+        }
+    }, true);
+
+    if (window.MutationObserver && document.body) {
+        new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) {
+                        copyLegacyDataAttributes(node);
                     }
                 });
-            };
+            });
+        }).observe(document.body, { childList: true, subtree: true });
+    }
+
+    var components = {
+        modal: 'Modal',
+        tooltip: 'Tooltip',
+        popover: 'Popover',
+        alert: 'Alert',
+        tab: 'Tab',
+        collapse: 'Collapse',
+        dropdown: 'Dropdown',
+        offcanvas: 'Offcanvas',
+        button: 'Button'
+    };
+
+    Object.keys(components).forEach(function(name) {
+        var comp = components[name];
+        if (!bootstrap[comp]) {
+            return;
         }
+
+        $.fn[name] = function(option, relatedTarget) {
+            return this.each(function() {
+                copyLegacyDataAttributes(this);
+
+                var config = (typeof option === 'object') ? $.extend({}, option) : undefined;
+                var shouldShowModal = name === 'modal' && (!config || config.show !== false);
+                if (name === 'modal' && config && Object.prototype.hasOwnProperty.call(config, 'show')) {
+                    delete config.show;
+                }
+                var inst = bootstrap[comp].getOrCreateInstance(this, config);
+
+                if (typeof option === 'string') {
+                    if (typeof inst[option] === 'function') {
+                        inst[option](relatedTarget);
+                    }
+                    return;
+                }
+
+                if (shouldShowModal) {
+                    inst.show(relatedTarget);
+                } else if (name === 'collapse' && (!config || config.toggle !== false)) {
+                    inst.toggle();
+                }
+            });
+        };
     });
 })(jQuery);
 </script>
@@ -315,31 +411,31 @@ if ($this->router->fetch_class() === 'appointment') {
 
 
 <script>
-    Dropzone.autoDiscover = false
-
-    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-    var previewNode = document.querySelector("#template")
-    previewNode.id = ""
-    var previewTemplate = previewNode.parentNode.innerHTML
-    previewNode.parentNode.removeChild(previewNode)
-
-    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-        url: "/target-url", // Set the url
+(function () {
+    var previewNode = document.querySelector("#template");
+    if (!previewNode) {
+        return;
+    }
+    Dropzone.autoDiscover = false;
+    previewNode.id = "";
+    var previewTemplate = previewNode.parentNode.innerHTML;
+    previewNode.parentNode.removeChild(previewNode);
+    var myDropzone = new Dropzone(document.body, {
+        url: "/target-url",
         thumbnailWidth: 80,
         thumbnailHeight: 80,
         parallelUploads: 20,
         previewTemplate: previewTemplate,
-        autoQueue: false, // Make sure the files aren't queued until manually added
-        previewsContainer: "#previews", // Define the container to display the previews
-        clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-    })
-
+        autoQueue: false,
+        previewsContainer: "#previews",
+        clickable: ".fileinput-button"
+    });
     myDropzone.on("addedfile", function(file) {
-        // Hookup the start button
         file.previewElement.querySelector(".start").onclick = function() {
-            myDropzone.enqueueFile(file)
-        }
-    })
+            myDropzone.enqueueFile(file);
+        };
+    });
+})();
 </script>
 
 
@@ -468,7 +564,11 @@ if ($this->session->flashdata('success') || $this->session->flashdata('error') |
 </script>
 
 
+<?php if (!empty($iframe_embed)) : ?>
+</div><!-- /.prescription-iframe-root -->
+<?php else : ?>
   </div><!-- /.app-wrapper -->
+<?php endif; ?>
 </body>
 
 </html>

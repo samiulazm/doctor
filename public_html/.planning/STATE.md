@@ -2,7 +2,7 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-27)
+See: .planning/PROJECT.md (updated 2026-04-28)
 
 **Core value:** Real doctors actively using the system to manage their daily patient queue
 **Current focus:** All planned phases executed; production readiness verification remains
@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-04-27)
 Phase: 6 of 6 (Assistant Portal + Real-Time)
 Plan: 6 of 6 in current phase
 Status: All planned phases complete
-Last activity: 2026-04-28 - Phase 6 Assistant Portal + Real-Time implemented and validated; AssistantPortal tests green
+Last activity: 2026-04-29 - Ship-to-production runbook added (`docs/ship-to-production/`); `migration_version` set to `20260427000012`; pharmacy finance views UI-01 (`bg-gradient-light` -> `bg-light`); deploy.py skips internal planning/agent files and blocks real upload without FTP config; `scripts/ship_preflight.php` added; full PHPUnit 108 tests green; deploy.py `--dry-run` verified locally
 
 Progress: [##########] 100%
 
@@ -59,8 +59,8 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, doctor dashboard queue polling, consultation save-and-print, assistant drag-drop reorder, emergency bump, bKash sandbox initiation, assistant billing, token printing, and prescription PDF download before production.
-- Apply database migrations in the target environment, including `20260427000012_chamber_queue_is_emergency.php`.
+- Run live/manual checks for OTP SMS, SSLCommerz sandbox redirect, doctor dashboard queue polling, consultation save-and-print, assistant drag-drop reorder, emergency bump, bKash sandbox initiation, assistant billing, token printing, and prescription PDF download before production — **checklist:** repository `docs/ship-to-production/UAT_MATRIX.md`.
+- Apply database migrations in the target environment — target version **`20260427000012`** is set in `application/config/migration.php`; verify with `php scripts/ship_preflight.php` and `database_chamber_practice_saas_verify.sql` after deploy (**guide:** `docs/ship-to-production/STAGING_DEPLOY.md`, `PRODUCTION_DEPLOY.md`).
 
 ### Blockers/Concerns
 
@@ -80,5 +80,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-04-28
-Stopped at: All six phases validated; production/live manual verification remains
+Stopped at: Automated ship prep complete (tests, migration target, runbooks, secret-safe preflight); add FTP/gateway credentials and PHP MySQL extension, then execute staging UAT and production per `docs/ship-to-production/`
 Resume file: None

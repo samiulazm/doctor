@@ -71,7 +71,7 @@ $config['migration_auto_latest'] = TRUE;
 | Note: 0 is dangerous here — current() would migrate down to an empty schema.
 |
 */
-$config['migration_version'] = '20260424000011';
+$config['migration_version'] = '20260427000012';
 
 /*
 |--------------------------------------------------------------------------

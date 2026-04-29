@@ -1,19 +1,35 @@
 <!--sidebar end-->
 <!--main content start-->
-<section id="main-content">
-    <section class="wrapper site-min-height">
-        <!-- page start-->
-        <link href="common/extranal/css/pharmacy/add_payment_view_new.css" rel="stylesheet">
-        <section class="">
-            <header class="panel-heading">
-                <?php
-                if (!empty($payment->id))
-                    echo '<i class="fa fa-edit"></i> ' . lang('edit_payment') . '(' . lang('invoice_id') . ': ' . $payment->id . ')';
-                else
-                    echo '<i class="fa fa-plus-circle"></i> ' . lang('poss');
-                ?>
-            </header>
-            <div class="">
+<link href="common/extranal/css/pharmacy/add_payment_view_new.css" rel="stylesheet">
+<div class="content-wrapper bg-light">
+    <section class="content-header py-4 bg-white shadow-sm">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h1 class="display-4 font-weight-black mb-0">
+                        <i class="<?php echo !empty($payment->id) ? 'fas fa-edit' : 'fas fa-plus-circle'; ?> text-primary mr-3"></i>
+                        <?php
+                        if (!empty($payment->id)) {
+                            echo lang('edit_payment') . ' (' . lang('invoice_id') . ': ' . $payment->id . ')';
+                        } else {
+                            echo lang('poss');
+                        }
+                        ?>
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent mb-0">
+                            <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
+                            <li class="breadcrumb-item active"><?php echo lang('pharmacy'); ?></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content py-5">
+        <div class="container-fluid">
+            <div class="card shadow-lg border-0">
+                <div class="card-body bg-light p-4">
                 <div class="adv-table editable-table ">
                     <div class="clearfix">
 
@@ -143,11 +159,11 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </section>
-
+        </div>
     </section>
-</section>
+</div>
 <!--main content end-->
 <!--footer start-->
 

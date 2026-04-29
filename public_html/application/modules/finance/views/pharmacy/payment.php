@@ -20,7 +20,7 @@ $CI = get_instance();
         <div class="container-fluid">
             <div class="d-flex flex-wrap justify-content-end mb-3">
                 <a href="finance/pharmacy/addPaymentView" class="btn btn-sm btn-primary">
-                    <i class="fa fa-plus mr-1"></i> <?php echo lang('add_new'); ?>
+                    <i class="fas fa-plus mr-1"></i> <?php echo lang('add_new'); ?>
                 </a>
             </div>
             <div class="row justify-content-center">

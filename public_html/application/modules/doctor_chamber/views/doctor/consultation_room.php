@@ -39,6 +39,7 @@ $vital_cards = array(
         </div>
     </section>
     <section class="content">
+        <div id="consultationStatusBar" class="alert alert-light border chamber-toolbar py-2 mb-3 small text-muted d-none" role="status"></div>
         <div class="chamber-toolbar">
             <div class="chamber-radio-group mr-3">
                 <label class="chamber-radio-pill">
@@ -77,7 +78,7 @@ $vital_cards = array(
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                <a class="btn btn-xs btn-outline-primary" target="_blank" href="<?php echo site_url('patient/medicalHistory?id=' . (int) $patient->id); ?>">
+                                <a class="btn btn-sm btn-outline-primary" target="_blank" href="<?php echo site_url('patient/medicalHistory?id=' . (int) $patient->id); ?>">
                                     <i class="fas fa-file-medical-alt mr-1"></i> History
                                 </a>
                             </div>
@@ -93,7 +94,10 @@ $vital_cards = array(
                             <div class="chamber-empty mb-3">Load a patient to view history, vitals, and prescriptions.</div>
                         <?php endif; ?>
 
-                        <h5 class="mt-3 mb-2">Live vitals</h5>
+                        <div class="d-flex align-items-center justify-content-between mt-3 mb-2">
+                            <h5 class="mb-0">Live vitals</h5>
+                            <span class="small text-muted" id="vitalsPollStatus"></span>
+                        </div>
                         <div id="vitalsBox">
                             <?php if (!empty($vitals_arr)) : ?>
                                 <div class="chamber-vitals-grid">
@@ -145,7 +149,7 @@ $vital_cards = array(
                         <h3 class="chamber-panel-title"><i class="fas fa-prescription mr-2 text-muted"></i>E-Pad</h3>
                         <?php if (!empty($rx_templates)) : ?>
                             <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="templateDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="templateDropdown" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-file-medical-alt mr-1"></i> Templates
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="templateDropdown">
@@ -228,6 +232,11 @@ $vital_cards = array(
     var patientId = <?php echo $patient ? (int) $patient->id : 0; ?>;
     var favMap = <?php echo json_encode($fav_map); ?>;
     var drugTimer = null;
+    var vitalsTimer = null;
+    var vitalsInflight = false;
+    var VITALS_INTERVAL_MS = 8000;
+    var saveBusyTimer = null;
+    var SAVE_BUSY_MAX_MS = 30000;
 
     function escText(s) {
         return $('<div>').text(s === null || s === undefined ? '' : String(s)).html();
@@ -250,10 +259,12 @@ $vital_cards = array(
             ? { mode: 'id', id: $('#searchPatientId').val() }
             : { mode: 'date', date: $('#searchDate').val() };
 
+        setConsultationStatus('Searching for patients...', false);
         $.getJSON(BASE_URL + 'doctor_chamber/search_json', params, function (r) {
             var rows = (r && r.patients) ? r.patients : [];
             if (rows.length === 0) {
                 $('#searchResultsList').html('<p class="text-muted small">No patients found for this search.</p>');
+                setConsultationStatus('No patients found for this search.', false);
                 return;
             }
             var html = '<p class="small text-muted mb-2">Select a patient to load their history:</p><ul class="list-unstyled mb-0">';
@@ -264,8 +275,10 @@ $vital_cards = array(
             });
             html += '</ul>';
             $('#searchResultsList').html(html);
+            setConsultationStatus('', false);
         }).fail(function () {
             $('#searchResultsList').html('<p class="text-danger small">Unable to search. Please try again.</p>');
+            setConsultationStatus('Unable to search. Please try again.', true);
         });
     });
 
@@ -293,13 +306,54 @@ $vital_cards = array(
         $('#vitalsBox').html(html);
     }
 
+    function setConsultationStatus(msg, isError) {
+        var $b = $('#consultationStatusBar');
+        if (!msg) {
+            $b.addClass('d-none').removeClass('alert-danger alert-warning').addClass('alert-light text-muted').text('');
+            return;
+        }
+        $b.removeClass('d-none alert-light text-muted');
+        if (isError) {
+            $b.removeClass('alert-warning').addClass('alert-danger');
+        } else {
+            $b.removeClass('alert-danger').addClass('alert-warning');
+        }
+        $b.text(msg);
+    }
+
+    function scheduleVitals(delayMs) {
+        if (vitalsTimer) {
+            clearTimeout(vitalsTimer);
+        }
+        vitalsTimer = setTimeout(pollVitals, delayMs);
+    }
+
     function pollVitals() {
-        if (!patientId) return;
-        $.getJSON(BASE_URL + 'doctor_chamber/vitals_json', { patient: patientId }, function (r) {
-            if (r && r.vitals) {
-                renderVitals(r.vitals);
-            }
-        });
+        if (!patientId) {
+            return;
+        }
+        if (vitalsInflight) {
+            scheduleVitals(VITALS_INTERVAL_MS);
+            return;
+        }
+        vitalsInflight = true;
+        $('#vitalsPollStatus').text('Updating...');
+        $.getJSON(BASE_URL + 'doctor_chamber/vitals_json', { patient: patientId })
+            .done(function (r) {
+                $('#vitalsPollStatus').text('');
+                if (r && r.vitals) {
+                    renderVitals(r.vitals);
+                }
+                scheduleVitals(VITALS_INTERVAL_MS);
+            })
+            .fail(function () {
+                $('#vitalsPollStatus').text('Stale');
+                setConsultationStatus('Vitals feed is stale; retrying automatically.', false);
+                scheduleVitals(VITALS_INTERVAL_MS);
+            })
+            .always(function () {
+                vitalsInflight = false;
+            });
     }
 
     $('#drugq').on('keyup', function () {
@@ -318,6 +372,7 @@ $vital_cards = array(
                 $('#drugout').html(html);
             }).fail(function () {
                 $('#drugout').empty();
+                setConsultationStatus('Medicine search is temporarily unavailable.', false);
             });
         }, 280);
     });
@@ -346,6 +401,16 @@ $vital_cards = array(
 
     function setActionBusy(isBusy) {
         $('#btnSaveDraft, #btnSaveAndPrint').prop('disabled', isBusy).toggleClass('disabled', isBusy);
+        if (saveBusyTimer) {
+            clearTimeout(saveBusyTimer);
+            saveBusyTimer = null;
+        }
+        if (isBusy) {
+            saveBusyTimer = setTimeout(function () {
+                setActionBusy(false);
+                setConsultationStatus('Save timed out. Check the prescription form or try again.', true);
+            }, SAVE_BUSY_MAX_MS);
+        }
     }
 
     function setHidden(form, name, value) {
@@ -360,15 +425,41 @@ $vital_cards = array(
     }
 
     function submitFrame(printAfter) {
-        var frame = document.getElementById('rxFrame');
-        if (!frame || !frame.contentWindow || !frame.contentWindow.document) return;
-        var doc = frame.contentWindow.document;
-        var form = doc.getElementById('addForm') || doc.querySelector('form');
-        if (!form) return;
         setActionBusy(true);
-        setHidden(form, 'embed', '1');
-        setHidden(form, 'print_after', printAfter ? '1' : '0');
-        form.submit();
+        setConsultationStatus(printAfter ? 'Saving prescription before print...' : 'Saving prescription...', false);
+        var frame = document.getElementById('rxFrame');
+        if (!frame || !frame.contentWindow) {
+            setActionBusy(false);
+            setConsultationStatus('Prescription frame is not ready. Wait for it to load, then try again.', true);
+            return;
+        }
+        var fdoc;
+        try {
+            fdoc = frame.contentWindow.document;
+        } catch (err0) {
+            setActionBusy(false);
+            setConsultationStatus('Cannot access the prescription form. Open full window and try again.', true);
+            return;
+        }
+        if (!fdoc) {
+            setActionBusy(false);
+            setConsultationStatus('Cannot access the prescription form (frame still loading).', true);
+            return;
+        }
+        var form = fdoc.getElementById('addForm') || fdoc.querySelector('form');
+        if (!form) {
+            setActionBusy(false);
+            setConsultationStatus('Prescription form not found in the frame. Reload the page or open full window.', true);
+            return;
+        }
+        try {
+            setHidden(form, 'embed', '1');
+            setHidden(form, 'print_after', printAfter ? '1' : '0');
+            form.submit();
+        } catch (err) {
+            setActionBusy(false);
+            setConsultationStatus('Could not submit prescription: ' + (err && err.message ? err.message : 'unknown error'), true);
+        }
     }
 
     $('#btnSaveDraft').on('click', function () {
@@ -380,16 +471,25 @@ $vital_cards = array(
     });
 
     window.addEventListener('message', function (event) {
+        if (event.origin !== window.location.origin) {
+            return;
+        }
         var data = event.data || {};
-        if (data.type !== 'rx:saved') return;
+        if (data.type !== 'rx:saved') {
+            return;
+        }
+        if (data.id === undefined || data.id === null || data.id === '') {
+            return;
+        }
         setActionBusy(false);
+        setConsultationStatus('Prescription saved.', false);
         if (data.print_url) {
             window.open(data.print_url, '_blank');
         }
     });
 
     if (patientId) {
-        setInterval(pollVitals, 8000);
+        scheduleVitals(0);
     }
 }());
 </script>

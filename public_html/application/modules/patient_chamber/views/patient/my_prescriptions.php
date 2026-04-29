@@ -20,7 +20,7 @@
                     <td><?php echo date('d-m-Y', $rx->date); ?></td>
                     <td><?php echo htmlspecialchars($rx->doctorname); ?></td>
                     <td>
-                        <a class="btn btn-xs btn-primary" target="_blank" href="<?php echo site_url('prescription/viewPrescriptionPrint?id=' . (int) $rx->id); ?>"><i class="fas fa-file-pdf"></i> Print / PDF</a>
+                        <a class="btn btn-sm btn-primary" target="_blank" href="<?php echo site_url('prescription/viewPrescriptionPrint?id=' . (int) $rx->id); ?>"><i class="fas fa-file-pdf"></i> Print / PDF</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

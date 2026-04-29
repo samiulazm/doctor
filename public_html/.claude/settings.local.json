@@ -16,7 +16,13 @@
       "Bash(grep -A8 'echo $ion_user_id')",
       "Bash(awk -F: '{if \\($1 <= 904\\) last=$0} END {print last}')",
       "Bash(python3 -c \"import sys,json; c=json.load\\(sys.stdin\\); print\\('ui_phase:', c.get\\('workflow',{}\\).get\\('ui_phase','unset'\\)\\); print\\('ui_safety_gate:', c.get\\('workflow',{}\\).get\\('ui_safety_gate','unset'\\)\\)\")",
-      "Skill(gsd-ui-phase)"
+      "Skill(gsd-ui-phase)",
+      "Bash(xargs ls *)",
+      "Bash(gsd-sdk query *)",
+      "Bash(sed -n '235,245p' .planning/phases/04-patient-portal/04-UI-SPEC.md)",
+      "Bash(sed -n '390,400p' .planning/phases/04-patient-portal/04-UI-SPEC.md)",
+      "Bash(lab)",
+      "Bash(grep -n \"SELECT.*lab_report\\\\|FROM lab\\\\b\\\\|FROM `lab`\\\\|patient_id.*lab\" application/modules/lab/models/Lab_model.php)"
     ]
   }
 }

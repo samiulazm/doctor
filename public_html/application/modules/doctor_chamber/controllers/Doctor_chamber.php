@@ -27,6 +27,26 @@ class Doctor_chamber extends MX_Controller
         return $this->db->get_where('doctor', array('ion_user_id' => $uid))->row();
     }
 
+    /**
+     * Guard JSON endpoints when the Ion user has no doctor row (or row missing).
+     *
+     * @param array|null $missingBody JSON body when absent; default is a small forbidden envelope.
+     * @param int $httpCode HTTP status when absent (403 typical; 200 + empty body for soft compatibility).
+     * @return object|null Doctor row, or null after the response has been sent.
+     */
+    protected function requireDoctorJson($missingBody = null, $httpCode = 403)
+    {
+        $doc = $this->currentDoctor();
+        if ($doc) {
+            return $doc;
+        }
+        $this->output->set_status_header($httpCode);
+        $body = $missingBody !== null ? $missingBody : array('ok' => false, 'error' => 'doctor_profile_required');
+        $this->jsonResponse($body);
+
+        return null;
+    }
+
     protected function normalizeVitals($v)
     {
         if (!$v) {
@@ -289,9 +309,8 @@ class Doctor_chamber extends MX_Controller
 
     public function queue_json()
     {
-        $doc = $this->currentDoctor();
+        $doc = $this->requireDoctorJson(array('rows' => array()), 200);
         if (!$doc) {
-            $this->jsonResponse(array('rows' => array()));
             return;
         }
 
@@ -324,9 +343,12 @@ class Doctor_chamber extends MX_Controller
 
     public function chart_data_json()
     {
-        $doc = $this->currentDoctor();
+        $doc = $this->requireDoctorJson(array(
+            'labels' => array(),
+            'revenue' => array(),
+            'patients' => array(),
+        ), 200);
         if (!$doc) {
-            $this->jsonResponse(array('labels' => array(), 'revenue' => array(), 'patients' => array()));
             return;
         }
 
@@ -386,6 +408,9 @@ class Doctor_chamber extends MX_Controller
     public function consultation_room()
     {
         $doc = $this->currentDoctor();
+        if (!$doc) {
+            redirect('home/permission');
+        }
         $patient_id = (int) $this->input->get('patient');
         $patient = $patient_id ? $this->patient_model->getPatientById($patient_id) : null;
         if ($patient && (string) $patient->hospital_id !== (string) $doc->hospital_id) {
@@ -440,8 +465,15 @@ class Doctor_chamber extends MX_Controller
 
     public function vitals_json()
     {
-        $doc = $this->currentDoctor();
+        $doc = $this->requireDoctorJson();
+        if (!$doc) {
+            return;
+        }
         $patient_id = (int) $this->input->get('patient');
+        if ($patient_id <= 0) {
+            $this->jsonResponse(array('ok' => false, 'error' => 'invalid_patient', 'vitals' => null));
+            return;
+        }
         $this->db->where('hospital_id', $doc->hospital_id);
         $this->db->where('doctor_id', $doc->id);
         $this->db->where('patient_id', $patient_id);
@@ -459,29 +491,39 @@ class Doctor_chamber extends MX_Controller
 
     public function search_json()
     {
-        $doc = $this->currentDoctor();
+        $doc = $this->requireDoctorJson();
+        if (!$doc) {
+            return;
+        }
         $mode = $this->input->get('mode') === 'date' ? 'date' : 'id';
         $patients = array();
 
         if ($mode === 'id') {
             $patient_id = (int) $this->input->get('id');
-            if ($patient_id > 0) {
-                $this->db->select('id, name, phone, age');
-                $this->db->where('hospital_id', $doc->hospital_id);
-                $this->db->where('id', $patient_id);
-                $row = $this->db->get('patient')->row();
-                if ($row) {
-                    $patients[] = array(
-                        'id' => (int) $row->id,
-                        'name' => $row->name,
-                        'phone' => $row->phone,
-                        'age' => isset($row->age) ? $row->age : '',
-                    );
-                }
+            if ($patient_id <= 0) {
+                $this->jsonResponse(array('ok' => false, 'error' => 'invalid_patient', 'patients' => array()));
+                return;
+            }
+            $this->db->select('id, name, phone, age');
+            $this->db->where('hospital_id', $doc->hospital_id);
+            $this->db->where('id', $patient_id);
+            $row = $this->db->get('patient')->row();
+            if ($row) {
+                $patients[] = array(
+                    'id' => (int) $row->id,
+                    'name' => $row->name,
+                    'phone' => $row->phone,
+                    'age' => isset($row->age) ? $row->age : '',
+                );
             }
         } else {
-            $date = trim((string) $this->input->get('date'));
-            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            $dateRaw = trim((string) $this->input->get('date'));
+            $date = $this->normalizeChamberDate($dateRaw);
+            if ($date === '') {
+                if ($dateRaw !== '') {
+                    $this->jsonResponse(array('ok' => false, 'error' => 'invalid_date', 'patients' => array()));
+                    return;
+                }
                 $date = date('Y-m-d');
             }
             $this->db->select('p.id, p.name, p.phone, p.age');
@@ -733,7 +775,10 @@ class Doctor_chamber extends MX_Controller
 
     public function drug_search_json()
     {
-        $doc = $this->currentDoctor();
+        $doc = $this->requireDoctorJson(array());
+        if (!$doc) {
+            return;
+        }
         $term = trim((string) $this->input->get('term'));
         if (strlen($term) < 2) {
             $this->output->set_content_type('application/json')->set_output(json_encode(array()));

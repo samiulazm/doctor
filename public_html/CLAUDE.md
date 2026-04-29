@@ -24,7 +24,7 @@ This project uses Get Shit Done (GSD) for structured execution.
 /gsd-progress          — check current state and next step
 ```
 
-**Next step:** `/gsd-plan-phase 1` (Security Hardening)
+**Next step:** Production — follow `../docs/ship-to-production/README.md` (UAT, staging/prod deploy). GSD phases 1–6 are complete; see `.planning/STATE.md`.
 
 ## Architecture
 

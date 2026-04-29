@@ -96,7 +96,7 @@ $CI = get_instance();
                                     <p><?php echo lang('staff'); ?></p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fa fa-user"></i>
+                                    <i class="fas fa-user"></i>
                                 </div>
                                 <?php if ($this->ion_auth->in_group('admin')) { ?>
                                     <a href="accountant" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
@@ -111,6 +111,7 @@ $CI = get_instance();
                                 <div id="chart_div" class="card"></div>
                                 <div class="card">
                                     <div class="card-header"> <?php echo lang('latest_sales'); ?></div>
+                                    <div class="table-responsive">
                                     <table class="table table-striped table-hover table-bordered" id="">
                                         <thead>
                                             <tr>
@@ -137,10 +138,12 @@ $CI = get_instance();
                                             ?>
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
 
                                 <div class="card">
                                     <div class="card-header"> <?php echo lang('latest_expense'); ?></div>
+                                    <div class="table-responsive">
                                     <table class="table table-striped table-hover table-bordered" id="">
                                         <thead>
                                             <tr>
@@ -168,6 +171,7 @@ $CI = get_instance();
                                             ?>
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
 
 

@@ -41,13 +41,13 @@ $CI = get_instance();
     <div class="container-fluid">
         <div class="d-flex flex-wrap justify-content-end mb-2">
             <a href="finance/pharmacy/dailyExpense?year=<?php echo (int) $previous_year; ?>&month=<?php echo (int) $previous_month; ?>" class="btn btn-sm btn-warning mr-2">
-                <i class="fa fa-arrow-left mr-1"></i> <?php echo lang('previous_month'); ?>
+                <i class="fas fa-arrow-left mr-1"></i> <?php echo lang('previous_month'); ?>
             </a>
             <a href="finance/pharmacy/dailyExpense?year=<?php echo (int) $next_year; ?>&month=<?php echo (int) $next_month; ?>" class="btn btn-sm btn-success mr-2">
-                <i class="fa fa-arrow-right mr-1"></i> <?php echo lang('next_month'); ?>
+                <i class="fas fa-arrow-right mr-1"></i> <?php echo lang('next_month'); ?>
             </a>
             <a class="btn btn-sm btn-secondary" href="javascript:window.print();" role="button">
-                <i class="fa fa-print mr-1"></i> <?php echo lang('print'); ?>
+                <i class="fas fa-print mr-1"></i> <?php echo lang('print'); ?>
             </a>
         </div>
     </div>
