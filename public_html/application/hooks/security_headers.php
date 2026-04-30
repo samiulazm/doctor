@@ -25,17 +25,22 @@ function security_headers()
 
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
         $CI->output->set_header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+        // Mitigate intermittent browser reset issues on some networks by disabling HTTP/3 advertisement.
+        $CI->output->set_header('Alt-Svc: clear');
     }
 
-    // SEC-08: Content Security Policy baseline for existing AdminLTE pages.
+    // SEC-08: Compatibility CSP for legacy/public pages that still rely on external CDNs.
+    // Keep protections like frame-ancestors/object-src/base-uri while allowing current assets.
     $CI->output->set_header(
         "Content-Security-Policy: " .
-        "default-src 'self'; " .
-        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " .
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://code.ionicframework.com; " .
-        "font-src 'self' https://fonts.gstatic.com https://code.ionicframework.com data:; " .
-        "img-src 'self' data: blob:; " .
-        "connect-src 'self'; " .
+        "default-src 'self' https: data: blob:; " .
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; " .
+        "style-src 'self' 'unsafe-inline' https:; " .
+        "font-src 'self' https: data:; " .
+        "img-src 'self' https: data: blob:; " .
+        "connect-src 'self' https: wss:; " .
+        "frame-src 'self' https:; " .
+        "form-action 'self' https:; " .
         "frame-ancestors 'self'; " .
         "object-src 'none'; " .
         "base-uri 'self';"

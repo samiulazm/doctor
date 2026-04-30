@@ -42,7 +42,7 @@ $(document).ready(function () {
 
   var patientAjax = {
     url: ciAjaxUrl("patient/getPatientinfoWithAddNewOption"),
-    type: "post",
+    type: "GET",
     dataType: "json",
     delay: 250,
     data: function (params) {
@@ -60,7 +60,7 @@ $(document).ready(function () {
 
   var doctorAjax = {
     url: ciAjaxUrl("doctor/getDoctorInfo"),
-    type: "post",
+    type: "GET",
     dataType: "json",
     delay: 250,
     data: function (params) {

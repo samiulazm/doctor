@@ -90,6 +90,7 @@
   $_ap_need_fullcalendar = (
       ($this->router->fetch_class() === 'home' && $this->router->fetch_method() === 'index')
       || ($this->router->fetch_class() === 'appointment' && $this->router->fetch_method() === 'calendar')
+      || ($this->router->fetch_class() === 'doctor' && $this->router->fetch_method() === 'details')
   );
   ?>
   <?php if (!empty($_ap_need_fullcalendar)) : ?>

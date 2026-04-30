@@ -526,7 +526,7 @@ class Doctor extends MX_Controller
     public function getDoctorInfo()
     {
         // Search term
-        $searchTerm = $this->input->post('searchTerm');
+        $searchTerm = $this->input->post_get('searchTerm');
 
         // Get users
         $response = $this->doctor_model->getDoctorInfo($searchTerm);
@@ -537,7 +537,7 @@ class Doctor extends MX_Controller
     public function getDoctorWithAddNewOption()
     {
         // Search term
-        $searchTerm = $this->input->post('searchTerm');
+        $searchTerm = $this->input->post_get('searchTerm');
 
         // Get users
         $response = $this->doctor_model->getDoctorWithAddNewOption($searchTerm);

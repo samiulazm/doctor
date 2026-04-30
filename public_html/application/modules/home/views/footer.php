@@ -25,6 +25,7 @@
 $need_fullcalendar = (
     ($this->router->fetch_class() === 'home' && $this->router->fetch_method() === 'index')
     || ($this->router->fetch_class() === 'appointment' && $this->router->fetch_method() === 'calendar')
+    || ($this->router->fetch_class() === 'doctor' && $this->router->fetch_method() === 'details')
 );
 
 $language = $this->language;
@@ -252,6 +253,18 @@ if ($language == 'english') {
 <script src="adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+// Prevent DataTables from showing blocking browser alerts; keep the page usable on transient AJAX failures.
+if (window.jQuery && jQuery.fn && jQuery.fn.dataTable) {
+    jQuery.fn.dataTable.ext.errMode = 'none';
+    jQuery(document).on('error.dt', function (event, settings, techNote, message) {
+        if (window.console && console.warn) {
+            console.warn('DataTables warning:', message);
+        }
+        jQuery('#loader').hide();
+    });
+}
+</script>
 <script src="adminlte/plugins/select2/js/select2.full.min.js"></script>
 <?php
 $_inv = strtolower((string) $this->router->fetch_class()) === 'inventory';
@@ -314,7 +327,12 @@ if ($this->router->fetch_class() === 'appointment') {
     $(document).ready(function() {
         "use strict";
 
-        var calendarEl = document.getElementById('calendar');
+        var calendarTargetId = 'calendar';
+        <?php if ($this->router->fetch_class() === 'doctor' && $this->router->fetch_method() === 'details') : ?>
+        calendarTargetId = 'doctor-calendar';
+        <?php endif; ?>
+
+        var calendarEl = document.getElementById(calendarTargetId);
         if (!calendarEl || typeof FullCalendar === 'undefined') {
             return;
         }
@@ -383,9 +401,16 @@ if ($this->router->fetch_class() === 'appointment') {
                         success: function(response) {
                             "use strict";
                             $("#medical_history").html(response.view);
+                        },
+                        error: function() {
+                            $("#medical_history").html("");
+                        },
+                        complete: function() {
                             $("#loader").hide();
                         }
                     });
+                } else {
+                    $("#loader").hide();
                 }
 
                 var cmodalEl = document.getElementById('cmodal');
@@ -408,6 +433,15 @@ if ($this->router->fetch_class() === 'appointment') {
         });
 
         calendar.render();
+        setTimeout(function() {
+            calendar.updateSize();
+        }, 0);
+
+        document.querySelectorAll('a[data-bs-toggle="tab"], a[data-toggle="tab"]').forEach(function(tab) {
+            tab.addEventListener('shown.bs.tab', function() {
+                calendar.updateSize();
+            });
+        });
     });
 </script>
 <?php endif; ?>

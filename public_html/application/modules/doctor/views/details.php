@@ -1,7 +1,7 @@
 <!--sidebar end-->
 <!--main content start-->
 <link href="common/extranal/css/doctor/details.css" rel="stylesheet">
-<div class="content-wrapper bg-light">
+<div class="content-wrapper bg-light ap-doctor-profile">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -26,9 +26,9 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-9">
-                    <div class="card">
+            <div class="row ap-doctor-profile-grid">
+                <div class="col-12">
+                    <div class="card ap-doctor-main-card">
                         <section class="">
                             <section class="">
                                 <header class="tab-bg-dark-navy-blueee">
@@ -49,13 +49,13 @@
                                             <a class="nav-link" data-bs-toggle="tab" href="#holiday"><?php echo lang('holidays'); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#calendar"><?php echo lang('calendar'); ?></a>
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#calendar-tab"><?php echo lang('calendar'); ?></a>
                                         </li>
                                     </ul>
                                 </header>
 
 
-                                <div class="card col-md-12">
+                                <div class="card col-md-12 ap-doctor-tab-card">
                                     <div class="tab-content">
                                         <div id="todays" class="tab-pane">
                                             <div class="">
@@ -79,6 +79,16 @@
 
                                                         <tbody>
                                                             <?php
+                                                            if (empty($todays_appointments)) {
+                                                            ?>
+                                                                <tr>
+                                                                    <td colspan="6" class="ap-empty-state">
+                                                                        <i class="fas fa-calendar-check"></i>
+                                                                        <span>No appointments scheduled for today.</span>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php
+                                                            }
                                                             foreach ($todays_appointments as $todays_appointment) {
                                                                 $patient_details = $this->patient_model->getPatientById($todays_appointment->patient);
 
@@ -134,7 +144,7 @@
                                             <div class="">
                                                 <div class="adv-table editable-table ">
                                                     <?php if (!empty($appointment_patients)) { ?>
-                                                        <table class="table table-striped table-hover table-bordered patient_datatable" id="dt-doctor" data-legacy-table="editable-sample">
+                                                        <table class="table table-striped table-hover table-bordered patient_datatable" id="dt-doctor-patients" data-legacy-table="editable-sample">
                                                             <thead>
                                                                 <tr>
                                                                     <th><?php echo lang('patient_id'); ?></th>
@@ -172,7 +182,7 @@
                                                     </div>
                                                 <?php } ?>
                                                 <div class="adv-table editable-table ">
-                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor" data-legacy-table="editable-sample">
+                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor-prescriptions" data-legacy-table="editable-sample">
                                                         <thead>
                                                             <tr>
 
@@ -275,7 +285,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="adv-table editable-table ">
-                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor" data-legacy-table="editable-sample">
+                                                    <table class="table table-striped table-hover table-bordered" id="dt-doctor-holidays" data-legacy-table="editable-sample">
                                                         <thead>
                                                             <tr>
                                                                 <th> # </th>
@@ -307,13 +317,13 @@
                                         </div>
 
 
-                                        <div id="calendar" class="tab-pane active">
+                                        <div id="calendar-tab" class="tab-pane active">
                                             <div class="">
                                                 <div class="card-body">
                                                     <aside>
                                                         <section class="card">
                                                             <div class="card-body">
-                                                                <div id="calendar" class="has-toolbar calendar_view"></div>
+                                                                <div id="doctor-calendar" class="has-toolbar calendar_view"></div>
                                                             </div>
                                                         </section>
                                                     </aside>
@@ -332,53 +342,6 @@
                         </section>
                     </div>
                     <!-- /.card -->
-                </div>
-                <div class="col-12 col-md-3">
-                    <section class="">
-                        <section class="card">
-                            <div class="card-body profile-nav">
-                                <div class="text-center">
-                                    <?php if (!empty($doctor->img_url)) { ?>
-                                        <a href="#">
-                                            <img src="<?php echo $doctor->img_url; ?>" style="height: 50px;" alt="" class="rounded-circle">
-                                        </a>
-                                    <?php } ?>
-                                    <h1 class="text-lg"> <?php echo $doctor->name; ?> </h1>
-                                    <p> <?php echo $doctor->email; ?> </p>
-                                    <button type="button" class="btn btn-sm btn-primary doctoreditbutton" title="<?php echo lang('edit'); ?>" data-bs-toggle="modal" data-id="<?php echo $doctor->id; ?>"><i class="fa fa-edit"> </i> <?php echo lang('edit'); ?></button>
-                                </div>
-
-                                <ul class="list-group list-group-flush nav nav-pills nav-stacked">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?php echo lang('doctor'); ?> <?php echo lang('name'); ?>
-                                        <span class="badge badge-primary float-right r-activity"><?php echo $doctor->name; ?></span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?php echo lang('doctor_id'); ?>
-                                        <span class="badge badge-primary float-right r-activity"><?php echo $doctor->id; ?></span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?php echo lang('profile'); ?>
-                                        <span class="badge badge-primary float-right r-activity"><?php echo $doctor->profile; ?></span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?php echo lang('phone'); ?>
-                                        <span class="badge badge-primary float-right r-activity"><?php echo $doctor->phone; ?></span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?php echo lang('email'); ?>
-                                        <span class="badge badge-primary float-right r-activity"><?php echo $doctor->email; ?></span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center address_bar">
-                                        <?php echo lang('address'); ?>
-                                        <span class="address_bar float-right"><?php echo $doctor->address; ?></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </section>
-
-
-                    </section>
                 </div>
             </div>
             <!-- /.card -->

@@ -40,11 +40,11 @@ final class DesignSystemTest extends TestCase
         self::assertGreaterThanOrEqual(25, count($matches), 'UI-02: Expected at least 25 controllers returning recordsTotal');
     }
 
-    public function test_ui03_csrf_regenerate_is_true(): void
+    public function test_ui03_csrf_regenerate_is_ajax_safe(): void
     {
         $src = $this->readFile('application/config/config.php');
 
-        self::assertMatchesRegularExpression('/csrf_regenerate.*=.*true/', $src, 'UI-03: csrf_regenerate is not set to true in config.php');
+        self::assertMatchesRegularExpression('/csrf_regenerate.*=.*false/', $src, 'UI-03: csrf_regenerate should be false so parallel AJAX POSTs do not invalidate each other');
     }
 
     public function test_ui03_csrf_inject_exposes_global_hash(): void

@@ -3155,7 +3155,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
     public function getPatientinfo()
     {
         // Search term
-        $searchTerm = $this->input->post('searchTerm');
+        $searchTerm = $this->input->post_get('searchTerm');
 
         // Get users
         $response = $this->patient_model->getPatientInfo($searchTerm);
@@ -3166,7 +3166,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
     public function getPatientinfoWithAddNewOption()
     {
         // Search term
-        $searchTerm = $this->input->post('searchTerm');
+        $searchTerm = $this->input->post_get('searchTerm');
 
         // Get users
         $response = $this->patient_model->getPatientinfoWithAddNewOption($searchTerm);
@@ -3176,7 +3176,7 @@ $data['doctor'] = $this->doctor_model->getDoctorById($data['case']->doctor_id);
     public function getPatientinfoWithId()
     {
         // Search term
-        $searchTerm = $this->input->post('searchTerm');
+        $searchTerm = $this->input->post_get('searchTerm');
 
         // Get users
         $response = $this->patient_model->getPatientInfoId($searchTerm);

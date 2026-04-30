@@ -8,36 +8,197 @@ and open the template in the editor.
     Author     : sahas
 */
 
-.button_his{
-    color: #fff !important;
-}
-.weekday{
-    background:#345678 !important;
+.button_his {
     color: #fff !important;
 }
 
-.med_his{
+.weekday {
+    background: #345678 !important;
+    color: #fff !important;
+}
+
+.med_his {
     width: 80% !important;
 }
 
-
-thead {
-    background: #f1f1f1 !important; 
-    border-bottom: 1px solid #ddd !important; 
-}
-
-.btn_width{
-    margin-bottom: 20px !important;
-}
-
-.tab-content{
-    padding: 20px 0px !important;
-}
-
-.patient_datatable{
+.patient_datatable {
     width: 100% !important;
 }
 
-.address_bar {
-    height: 200px !important;
+.ap-doctor-profile {
+    background:
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 30rem),
+        linear-gradient(180deg, #f8fafc 0%, #eef4f8 100%) !important;
+    min-height: 100vh;
 }
+
+.ap-doctor-profile .content-header {
+    padding: 1.5rem 1rem 1rem;
+}
+
+.ap-doctor-profile .content-header h1 {
+    align-items: center;
+    color: #0f172a;
+    display: flex;
+    font-size: 1.55rem;
+    gap: 0.65rem;
+    letter-spacing: -0.025em;
+}
+
+.ap-doctor-profile .content-header h1 i {
+    align-items: center;
+    background: #dff7f3;
+    border-radius: 0.9rem;
+    color: #0f9f8c;
+    display: inline-flex;
+    height: 2.45rem;
+    justify-content: center;
+    width: 2.45rem;
+}
+
+.ap-doctor-profile-grid {
+    align-items: flex-start;
+    gap: 1.25rem 0;
+}
+
+.ap-doctor-main-card,
+.ap-doctor-tab-card {
+    border: 1px solid rgba(148, 163, 184, 0.22) !important;
+    border-radius: 1.35rem !important;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08) !important;
+    overflow: hidden;
+}
+
+.ap-doctor-main-card {
+    background: rgba(255, 255, 255, 0.94) !important;
+}
+
+.ap-doctor-main-card > section {
+    padding: 0;
+}
+
+.ap-doctor-profile .tab-bg-dark-navy-blueee {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fbfd 100%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    padding: 0.8rem 1rem 0;
+}
+
+.ap-doctor-profile .nav-tabs {
+    border-bottom: 0;
+    gap: 0.35rem;
+}
+
+.ap-doctor-profile .nav-tabs .nav-link {
+    border: 0;
+    border-radius: 999px;
+    color: #64748b;
+    font-weight: 700;
+    padding: 0.65rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.ap-doctor-profile .nav-tabs .nav-link:hover {
+    background: #eef6f7;
+    color: #0f766e;
+}
+
+.ap-doctor-profile .nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #0f9f8c, #2563eb);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.18);
+    color: #ffffff;
+}
+
+.ap-doctor-tab-card {
+    background: #ffffff !important;
+    border: 0 !important;
+    border-radius: 0 0 1.35rem 1.35rem !important;
+    box-shadow: none !important;
+    margin-bottom: 0;
+    padding: 1.1rem;
+}
+
+.ap-doctor-profile .tab-content {
+    padding: 0 !important;
+}
+
+.ap-doctor-profile .btn_width {
+    margin-bottom: 0 !important;
+}
+
+.ap-doctor-profile .btn-info {
+    background: linear-gradient(135deg, #13b8a6, #0ea5e9) !important;
+    border: 0 !important;
+    border-radius: 0.8rem !important;
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.18);
+    color: #ffffff !important;
+    font-weight: 800;
+}
+
+.ap-doctor-profile .adv-table {
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.ap-doctor-profile .table {
+    background: #ffffff;
+    margin-bottom: 0;
+}
+
+.ap-doctor-profile thead {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.ap-doctor-profile .table th {
+    border-bottom: 0 !important;
+    color: #64748b;
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    padding: 1rem 0.9rem;
+    text-transform: uppercase;
+}
+
+.ap-doctor-profile .table td {
+    border-color: #eef2f7 !important;
+    color: #334155;
+    padding: 0.95rem 0.9rem;
+    vertical-align: middle;
+}
+
+.ap-doctor-profile .table tbody tr:hover {
+    background: #f8fbfd;
+}
+
+.ap-empty-state {
+    color: #94a3b8 !important;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 3rem 1rem !important;
+    text-align: center;
+}
+
+.ap-empty-state i {
+    align-items: center;
+    background: #e6fffb;
+    border-radius: 999px;
+    color: #0f9f8c;
+    display: inline-flex;
+    font-size: 1.25rem;
+    height: 3rem;
+    justify-content: center;
+    margin-right: 0.5rem;
+    width: 3rem;
+}
+
+#doctor-calendar {
+    background: #ffffff;
+    border: 1px solid #e5edf3;
+    border-radius: 1rem;
+    min-height: 34rem;
+    padding: 1rem;
+}
+

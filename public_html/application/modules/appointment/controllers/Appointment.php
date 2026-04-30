@@ -2337,6 +2337,7 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
     function getTreatedAppoinmentList()
     {
         $requestData = $_REQUEST;
+        $draw = isset($requestData['draw']) ? intval($requestData['draw']) : 0;
         $start = $requestData['start'];
         $limit = $requestData['length'];
         $search = $this->input->post('search')['value'];
@@ -2451,9 +2452,8 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
             if ($appointment->s_time == 'Not Selected') {
                 $time_string = lang('not_selected');
             } else {
-                $this->db->where('hospital_id', $this->hospital_id);
-                $this->settings = $this->db->get('settings')->row();
-                if ($this->settings->time_format == '24') {
+                $settings = $this->settings_model->getSettings();
+                if (!empty($settings) && isset($settings->time_format) && $settings->time_format == '24') {
                     $appointment->s_time = $this->settings_model->convert_to_24h($appointment->s_time);
                     $appointment->e_time = $this->settings_model->convert_to_24h($appointment->e_time);
                 }
@@ -2482,13 +2482,14 @@ if ((float)($payment_details->gross_total ?? 0) == $total_due) {
 
         if (!empty($data['appointments'])) {
             $output = array(
-                "draw" => intval($requestData['draw']),
+                "draw" => $draw,
                 "recordsTotal" => count($data['appointments']),
                 "recordsFiltered" => count($this->appointment_model->getTreatedAppointment()),
                 "data" => $info
             );
         } else {
             $output = array(
+                "draw" => $draw,
                 "recordsTotal" => 0,
                 "recordsFiltered" => 0,
                 "data" => []

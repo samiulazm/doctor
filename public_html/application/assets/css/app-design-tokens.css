@@ -376,6 +376,7 @@ body[data-bs-theme="dark"] {
   border: 3px solid rgba(13, 148, 136, 0.15);
   border-radius: 50%;
   border-top-color: var(--ap-primary);
+  display: none;
   height: 2.75rem;
   left: 50%;
   position: fixed;
