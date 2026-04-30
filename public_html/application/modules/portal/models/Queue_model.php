@@ -59,9 +59,17 @@ class Queue_model extends CI_Model
         return $this->db->get('chamber_serial_queue')->row();
     }
 
-    public function updateRow($id, $data)
+    /**
+     * @param int         $id
+     * @param array       $data
+     * @param int|null    $hospital_id When set, only rows for this hospital are updated (prevents cross-tenant writes).
+     */
+    public function updateRow($id, $data, $hospital_id = null)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', (int) $id);
+        if ($hospital_id !== null) {
+            $this->db->where('hospital_id', (int) $hospital_id);
+        }
         $this->db->update('chamber_serial_queue', $data);
     }
 

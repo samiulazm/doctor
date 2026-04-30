@@ -38,6 +38,21 @@ final class PhpSyntaxSmokeTest extends TestCase
         $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'Logs.php');
     }
 
+    public function test_queue_model_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'portal' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'Queue_model.php');
+    }
+
+    public function test_payment_bd_controller_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'payment_bd' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'Payment_bd.php');
+    }
+
+    public function test_assistant_chamber_controller_exists_and_passes_syntax_check(): void
+    {
+        $this->assertFilePassesPhpLint('application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'assistant_chamber' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'Assistant_chamber.php');
+    }
+
     private function assertFilePassesPhpLint(string $relativeToProjectRoot): void
     {
         $root = dirname(__DIR__, 2);

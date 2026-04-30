@@ -82,7 +82,7 @@ class Payment_bd extends MX_Controller
         ));
         $this->queue_model->updateRow($intent->queue_id, array(
             'advance_payment_status' => 'paid',
-        ));
+        ), (int) $intent->hospital_id);
         $queue = $this->queue_model->getRowById((int) $intent->queue_id);
         if ($queue && !empty($queue->appointment_id)) {
             $aid = (int) $queue->appointment_id;
@@ -233,7 +233,7 @@ class Payment_bd extends MX_Controller
             ));
             $this->queue_model->updateRow($intent->queue_id, array(
                 'advance_payment_status' => 'paid',
-            ));
+            ), (int) $intent->hospital_id);
             $queue = $this->queue_model->getRowById((int) $intent->queue_id);
             if ($queue && !empty($queue->appointment_id)) {
                 $aid = (int) $queue->appointment_id;

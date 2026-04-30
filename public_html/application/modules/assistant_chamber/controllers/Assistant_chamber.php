@@ -61,7 +61,7 @@ class Assistant_chamber extends MX_Controller
         if (!$row) {
             show_404();
         }
-        $this->queue_model->updateRow($id, array('status' => 'arrived'));
+        $this->queue_model->updateRow($id, array('status' => 'arrived'), $hid);
         $this->chamber_platform_model->logUsage($hid, 'assistant_checkin', $row->doctor_id, $this->ion_auth->get_user_id(), array('queue_id' => $id));
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
@@ -104,7 +104,7 @@ class Assistant_chamber extends MX_Controller
             $qid = (int) $qid;
             $row = $this->queue_model->getRow($qid, $hid);
             if ($row) {
-                $this->queue_model->updateRow($qid, array('sort_position' => $pos));
+                $this->queue_model->updateRow($qid, array('sort_position' => $pos), $hid);
                 $pos += 1.0;
             }
         }
@@ -128,7 +128,7 @@ class Assistant_chamber extends MX_Controller
         $this->db->where('queue_date', $row->queue_date);
         $min = $this->db->get('chamber_serial_queue')->row();
         $newp = ($min && $min->sort_position !== null) ? ((float) $min->sort_position) - 1.0 : 0.0;
-        $this->queue_model->updateRow($id, array('sort_position' => $newp));
+        $this->queue_model->updateRow($id, array('sort_position' => $newp), $hid);
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
 
@@ -277,7 +277,7 @@ class Assistant_chamber extends MX_Controller
         if (!$row) {
             show_404();
         }
-        $this->queue_model->updateRow($id, array('status' => 'serving'));
+        $this->queue_model->updateRow($id, array('status' => 'serving'), $hid);
         $this->queue_model->setTicker($hid, $row->doctor_id, $row->chamber_id, $row->queue_date, $id);
         redirect('assistant_chamber/desk?doctor_id=' . $row->doctor_id . '&chamber_id=' . $row->chamber_id . '&date=' . $row->queue_date);
     }
@@ -297,7 +297,7 @@ class Assistant_chamber extends MX_Controller
         if (!$row) {
             show_404();
         }
-        $this->queue_model->updateRow($id, array('status' => $status));
+        $this->queue_model->updateRow($id, array('status' => $status), $hid);
         $current = $this->queue_model->getTicker($row->doctor_id, $row->chamber_id, $row->queue_date);
         if ($current && (int) $current->id === $id) {
             $this->queue_model->setTicker($hid, $row->doctor_id, $row->chamber_id, $row->queue_date, null);
