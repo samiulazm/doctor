@@ -9,7 +9,7 @@ class Portal extends MX_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!function_exists('chamber_practice_enabled_for_hospital')) {
+        if (!function_exists('chamber_practice_enabled_for_hospital') || !function_exists('chamber_practice_weekday_key_from_timestamp')) {
             $this->load->helper('chamber_practice');
         }
         $this->load->model('portal/portal_model');
@@ -214,9 +214,12 @@ class Portal extends MX_Controller
         } elseif (!empty($chamber->weekly_hours_json)) {
             $weekly = @json_decode($chamber->weekly_hours_json, true);
             if (is_array($weekly) && !empty($weekly)) {
-                $day_key = strtolower(date('D', $qd_ts));
-                $day_key = array('mon' => 'mon', 'tue' => 'tue', 'wed' => 'wed', 'thu' => 'thu', 'fri' => 'fri', 'sat' => 'sat', 'sun' => 'sun')[$day_key];
-                if (empty($weekly[$day_key]) || empty($weekly[$day_key]['open']) || empty($weekly[$day_key]['close'])) {
+                $qd_mid = strtotime(date('Y-m-d', $qd_ts) . ' 12:00:00');
+                if ($qd_mid === false) {
+                    $qd_mid = $qd_ts;
+                }
+                $day_key = chamber_practice_weekday_key_from_timestamp($qd_mid);
+                if ($day_key === false || empty($weekly[$day_key]) || empty($weekly[$day_key]['open']) || empty($weekly[$day_key]['close'])) {
                     show_error('This chamber has no regular hours on the selected date.', 400);
                 }
                 $s_time = $weekly[$day_key]['open'];
